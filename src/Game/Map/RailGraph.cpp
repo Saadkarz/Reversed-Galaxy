@@ -50,6 +50,23 @@ void RailGraph::connectNodeTwoWay(s32 a1, s32 a2, const RailGraphEdge* pEdge) {
     connectEdgeToNode(a2, edgeIdx);
 }
 
+RailGraphEdge& RailGraphEdge::operator=(const RailGraphEdge& rEdge) {
+    mDistance = rEdge.mDistance;
+    _4 = rEdge._4;
+    _8 = rEdge._8;
+    _C = rEdge._C;
+    _10 = rEdge._10;
+    mPointArg0 = rEdge.mPointArg0;
+    mPointArg1 = rEdge.mPointArg1;
+    mPointArg2 = rEdge.mPointArg2;
+    mPointArg3 = rEdge.mPointArg3;
+    mPointArg4 = rEdge.mPointArg4;
+    mPointArg5 = rEdge.mPointArg5;
+    mPointArg6 = rEdge.mPointArg6;
+    mPointArg7 = rEdge.mPointArg7;
+    return *this;
+}
+
 RailGraphNode* RailGraph::getNode(s32 idx) const {
     return &mNodes[idx];
 }

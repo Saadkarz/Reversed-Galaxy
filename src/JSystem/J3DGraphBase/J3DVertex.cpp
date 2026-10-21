@@ -38,6 +38,12 @@ void J3DVertexBuffer::setVertexData(J3DVertexData* data) {
     frameInit();
 }
 
+void J3DVertexBuffer::frameInit() {
+    setCurrentVtxPos(mVtxPosArray[0]);
+    setCurrentVtxNrm(mVtxNrmArray[0]);
+    setCurrentVtxCol(mVtxColArray[0]);
+}
+
 void J3DVertexBuffer::init() {
     mVtxData = nullptr;
     mVtxPosArray[0] = mVtxPosArray[1] = nullptr;

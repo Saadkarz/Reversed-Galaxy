@@ -218,7 +218,7 @@ Game/Util/AreaObjUtil.cpp:
 	.text       start:0x80061570 end:0x80062970
 
 Game/Util/BaseMatrixFollowTargetHolder.cpp:
-	.text       start:0x80062EA0 end:0x80063510
+	.text       start:0x80062EA0 end:0x8006350C align:16
 	.data       start:0x80669C60 end:0x80669CA0
 
 Game/Util/CollisionPartsFilter.cpp:
@@ -2077,8 +2077,9 @@ Game/LiveActor/ChangeObj.cpp:
 	.data       start:0x80694D80 end:0x80694DB0
 
 Game/LiveActor/ClippingActorHolder.cpp:
-	.text       start:0x8022F9D0 end:0x802301A0 align:16
+	.text       start:0x8022F9D0 end:0x80230198 align:16
 	.data       start:0x80694DB0 end:0x80694DF8
+	.sdata      start:0x807CFA90 end:0x807CFA94
 
 Game/LiveActor/ClippingActorInfo.cpp:
 	.text       start:0x802301A0 end:0x802305B0 align:16
@@ -2465,10 +2466,10 @@ Game/Map/RaceRail.cpp:
 	.data       start:0x80699CD8 end:0x80699DF8
 
 Game/Map/RailGraph.cpp:
-	.text       start:0x80265EE0 end:0x802662A0
+	.text       start:0x80265EE0 end:0x80266294 align:16
 
 Game/Map/RailGraphEdge.cpp:
-	.text       start:0x802662A0 end:0x80266470
+	.text       start:0x802662A0 end:0x80266470 align:16
 	.data       start:0x80699DF8 end:0x80699E58
 	.sdata2     start:0x807DC998 end:0x807DC9A0
 
@@ -4644,7 +4645,8 @@ Game/System/GameSystemException.cpp:
 	.sbss       start:0x807D5C78 end:0x807D5C80
 
 Game/System/GameSystemFontHolder.cpp:
-	.text       start:0x804B7E70 end:0x804B82B0
+	.text       start:0x804B7E70 end:0x804B82AC align:16
+	.data       start:0x806FAF38 end:0x806FB028
 
 Game/System/GameSystemFrameControl.cpp:
 	.text       start:0x804B82B0 end:0x804B8348 align:16
@@ -4672,8 +4674,9 @@ Game/System/GameSystemStationedArchiveLoader.cpp:
 	.ctors      start:0x80644A28 end:0x80644A2C
 
 Game/System/HeapMemoryWatcher.cpp:
-	.text       start:0x804BC930 end:0x804BD040
+	.text       start:0x804BC930 end:0x804BD034 align:16
 	.data       start:0x806FB560 end:0x806FB578
+	.sdata      start:0x807D0400 end:0x807D0408
 	.sbss       start:0x807D5D00 end:0x807D5D08
 
 Game/System/Language.cpp:
@@ -4729,8 +4732,10 @@ Game/System/RenderMode.cpp:
 	.rodata     start:0x8064CFC0 end:0x8064D218
 
 Game/System/ResourceHolder.cpp:
-	.text       start:0x804C99C0 end:0x804CA650
+	.text       start:0x804C99C0 end:0x804CA64C align:16
 	.rodata     start:0x8064D218 end:0x8064D278
+	.data       start:0x806FC1B0 end:0x806FC290
+	.sdata      start:0x807D0468 end:0x807D0470
 
 Game/System/ResourceHolderManager.cpp:
 	.text       start:0x804CA650 end:0x804CAFE0
@@ -4759,7 +4764,8 @@ Game/System/StationedFileInfo.cpp:
 	.rodata     start:0x8064D278 end:0x8064DF38
 
 Game/System/WPad.cpp:
-	.text       start:0x804CDF80 end:0x804CE640
+	.text       start:0x804CDF80 end:0x804CE678 align:16
+	.sdata2     start:0x807E1980 end:0x807E1984
 
 Game/System/WPadAcceleration.cpp:
 	.text       start:0x804CE680 end:0x804CEE40
@@ -4776,7 +4782,9 @@ Game/System/WPadHVSwing.cpp:
 	.sdata2     start:0x807E19A8 end:0x807E19B8
 
 Game/System/WPadHolder.cpp:
-	.text       start:0x804CF720 end:0x804CFD90
+	.text       start:0x804CF4C0 end:0x804CFDE4 align:16
+	.data       start:0x806FE740 end:0x806FE750
+	.sdata2     start:0x807E19B8 end:0x807E19C8
 
 Game/System/WPadInfoChecker.cpp:
 	.text       start:0x804CFDF0 end:0x804CFEE0
@@ -4792,8 +4800,9 @@ Game/System/WPadPointer.cpp:
 	.sdata2     start:0x807E19C8 end:0x807E19E0
 
 Game/System/WPadRumble.cpp:
-	.text       start:0x804D05C0 end:0x804D0C60
-	.data       start:0x806FE750 end:0x806FE760
+	.text       start:0x804D0510 end:0x804D0C5C align:16
+	.data       start:0x806FE750 end:0x806FE75C align:16
+	.sbss       start:0x807D5D98 end:0x807D5D9C
 
 Game/System/WPadStick.cpp:
 	.text       start:0x804D0D30 end:0x804D0FA8 align:16
@@ -5146,13 +5155,15 @@ JSystem/J3DGraphBase/J3DDrawBuffer.cpp:
 
 JSystem/J3DGraphBase/J3DStruct.cpp:
 	.text       start:0x80529250 end:0x80529400 align:16
+	.sdata2     start:0x807E1FC8 end:0x807E1FD0
 
 JSystem/J3DGraphAnimator/J3DShapeTable.cpp:
 	.text       start:0x80529400 end:0x80529510 align:16
 
 JSystem/J3DGraphAnimator/J3DJointTree.cpp:
-	.text       start:0x80529510 end:0x805298C0 align:16
+	.text       start:0x80529510 end:0x805298BC align:16
 	.data       start:0x80706888 end:0x80706898
+	.sdata2     start:0x807E1FD0 end:0x807E1FD8
 
 JSystem/J3DGraphAnimator/J3DModelData.cpp:
 	.text       start:0x805299A0 end:0x80529BE0 align:16
@@ -5442,8 +5453,8 @@ RVL_SDK/nwc24/NWC24Utils.c:
 RVL_SDK/nwc24/NWC24Manage.c:
 	.text       start:0x8055DD0C end:0x8055E09C
 	.data       start:0x80707858 end:0x80707968
-	.sdata      start:0x807D0738 end:0x807D0740
-	.sbss       start:0x807D63B8 end:0x807D63D0
+	.sdata      start:0x807D0738 end:0x807D073C
+	.sbss       start:0x807D63B8 end:0x807D63CC
 
 RVL_SDK/nwc24/NWC24MsgObj.c:
 	.text       start:0x8055E09C end:0x8055EA48
@@ -5483,13 +5494,13 @@ RVL_SDK/nwc24/NWC24DateParser.c:
 
 RVL_SDK/nwc24/NWC24FriendList.c:
 	.text       start:0x80564068 end:0x80564184
-	.data       start:0x80708020 end:0x80708040
-	.sdata      start:0x807D0840 end:0x807D0848
+	.data       start:0x80708020 end:0x8070803A
+	.sdata      start:0x807D0840 end:0x807D0844
 
 RVL_SDK/nwc24/NWC24SecretFList.c:
 	.text       start:0x80564184 end:0x805642A0
-	.data       start:0x80708040 end:0x80708060
-	.sdata      start:0x807D0848 end:0x807D0850
+	.data       start:0x80708040 end:0x8070805B
+	.sdata      start:0x807D0848 end:0x807D084C
 
 RVL_SDK/nwc24/NWC24UserId.c:
 	.text       start:0x805642A0 end:0x805645BC
@@ -5553,7 +5564,7 @@ RVL_SDK/vf/pdm_dskmng.c:
 	.bss        start:0x807527A0 end:0x80753370
 
 RVL_SDK/vf/pf_cache.c:
-	.text       start:0x8056AB70 end:0x8056C760
+	.text       start:0x8056AB70 end:0x8056C754 align:16
 
 RVL_SDK/vf/pf_cluster.c:
 	.text       start:0x8056C760 end:0x8056CEA8 align:16
@@ -5571,7 +5582,7 @@ RVL_SDK/vf/pf_entry_iterator.c:
 	.sdata      start:0x807D0860 end:0x807D0888
 
 RVL_SDK/vf/pf_fat.c:
-	.text       start:0x80570B40 end:0x80573AB0 align:16
+	.text       start:0x80570B40 end:0x80573AAC align:16
 	.rodata     start:0x80654B58 end:0x80654B98
 
 RVL_SDK/vf/pf_fat12.c:
@@ -5590,7 +5601,7 @@ RVL_SDK/vf/pf_file.c:
 	.text       start:0x805751C0 end:0x80578930
 
 RVL_SDK/vf/pf_path.c:
-	.text       start:0x80578930 end:0x8057B1F0
+	.text       start:0x80578930 end:0x8057B1E8 align:16
 	.sdata      start:0x807D0888 end:0x807D08B0
 	.sdata2     start:0x807E23C0 end:0x807E23D0
 
@@ -5793,7 +5804,8 @@ JSystem/JAudio2/JASInstRand.cpp:
 	.data       start:0x80709CC0 end:0x80709CD0
 
 JSystem/JAudio2/JASWSParser.cpp:
-	.text       start:0x8058D510 end:0x8058DAA0 align:16
+	.text       start:0x8058D510 end:0x8058DA9C align:16
+	.sbss       start:0x807D64B8 end:0x807D64C0
 
 JSystem/JAudio2/JASBNKParser.cpp:
 	.text       start:0x8058DCE0 end:0x8058EA50 align:16
@@ -5814,7 +5826,10 @@ JSystem/JAudio2/JASLfo.cpp:
 	.bss        start:0x8077BE28 end:0x8077BE40
 
 JSystem/JAudio2/JASOscillator.cpp:
-	.text       start:0x80590560 end:0x80590A20 align:16
+	.text       start:0x80590560 end:0x80590A1C align:16
+	.rodata     start:0x80659388 end:0x806594A8
+	.data       start:0x80709D28 end:0x80709D38
+	.sdata2     start:0x807E24E8 end:0x807E24F8
 
 JSystem/JAudio2/JASAiCtrl.cpp:
 	.text       start:0x80590A20 end:0x80591330 align:16
@@ -6059,10 +6074,10 @@ nw4r/lyt/lyt_window.cpp:
 	.sbss       start:0x807D6608 end:0x807D6610
 
 nw4r/lyt/lyt_bounding.cpp:
-	.text       start:0x805AD600 end:0x805AD6D0 align:16
+	.text       start:0x805AD600 end:0x805AD6CC align:16
 	.ctors      start:0x80644B88 end:0x80644B8C
-	.data       start:0x8070C630 end:0x8070C6A8
-	.sbss       start:0x807D6610 end:0x807D6618
+	.data       start:0x8070C630 end:0x8070C6A4
+	.sbss       start:0x807D6610 end:0x807D6614
 
 nw4r/lyt/lyt_material.cpp:
 	.text       start:0x805AD6D0 end:0x805B04B0 align:16
@@ -6124,15 +6139,15 @@ RVL_SDK/os/OSContext.c:
 	.data       start:0x8070CDC8 end:0x8070CF80
 
 RVL_SDK/os/OSError.c:
-	.text       start:0x805B6210 end:0x805B6960
+	.text       start:0x805B6210 end:0x805B695C align:16
 	.data       start:0x8070CF80 end:0x8070D260
-	.bss        start:0x8077E530 end:0x8077E580
+	.bss        start:0x8077E530 end:0x8077E574 align:32
 	.sdata      start:0x807D0968 end:0x807D0970
 
 RVL_SDK/os/OSExec.c:
 	.text       start:0x805B6960 end:0x805B80B0
 	.data       start:0x8070D260 end:0x8070D5B0
-	.bss        start:0x8077E580 end:0x8077E5A0
+	.bss        start:0x8077E580 end:0x8077E5A0 align:32
 	.sdata      start:0x807D0970 end:0x807D0980
 	.sbss       start:0x807D6688 end:0x807D66A0
 
@@ -6263,8 +6278,8 @@ RVL_SDK/exi/EXIUart.c:
 	.sbss       start:0x807D6768 end:0x807D6778
 
 RVL_SDK/exi/EXICommon.c:
-	.text       start:0x805C1F80 end:0x805C2110
-	.sdata2     start:0x807E2748 end:0x807E2750
+	.text       start:0x805C1F80 end:0x805C2108 align:16
+	.sdata2     start:0x807E2748 end:0x807E274C
 
 RVL_SDK/si/SIBios.c:
 	.text       start:0x805C2110 end:0x805C3150
@@ -6373,8 +6388,8 @@ RVL_SDK/gx/GXPixel.c:
 	.sdata2     start:0x807E2850 end:0x807E2888
 
 RVL_SDK/gx/GXDisplayList.c:
-	.text       start:0x805D00E0 end:0x805D02D0
-	.bss        start:0x80780128 end:0x80780840
+	.text       start:0x805D00E0 end:0x805D02C4 align:16
+	.bss        start:0x80780128 end:0x80780828 align:32
 
 RVL_SDK/gx/GXTransform.c:
 	.text       start:0x805D02D0 end:0x805D0A60
@@ -6465,13 +6480,13 @@ RVL_SDK/axfx/AXFXReverbHiExp.c:
 	.sdata2     start:0x807E28B8 end:0x807E28F8
 
 RVL_SDK/axfx/AXFXHooks.c:
-	.text       start:0x805DBAF0 end:0x805DBB40
+	.text       start:0x805DBAF0 end:0x805DBB34 align:16
 	.sdata      start:0x807D0AB0 end:0x807D0AB8
 
 RVL_SDK/mem/mem_heapCommon.c:
-	.text       start:0x805DBB40 end:0x805DBFB0
-	.bss        start:0x80785A60 end:0x80785AA0
-	.sbss       start:0x807D6A18 end:0x807D6A20
+	.text       start:0x805DBB40 end:0x805DBFAC align:16
+	.bss        start:0x80785A60 end:0x80785A88 align:32
+	.sbss       start:0x807D6A18 end:0x807D6A1C
 
 RVL_SDK/mem/mem_expHeap.c:
 	.text       start:0x805DBFB0 end:0x805DC890
@@ -6503,10 +6518,10 @@ RVL_SDK/nand/nand.c:
 	.sdata      start:0x807D0AC0 end:0x807D0AC8
 
 RVL_SDK/nand/NANDOpenClose.c:
-	.text       start:0x805DE540 end:0x805DF3A0
-	.data       start:0x8071DC78 end:0x8071DCC0
-	.sdata      start:0x807D0AC8 end:0x807D0AD8
-	.sbss       start:0x807D6A38 end:0x807D6A40
+	.text       start:0x805DE540 end:0x805DF39C align:16
+	.data       start:0x8071DC78 end:0x8071DCB8
+	.sdata      start:0x807D0AC8 end:0x807D0AD6
+	.sbss       start:0x807D6A38 end:0x807D6A3C
 
 RVL_SDK/nand/NANDCore.c:
 	.text       start:0x805DF3A0 end:0x805E02D0
@@ -6552,9 +6567,9 @@ RVL_SDK/sc/scapi_prdinfo.c:
 	.sdata      start:0x807D0C28 end:0x807D0C38
 
 RVL_SDK/arc/arc.c:
-	.text       start:0x805E2EC0 end:0x805E38A0 align:16
-	.data       start:0x8071FD90 end:0x8071FE00
-	.sdata      start:0x807D0C38 end:0x807D0C40
+	.text       start:0x805E2EC0 end:0x805E3898 align:16
+	.data       start:0x8071FD90 end:0x8071FDFA
+	.sdata      start:0x807D0C38 end:0x807D0C3E
 
 RVL_SDK/esp/esp.c:
 	.text       start:0x805E38A0 end:0x805E3EC0 align:16

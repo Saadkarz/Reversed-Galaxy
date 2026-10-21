@@ -169,11 +169,7 @@ public:
         mCurrentVtxCol = pVtxCol;
     }
 
-    void frameInit() {
-        setCurrentVtxPos(mVtxPosArray[0]);
-        setCurrentVtxNrm(mVtxNrmArray[0]);
-        setCurrentVtxCol(mVtxColArray[0]);
-    }
+    void frameInit();
 
     void* getTransformedVtxPos(int idx) {
         return mTransformedVtxPosArray[idx];

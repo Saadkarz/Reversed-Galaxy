@@ -1,5 +1,6 @@
 import json
 import re
+import subprocess
 
 with open('build/SB4E01/report.json', 'r', encoding='utf-8') as f:
     report = json.load(f)
@@ -7,36 +8,57 @@ with open('build/SB4E01/report.json', 'r', encoding='utf-8') as f:
 with open('configure.py', 'r', encoding='utf-8') as f:
     cfg = f.read()
 
-candidates = []
+# Find all NonMatching in configure.py
+# Use finditer carefully with multiline support
+non_matching_in_cfg = []
+pattern = re.compile(r'Object\(\s*NonMatching\s*,\s*"([^"]+)"')
+for m in pattern.finditer(cfg):
+    non_matching_in_cfg.append(m.group(1))
 
+rep_map = {}
 for u in report['units']:
-    if u.get('metadata', {}).get('auto_generated', False):
-        continue
-    measures = u.get('measures', {})
-    code_pct = measures.get('matched_code_percent', 0.0)
-    data_pct = measures.get('matched_data_percent', 0.0)
-    tot_code = int(measures.get('total_code', 0))
-    tot_data = int(measures.get('total_data', 0))
-    if code_pct == 100.0 and data_pct == 100.0 and (tot_code > 0 or tot_data > 0):
-        name = u['name'].replace('main/', '')
-        src_path = u.get('metadata', {}).get('source_path', '').replace('src/', '')
-        
-        # Check if it's in configure.py
-        # It could be NonMatching
-        m = re.search(r'Object\(\s*(Matching|NonMatching),\s*"' + re.escape(src_path) + r'"', cfg)
-        if not m:
-            m = re.search(r'Object\(\s*(Matching|NonMatching),\s*"' + re.escape(name) + r'(\.c|\.cpp)?"', cfg)
-        
-        status = m.group(1) if m else "Not in configure.py"
-        candidates.append((src_path or name, status, tot_code, tot_data))
+    sp = u.get('metadata', {}).get('source_path', '').replace('src/', '')
+    if sp:
+        rep_map[sp] = u
 
-print(f"Total 100% matched units: {len(candidates)}")
-non_matching = [c for c in candidates if c[1] == 'NonMatching']
-print(f"NonMatching count: {len(non_matching)}")
-for c in non_matching:
-    print(f"  {c[0]:50} | code: {c[2]:5d} | data: {c[3]:5d}")
+results = []
+for target in non_matching_in_cfg:
+    u = rep_map.get(target)
+    if u:
+        m = u.get('measures', {})
+        pct = m.get('matched_code_percent', 0.0)
+        tot = m.get('total_code', 0)
+        fn_tot = m.get('total_functions', 0)
+        fn_mat = m.get('matched_functions', 0)
+        data_pct = m.get('matched_data_percent', 0.0)
+        tot_data = m.get('total_data', 0)
+        results.append((target, pct, tot, fn_mat, fn_tot, data_pct, tot_data))
+    else:
+        results.append((target, 0.0, 0, 0, 0, 0.0, 0))
 
-not_in_cfg = [c for c in candidates if c[1] == 'Not in configure.py']
-print(f"Not in configure.py count: {len(not_in_cfg)}")
-for c in not_in_cfg[:20]:
-    print(f"  {c[0]:50} | code: {c[2]:5d} | data: {c[3]:5d}")
+non_matching_c = [t for t in non_matching_in_cfg if t.endswith('.c')]
+print(f"Total NonMatching .c files: {len(non_matching_c)}")
+c_results = []
+for target in non_matching_c:
+    u = rep_map.get(target)
+    if u:
+        m = u.get('measures', {})
+        pct = m.get('matched_code_percent', 0.0)
+        tot = m.get('total_code', 0)
+        fn_tot = m.get('total_functions', 0)
+        fn_mat = m.get('matched_functions', 0)
+        data_pct = m.get('matched_data_percent', 0.0)
+        tot_data = m.get('total_data', 0)
+        fuzzy = m.get('fuzzy_match_percent', 0.0)
+        c_results.append((target, pct, tot, fn_mat, fn_tot, data_pct, tot_data, fuzzy))
+    else:
+        c_results.append((target, 0.0, 0, 0, 0, 0.0, 0, 0.0))
+
+c_results.sort(key=lambda x: (x[1], x[7]), reverse=True)
+print("\nTop NonMatching .c candidates:")
+for r in c_results:
+    print(f"  {r[0]:45} | code: {r[1]:6.2f}% ({r[3]}/{r[4]}) {r[2]:5}B | fuzzy: {r[7]:6.2f}% | data: {str(r[5]):5}% {r[6]}B")
+
+
+
+
