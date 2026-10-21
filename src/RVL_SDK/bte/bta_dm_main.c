@@ -230,9 +230,8 @@ tBTA_DM_SEARCH_STATE_TABLE const * const bta_dm_search_st_tbl[] =
 };
 
 // .bss
-// Makes more sense in this order.
-tBTA_DM_CB bta_dm_cb;
 tBTA_DM_SEARCH_CB bta_dm_search_cb;
+tBTA_DM_CB bta_dm_cb;
 
 /*******************************************************************************
  * functions

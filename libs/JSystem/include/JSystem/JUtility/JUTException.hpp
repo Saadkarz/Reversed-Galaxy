@@ -90,9 +90,7 @@ public:
     static JUTException* getManager() {
         return sErrorManager;
     }
-    static JUTConsole* getConsole() NO_INLINE {
-        return sConsole;
-    }
+    static JUTConsole* getConsole();
 
     JUTExternalFB* getFrameMemory() const {
         return mFrameMemory;

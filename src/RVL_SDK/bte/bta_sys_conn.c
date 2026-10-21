@@ -77,6 +77,7 @@ void bta_sys_conn_close(UINT8 id, UINT8 app_id, BD_ADDR peer_addr)
 		(*bta_sys_cb.compress_cb)(BTA_SYS_CONN_CLOSE, id, app_id, peer_addr);
 }
 
+#if 0
 void bta_sys_app_open(UINT8 id, UINT8 app_id, BD_ADDR peer_addr)
 {
 	if (bta_sys_cb.ppm_cb)
@@ -94,6 +95,7 @@ void bta_sys_sco_open(UINT8 id, UINT8 app_id, BD_ADDR peer_addr)
 	if (bta_sys_cb.ppm_cb)
 		(*bta_sys_cb.ppm_cb)(BTA_SYS_SCO_OPEN, id, app_id, peer_addr);
 }
+#endif
 
 void bta_sys_sco_close(UINT8 id, UINT8 app_id, BD_ADDR peer_addr)
 {

@@ -59,6 +59,13 @@ void GameSystemException::init() {
     GameSystemException::sMapFileUsingBuffer = new u8[0x10];
 }
 
+#pragma push
+#pragma dont_inline on
+JUTConsole* JUTException::getConsole() {
+    return sConsole;
+}
+#pragma pop
+
 void GameSystemException::handleException(OSError error, OSContext* pContext, u32 dsisr, u32 dar) {
     fn_805B48F0(0x22B);
 

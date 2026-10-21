@@ -502,6 +502,7 @@ BOOLEAN sdpu_compare_uuid_arrays(UINT8* p_uuid1, UINT32 len1, UINT8* p_uuid2, UI
     }
 }
 
+#if 0
 BOOLEAN sdpu_compare_bt_uuids(tBT_UUID* p_uuid1, tBT_UUID* p_uuid2) {
     if (p_uuid1->len == p_uuid2->len) {
         if (p_uuid1->len == 2) {
@@ -516,6 +517,7 @@ BOOLEAN sdpu_compare_bt_uuids(tBT_UUID* p_uuid1, tBT_UUID* p_uuid2) {
 
     return FALSE;
 }
+#endif
 
 BOOLEAN sdpu_compare_uuid_with_attr(tBT_UUID* p_btuuid, tSDP_DISC_ATTR* p_attr) {
     UINT16 attr_len = SDP_DISC_ATTR_LEN(p_attr->attr_len_type);

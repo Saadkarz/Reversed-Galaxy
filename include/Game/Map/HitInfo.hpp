@@ -10,8 +10,6 @@ class Triangle {
 public:
     Triangle();
 
-    Triangle& operator=(const Triangle&);
-
     void fillData(CollisionParts*, unsigned long, HitSensor*);
     const char* getHostName() const;
     s32 getHostPlacementZoneID() const;
@@ -30,6 +28,10 @@ public:
     TPos3f* getBaseInvMtx() const;
     TPos3f* getPrevBaseMtx() const;
 
+    HitSensor* getSensor() const {
+        return mSensor;
+    }
+
     CollisionParts* mParts;  // 0x0
     u32 mIdx;                // 0x4
     HitSensor* mSensor;      // 0x8
@@ -41,8 +43,6 @@ class HitInfo {
 public:
     HitInfo();
 
-    HitInfo& operator=(const HitInfo&);
-
     bool isCollisionAtFace() const;
     bool isCollisionAtEdge() const;
     bool isCollisionAtCorner() const;
@@ -53,5 +53,4 @@ public:
     TVec3f _70;
     TVec3f _7C;
     u8 _88;
-    u8 _89[3];
 };

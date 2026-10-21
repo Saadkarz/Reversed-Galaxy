@@ -78,10 +78,19 @@ void GKI_init(void) {
 }
 
 void GKI_shutdown(void) {
-    GKI_exit_task(PPC_TASK);
+    BOOL intrStatus = OSDisableInterrupts();
+    gki_cb.os.int_state[gki_cb.os.int_index] = intrStatus;
+    ++gki_cb.os.int_index;
 
-    while (gki_cb.os.int_index > 0)
-        GKI_enable();
+    gki_cb.com.OSRdyTbl[PPC_TASK] = TASK_DEAD;
+
+    --gki_cb.os.int_index;
+    OSRestoreInterrupts(gki_cb.os.int_state[gki_cb.os.int_index]);
+
+    while (gki_cb.os.int_index > 0) {
+        --gki_cb.os.int_index;
+        OSRestoreInterrupts(gki_cb.os.int_state[gki_cb.os.int_index]);
+    }
 }
 
 static UINT8 GKI_init_btu_task(UINT8 task_id) {
@@ -96,14 +105,17 @@ static UINT8 GKI_init_btu_task(UINT8 task_id) {
     return GKI_SUCCESS;
 }
 
+#if 0
 UINT8 GKI_create_task(TASKPTR task_entry, UINT8 task_id, INT8* taskname, UINT16* stack, UINT16 stacksize) {
     return GKI_SUCCESS;
 }
+#endif
 
 void GKI_run(void* p_task_id) {
     /* ... */
 }
 
+#if 0
 UINT8 GKI_suspend_task(UINT8 task_id) {
     return GKI_SUCCESS;
 }
@@ -119,6 +131,7 @@ void GKI_exit_task(UINT8 task_id) {
 
     GKI_enable();
 }
+#endif
 
 void GKI_sched_lock(void) {
     /* ... */
@@ -128,6 +141,7 @@ void GKI_sched_unlock(void) {
     /* ... */
 }
 
+#if 0
 UINT16 GKI_wait(UINT16 flag, UINT32 timeout) {
     UINT16 evt;
     UINT8 rtask = GKI_get_taskid();
@@ -158,6 +172,7 @@ UINT16 GKI_wait(UINT16 flag, UINT32 timeout) {
 
     return evt;
 }
+#endif
 
 void GKI_delay(UINT32 timeout) {
     /* ... */
@@ -176,6 +191,7 @@ UINT8 GKI_send_event(UINT8 task_id, UINT16 event) {
     return GKI_SUCCESS;
 }
 
+#if 0
 UINT8 GKI_isend_event(UINT8 task_id, UINT16 event) {
     if (task_id >= GKI_MAX_TASKS)
         return GKI_FAILURE;
@@ -184,11 +200,13 @@ UINT8 GKI_isend_event(UINT8 task_id, UINT16 event) {
 
     return GKI_SUCCESS;
 }
+#endif
 
 UINT8 GKI_get_taskid(void) {
     return PPC_TASK;
 }
 
+#if 0
 INT8* GKI_map_taskname(UINT8 task_id) {
     if (task_id < GKI_MAX_TASKS)
         return gki_cb.com.OSTName[task_id];
@@ -197,6 +215,7 @@ INT8* GKI_map_taskname(UINT8 task_id) {
     else
         return (INT8*)"BAD";
 }
+#endif
 
 void GKI_enable(void) {
     if (gki_cb.os.int_index == 0)
@@ -224,6 +243,7 @@ void GKI_exception(UINT16 code, char* msg) {
     /* ... */
 }
 
+#if 0
 INT8* GKI_get_time_stamp(INT8* tbuf) {
     UINT32 ms_time;
     UINT32 s_time;
@@ -260,6 +280,7 @@ INT8* GKI_get_time_stamp(INT8* tbuf) {
 void GKI_register_mempool(void* p_mem) {
     gki_cb.com.p_user_mempool = p_mem;
 }
+#endif
 
 void* GKI_os_malloc(UINT32 size) {
     void* mem = NULL;

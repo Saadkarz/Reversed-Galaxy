@@ -25,6 +25,8 @@ asm void __mod2u(void);
 asm void __mod2i(void);
 asm void __shl2i(void);
 asm void __shr2u(void);
+asm void __cvt_sll_dbl(void);
+asm void __cvt_ull_dbl(void);
 asm void __cvt_dbl_usll(void);
 asm void __cvt_dbl_ull(void);
 
@@ -147,7 +149,7 @@ asm unsigned long __cvt_fp2unsigned(register double d)
 {
 		nofralloc
 	    stwu    r1,-16(r1)
-		lis		r4, __constants@h
+		lis		r4, __constants@ha
 		addi    r4, r4, __constants@l
 		li		r3,0
 		lfd		fp0,0(r4)
@@ -740,6 +742,111 @@ asm void __shr2u(void)
 	srw		r10,r3,r9
 	or		r4,r4,r10
 	srw		r3,r3,r5
+	blr
+}
+
+asm void __cvt_sll_dbl(void) {
+	nofralloc
+	stwu r1, -16(r1)
+	clrrwi. r5, r3, 31
+	beq @1
+	subfic r4, r4, 0
+	subfze r3, r3
+@1:
+	or. r7, r3, r4
+	li r6, 0
+	beq @4
+	cntlzw r7, r3
+	cntlzw r8, r4
+	extlwi r9, r7, 5, 26
+	srawi r9, r9, 31
+	and r9, r9, r8
+	add r7, r7, r9
+	subfic r8, r7, 32
+	subic r9, r7, 32
+	slw r3, r3, r7
+	srw r10, r4, r8
+	or r3, r3, r10
+	slw r10, r4, r9
+	or r3, r3, r10
+	slw r4, r4, r7
+	subf r6, r7, r6
+	clrlwi r7, r4, 21
+	cmpwi r7, 0x400
+	addi r6, r6, 0x43E
+	blt @3
+	bgt @2
+	rlwinm. r7, r4, 0, 20, 20
+	beq @3
+@2:
+	addic r4, r4, 0x800
+	addze r3, r3
+	addze r6, r6
+@3:
+	rotrwi r4, r4, 11
+	rlwimi r4, r3, 21, 0, 10
+	extrwi r3, r3, 20, 1
+	slwi r6, r6, 20
+	or r3, r6, r3
+	or r3, r5, r3
+@4:
+	stw r3, 8(r1)
+	stw r4, 12(r1)
+	lfd f1, 8(r1)
+	addi r1, r1, 16
+	blr
+}
+
+asm void __cvt_ull_dbl(void) {
+	nofralloc
+	stwu r1, -16(r1)
+	clrrwi. r5, r3, 31
+	beq @1
+	subfic r4, r4, 0
+	subfze r3, r3
+@1:
+	or. r7, r3, r4
+	li r6, 0
+	beq @4
+	cntlzw r7, r3
+	cntlzw r8, r4
+	extlwi r9, r7, 5, 26
+	srawi r9, r9, 31
+	and r9, r9, r8
+	add r7, r7, r9
+	subfic r8, r7, 32
+	subic r9, r7, 32
+	slw r3, r3, r7
+	srw r10, r4, r8
+	or r3, r3, r10
+	slw r10, r4, r9
+	or r3, r3, r10
+	slw r4, r4, r7
+	subf r6, r7, r6
+	clrlwi r7, r4, 21
+	cmpwi r7, 0x400
+	addi r6, r6, 0x43E
+	blt @3
+	bgt @2
+	rlwinm. r7, r4, 0, 20, 20
+	beq @3
+@2:
+	addic r4, r4, 0x800
+	addze r3, r3
+	addze r6, r6
+@3:
+	rotrwi r4, r4, 11
+	rlwimi r4, r3, 21, 0, 10
+	extrwi r3, r3, 20, 1
+	slwi r6, r6, 20
+	or r3, r6, r3
+	or r3, r5, r3
+@4:
+	stw r3, 8(r1)
+	stw r4, 12(r1)
+	lfd f1, 8(r1)
+	frsp f1, f1
+	addi r1, r1, 16
 	blr
 }
 

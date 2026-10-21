@@ -86,4 +86,7 @@ namespace MR {
     HitSensor* getShadowProjectedSensor(const LiveActor* pActor, const char* pShadowName);
     bool isShadowProjectedAny(const LiveActor* pActor);
     f32 getShadowNearProjectionLength(const LiveActor* pActor);
+
+    void setupShadowVolumeDraw();
+    void requestCalcActorShadow(LiveActor*);
 };  // namespace MR

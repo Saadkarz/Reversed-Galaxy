@@ -1,19 +1,21 @@
 #pragma once
 
 #include "Game/LiveActor/LiveActor.hpp"
+#include "Game/LiveActor/Nerve.hpp"
 
 class BreakModel : public LiveActor {
 public:
-    BreakModel(LiveActor* pHost, const char* pName, const char* pModelName, MtxPtr pMtx, const char* pAnimName);
+    BreakModel(LiveActor*, const char*, const char*, MtxPtr, const char*);
 
     virtual ~BreakModel();
-    virtual void init(const JMapInfoIter& rIter);
+    virtual void init(const JMapInfoIter&);
     virtual void appear();
     virtual void calcAndSetBaseMtx();
 
     void exeBreak();
 
-    LiveActor* mHost;       // _90
-    const char* mAnimName;  // _94
-    MtxPtr mMtx;            // _98
+    /* 0x90 */ LiveActor* mHost;
+    /* 0x94 */ const char* mActionName;
+    /* 0x98 */ MtxPtr mMtx;
 };
+

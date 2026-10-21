@@ -60,6 +60,7 @@ static int port_write(tPORT* p_port, BT_HDR* p_buf);
  * functions
  */
 
+#if 0
 int RFCOMM_CreateConnection(UINT16 uuid, UINT8 scn, BOOLEAN is_server, UINT16 mtu, BD_ADDR bd_addr, UINT16* p_handle, tPORT_CALLBACK* p_mgmt_cb) {
     tPORT* p_port;
     int i;
@@ -858,6 +859,8 @@ int PORT_Test(UINT16 handle, UINT8* p_data, UINT16 len) {
     }
 }
 
+#endif
+
 void RFCOMM_Init(void) {
     memset(&rfc_cb, 0, sizeof rfc_cb);
 
@@ -868,9 +871,12 @@ void RFCOMM_Init(void) {
     rfcomm_l2cap_if_init();
 }
 
+#if 0
 UINT8 PORT_SetTraceLevel(UINT8 new_level) {
     if (new_level != 0xff)
         rfc_cb.trace_level = new_level;
 
     return rfc_cb.trace_level;
 }
+
+#endif

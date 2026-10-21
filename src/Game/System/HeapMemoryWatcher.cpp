@@ -9,6 +9,28 @@
 
 JKRExpHeap* HeapMemoryWatcher::sRootHeapGDDR3;
 
+class DelegateHeap : public JKRHeap {
+public:
+    DelegateHeap(JKRHeap*);
+    virtual ~DelegateHeap();
+    virtual u32 getHeapType();
+    virtual bool check();
+    virtual bool dump();
+    virtual void do_destroy();
+    virtual void* do_alloc(u32, int);
+    virtual void do_free(void*);
+    virtual void do_freeAll();
+    virtual void do_freeTail();
+    virtual void do_fillFreeArea();
+    virtual s32 do_resize(void*, u32);
+    virtual s32 do_getSize(void*);
+    virtual s32 do_getFreeSize();
+    virtual void* do_getMaxFreeBlock();
+    virtual s32 do_getTotalFreeSize();
+
+    /* 0x6c */ JKRHeap* mParentHeap;
+};
+
 namespace {
     JKRExpHeap* createExpHeap(u32 size, JKRHeap* pHeap, bool a3) NO_INLINE {
         JKRExpHeap* heap;
@@ -75,6 +97,7 @@ void HeapMemoryWatcher::createWorldMapHeap() {
 
 void HeapMemoryWatcher::createFileCacheHeapOnGameHeap(u32 size) {
     mFileCacheHeap = ::createSolidHeap(size, mGameHeapGDDR);
+    _18 = new (mFileCacheHeap, 0) DelegateHeap(mFileCacheHeap);
 }
 
 void HeapMemoryWatcher::createSceneHeapOnGameHeap() {

@@ -125,15 +125,15 @@ namespace MR {
     // more ResourceHolder stuff...
     bool isExistFileInArc(const ResourceHolder* pResArc, const char* pPathFormat, ...);
 
-    const JMapInfo* createCsvParser(const ResourceHolder* pResArc, const char* pPathFormat, ...);
-    const JMapInfo* createCsvParser(const char* pArcName, const char* pPathFormat, ...);
-    const JMapInfo* tryCreateCsvParser(const ResourceHolder* pResArc, const char* pPathFormat, ...);
-    const JMapInfo* tryCreateCsvParser(const LiveActor* pActor, const char* pPathFormat, ...);
-    const JMapInfo* tryCreateCsvParser(const char* pArcName, const char* pPathFormat, ...);
+    JMapInfo* createCsvParser(const ResourceHolder* pResArc, const char* pPathFormat, ...);
+    JMapInfo* createCsvParser(const char* pArcName, const char* pPathFormat, ...);
+    JMapInfo* tryCreateCsvParser(const ResourceHolder* pResArc, const char* pPathFormat, ...);
+    JMapInfo* tryCreateCsvParser(const LiveActor* pActor, const char* pPathFormat, ...);
+    JMapInfo* tryCreateCsvParser(const char* pArcName, const char* pPathFormat, ...);
 
-    const JMapInfo* tryCreateStageCsvParser(const char* pStageName, const char* pArcName, const char* pPathFormat, ...);
-    const JMapInfo* tryCreateStageZoneInfoCsvParser(const char* pPathFormat, ...);
-    const JMapInfo* tryCreateStageUseResourceCsvParser(const char* pStageName, const char* pPathFormat, ...);
+    JMapInfo* tryCreateStageCsvParser(const char* pStageName, const char* pArcName, const char* pPathFormat, ...);
+    JMapInfo* tryCreateStageZoneInfoCsvParser(const char* pPathFormat, ...);
+    JMapInfo* tryCreateStageUseResourceCsvParser(const char* pStageName, const char* pPathFormat, ...);
 
     const JMapInfo* tryCreateWorldMapCsvParser(u32* pWorldId,
                                                const char* pCsvName);  // first argument isn't actually a u32 pointer (it's most likely a pointer to

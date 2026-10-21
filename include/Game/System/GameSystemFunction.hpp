@@ -1,0 +1,63 @@
+#pragma once
+
+#include <revolution/types.h>
+
+namespace GameSystemFunction {
+    void fn_804B8390();
+    void loadAudioStaticWaveData();
+    bool isLoadedAudioStaticWaveData();
+    void fn_804B8420();
+    void fn_804B8450();
+    void fn_804B8480();
+    void fn_804B84B0();
+    void fn_804B84E0();
+    void fn_804B8510();
+    void initAfterStationedResourceLoaded();
+    void setSceneNameObjHolderToNameObjRegister();
+    bool isCreatedGameDataHolder();
+    bool isCreatedSystemWipe();
+    bool isDoneLoadSystemArchive();
+    bool tryToLoadSystemArchive();
+    bool isDisplayStrapRemineder();
+    void requestChangeArchivePlayer(bool);
+    void fn_804B8650();
+    bool isEndChangeArchivePlayer();
+    void fn_804B8670();
+    bool fn_804B8680();
+    void activateScreenPreserver();
+    void deactivateScreenPreserver();
+    bool isOccurredSystemWarning();
+    bool isResetProcessing();
+    void setResetOperationApplicationReset();
+    void setResetOperationReturnToMenu();
+    void requestResetGameSystem(bool);
+    void requestGoWiiMenu(bool);
+    void fn_804B8710(bool);
+    void forceToDeactivateHomeButtonLayout();
+    void resetCurrentScenarioNo();
+    bool isPermitToResetSaveDataHandleSequence();
+    void prepareResetSaveDataHandleSequence();
+    bool isPrepareResetSaveDataHandleSequence();
+    void restoreFromResetSaveDataHandleSequence();
+    bool isPermitToResetAudioSystem();
+    void prepareResetAudioSystem();
+    void requestResetAudioSystem(bool);
+    bool isDoneResetAudioSystem();
+    void resumeResetAudioSystem();
+    void fn_804B8930();
+    bool fn_804B8960();
+    void setPadConnectCallback();
+    void resetAllControllerRumble();
+    bool setPermissionToCheckWiiRemoteConnect(bool);
+    bool setPermissionToCheckWiiRemoteConnectAndScreenDimming(bool);
+    void onPauseBeginAllRumble();
+    void onPauseEndAllRumble();
+    void onHomeButtonMenuBeginAllRumble();
+    void onHomeButtonMenuCloseAllRumble();
+    void onHomeButtonMenuEndAllRumble();
+    void prepareResetSystem();
+    bool isPreparedFadeinSystem();
+    void restartSceneController();
+    bool isHomeButtonMenuActive();
+    bool fn_804B8D70();
+};  // namespace GameSystemFunction

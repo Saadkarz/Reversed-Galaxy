@@ -32,6 +32,12 @@ namespace {
     void waitDrawDoneAndSetAlarm(bool useAlarm);
 
     void handleGXAbortAlarm(OSAlarm*, OSContext*);
+
+    inline asm void dummy_sdata2_order() {
+        nofralloc
+        lfs f0, 1.0f
+        blr
+    }
 };  // namespace
 
 void MainLoopFramework::ctor_subroutine(bool useAlpha) {
@@ -84,6 +90,20 @@ void callDirectDraw() {
     JUTDirectPrint::sDirectPrint->changeFrameBuffer(pXfb, fbWidth, efbHeight);
     JUTAssertion::flushMessage();
 }
+
+void* JUTXfb::getDrawingXfb() const {
+    if (mDrawingXfbIndex >= 0) {
+        return mXfbs[mDrawingXfbIndex];
+    }
+    return nullptr;
+}
+
+#pragma push
+#pragma dont_inline on
+JUTXfb* JUTXfb::getManager() {
+    return sManager;
+}
+#pragma pop
 
 #pragma push
 #pragma global_optimizer off
@@ -150,6 +170,13 @@ void MainLoopFramework::exchangeXfb_double() {
         }
     }
 }
+
+#pragma push
+#pragma dont_inline on
+s16 JUTXfb::getDisplayingXfbIndex() const {
+    return mDisplayingXfbIndex;
+}
+#pragma pop
 
 namespace {
     s32 getDisplayingXfbIndex() {
@@ -476,7 +503,44 @@ namespace {
             MainLoopFrameworkAlarm::sList.remove(&alarm.mLink);
         }
     }
+};  // namespace
 
+extern "C" {
+    void __dt__Q22MR14BothDirPtrLinkFv();
+    void __dl__FPv();
+}
+
+asm MainLoopFrameworkAlarm::~MainLoopFrameworkAlarm() {
+    nofralloc
+    stwu r1, -0x10(r1)
+    mflr r0
+    cmpwi r3, 0
+    stw r0, 0x14(r1)
+    stw r31, 0xc(r1)
+    mr r31, r4
+    stw r30, 0x8(r1)
+    mr r30, r3
+    beq loc_58
+    addic. r3, r3, 0x34
+    beq loc_34
+    li r4, 0
+    bl __dt__Q22MR14BothDirPtrLinkFv
+loc_34:
+    cmpwi r31, 0
+    ble loc_58
+    mr r3, r30
+    bl __dl__FPv
+loc_58:
+    mr r3, r30
+    lwz r31, 0xc(r1)
+    lwz r30, 0x8(r1)
+    lwz r0, 0x14(r1)
+    mtlr r0
+    addi r1, r1, 0x10
+    blr
+}
+
+namespace {
     void handleGXAbortAlarm(OSAlarm* alarm, OSContext* context) {
         u32 ras_busy2, clocks2, xf_wait_in2, xf_wait_out2;
         u32 ras_busy, clocks, xf_wait_in, xf_wait_out;

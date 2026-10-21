@@ -148,6 +148,7 @@ void BTA_DmSearchCancel(void) {
     }
 }
 
+#if 0
 void BTA_DmDiscover(BD_ADDR bd_addr, tBTA_SERVICE_MASK services, tBTA_DM_SEARCH_CBACK* p_cback) {
     tBTA_DM_API_DISCOVER* p_msg;
 
@@ -173,6 +174,7 @@ void BTA_DmBond(BD_ADDR bd_addr, UINT8 pin_len, UINT8* p_pin) {
         bta_sys_sendmsg(p_msg);
     }
 }
+#endif
 
 void BTA_DmPinReply(BD_ADDR bd_addr, BOOLEAN accept, UINT8 pin_len, UINT8* p_pin) {
     tBTA_DM_API_PIN_REPLY* p_msg;
@@ -238,6 +240,7 @@ tBTA_STATUS BTA_DmRemoveDevice(BD_ADDR bd_addr) {
         return BTA_FAILURE;
 }
 
+#if 0
 void BTA_DmAuthorizeReply(BD_ADDR bd_addr, tBTA_SERVICE_ID service, tBTA_AUTH_RESP response) {
     tBTA_DM_API_AUTH_REPLY* p_msg;
 
@@ -274,6 +277,7 @@ void BTA_KeepACLLinksOnShutDown(BOOLEAN keep) {
         bta_sys_sendmsg(p_msg);
     }
 }
+#endif
 
 void BTA_DmSendHciReset(void) {
     BT_HDR* p_msg;

@@ -823,22 +823,61 @@ int VFiPFCODE_CP932_OEM2Unicode(const char* cp932_src, unsigned short* uc_dst) {
     c0 = *cp932_src;
     c1 = *(cp932_src + 1);
 
-    if (c0 < 0x80u) {
-        *uc_dst = c0;
-        return VFiPFCODE_Combine_Width(1, 2);
+    if (c0 == 0xA0) {
+        goto invalid;
+    }
+    if (c0 < 0xA0) {
+        if (c0 >= 0x85) {
+            if (c0 >= 0x87) {
+                goto kanji;
+            }
+            goto invalid;
+        }
+        if (c0 == 0x80) {
+            goto invalid;
+        }
+        if (c0 >= 0x81) {
+            goto kanji;
+        }
+        goto ascii;
+    } else {
+        if (c0 >= 0xED) {
+            if (c0 > 0xFF) {
+                goto ascii;
+            }
+            goto kanji;
+        }
+        if (c0 >= 0xEB) {
+            goto invalid;
+        }
+        if (c0 >= 0xE0) {
+            goto kanji;
+        }
+        goto katakana;
     }
 
-    if (c0 >= 0xA1u && c0 <= 0xDFu) {
-        *uc_dst = c0 + 0xFEC0;
-        return VFiPFCODE_Combine_Width(1, 2);
+ascii:
+    *uc_dst = c0;
+    return VFiPFCODE_Combine_Width(1, 2);
+
+katakana:
+    *uc_dst = c0 + 0xFEC0;
+    return VFiPFCODE_Combine_Width(1, 2);
+
+kanji:
+    if (c0 >= 0xEF && c0 <= 0xF9) {
+        goto invalid;
+    }
+    if (c0 != 0xFF) {
+        goto check_c1;
     }
 
-    if (c0 == 128 || c0 == 133 || c0 == 134 || c0 == 160 || c0 == 235 || c0 == 236 || (c0 >= 0xEFu && c0 <= 0xF9u) || (c0 >= 0xFDu && c0 == 0xFFu)) {
-        *uc_dst = 95;
-        return VFiPFCODE_Combine_Width(1, 2);
-    }
+invalid:
+    *uc_dst = 95;
+    return VFiPFCODE_Combine_Width(1, 2);
 
-    if (c1 >= 0xFDu) {
+check_c1:
+    if (c1 >= 0xFD) {
         *uc_dst = 95;
         return VFiPFCODE_Combine_Width(1, 2);
     }
@@ -943,8 +982,8 @@ s32 VFiPFCODE_CP932_Unicode2OEM(const u16* uc_src, s8* cp932_dst) {
         return VFiPFCODE_Combine_Width(1, 2);
     }
 
-    cp932_dst[1] = (u8)(cp932 & 0xFF);
     cp932_dst[0] = (cp932 >> 8) & 0xFF;
+    cp932_dst[1] = (u8)(cp932 & 0xFF);
     return VFiPFCODE_Combine_Width(2, 2);
 }
 
@@ -960,28 +999,27 @@ int VFiPFCODE_CP932_OEMCharWidth(const char* buf) {
 }
 
 u32 VFiPFCODE_CP932_isOEMMBchar(s8 cp932, u32 num) {
-    u8 code;
-    u32 is_mb;
-
-    code = (u8)cp932;
-    is_mb = 0;
+    u32 c = (u8)cp932;
+    u32 ret = 0;
 
     switch (num) {
     case 1:
-        is_mb = 0;
-        if ((code >= 0x81 && code <= 0x9F) || (code >= 0xE0 && code <= 0xFC)) {
-            is_mb = 1;
+        ret = 0;
+        if ((c >= 0x81 && (u8)c <= 0x9F) || (c >= 0xE0 && (u8)c <= 0xFC)) {
+            ret = 1;
         }
-        return is_mb;
+        return ret;
 
     case 2:
-        is_mb = 0;
-        if ((code >= 0x40 && code <= 0x7E) || (code >= 0x80 && code <= 0xFC)) {
-            is_mb = 1;
+        ret = 0;
+        if ((c >= 0x40 && (u8)c <= 0x7E) || (c >= 0x80 && (u8)c <= 0xFC)) {
+            ret = 1;
         }
-        return is_mb;
+        return ret;
+
+    default:
+        return 0;
     }
-    return is_mb;
 }
 s32 VFiPFCODE_CP932_UnicodeCharWidth() {
     return 2;

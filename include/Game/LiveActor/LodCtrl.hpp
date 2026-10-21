@@ -58,3 +58,5 @@ public:
 class LodCtrlFunction {
     static bool isExistLodLowModel(const char*);
 };
+
+

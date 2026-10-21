@@ -88,9 +88,9 @@ typedef struct
 	UINT8		at_0x1e;		// size 0x01, offset 0x1e
 	UINT8		at_0x1f;		// size 0x01, offset 0x1f
 	UINT8		at_0x20;		// size 0x01, offset 0x20
-	char		pad5_[2];		// size 0x02, offset 0x21
+	char		pad5_[0x16];	// size 0x16, offset 0x21
 	/* 1 byte padding */
-} tHCISU_H2_CB; // size 0x24
+} tHCISU_H2_CB; // size 0x38
 
 /*******************************************************************************
  * local function declarations

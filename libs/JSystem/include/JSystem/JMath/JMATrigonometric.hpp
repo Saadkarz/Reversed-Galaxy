@@ -200,9 +200,7 @@ inline f32 JMACosDegree(f32 angle) {
     return JMath::sSinCosTable.cosDegree(angle);
 }
 
-inline f32 JMACosRadian(f32 angle) {
-    return JMath::sSinCosTable.cosRadian(angle);
-}
+f32 JMACosRadian(f32 angle);
 
 inline f32 JMACosLap(f32 angle) {
     return JMath::sSinCosTable.cosLap(angle);
@@ -212,9 +210,7 @@ inline f32 JMASinDegree(f32 angle) {
     return JMath::sSinCosTable.sinDegree(angle);
 }
 
-inline f32 JMASinRadian(f32 angle) {
-    return JMath::sSinCosTable.sinRadian(angle);
-}
+f32 JMASinRadian(f32 angle);
 
 inline f32 JMASinLap(f32 angle) {
     return JMath::sSinCosTable.sinLap(angle);

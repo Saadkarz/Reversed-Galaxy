@@ -7,9 +7,36 @@
 #include "Game/Util/FileUtil.hpp"
 #include "Game/Util/LiveActorUtil.hpp"
 #include "Game/Util/ModelUtil.hpp"
+#include "Game/LiveActor/ClippingDirector.hpp"
 #include <cstdio>
 
-// LodCtrl::LodCtrl
+extern const int def = 0;
+
+namespace {
+    const f32 sDefaultDistanceToMiddle = 2000.0f;
+    const f32 sDefaultDistanceToLow = 3000.0f;
+};  // namespace
+
+LodCtrl::LodCtrl(LiveActor* pActor, const JMapInfoIter& rIter) {
+    mDistToMiddle = ::sDefaultDistanceToMiddle;
+    mDistToLow = ::sDefaultDistanceToLow;
+    mCurActiveModel = reinterpret_cast<ModelObj*>(pActor);
+    mHighModel = reinterpret_cast<ModelObj*>(pActor);
+    mMiddleModel = nullptr;
+    mLowModel = nullptr;
+    _18 = 0;
+    _19 = 0;
+    _1A = 1;
+    mDistCameraCalc = false;
+    mViewGroupID = -1;
+    mActorLightCtrl = nullptr;
+    _1C = (const bool*)&def;
+    _20 = (const bool*)&def;
+    _24 = (const bool*)&def;
+    _28 = (const bool*)&def;
+    MR::getClippingDirector()->entryLodCtrl(this, rIter);
+    mActorLightCtrl = mHighModel->mLightCtrl;
+}
 
 void LodCtrl::offSyncShadowHost() {
     MR::offShadowVisibleSyncHostAll(mHighModel);
@@ -140,7 +167,7 @@ void LodCtrl::setDistanceToMiddleAndLow(f32 middle, f32 low) {
 
 namespace {
     template < typename T >
-    void LodFuntionCall(LodCtrl* pCtrl, void (*pFunc)(LiveActor*, T), T arg) NO_INLINE {
+    void LodFuntionCall(LodCtrl* pCtrl, void (*pFunc)(LiveActor*, T), T arg) {
         pFunc(pCtrl->mHighModel, arg);
 
         if (pCtrl->mMiddleModel) {
@@ -151,7 +178,10 @@ namespace {
             pFunc(pCtrl->mLowModel, arg);
         }
     }
+
+    template void LodFuntionCall<f32>(LodCtrl*, void (*)(LiveActor*, f32), f32);
 };  // namespace
+
 
 void LodCtrl::setClippingTypeSphereContainsModelBoundingBox(f32 bounds) {
     LodFuntionCall< f32 >(this, MR::setClippingTypeSphereContainsModelBoundingBox, bounds);
@@ -319,4 +349,5 @@ bool LodCtrlFunction::isExistLodLowModel(const char* pName) {
 }
 
 /* unused but sitting in .data */
-static const char* sMiddle = "/ObjectData/%sMiddle.arc";
+char sMiddleArc[] = "/ObjectData/%sMiddle.arc";
+

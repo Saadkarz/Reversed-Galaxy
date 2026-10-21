@@ -115,7 +115,7 @@ void PSVECNormalize
 
 // clang-format on
 
-f32 C_VECSquareMag(const Vec* v) {
+static inline f32 C_VECSquareMag(const Vec* v) {
     f32 sqmag;
     sqmag = (v->x * v->x) + (v->y * v->y) + (v->z * v->z);
     return sqmag;

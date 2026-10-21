@@ -73,9 +73,26 @@ UINT32 GKI_get_tick_count(void)
 	return gki_cb.com.OSTicks;
 }
 
+#if 0
 INT32 GKI_ready_to_sleep(void)
 {
 	return gki_cb.com.OSTicksTilExp;
+}
+#endif
+
+static inline void gki_adjust_timer_count(INT32 ticks)
+{
+	if (ticks <= 0)
+		return;
+
+	if (gki_cb.com.OSNumOrigTicks == 0
+	    || (ticks < gki_cb.com.OSTicksTilExp && gki_cb.com.OSTicksTilExp > 0))
+	{
+		gki_cb.com.OSNumOrigTicks =
+			gki_cb.com.OSNumOrigTicks - gki_cb.com.OSTicksTilExp + ticks;
+
+		gki_cb.com.OSTicksTilExp = ticks;
+	}
 }
 
 void GKI_start_timer(UINT8 tnum, INT32 ticks, BOOLEAN is_continuous)
@@ -147,6 +164,7 @@ void GKI_stop_timer(UINT8 tnum)
 	}
 }
 
+#if 0
 void GKI_timer_update(INT32 ticks_since_last_update)
 {
 	UINT8 task_id;
@@ -227,6 +245,7 @@ void GKI_timer_update(INT32 ticks_since_last_update)
 
 	gki_cb.com.timer_nesting = FALSE;
 }
+#endif
 
 void GKI_init_timer_list(TIMER_LIST_Q *p_timer_listq)
 {
@@ -235,6 +254,7 @@ void GKI_init_timer_list(TIMER_LIST_Q *p_timer_listq)
 	p_timer_listq->last_ticks = 0;
 }
 
+#if 0
 void GKI_init_timer_list_entry(TIMER_LIST_ENT *p_tle)
 {
 	p_tle->p_next = NULL;
@@ -242,6 +262,7 @@ void GKI_init_timer_list_entry(TIMER_LIST_ENT *p_tle)
 	p_tle->ticks = GKI_UNUSED_LIST_ENTRY;
 	p_tle->in_use = FALSE;
 }
+#endif
 
 UINT16 GKI_update_timer_list(TIMER_LIST_Q *p_timer_listq,
                              INT32 num_units_since_last_update)
@@ -393,17 +414,3 @@ void GKI_remove_from_timer_list(TIMER_LIST_Q *p_timer_listq,
 	p_tle->in_use = FALSE;
 }
 
-void gki_adjust_timer_count(INT32 ticks)
-{
-	if (ticks <= 0)
-		return;
-
-	if (gki_cb.com.OSNumOrigTicks == 0
-	    || (ticks < gki_cb.com.OSTicksTilExp && gki_cb.com.OSTicksTilExp > 0))
-	{
-		gki_cb.com.OSNumOrigTicks =
-			gki_cb.com.OSNumOrigTicks - gki_cb.com.OSTicksTilExp + ticks;
-
-		gki_cb.com.OSTicksTilExp = ticks;
-	}
-}

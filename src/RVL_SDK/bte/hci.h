@@ -72,7 +72,8 @@ typedef struct
 {
 	UINT16	at_0x00;	// size 0x02, offset 0x00
 	UINT16	at_0x02;	// size 0x02, offset 0x02
-} tHCI_CFG; // size 0x04
+	UINT32	reserved;
+} tHCI_CFG; // size 0x08
 
 typedef void tHCI_INIT(UINT8, UINT8, UINT16);
 typedef BOOLEAN tHCI_OPEN(tHCI_CFG *p_cfg);
@@ -87,7 +88,8 @@ typedef struct
 	tHCI_CLOSE			*close;			// size 0x04, offset 0x08
 	tHCI_SEND			*send;			// size 0x04, offset 0x0c
 	tHCI_HANDLE_EVENT	*handle_event;	// size 0x04, offset 0x10
-} tHCI_IF; // size 0x14
+	unk_t				*reserved;		// size 0x04, offset 0x14
+} tHCI_IF; // size 0x18
 
 /*******************************************************************************
  * external globals

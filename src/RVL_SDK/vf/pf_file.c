@@ -335,7 +335,6 @@ s32 VFiPFFILE_Cursor_Write_Overwrite(struct PF_VOLUME* p_vol, struct PF_FILE* p_
     u32 num_sector;
     u32 success_size;
 
-    max_writable_size = size;
     *p_size_write = 0;
     err = VFiPFFAT_GetContinuousSector(&p_file->p_sfd->ffd, p_file->cursor.file_sector_index, size, &p_file->cursor.sector, &num_sector);
     if (err) {
@@ -346,6 +345,7 @@ s32 VFiPFFILE_Cursor_Write_Overwrite(struct PF_VOLUME* p_vol, struct PF_FILE* p_
         VFiPFFILE_Cursor_MoveToEnd(p_file);
         return 28;
     } else {
+        max_writable_size = size;
         log2_bytes_per_sector = p_vol->bpb.log2_bytes_per_sector;
         if (max_writable_size > num_sector << log2_bytes_per_sector)
             max_writable_size = num_sector << log2_bytes_per_sector;
@@ -479,8 +479,8 @@ PF_SFD* VFiPFFILE_GetSFD(PF_VOLUME* p_vol, PF_DIR_ENT* p_ent) {
 
     sfd_num = 0;
     p_first_free_SFD = 0;
-    for (i = 0; i < 5; ++i) {
-        if ((p_vol->sfds[i].stat & 1) == 0 || ((p_vol->sfds[i].stat & 1) != 0 && ((p_vol->sfds[i].stat == 0) & 2) != 0)) {
+    for (i = 0; i < 5; i++) {
+        if ((p_vol->sfds[i].stat & 1) == 0 || ((p_vol->sfds[i].stat & 1) && (p_vol->sfds[i].stat == 0 & 2))) {
             if (!p_first_free_SFD) {
                 p_first_free_SFD = &p_vol->sfds[i];
                 sfd_num = i;
@@ -707,6 +707,8 @@ int VFiPFFILE_p_fwrite(PF_VOLUME* p_vol, u8* p_buf, u32 size, u32 count, PF_FILE
     PF_CACHE_PAGE* p_page;
     u32 append_size;
     u32 size_written;
+    PF_CURSOR save_cursor = {0};
+    PF_FAT_HINT save_hint = {0};
     u32 base_pos;
     u32 base_size;
 
@@ -754,6 +756,17 @@ int VFiPFFILE_p_fwrite(PF_VOLUME* p_vol, u8* p_buf, u32 size, u32 count, PF_FILE
                 p_file->p_sfd->dir_entry.file_size = base_pos + *p_count_written * size;
             else
                 p_file->p_sfd->dir_entry.file_size = base_size;
+        }
+        save_cursor = p_file->cursor;
+        save_hint = p_file->hint;
+        VFiPFFAT_SetHint(&p_file->p_sfd->ffd, &p_file->hint);
+        {
+            s32 f_err;
+            if ((f_err = fn_8056CA50(p_file)) != 0) {
+                err = f_err;
+                p_file->cursor = save_cursor;
+                p_file->hint = save_hint;
+            }
         }
         VFiPFFILE_Cursor_SetPosition(p_file, base_pos + *p_count_written * size);
     }
@@ -982,8 +995,6 @@ s32 VFiPFFILE_fclose(PF_FILE* p_file) {
                 VFipf_vol_set.last_error = err;
                 p_vol->last_error = err;
             } else if (VFiPFDRV_IsWProtected(p_vol) && p_file->open_mode != 2) {
-                VFipf_vol_set.last_error = 11;
-                p_vol->last_error = 11;
                 return 11;
             } else if (!(p_file && p_file->p_sfd && (p_file->stat & 1) != 0 && (p_file->p_sfd->stat & 1) != 0 && (p_file->p_sfd->stat & 2) != 0)) {
                 VFipf_vol_set.last_error = 10;
@@ -1109,71 +1120,67 @@ s32 VFiPFFILE_fread(u8* p_buf, u32 size, u32 count, struct PF_FILE* p_file, u32*
 }
 
 s32 VFiPFFILE_fwrite(u8* p_buf, u32 size, u32 count, PF_FILE* p_file, u32* p_count_written) {
-    int result;
-    PF_VOLUME* p_vol;
-    int v12;
     int err;
+    PF_VOLUME* p_vol;
     u32 count_written;
 
     if (!p_count_written) {
         VFipf_vol_set.last_error = 10;
         return 10;
-    } else {
-        *p_count_written = 0;
-        if (!VFiPFFILE_CheckUFD(p_file)) {
-            VFipf_vol_set.last_error = 10;
-            return 10;
-        } else {
-            p_vol = VFiPFFILE_GetVolume(p_file);
-            if (!p_vol) {
-                VFipf_vol_set.last_error = 38;
-                p_file->p_sfd->ffd.p_vol->last_error = 38;
-                p_file->last_error = 38;
-                return 38;
-            } else {
-                result = VFiPFVOL_CheckForWrite(p_vol);
-                if (result) {
-                    VFipf_vol_set.last_error = result;
-                    p_vol->last_error = result;
-                } else if (!(p_file && p_file->p_sfd && (p_file->stat & 1) != 0 && (p_file->p_sfd->stat & 1) != 0 &&
-                             (p_file->p_sfd->stat & 2) != 0)) {
-                    VFipf_vol_set.last_error = 38;
-                    p_vol->last_error = 38;
-                    return 38;
-                } else if (!((p_file->p_sfd->stat & 1) != 0 && (p_file->p_sfd->stat & 2) != 0)) {
-                    VFipf_vol_set.last_error = 38;
-                    p_vol->last_error = 38;
-                    return 38;
-                } else if (!(p_buf && count && size)) {
-                    VFipf_vol_set.last_error = 10;
-                    p_file->p_sfd->ffd.p_vol->last_error = 10;
-                    p_file->last_error = 10;
-                    return 10;
-                } else {
-                    p_vol->cache.signature = p_file;
-                    v12 = VFiPFFILE_p_fwrite(p_vol, p_buf, size, count, p_file, &count_written);
-                    err = v12;
-                    *p_count_written = count_written;
-                    p_vol->cache.signature = 0;
-                    if (v12) {
-                        VFipf_vol_set.last_error = v12;
-                        p_file->p_sfd->ffd.p_vol->last_error = v12;
-                        p_file->last_error = v12;
-                    }
-                    if (count_written) {
-                        VFiPFENT_getcurrentDateTimeForEnt(&p_file->p_sfd->dir_entry.modify_date, &p_file->p_sfd->dir_entry.modify_time);
-                        p_file->p_sfd->dir_entry.access_date = p_file->p_sfd->dir_entry.modify_date;
-                        if ((p_vol->cache.mode & 1) != 0)
-                            err = VFiPFENT_UpdateSFNEntry(&p_file->p_sfd->dir_entry, 1);
-                        else
-                            p_file->p_sfd->stat |= 4u;
-                    }
-                    return err;
-                }
-            }
-        }
     }
-    return result;
+    *p_count_written = 0;
+    if (!VFiPFFILE_CheckUFD(p_file)) {
+        VFipf_vol_set.last_error = 10;
+        return 10;
+    }
+    p_vol = VFiPFFILE_GetVolume(p_file);
+    if (!p_vol) {
+        VFipf_vol_set.last_error = 38;
+        p_file->p_sfd->ffd.p_vol->last_error = 38;
+        p_file->last_error = 38;
+        return 38;
+    }
+    err = VFiPFVOL_CheckForWrite(p_vol);
+    if (err) {
+        VFipf_vol_set.last_error = err;
+        p_vol->last_error = err;
+        return err;
+    }
+    if (!(p_file && p_file->p_sfd && (p_file->stat & 1) != 0 && (p_file->p_sfd->stat & 1) != 0 &&
+                 (p_file->p_sfd->stat & 2) != 0)) {
+        VFipf_vol_set.last_error = 38;
+        p_vol->last_error = 38;
+        return 38;
+    }
+    if (!((p_file->p_sfd->stat & 1) != 0 && (p_file->p_sfd->stat & 2) != 0)) {
+        VFipf_vol_set.last_error = 38;
+        p_vol->last_error = 38;
+        return 38;
+    }
+    if (!(p_buf && count && size)) {
+        VFipf_vol_set.last_error = 10;
+        p_file->p_sfd->ffd.p_vol->last_error = 10;
+        p_file->last_error = 10;
+        return 10;
+    }
+    p_vol->cache.signature = p_file;
+    err = VFiPFFILE_p_fwrite(p_vol, p_buf, size, count, p_file, &count_written);
+    *p_count_written = count_written;
+    p_vol->cache.signature = 0;
+    if (err) {
+        VFipf_vol_set.last_error = err;
+        p_file->p_sfd->ffd.p_vol->last_error = err;
+        p_file->last_error = err;
+    }
+    if (count_written) {
+        VFiPFENT_getcurrentDateTimeForEnt(&p_file->p_sfd->dir_entry.modify_date, &p_file->p_sfd->dir_entry.modify_time);
+        p_file->p_sfd->dir_entry.access_date = p_file->p_sfd->dir_entry.modify_date;
+        if ((p_vol->cache.mode & 1) != 0)
+            err = VFiPFENT_UpdateSFNEntry(&p_file->p_sfd->dir_entry, 1);
+        else
+            p_file->p_sfd->stat |= 4u;
+    }
+    return err;
 }
 
 s32 VFiPFFILE_fseek(PF_FILE* p_file, s32 lOffset, s32 nOrigin) {

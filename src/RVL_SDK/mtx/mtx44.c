@@ -6,6 +6,9 @@ void C_MTXPerspective(Mtx44 m, f32 fovY, f32 aspect, f32 n, f32 f) {
     f32 angle;
     f32 cot;
     f32 tmp;
+
+    (void)1.0f, (void)2.0f, (void)0.0f, (void)-1.0f, (void)0.5f, (void)0.01745329252f;
+
     angle = fovY * 0.5f;
     angle = MTXDegToRad(angle);
     cot = tan(angle);

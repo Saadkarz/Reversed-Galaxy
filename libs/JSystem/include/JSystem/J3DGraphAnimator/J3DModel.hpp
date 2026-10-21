@@ -130,9 +130,7 @@ public:
         return mMtxBuffer->getDrawMtxPtr()[index];
     }
 
-    void setBaseScale(const Vec& scale) {
-        mBaseScale = scale;
-    }
+    void setBaseScale(const Vec& scale);
 
     void setUserArea(uintptr_t area) {
         mUserArea = area;
@@ -154,9 +152,7 @@ public:
         mMtxBuffer->setWeightAnmMtx(i, m);
     }
 
-    MtxPtr getAnmMtx(int jointNo) {
-        return mMtxBuffer->getAnmMtx(jointNo);
-    }
+    MtxPtr getAnmMtx(int jointNo);
 
     MtxPtr getWeightAnmMtx(int i) {
         return mMtxBuffer->getWeightAnmMtx(i);

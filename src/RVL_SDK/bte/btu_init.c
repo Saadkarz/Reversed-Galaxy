@@ -66,6 +66,8 @@ void BTE_Init(void) {
     btu_cb.controller_cmd_window = 1;
 }
 
+#if 0
 UINT16 BTU_AclPktSize(void) {
     return btu_cb.hcit_acl_pkt_size;
 }
+#endif

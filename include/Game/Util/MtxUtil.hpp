@@ -6,6 +6,12 @@
 #include <revolution.h>
 
 namespace MR {
+    void preScaleMtx(MtxPtr, f32);
+    void preScaleMtx(MtxPtr, const TVec3f&);
+    void preScaleMtx(MtxPtr, f32, f32, f32);
+    void flattenMtx(MtxPtr, MtxPtr, const TVec3f&);
+    void flattenMtx(MtxPtr, const TVec3f&);
+
     void makeMtxRotate(MtxPtr, const TVec3f&);
     void makeMtxTR(MtxPtr, f32, f32, f32, f32, f32, f32);
     void makeMtxTR(MtxPtr, const TVec3f&, const TVec3f&);
@@ -49,4 +55,5 @@ namespace MR {
     MtxPtr tmpMtxRotZDeg(f32);
     void orderRotateMtx(s16, const TVec3f&, MtxPtr);
     void inverseConcatMtx(MtxPtr, MtxPtr, TMtx34f*);
+    void turnMtxToLocalDirDegree(TPos3f*, const TVec3f&, const TVec3f&, f32);
 };  // namespace MR

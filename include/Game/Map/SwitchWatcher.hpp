@@ -45,6 +45,7 @@ public:
     SwitchWatcher* findSwitchWatcher(const StageSwitchCtrl*);
     void joinSwitchEventListener(const StageSwitchCtrl*, u32, SwitchEventListener*);
     void addSwitchWatcher(SwitchWatcher*);
+    void callMethodAll(void (SwitchWatcher::*func)());
 
     SwitchWatcher* mWatchers[0x100];  // 0x14
     s32 mWatcherCount;                // 0x414

@@ -670,16 +670,16 @@ def generate_build_ninja(
     mwcc_implicit: List[Optional[Path]] = [compilers_implicit or mwcc, wrapper_implicit]
 
     # MWCC with UTF-8 to Shift JIS wrapper
-    mwcc_sjis_cmd = f"{wrapper_cmd}{sjiswrap} {mwcc} $cflags -MMD -c $in -o $basedir"
-    mwcc_sjis_implicit: List[Optional[Path]] = [*mwcc_implicit, sjiswrap]
+    mwcc_sjis_cmd = f"python tools/sjiswrap.py {mwcc} $cflags -MMD -c $in -o $basedir"
+    mwcc_sjis_implicit: List[Optional[Path]] = [*mwcc_implicit, Path("tools/sjiswrap.py")]
 
     # MWCC for precompiled headers
     mwcc_pch_cmd = f"{wrapper_cmd}{mwcc} $cflags -MMD -c $in -o $basedir -precompile $basefilestem.mch"
     mwcc_pch_implicit: List[Optional[Path]] = [*mwcc_implicit]
 
     # MWCC for precompiled headers with UTF-8 to Shift JIS wrapper
-    mwcc_pch_sjis_cmd = f"{wrapper_cmd}{sjiswrap} {mwcc} $cflags -MMD -c $in -o $basedir -precompile $basefilestem.mch"
-    mwcc_pch_sjis_implicit: List[Optional[Path]] = [*mwcc_implicit, sjiswrap]
+    mwcc_pch_sjis_cmd = f"python tools/sjiswrap.py {mwcc} $cflags -MMD -c $in -o $basedir -precompile $basefilestem.mch"
+    mwcc_pch_sjis_implicit: List[Optional[Path]] = [*mwcc_implicit, Path("tools/sjiswrap.py")]
 
     # MWCC with extab post-processing
     mwcc_extab_cmd = (

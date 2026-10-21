@@ -234,6 +234,7 @@ void BTA_HhGetAclQueueInfo(void) {
     }
 }
 
+#if 0
 void BTA_HhParseBootRpt(tBTA_HH_BOOT_RPT* p_data, UINT8* p_report, UINT16 report_len) {
     p_data->dev_type = BTA_HH_DEVT_UNKNOWN;
 
@@ -255,3 +256,5 @@ void BTA_HhParseBootRpt(tBTA_HH_BOOT_RPT* p_data, UINT8* p_report, UINT16 report
         }
     }
 }
+
+#endif

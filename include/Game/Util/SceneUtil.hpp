@@ -6,6 +6,7 @@
 
 class NameObj;
 class GameSystemSceneController;
+class JMapIdInfo;
 
 namespace MR {
     s32 getCurrentScenarioNo();
@@ -27,7 +28,15 @@ namespace MR {
 
     void getRailInfo(JMapInfoIter*, const JMapInfo**, const JMapInfoIter&);
 
+    bool isInitializeStatePlacementSomething();
     s32 getChildObjNum(const JMapInfoIter&);
     void getChildObjName(const char**, const JMapInfoIter&, int);
     void initChildObj(NameObj*, const JMapInfoIter&, int);
+    s32 getPlacedZoneId(const JMapInfoIter&);
+
+    const JMapIdInfo* getInitializeStartIdInfo();
+    bool isStageMarioFaceShipOrWorldMap();
+    s32 getPlayerLife();
+    bool isPowerStarBronze(const char*, s32);
+    bool fn_80024F60(const char*);
 };  // namespace MR

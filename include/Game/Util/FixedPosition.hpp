@@ -1,0 +1,28 @@
+#pragma once
+
+#include <JSystem/JGeometry/TMatrix.hpp>
+#include <revolution/types.h>
+
+class LiveActor;
+
+class FixedPosition {
+public:
+    FixedPosition(const LiveActor*, const char*, const TVec3f&, const TVec3f&);
+    FixedPosition(const LiveActor*, const TVec3f&, const TVec3f&);
+    FixedPosition(MtxPtr, const TVec3f&, const TVec3f&);
+    FixedPosition(const LiveActor*, const char*, const LiveActor*);
+
+    void init(MtxPtr, const TVec3f&, const TVec3f&);
+    void calc();
+    void setBaseMtx(MtxPtr);
+    void setLocalTrans(const TVec3f&);
+    void copyTrans(TVec3f* pTrans) const {
+        mMtx.getTrans(*pTrans);
+    }
+
+    /* 0x00 */ MtxPtr mBaseMtx;
+    /* 0x04 */ TVec3f mLocalTrans;
+    /* 0x10 */ TVec3f mLocalRotate;
+    /* 0x1C */ TPos3f mMtx;
+    /* 0x4C */ bool mNormalizeScale;
+};

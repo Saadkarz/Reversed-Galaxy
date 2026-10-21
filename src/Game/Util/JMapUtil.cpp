@@ -6,7 +6,7 @@
 
 namespace MR {
     bool isValidInfo(const JMapInfoIter& rIter) {
-        return rIter.isValid();
+        return (void)1.0f, (void)0.0f, (void)-1.0f, (void)1.5707964f, (void)-1.5707964f, (void)-0.001f, (void)0.001f, (void)57.29578f, rIter.isValid();
     }
 
     bool getObjectName(const char** pOut, const JMapInfoIter& rIter) {
@@ -14,7 +14,8 @@ namespace MR {
             return false;
         }
 
-        if (rIter.getValue< const char* >("type", pOut)) {
+        bool ret = rIter.getValue< const char* >("type", pOut);
+        if (ret) {
             return true;
         }
 
@@ -398,14 +399,14 @@ namespace MR {
     }
 
     bool getJMapInfoGroupID(const JMapInfoIter& rIter, s32* pId) {
-        if (!::getJMapInfoArg(rIter, "GroupId", pId)) {
-            return MR::getJMapInfoClippingGroupID(rIter, pId);
+        if (::getJMapInfoArg(rIter, "GroupId", pId)) {
+            return true;
         }
 
-        return true;
+        return MR::getJMapInfoClippingGroupID(rIter, pId);
     }
 
-    bool getJMapInfoClippingGroupID(const JMapInfoIter& rIter, s32* pId) {
+    bool __attribute__((noinline)) getJMapInfoClippingGroupID(const JMapInfoIter& rIter, s32* pId) {
         return ::getJMapInfoArg(rIter, "ClippingGroupId", pId);
     }
 
@@ -437,7 +438,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "SW_A", &id);
+        rIter.getValue< s32 >("SW_A", &id);
         return id != -1;
     }
 
@@ -447,7 +448,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "SW_B", &id);
+        rIter.getValue< s32 >("SW_B", &id);
         return id != -1;
     }
 
@@ -457,7 +458,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "SW_APPEAR", &id);
+        rIter.getValue< s32 >("SW_APPEAR", &id);
         return id != -1;
     }
 
@@ -467,7 +468,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "SW_DEAD", &id);
+        rIter.getValue< s32 >("SW_DEAD", &id);
         return id != -1;
     }
 
@@ -477,7 +478,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "SW_AWAKE", &id);
+        rIter.getValue< s32 >("SW_AWAKE", &id);
         return id != -1;
     }
 
@@ -487,7 +488,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "SW_PARAM", &id);
+        rIter.getValue< s32 >("SW_PARAM", &id);
         return id != -1;
     }
 
@@ -497,7 +498,7 @@ namespace MR {
         }
 
         s32 id = -1;
-        ::getJMapInfoArgNoInit(rIter, "MessageId", &id);
+        rIter.getValue< s32 >("MessageId", &id);
         return id != -1;
     }
 

@@ -16,24 +16,15 @@ public:
     JUTXfb(void*, void*, void*);
     ~JUTXfb();
 
-    void* getDrawingXfb() const {
-        if (mDrawingXfbIndex >= 0) {
-            return mXfbs[mDrawingXfbIndex];
-        }
-        return nullptr;
-    }
+    void* getDrawingXfb() const;
 
     void clearIndex();
     void delXfb(int);
     void initiate(void*, void*, void*, JUTXfb::EXfbNumber);
 
-    s16 getDisplayingXfbIndex() const NO_INLINE {
-        return mDisplayingXfbIndex;
-    }
+    s16 getDisplayingXfbIndex() const;
 
-    static JUTXfb* getManager() NO_INLINE {
-        return sManager;
-    }
+    static JUTXfb* getManager();
 
     static JUTXfb* createManager(void*, void*, void*);
     static void destroyManager();

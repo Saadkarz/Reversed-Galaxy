@@ -51,7 +51,17 @@ typedef union KPADEXStatus {
         f32 ltrigger;
         f32 rtrigger;
     } cl;
+
+    u8 _dummy[80];
 } KPADEXStatus;
+
+typedef struct KPADMplsStatus {
+    Vec vel;
+    Vec angles;
+    Vec dir_x;
+    Vec dir_y;
+    Vec dir_z;
+} KPADMplsStatus;
 
 typedef struct KPADStatus {
     /* 0x00 */ u32 hold;
@@ -75,6 +85,8 @@ typedef struct KPADStatus {
     /* 0x5E */ s8 dpd_valid_fg;
     /* 0x5F */ u8 data_format;
     /* 0x60 */ KPADEXStatus ex_status;
+    /* 0xB0 */ KPADMplsStatus mpls;
+    /* 0xEC */ s32 mpls_err;
 } KPADStatus;
 
 typedef struct KPADUnifiedWpadStatus {
@@ -101,6 +113,7 @@ typedef union {
 } KPADTmpStatus;
 
 typedef void (*KPADControlDpdCallback)(s32 chan, s32 reason);
+typedef void (*KPADConnectCallback)(s32 chan, s32 reason);
 typedef WPADCallback KPADCallback;
 typedef WPADChannel KPADChannel;
 
@@ -180,7 +193,11 @@ typedef struct {
 
 } KPADInsideStatus;
 
+#ifdef __cplusplus
+void KPADInit(void* = 0, u32 = 0);
+#else
 void KPADInit();
+#endif
 
 void KPADSetBtnRepeat(s32, f32, f32);
 void KPADSetSensorHeight(s32, f32);
@@ -188,9 +205,11 @@ void KPADSetAccParam(s32 chan, f32 playRadius, f32 sensitivity);
 void KPADSetPosParam(s32, f32, f32);
 void KPADSetHoriParam(s32, f32, f32);
 void KPADSetDistParam(s32, f32, f32);
+KPADConnectCallback KPADSetConnectCallback(s32 chan, KPADConnectCallback callback);
 
 void KPADReset(void);
 s32 KPADRead(s32, KPADStatus[], u32);
+s32 KPADReadEx(s32, KPADStatus*, u32, s32*);
 
 extern KPADInsideStatus inside_kpads[];
 

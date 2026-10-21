@@ -147,10 +147,7 @@ u16 DrawSyncManager::setCallback(u32 index, u16 count, DrawSyncCallback* pCallba
 void DrawSyncManager::reset(bool preparing) {
     if (preparing) {
         mPreparingReset = true;
-        return;
-    }
-
-    if (mPreparingReset) {
+    } else if (mPreparingReset) {
         mPreparingReset = false;
         mAborted = true;
         GXSetDrawSyncCallback(drawSyncCallback);
@@ -192,3 +189,11 @@ void DrawSyncManager::pushBreakPoint() {
         OSSendMessage(&mQueue, pWrite, OS_MESSAGE_BLOCK);
     }
 }
+
+void DrawSyncManager::clearCallback() {
+    mHighTokenCount = 0;
+    for (s32 i = 3; i < 5; i++) {
+        mTokenRanges[i].mCallback = nullptr;
+    }
+}
+

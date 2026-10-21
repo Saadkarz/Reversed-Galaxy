@@ -331,8 +331,8 @@ namespace JGeometry {
             const register Vec* v_a = &vec;
             register Vec* v_b = this;
 
-            register f32 b_x;
             register f32 a_x;
+            register f32 b_x;
 
             asm {
                 psq_l a_x, 0(v_a), 0, 0
@@ -368,6 +368,12 @@ namespace JGeometry {
         TVec3(const TVec3< f32 >& vec);
 #endif
 
+        TVec3(f32 _x, f32 _y, f32 _z) {
+            x = _x;
+            y = _y;
+            z = _z;
+        }
+
         template < typename T >
         TVec3(T _x, T _y, T _z) {
             x = _x;
@@ -381,8 +387,10 @@ namespace JGeometry {
             z = xz;
         }
 
-        TVec3(f32 val) {
-            set(val, val, val);
+        TVec3(f32 val) NO_INLINE {
+            x = val;
+            y = val;
+            z = val;
         }
 
         template < typename T >
@@ -422,6 +430,23 @@ namespace JGeometry {
             stfs b_x, 8(v_b)
             }
             ;
+#endif
+        }
+
+        inline void setPS(const TVec3< f32 >& vec) {
+#ifdef __MWERKS__
+            const register Vec* v_a = &vec;
+            register Vec* v_b = this;
+
+            register f32 b_x;
+            register f32 a_x;
+
+            asm {
+                psq_l a_x, 0(v_a), 0, 0
+                lfs b_x, 8(v_a)
+                psq_st a_x, 0(v_b), 0, 0
+                stfs b_x, 8(v_b)
+            }
 #endif
         }
 

@@ -6,7 +6,7 @@
 
 namespace nw4r {
     namespace db {
-        static ConsoleHandle sAssertionConsole = NULL;
+        ConsoleHandle sAssertionConsole;
 
         static void Assertion_Printf_(const char* fmt, ...) {
             va_list vlist;

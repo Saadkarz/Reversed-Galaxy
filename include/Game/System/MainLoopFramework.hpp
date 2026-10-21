@@ -11,9 +11,10 @@ class MainLoopFrameworkAlarm : public OSAlarm {
 public:
     MainLoopFrameworkAlarm() : mLink(this) {
     }
+    ~MainLoopFrameworkAlarm();
 
     /* 0x30 */ u32 _30;
-    /* 0x34 */ MR::BothDirLink< MainLoopFrameworkAlarm > mLink;
+    /* 0x34 */ MR::BothDirPtrLink mLink;
 
     static MR::BothDirList< MainLoopFrameworkAlarm > sList;
 };

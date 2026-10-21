@@ -1,23 +1,24 @@
 #include "JSystem/JAudio2/JASCallback.hpp"
-#include "JSystem/JAudio2/JASTrack.hpp"
-#include "JSystem/JAudio2/JASCriticalSection.hpp"
+#include <revolution/os/OSInterrupt.h>
 
 bool JASCallbackMgr::regist(JASCallback* pCallback, void* pArgument) {
-    JASCriticalSection criticalSection;
+    BOOL status = OSDisableInterrupts();
     for (s32 i = 0; i < JASCALLBACK_MAX_CALLBACKS; i++) {
         if (mCallbacks[i].mCallback == nullptr) {
             mCallbacks[i].mCallback = pCallback;
             mCallbacks[i].mArg = pArgument;
+            OSRestoreInterrupts(status);
             return true;
         }
     }
 
+    OSRestoreInterrupts(status);
     return false;
 }
 
 s32 JASCallbackMgr::reject(JASCallback* pCallback, void* pArgument) {
     s32 rejectNum = 0;
-    JASCriticalSection criticalSection;
+    BOOL status = OSDisableInterrupts();
     for (s32 i = 0; i < JASCALLBACK_MAX_CALLBACKS; i++) {
         if (mCallbacks[i].mCallback == pCallback && mCallbacks[i].mArg == pArgument) {
             mCallbacks[i].mCallback = nullptr;
@@ -26,6 +27,7 @@ s32 JASCallbackMgr::reject(JASCallback* pCallback, void* pArgument) {
         }
     }
 
+    OSRestoreInterrupts(status);
     return rejectNum;
 }
 

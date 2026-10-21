@@ -140,7 +140,7 @@ void gki_buffer_init(void)
 	p_cb->curr_total_no_of_pools = GKI_NUM_FIXED_BUF_POOLS;
 }
 
-UINT8 GKI_set_pool_permission(UINT8 pool_id, UINT8 permission)
+static inline UINT8 GKI_set_pool_permission(UINT8 pool_id, UINT8 permission)
 {
 	tGKI_COM_CB *p_cb = &gki_cb.com;
 
@@ -306,6 +306,7 @@ void *GKI_getpoolbuf(UINT8 pool_id)
 	return GKI_getbuf(p_cb->freeq[pool_id].size);
 }
 
+#if 0
 void *GKI_igetpoolbuf(UINT8 pool_id)
 {
 	FREE_QUEUE_T *Q;
@@ -336,6 +337,20 @@ void *GKI_igetpoolbuf(UINT8 pool_id)
 	}
 
 	return NULL;
+}
+#endif
+
+static inline BOOLEAN gki_chk_buf_damage(void *p_buf)
+{
+	UINT32 *magic = (UINT32 *)((UINT8 *)p_buf + GKI_get_buf_size(p_buf));
+
+	if ((UINT32)magic & 1)
+		return TRUE;
+
+	if (*magic == MAGIC_NO)
+		return FALSE;
+
+	return TRUE;
 }
 
 void GKI_freebuf(void *p_buf)
@@ -395,6 +410,7 @@ UINT16 GKI_get_buf_size(void *p_buf)
 		return 0;
 }
 
+#if 0
 UINT16 GKI_poolfreecount(UINT8 pool_id)
 {
 	FREE_QUEUE_T *Q;
@@ -407,18 +423,6 @@ UINT16 GKI_poolfreecount(UINT8 pool_id)
 	return Q->total - Q->cur_cnt;
 }
 
-BOOLEAN gki_chk_buf_damage(void *p_buf)
-{
-	UINT32 *magic = (UINT32 *)((UINT8 *)p_buf + GKI_get_buf_size(p_buf));
-
-	if ((UINT32)magic & 1)
-		return TRUE;
-
-	if (*magic == MAGIC_NO)
-		return FALSE;
-
-	return TRUE;
-}
 
 void GKI_change_buf_owner(void *p_buf, UINT8 task_id)
 {
@@ -426,6 +430,7 @@ void GKI_change_buf_owner(void *p_buf, UINT8 task_id)
 
 	p_hdr->task_id = task_id;
 }
+#endif
 
 void GKI_send_msg(UINT8 task_id, UINT8 mbox, void *msg)
 {
@@ -675,31 +680,7 @@ BOOLEAN GKI_queue_is_empty(BUFFER_Q *p_q)
 	return p_q->count == 0;
 }
 
-void *GKI_find_buf_start(void *p_user_area)
-{
-	UINT16 xx;
-	UINT16 size;
-	UINT32 yy;
-	tGKI_COM_CB *p_cb = &gki_cb.com;
-	UINT8 *p_ua = p_user_area;
-
-	for (xx = 0; xx < GKI_NUM_TOTAL_BUF_POOLS; ++xx)
-	{
-		if (p_ua > p_cb->pool_start[xx] && p_ua < p_cb->pool_end[xx])
-		{
-			yy = p_ua - p_cb->pool_start[xx];
-			size = p_cb->pool_size[xx];
-
-			yy = yy / size * size;
-
-			return p_cb->pool_start[xx] + yy + sizeof(BUFFER_HDR_T);
-		}
-	}
-
-	GKI_exception(GKI_ERROR_BUF_SIZE_ZERO, "GKI_get_buf_start:: bad addr");
-
-	return NULL;
-}
+char gki_find_buf_start_str[] = "GKI_get_buf_start:: bad addr";
 
 UINT8 GKI_create_pool(UINT16 size, UINT16 count, UINT8 permission,
                       void *p_mem_pool)

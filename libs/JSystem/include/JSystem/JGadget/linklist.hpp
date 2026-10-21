@@ -113,11 +113,15 @@ namespace JGadget {
 
         ~TNodeLinkList();
 
-        void Initialize_() JGADGET_LINKLIST_NOINLINE {
+#ifdef JGADGET_LINKLIST_IN_CPP
+        void Initialize_();
+#else
+        void Initialize_() {
             mLen = 0;
             mEnd.mNext = &mEnd;
             mEnd.mPrev = &mEnd;
         }
+#endif
 
         iterator begin() {
             return iterator(mEnd.getNext());

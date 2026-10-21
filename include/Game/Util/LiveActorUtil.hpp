@@ -26,6 +26,7 @@ class ResTIMG;
 class ResourceHolder;
 class TriangleFilterBase;
 class ProjmapEffectMtxSetter;
+class XjointTransform;
 
 namespace MR {
     enum CollisionScaleType { CollisionScaleType_AutoEqualScale, CollisionScaleType_NotUsingScale, CollisionScaleType_Default };
@@ -102,7 +103,7 @@ namespace MR {
     // changeModelDataTexAll
 
     void initJointTransform(const LiveActor* pActor);
-    // getJointTransform
+    XjointTransform* getJointTransform(const LiveActor* pActor, const char* pJointName);
 
     f32 getBckFrame(const LiveActor* pActor);
     f32 getBtkFrame(const LiveActor* pActor);
@@ -221,6 +222,7 @@ namespace MR {
     void onCalcAnim(LiveActor* pActor);
     void offCalcAnim(LiveActor* pActor);
     bool isNoCalcView(const LiveActor* pActor);
+    void updateMaterial(LiveActor* pActor);
     bool isNoEntryDrawBuffer(const LiveActor* pActor);
     bool isNoBind(const LiveActor* pActor);
     void onBind(LiveActor* pActor);
@@ -265,7 +267,7 @@ namespace MR {
     CollisionParts* createCollisionPartsFromLiveActor(LiveActor* pActor, const char* pCollisionName, HitSensor* pBodySensor, MtxPtr pMtx,
                                                       CollisionScaleType collisionScaleType);
     CollisionParts* createCollisionPartsFromResourceHolder(ResourceHolder* pResourceHolder, const char* pCollisionName, HitSensor* pBodySensor,
-                                                           const TMtx34f& rMtx, CollisionScaleType collisionScaleType);
+                                                           const TPos3f& rMtx, MtxPtr pMtx, CollisionScaleType collisionScaleType);
     CollisionParts* createDashYoshiStepCollisionPartsFromResourceHolder(ResourceHolder* pResourceHolder, const char* pCollisionName,
                                                                         HitSensor* pBodySensor, MtxPtr pMtx, CollisionScaleType collisionScaleType);
     CollisionParts* tryCreateCollisionMoveLimit(LiveActor* pActor, HitSensor* pBodySensor);

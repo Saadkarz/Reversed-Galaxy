@@ -177,12 +177,7 @@ namespace JGeometry {
 
     template < typename T >
     struct TMatrix34 : public T {
-    public:
-        void identity() NO_INLINE {
-            this->mMtx[1][0] = this->mMtx[2][0] = this->mMtx[0][1] = this->mMtx[2][1] = this->mMtx[0][2] = this->mMtx[1][2] = this->mMtx[0][3] =
-                this->mMtx[1][3] = this->mMtx[2][3] = 0.0f;
-            this->mMtx[0][0] = this->mMtx[1][1] = this->mMtx[2][2] = 1.0f;
-        }
+        void identity();
 
         void concat(const T& rSrcA, const T& rSrcB) NO_INLINE {
             this->set(rSrcA(0, 2) * rSrcB(2, 0) + (rSrcA(0, 0) * rSrcB(0, 0) + rSrcA(0, 1) * rSrcB(1, 0)),
@@ -220,48 +215,7 @@ namespace JGeometry {
                    (*this)(0, 2) * ((*this)(1, 0) * (*this)(2, 1) - (*this)(1, 1) * (*this)(2, 0));
         }
 
-        bool invert(const TMatrix34< T >& rSrc) NO_INLINE {
-            f32 determinant = rSrc.determinant33();
-
-            if (determinant <= TUtil< f32 >::epsilon() && determinant >= -TUtil< f32 >::epsilon()) {
-                return false;
-            }
-
-            SMatrix33R< f32 > inverse;
-            f32 scale = TUtil< f32 >::invert(determinant);
-
-            TVec3f translation;
-            translation.x = rSrc(0, 3);
-            translation.x = -translation.x;
-
-            inverse.set(scale * (rSrc(1, 1) * rSrc(2, 2) - rSrc(1, 2) * rSrc(2, 1)), scale * -(rSrc(0, 1) * rSrc(2, 2) - rSrc(0, 2) * rSrc(2, 1)),
-                        scale * (rSrc(0, 1) * rSrc(1, 2) - rSrc(0, 2) * rSrc(1, 1)), scale * -(rSrc(1, 0) * rSrc(2, 2) - rSrc(1, 2) * rSrc(2, 0)),
-                        scale * (rSrc(0, 0) * rSrc(2, 2) - rSrc(0, 2) * rSrc(2, 0)), scale * -(rSrc(0, 0) * rSrc(1, 2) - rSrc(0, 2) * rSrc(1, 0)),
-                        scale * (rSrc(1, 0) * rSrc(2, 1) - rSrc(1, 1) * rSrc(2, 0)), scale * -(rSrc(0, 0) * rSrc(2, 1) - rSrc(0, 1) * rSrc(2, 0)),
-                        scale * (rSrc(0, 0) * rSrc(1, 1) - rSrc(0, 1) * rSrc(1, 0)));
-
-            translation.y = rSrc(1, 3);
-            translation.y = -translation.y;
-            translation.z = rSrc(2, 3);
-            translation.z = -translation.z;
-
-            translation.set< f32 >(translation.x * inverse.mMtx[0][0] + translation.y * inverse.mMtx[1][0] + translation.z * inverse.mMtx[2][0],
-                                   translation.x * inverse.mMtx[0][1] + translation.y * inverse.mMtx[1][1] + translation.z * inverse.mMtx[2][1],
-                                   translation.x * inverse.mMtx[0][2] + translation.y * inverse.mMtx[1][2] + translation.z * inverse.mMtx[2][2]);
-            this->mMtx[0][0] = inverse.get(0, 0);
-            this->mMtx[1][0] = inverse.get(1, 0);
-            this->mMtx[2][0] = inverse.get(2, 0);
-            this->mMtx[0][1] = inverse.get(0, 1);
-            this->mMtx[1][1] = inverse.get(1, 1);
-            this->mMtx[2][1] = inverse.get(2, 1);
-            this->mMtx[0][2] = inverse.get(0, 2);
-            this->mMtx[1][2] = inverse.get(1, 2);
-            this->mMtx[2][2] = inverse.get(2, 2);
-            this->mMtx[0][3] = translation.x;
-            this->mMtx[1][3] = translation.y;
-            this->mMtx[2][3] = translation.z;
-            return true;
-        }
+        bool invert(const TMatrix34< T >& rSrc);
 
         void mult(const TVec3f& rSrc, TVec3f& rDest) const NO_INLINE {
             rDest.set< f32 >((*this)(0, 3) + (rSrc.z * (*this)(0, 2) + (rSrc.x * (*this)(0, 0) + rSrc.y * (*this)(0, 1))),

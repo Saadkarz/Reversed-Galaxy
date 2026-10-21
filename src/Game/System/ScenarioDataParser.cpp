@@ -1,15 +1,12 @@
 #include "Game/System/ScenarioDataParser.hpp"
 #include "Game/System/GalaxyStatusAccessor.hpp"
+#include "Game/System/GameSystem.hpp"
+#include "Game/System/GameSystemSceneController.hpp"
+#include "Game/Util/SingletonHolder.hpp"
 #include "Game/Util/FileUtil.hpp"
 #include "Game/Util/JMapInfo.hpp"
 #include "Game/Util/SceneUtil.hpp"
 #include <cstring>
-
-void ScenarioDataParser_DUMMY() {
-    s32 a;
-    JMapInfoIter iter(nullptr, 0);
-    iter.getValue< s32 >(nullptr, &a);
-}
 
 ScenarioData::ScenarioData(const char* pFilePath) : mGalaxyName(), mScenarioData(), mZoneList(), mGalaxyInfo() {
     char fileName[64];
@@ -54,7 +51,7 @@ s32 ScenarioData::getNormalPowerStarNum() const {
 s32 ScenarioData::getPowerStarNum() const {
     s32 count = 0;
     for (s32 scenarioNo = 1; scenarioNo <= mScenarioData->getNumEntries(); scenarioNo++) {
-        u32 powerStarId = 0;
+        s32 powerStarId = 0;
         getValueU32("PowerStarId", scenarioNo, &powerStarId);
         if (powerStarId != 0) {
             count++;
@@ -73,8 +70,8 @@ bool ScenarioData::getValueString(const char* pKey, s32 idx, const char** pOut) 
     return str;
 }
 
-bool ScenarioData::getValueU32(const char* pKey, s32 idx, u32* pOut) const {
-    return getScenarioDataIter(idx).getValue< u32 >(pKey, pOut);
+bool ScenarioData::getValueU32(const char* pKey, s32 idx, s32* pOut) const {
+    return getScenarioDataIter(idx).getValue< u32 >(pKey, (u32*)pOut);
 }
 
 u32 ScenarioData::getScenarioLayers(const char* pKey, s32 idx) const {
@@ -124,6 +121,9 @@ u32 ScenarioData::getWorldNo() const {
     return worldNo;
 }
 
+template <>
+const bool JMapInfo::getValue< s32 >(int entryIndex, const char* pKey, s32* pValueOut) const;
+
 JMapInfoIter ScenarioData::getScenarioDataIter(s32 scenarioNo) const {
     JMapInfoIter iter = mScenarioData->findElement< s32 >("ScenarioNo", scenarioNo, 0);
     return iter;
@@ -131,7 +131,7 @@ JMapInfoIter ScenarioData::getScenarioDataIter(s32 scenarioNo) const {
 
 bool ScenarioData::getScenarioString(const char* pName, s32 idx, const char** pOut) const {
     JMapInfoIter iter = getScenarioDataIter(idx);
-    return iter.getValue< const char* >(pName, pOut);
+    return iter.mInfo->getValue< const char* >(iter.mIndex, pName, pOut);
 }
 
 bool ScenarioDataIter::isEnd() const {
@@ -212,7 +212,12 @@ GalaxyStatusAccessor ScenarioDataParser::makeAccessor(const char* pName) const {
 }
 
 namespace ScenarioDataFunction {
-    // ScenarioDataFunction::getScenarioDataParser
+#pragma push
+#pragma dont_inline on
+    ScenarioDataParser* getScenarioDataParser() {
+        return SingletonHolder<GameSystem>::sInstance->mSceneController->mScenarioDataParser;
+    }
+#pragma pop
 
     bool getCurrentCommonLayers(const char* pName) {
         const char* stageName = MR::getCurrentStageName();
@@ -232,3 +237,7 @@ namespace MR {
     }
 
 };  // namespace MR
+
+ScenarioDataParser::~ScenarioDataParser() {
+}
+

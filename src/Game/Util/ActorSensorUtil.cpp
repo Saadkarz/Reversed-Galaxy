@@ -237,7 +237,7 @@ namespace MR {
     }
 
     void setSensorPos(HitSensor* pSensor, const TVec3f& rPos) {
-        pSensor->mOffset.set< f32 >(rPos);
+        pSensor->mPosition.set< f32 >(rPos);
     }
 
     void setSensorPos(LiveActor* pActor, const char* pName, const TVec3f& rPos) {
@@ -415,11 +415,11 @@ namespace MR {
     }
 
     const TVec3f* getSensorPos(const HitSensor* pSensor) {
-        return &pSensor->mOffset;
+        return &pSensor->mPosition;
     }
 
     const TVec3f* getSensorPos(const LiveActor* pActor, const char* pName) {
-        return &pActor->getSensor(pName)->mOffset;
+        return &pActor->getSensor(pName)->mPosition;
     }
 
     /* ... */

@@ -14,16 +14,6 @@ JAISoundHandle* JAISoundHandles::getHandleSoundID(JAISoundID id) {
     return nullptr;
 }
 
-JAISoundHandle* JAISoundHandles::getFreeHandle() {
-    for (int i = 0; i < mNumHandles; i++) {
-        if (!mHandles[i].isSoundAttached()) {
-            return &mHandles[i];
-        }
-    }
-
-    return nullptr;
-}
-
 JAISoundHandle* JAISoundHandles::getHandleUserData(u32 addr) {
     for (int i = 0; i < mNumHandles; i++) {
         if (mHandles[i].isSoundAttached()) {
@@ -34,6 +24,16 @@ JAISoundHandle* JAISoundHandles::getHandleUserData(u32 addr) {
     }
 
     return nullptr;
+}
+
+bool JAISoundHandles::isActive() const {
+    for (int i = 0; i < mNumHandles; i++) {
+        if (mHandles[i].isSoundAttached()) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 void JAISoundHandles::setPos(const TVec3f& pos) {

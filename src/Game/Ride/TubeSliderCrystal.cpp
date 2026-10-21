@@ -9,6 +9,10 @@
 #include "Game/Util/EventUtil.hpp"
 #include "Game/Util/LiveActorUtil.hpp"
 
+inline void TubeSliderCrystal::exeWait() {
+    MR::isFirstStep(this);
+}
+
 namespace NrvTubeSliderCrystal {
     NEW_NERVE(TubeSliderCrystalNrvWait, TubeSliderCrystal, Wait);
     NEW_NERVE(TubeSliderCrystalNrvBreak, TubeSliderCrystal, Break);
@@ -32,10 +36,6 @@ void TubeSliderCrystal::calcAndSetBaseMtx() {
     MR::calcAndSetBaseTRMtxFromGravityAndZAxis(this, _90);
 }
 
-void TubeSliderCrystal::exeWait() {
-    if (MR::isFirstStep(this)) {
-    }
-}
 void TubeSliderCrystal::exeBreak() {
     if (MR::isFirstStep(this)) {
         MR::addStarPiece(8);

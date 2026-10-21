@@ -3,6 +3,8 @@
 #include <JSystem/JGeometry/TVec.hpp>
 #include <revolution.h>
 
+class WPadReadDataInfo;
+
 namespace MR {
     // TODO: Needs TVec2f
     // void getCorePadPointingPosBasedOnScreen(TVec2f*, s32);
@@ -76,6 +78,8 @@ namespace MR {
     u32 getWPadMaxCount();
     s32 isConnectedWPad(s32);
     s32 isOperatingWPad(s32);
+    bool isPadRecorderReading();
+    void readPadData(int, WPadReadDataInfo*);
 };  // namespace MR
 
 class WPadRumble;

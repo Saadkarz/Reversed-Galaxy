@@ -8,6 +8,7 @@ namespace MR {
     /// @param[in] considerLanguage Determines if the file is localized.
     /// @return `true` if the file exists within the disc file system, `false` otherwise.
     bool isFileExist(const char* pFilePath, bool considerLanguage) NO_INLINE;
+    bool isExistFile(const char* pFilePath, bool considerLanguage);
 
     /// @brief Returns the size of a file, in bytes.
     /// @param[in] pFilePath A pointer to the null-terminated absolute path of the file.
@@ -19,6 +20,14 @@ namespace MR {
     /// @param[in] pFilePath A pointer to the null-terminated absolute path of the archive file.
     /// @return A pointer to the mounted archive.
     JKRMemArchive* receiveArchive(const char* pFilePath);
+
+    JKRMemArchive* mountArchive(const char* pFilePath, JKRHeap* pHeap);
+    JKRMemArchive* mountArchive(const char* pFilePath, JKRHeap* pHeap, bool);
+    void* loadToMainRAM(const char* pFilePath, u8* pDst, JKRHeap* pHeap, int allocDir);
+    void getMountedArchiveAndHeap(const char* pFilePath, JKRArchive** ppArchive, JKRHeap** ppHeap);
+    bool isMountedArchive(const char* pFilePath);
+    bool makeObjectArchiveFileName(char* pDst, u32 size, const char* pFileName);
+    bool makeLayoutArchiveFileName(char* pDst, u32 size, const char* pFileName);
 
     /// @brief Creates an archive from existing memory data.
     /// @param[in] pArcData A pointer to the archive file data.

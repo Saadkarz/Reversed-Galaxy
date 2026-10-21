@@ -366,6 +366,26 @@ NWC24Err NWC24SetMsgLedPattern(NWC24MsgObj* pMsg, u16 pattern) {
     return NWC24_OK;
 }
 
+NWC24Err fn_8055E934(NWC24MsgObj* pMsg, u16 pattern) {
+    u8 p = pattern;
+    if (pattern == 1) {
+        return NWC24_ERR_INVALID_VALUE;
+    }
+    switch (p) {
+    case 1:
+    case 6:
+    case 7:
+    case 24:
+    case 25:
+    case 26:
+    case 27:
+        break;
+    default:
+        return NWC24_ERR_INVALID_VALUE;
+    }
+    return NWC24SetMsgLedPattern(pMsg, pattern);
+}
+
 NWC24Err NWC24GetMsgSize(const NWC24MsgObj* pMsg, u32* size) {
     const NWC24iMsgObj* obj = (const NWC24iMsgObj*)pMsg;
     if (!(obj->flags & NWC24_MSGOBJ_DELIVERING)) {

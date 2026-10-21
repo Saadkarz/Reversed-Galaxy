@@ -91,7 +91,7 @@ BOOLEAN BTM_SecDeleteDevice(BD_ADDR bd_addr) {
     if ((p_dev_rec = btm_find_dev(bd_addr)) == NULL)
         return FALSE;
 
-    btm_sec_free_dev(p_dev_rec);
+    p_dev_rec->sec_flags = 0;
 
     BTM_DeleteStoredLinkKey(bd_addr, NULL);
 
@@ -142,9 +142,11 @@ tBTM_SEC_DEV_REC* btm_sec_alloc_dev(BD_ADDR bd_addr) {
     return p_dev_rec;
 }
 
+#if 0
 void btm_sec_free_dev(tBTM_SEC_DEV_REC* p_dev_rec) {
     p_dev_rec->sec_flags = 0;
 }
+#endif
 
 tBTM_SEC_DEV_REC* btm_find_dev_by_handle(tHCI_HANDLE handle) {
     tBTM_SEC_DEV_REC* p_dev_rec = btm_cb.sec_dev_rec;

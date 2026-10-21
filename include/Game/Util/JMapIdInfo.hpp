@@ -6,19 +6,26 @@ class JMapInfoIter;
 
 class JMapIdInfo {
 public:
-    JMapIdInfo() {
+    inline JMapIdInfo() : _0(-1), mZoneID(-1) {
     }
 
-    JMapIdInfo(const JMapIdInfo& rInfo) __attribute__((forceinline)) {
-        _0 = rInfo._0;
-        mZoneID = rInfo.mZoneID;
-    }
+    
 
+    JMapIdInfo(s32, s32);
     JMapIdInfo(s32, const JMapInfoIter&);
 
-    void operator=(const JMapIdInfo& rhs) {
-        _0 = rhs._0;
-        mZoneID = rhs.mZoneID;
+    void initialize(s32, const JMapInfoIter&);
+
+    JMapIdInfo& operator=(const JMapIdInfo& rhs);
+
+    inline bool operator==(const JMapIdInfo& rOther) const {
+        bool ret = false;
+
+        if (_0 == rOther._0 && mZoneID == rOther.mZoneID) {
+            ret = true;
+        }
+
+        return ret;
     }
 
     int getZoneID() const {
@@ -30,6 +37,6 @@ public:
 };
 
 namespace MR {
-    JMapIdInfo& createJMapIdInfoFromGroupId(const JMapInfoIter&);
-    JMapIdInfo& createJMapIdInfoFromClippingGroupId(const JMapInfoIter&);
+    JMapIdInfo createJMapIdInfoFromGroupId(const JMapInfoIter&);
+    JMapIdInfo createJMapIdInfoFromClippingGroupId(const JMapInfoIter&);
 };  // namespace MR

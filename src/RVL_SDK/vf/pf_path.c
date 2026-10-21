@@ -121,7 +121,7 @@ static u16 VFiPFPATH_GetNextCharOfShortName(struct PF_FILE_NAME_ITER* p_name) {
         wc = ((u8)wc << 8) + (u8)c;
     }
 
-    wc = (wc >= 0x61 && wc <= 0x7A) ? wc - 0x20 : wc;
+    wc = (wc >= 0x61 && !(wc > 0x7A)) ? wc - 0x20 : wc;
     return wc;
 }
 
@@ -136,7 +136,7 @@ static u16 VFiPFPATH_GetNextCharOfLongName(struct PF_FILE_NAME_ITER* p_name) {
     wc = *(u16*)(p_name->buf + p_name->index);
     p_name->index += 2;
 
-    wc = (wc >= 0x61 && wc <= 0x7A) ? wc - 0x20 : wc;
+    wc = (wc >= 0x61 && !(wc > 0x7A)) ? wc - 0x20 : wc;
 
     if (VFiPFPATH_UNI_ConvertFWchar(wc, &wchar) == 1) {
         wc = wchar;
@@ -153,9 +153,7 @@ static u16 VFiPFPATH_GetNextCharOfFileName(struct PF_FILE_NAME_ITER* p_name) {
 }
 
 u16 VFiPFPATH_GetNextCharOfPattern(struct PF_STR* p_pattern, u32 is_long_name) {
-    u16 twc;
-    u16 wc;
-    u16 tmp_wc;
+    u16 twc, wc, tmp_wc;
     s8 pattern[3];
 
     if (p_pattern->code_mode == 1) {
@@ -190,6 +188,7 @@ u16 VFiPFPATH_GetNextCharOfPattern(struct PF_STR* p_pattern, u32 is_long_name) {
 
         if (is_long_name == 0) {
             VFipf_vol_set.codeset.unicode2oem(&twc, (s8*)&wc);
+            wc = (u16)wc;
             if (VFipf_vol_set.codeset.is_oem_mb_char(wc >> 8, 1) != 0) {
                 twc = wc;
             } else {
@@ -198,7 +197,7 @@ u16 VFiPFPATH_GetNextCharOfPattern(struct PF_STR* p_pattern, u32 is_long_name) {
         }
     }
 
-    twc = (twc >= 0x61 && twc <= 0x7A) ? twc - 0x20 : twc;
+    twc = (twc >= 0x61 && (twc <= 0x7A ? 1 : 0)) ? twc - 0x20 : twc;
 
     if (is_long_name == 1) {
         if (VFiPFPATH_UNI_ConvertFWchar(twc, &tmp_wc) == 1) {

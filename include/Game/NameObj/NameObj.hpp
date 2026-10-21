@@ -19,6 +19,7 @@ public:
 
     void initWithoutIter();
     void setName(const char*);
+    const char* getName() const { return mName; }
     void setLinkedInfo(const JMapInfoIter&);
     void executeMovement();
     void requestSuspend();

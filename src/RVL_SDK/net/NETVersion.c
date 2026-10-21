@@ -1,4 +1,4 @@
-char* NETRexPPCVersionPrintableString = "<< REX-PPC 2.1.255.1 (RevoEX-2.1plus) REL 080313085908 >>";
+char* NETRexPPCVersionPrintableString = "<< REX-PPC 2.4.255.0 (RevoEX-2.4) REL 090609111526 >>";
 
 char* NETGetRexPPCVersionPrintable() {
     return NETRexPPCVersionPrintableString;

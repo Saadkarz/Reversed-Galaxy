@@ -21,7 +21,9 @@
  * local function declarations
  */
 
+#if 0
 static void btm_disc_compl_cb(UINT16 result);
+#endif
 
 /*******************************************************************************
  * functions
@@ -61,6 +63,7 @@ void btm_discovery_timeout(void) {
     /* ... */
 }
 
+#if 0
 static void btm_disc_compl_cb(UINT16 result) {
     tBTM_CMPL_CB* p_cb;
 
@@ -140,3 +143,4 @@ tSDP_DISC_REC* BTM_FindAttribute(UINT16 attr_id, tSDP_DISC_REC* p_start_rec) {
 tSDP_DISC_REC* BTM_FindService(UINT16 service_uuid, tSDP_DISC_REC* p_start_rec) {
     return SDP_FindServiceInDb(btm_cb.p_btm_ddb, service_uuid, p_start_rec);
 }
+#endif

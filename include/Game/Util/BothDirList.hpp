@@ -40,9 +40,6 @@ namespace MR {
     public:
         BothDirLink(T* pValue) : BothDirPtrLink(pValue) {
         }
-
-        ~BothDirLink() {
-        }
     };
 
     template < class T >

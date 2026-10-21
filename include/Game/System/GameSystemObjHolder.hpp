@@ -27,6 +27,7 @@ public:
     void initMessageResource();
     void init();
     void createAudioSystem();
+    void fn_804B8EF0();
     void update();
     void updateAudioSystem();
     void clearRequestFileInfo(bool);

@@ -12,6 +12,11 @@ public:
     s32 getPowerStarNum() const;
 
     s32 getWorldNo() const;
+    bool isGreenStar(s32) const;
 
     const ScenarioData* mScenarioData;  // 0x00
+};
+
+namespace MR {
+    GalaxyStatusAccessor makeGalaxyStatusAccessor(const char*);
 };

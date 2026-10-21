@@ -6,6 +6,7 @@
 #include <revolution/os/OSMutex.h>
 
 static OSMutex sMutex;
+u8 sPadding[12];
 static char* sBuffer;
 static int sLineMax;
 static int sLineCount;

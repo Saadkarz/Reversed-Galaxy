@@ -22,10 +22,9 @@ s32 RailGraph::addNode(const TVec3f& rVec) {
     node._0.x = rVec.x;
     node._0.y = rVec.y;
     node._0.z = rVec.z;
-    s32 cnt = _8;
-    _8 = cnt + 1;
+    s32 idx = _8++;
 
-    RailGraphNode* nodes = &mNodes[cnt];
+    RailGraphNode* nodes = &mNodes[idx];
     nodes->_0 = node._0;
     nodes->_C = node._C;
     nodes->_10 = node._10;

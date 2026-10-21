@@ -183,10 +183,8 @@ static inline void VFiPFCACHE_MovePageToTail(PF_CACHE_PAGE** pp_head, PF_CACHE_P
 }
 
 s32 VFiPFCACHE_DoAllocatePage(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_head, u32 sector, PF_CACHE_PAGE** pp_page, u32* p_is_hit) {
-    int do_flush;
     int err;
 
-    do_flush = 0;
     *pp_page = VFiPFCACHE_SearchForPage(p_vol, *pp_head, sector);
     if (*pp_page) {
         *p_is_hit = 1;
@@ -197,19 +195,12 @@ s32 VFiPFCACHE_DoAllocatePage(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_head, u32 sec
                 *pp_page = 0;
                 return 30;
             }
-            if (*pp_page && ((*pp_page)->stat & 2) != 0 && (*pp_page)->sector != -1) {
-                do_flush = 1;
-            }
             err = VFiPFCACHE_FlushPageIfNeeded(p_vol, *pp_page);
             if (err) {
                 *pp_page = 0;
                 return err;
             }
             VFiPFCACHE_ClearPageModified(*pp_page);
-            if (do_flush) {
-                if (dCommon_FlushFromVol(p_vol, 1))
-                    return 17;
-            }
         }
         if (sector != -1) {
             if (((*pp_page)->stat & 4) != 0) {
@@ -303,9 +294,7 @@ s32 VFiPFCACHE_DoReadPageAndFlushIfNeeded(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_h
     int v10;
     u32 num_success;
     u32 is_hit;
-    s32 do_flush;
 
-    do_flush = 1;
     err = VFiPFCACHE_DoAllocatePage(p_vol, pp_head, sector, pp_page, &is_hit);
     if (err) {
         return err;
@@ -329,16 +318,11 @@ s32 VFiPFCACHE_DoReadPageAndFlushIfNeeded(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_h
 
     } else {
         if (set_sig && ((*pp_page)->stat & 2) != 0 && (p_vol->cache.mode & 2) != 0 && (*pp_page)->signature != p_vol->cache.signature) {
-            if (*pp_page && ((*pp_page)->stat & 2) != 0 && (*pp_page)->sector != -1) {
-                do_flush = 1;
-            }
             err = VFiPFCACHE_FlushPageIfNeeded(p_vol, *pp_page);
             if (err) {
                 *pp_page = 0;
                 return err;
             }
-            if (do_flush && dCommon_FlushFromVol(p_vol, 1))
-                return 17;
         }
     }
     return 0;
@@ -387,11 +371,9 @@ s32 VFiPFCACHE_DoReadNumSector(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_head, u8* p_
     return 0;
 }
 
-s32 VFiPFCACHE_DoWritePage(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_head, PF_CACHE_PAGE* p_page, u32 set_sig) {
-    int do_flush;
-    int err;
+static inline s32 VFiPFCACHE_DoWritePage(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_head, PF_CACHE_PAGE* p_page, u32 set_sig) {
+    s32 err;
 
-    do_flush = 0;
     VFiPFCACHE_MovePageToHead(pp_head, p_page);
 
     if (set_sig) {
@@ -401,18 +383,10 @@ s32 VFiPFCACHE_DoWritePage(PF_VOLUME* p_vol, PF_CACHE_PAGE** pp_head, PF_CACHE_P
     }
 
     if ((p_vol->cache.mode & 1) != 0 || ((p_vol->cache.mode & 4) != 0 && (p_page->stat & 4) != 0)) {
-        if (p_page && (p_page->stat & 2) != 0 && p_page->sector != -1) {
-            do_flush = 1;
-        }
-
         err = VFiPFCACHE_FlushPageIfNeeded(p_vol, p_page);
 
         if (err) {
             return err;
-        }
-
-        if (do_flush && dCommon_FlushFromVol(p_vol, 1)) {
-            return 17;
         }
     }
 
@@ -502,53 +476,31 @@ s32 VFiPFCACHE_DoWriteNumSectorAndFreeIfNeeded(PF_VOLUME* p_vol, PF_CACHE_PAGE**
     err = VFiPFDRV_lwrite(p_vol, p_buf, sector, num_sector, p_num_success);
     if (err)
         return err;
-    if (dCommon_FlushFromVol(p_vol, 1))
-        return 17;
 LABEL_37:
     if ((p_vol->cache.mode & 1) != 0 && num_sector != num_rest_sector)
         VFiPFCACHE_ClearModified(p_vol, p_vol->cache.p_current_data);
     return 0;
 }
 
-s32 VFiPFCACHE_DoFlushCache(PF_VOLUME* p_vol, PF_CACHE_PAGE* p_head) {
+static s32 VFiPFCACHE_DoFlushCache(PF_VOLUME* p_vol, PF_CACHE_PAGE* p_head) {
     PF_CACHE_PAGE* p_page;
     s32 err;
-    s32 first_err;
-    s32 check_do_flush;
-    s32 do_flush;
-    s32 set_device_err;
+    s32 first_err = 0;
 
-    do_flush = 0;
     p_page = p_head;
-    first_err = 0;
     if ((p_head->stat & 1) == 0) {
         return 0;
     }
-    {
-        do {
+    do {
             if ((p_page->stat & 1) == 0) {
                 break;
             }
-            check_do_flush = 0;
-            if (p_page && (p_page->stat & 2) != 0 && p_page->sector != -1) {
-                check_do_flush = 1;
-            }
             err = VFiPFCACHE_FlushPageIfNeeded(p_vol, p_page);
-            if (check_do_flush && err == 0) {
-                do_flush = 1;
-            }
             if (err != 0 && first_err == 0) {
                 first_err = err;
             }
             p_page = p_page->p_next;
         } while (p_page != p_head);
-    }
-    if (do_flush) {
-        set_device_err = first_err == 0;
-        if (dCommon_FlushFromVol(p_vol, set_device_err) && set_device_err == 1) {
-            return 17;
-        }
-    }
     return first_err;
 }
 
@@ -673,21 +625,21 @@ s32 VFiPFCACHE_ReadDataNumSector(PF_VOLUME* p_vol, u8* p_buf, u32 sector, u32 nu
 }
 
 s32 VFiPFCACHE_WriteFATPage(PF_VOLUME* p_vol, PF_CACHE_PAGE* p_page) {
-    int err;
+    s32 err;
 
     err = VFiPFCACHE_DoWritePage(p_vol, &p_vol->cache.p_current_fat, p_page, 0);
-    if (!err)
-        return 0;
-    return err;
+    if (err)
+        return err;
+    return 0;
 }
 
 s32 VFiPFCACHE_WriteDataPage(PF_VOLUME* p_vol, PF_CACHE_PAGE* p_page, u32 set_sig) {
-    int err;
+    s32 err;
 
     err = VFiPFCACHE_DoWritePage(p_vol, &p_vol->cache.p_current_data, p_page, set_sig);
-    if (!err)
-        return 0;
-    return err;
+    if (err)
+        return err;
+    return 0;
 }
 
 s32 VFiPFCACHE_WriteDataNumSectorAndFreeIfNeeded(PF_VOLUME* p_vol, const u8* p_buf, u32 sector, u32 num_sector, u32* p_num_success) {
@@ -706,29 +658,24 @@ PF_CACHE_PAGE* VFiPFCACHE_SearchDataCache(PF_VOLUME* p_vol, u32 sector) {
 }
 
 s32 VFiPFCACHE_FlushFATCache(PF_VOLUME* p_vol) {
-    int err;
+    s32 err;
 
     err = VFiPFCACHE_DoFlushCache(p_vol, p_vol->cache.p_current_fat);
-    if (!err)
-        return 0;
-    return err;
+    if (err)
+        return err;
+    return 0;
 }
 
 s32 VFiPFCACHE_FlushDataCacheSpecific(PF_VOLUME* p_vol, void* signature) {
     s32 err;
     PF_CACHE_PAGE* p_head;
     PF_CACHE_PAGE* i;
-    u32 do_flush;
 
     err = 0;
-    do_flush = 0;
     if ((p_vol->cache.mode & 1) == 0) {
         p_head = p_vol->cache.p_current_data;
 
         if (!p_head->signature || p_head->signature == signature) {
-            if (p_head && (p_head->stat & 2) != 0 && p_head->sector != -1)
-                do_flush = 1;
-
             err = VFiPFCACHE_FlushPageIfNeeded(p_vol, p_head);
             if (err)
                 return err;
@@ -739,19 +686,14 @@ s32 VFiPFCACHE_FlushDataCacheSpecific(PF_VOLUME* p_vol, void* signature) {
                 err = VFiPFCACHE_FlushPageIfNeeded(p_vol, i);
                 if (err)
                     return err;
-                if (do_flush)
-                    dCommon_FlushFromVol(p_vol, 0);
             }
         }
-
-        if (do_flush && dCommon_FlushFromVol(p_vol, 1))
-            return 17;
     }
     return err;
 }
 
 s32 VFiPFCACHE_FlushAllCaches(PF_VOLUME* p_vol) {
-    int err;
+    s32 err;
 
     err = VFiPFCACHE_DoFlushCache(p_vol, p_vol->cache.p_current_fat);
     if (err) {
@@ -759,10 +701,9 @@ s32 VFiPFCACHE_FlushAllCaches(PF_VOLUME* p_vol) {
     }
 
     err = VFiPFCACHE_DoFlushCache(p_vol, p_vol->cache.p_current_data);
-    if (!err)
-        return 0;
-
-    return err;
+    if (err)
+        return err;
+    return 0;
 }
 
 static inline void VFiPFCACHE_FreeFATPage(struct PF_VOLUME* p_vol, struct PF_CACHE_PAGE* p_page) {

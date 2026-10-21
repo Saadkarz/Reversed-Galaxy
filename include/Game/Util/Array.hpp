@@ -22,7 +22,7 @@ namespace MR {
         }
 
         /// @brief Destroys the `AssignableArray`.
-        ~AssignableArray();
+        // ~AssignableArray();
 
         /// @brief Returns the element at the given position.
         /// @param idx The position of the element.
@@ -190,9 +190,6 @@ namespace MR {
         /// @brief Creates a new `Vector`.
         Vector();
 
-        /// @brief Destroys the `Vector`.
-        ~Vector();
-
         /// @brief Returns the element at the given position.
         /// @param idx The position of the element.
         /// @return The reference to the element.
@@ -246,17 +243,7 @@ namespace MR {
         /// @brief Removes the value at the given position from the container.
         /// @param pIter The pointer to the position where the value should be removed.
         /// @return The pointer to the position of the removed value.
-        Item* erase(Item* pIter) {
-            if (end() - pIter - 1 > 0) {
-                for (Item* p = pIter; p + 1 != end(); p++) {
-                    *p = *(p + 1);
-                }
-            }
-
-            mCount--;
-
-            return pIter;
-        }
+        Item* erase(Item* pIter);
 
         /// @brief Removes all values from the container.
         void clear() {
@@ -350,23 +337,25 @@ namespace MR {
     };
 
     template < class T >
-    AssignableArray< T >::~AssignableArray() {
-        if (mArr != nullptr) {
-            delete[] mArr;
-        }
-    }
-
-    template < class T >
     Vector< T >::Vector() {
         clear();
     }
 
     template < class T >
-    Vector< T >::~Vector() {
+    void Vector< T >::push_back(const Item& rItem) {
+        mArray[mCount++] = rItem;
     }
 
     template < class T >
-    void Vector< T >::push_back(const Item& rItem) {
-        mArray[mCount++] = rItem;
+    typename Vector< T >::Item* Vector< T >::erase(Item* pIter) {
+        if (end() - pIter - 1 > 0) {
+            for (Item* p = pIter; p + 1 != end(); p++) {
+                *p = *(p + 1);
+            }
+        }
+
+        mCount--;
+
+        return pIter;
     }
 };  // namespace MR

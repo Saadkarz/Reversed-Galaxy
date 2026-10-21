@@ -71,13 +71,17 @@ SwitchWatcherHolder::SwitchWatcherHolder() : NameObj("SwitchWatcherHolder") {
     MR::connectToScene(this, 0x19, -1, -1, -1);
 }
 
-// https://decomp.me/scratch/BNgz7
-void SwitchWatcherHolder::movement() {
-    void (SwitchWatcher::*func)(void) = &SwitchWatcher::movement;
-
-    for (SwitchWatcher** cur = &mWatchers[0]; cur != &mWatchers[mWatcherCount]; cur++) {
-        (*cur->*func)();
+inline void SwitchWatcherHolder::callMethodAll(void (SwitchWatcher::*func)()) {
+    SwitchWatcher** start = &mWatchers[0];
+    SwitchWatcher** end = &mWatchers[mWatcherCount];
+    while (start != end) {
+        (*start->*func)();
+        start++;
     }
+}
+
+void SwitchWatcherHolder::movement() {
+    callMethodAll(&SwitchWatcher::movement);
 }
 
 void SwitchWatcherHolder::joinSwitchEventListenerA(const StageSwitchCtrl* pCtrl, SwitchEventListener* pListener) {

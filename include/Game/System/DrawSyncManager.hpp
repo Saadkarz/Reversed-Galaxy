@@ -55,13 +55,14 @@ public:
 
     ~DrawSyncManager();
 
-    void reset(bool preparing);
+    NO_INLINE void reset(bool preparing);
 
     static DrawSyncManager* start(u32 capacity, s32 priority);
     static void prepareReset();
     static void resetIfAborted();
 
     void clearFifo();
+    void clearCallback();
     static void end();
 
     void drawSyncCallbackSub(u16 token);
@@ -83,7 +84,7 @@ public:
     /* 0x36C */ u16 mFlags;
     /* 0x36E */ u16 mLowTokenCount;
     /* 0x370 */ u16 mHighTokenCount;
-    /* 0x372 */ bool mPreparingReset;
+    /* 0x372 */ volatile bool mPreparingReset;
     /* 0x373 */ volatile bool mAborted;
     /* 0x374 */ u32 _374;
 };

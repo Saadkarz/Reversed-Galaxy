@@ -127,35 +127,3 @@ FAIL:
     return false;
 }
 
-JMapInfoIter MR::findJMapInfoElementNoCase(const JMapInfo* pInfo, const char* key, const char* searchValue, int startIndex) {
-    int entryIndex = startIndex;
-    const char* value;
-    while (entryIndex < pInfo->getNumEntries()) {
-        pInfo->getValue< const char* >(entryIndex, key, &value);
-        if (MR::isEqualStringCase(value, searchValue)) {
-            return JMapInfoIter(pInfo, entryIndex);
-        }
-        entryIndex++;
-    }
-    return pInfo->end();
-}
-
-JMapInfoIter JMapInfo::findElementBinary(const char* key, const char* value) const {
-    int low = 0;
-    int high = getNumEntries();
-
-    const char* nextVal;
-    while (low < high) {
-        int mid = (low + high) / 2;
-        getValue< const char* >(mid, key, &nextVal);
-        int comparison = strcmp(nextVal, value);
-        if (comparison == 0) {
-            return JMapInfoIter(this, mid);
-        } else if (comparison < 0) {
-            low = mid + 1;
-        } else {
-            high = mid;
-        }
-    }
-    return end();
-}

@@ -9,6 +9,8 @@ void VFiPFCLUSTER_SetLastAccessCluster(PF_FILE*);
 
 s32 VFiPFCLUSTER_AppendCluster(PF_FILE* p_file, u32 byte, u32* p_success, u32* sector);
 
+s32 fn_8056CA50(PF_FILE* p_file);
+
 void VFiPFCLUSTER_InitLastAccessCluster(PF_FILE* p_file);
 
 s32 VFiPFCLUSTER_GetAppendSize(PF_FILE* p_file, u32* p_size);

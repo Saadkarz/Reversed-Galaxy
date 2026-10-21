@@ -36,7 +36,7 @@
  */
 
 // .sdata2
-BD_ADDR const bd_addr_any = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+// BD_ADDR const bd_addr_any = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 
 // .sbss2
 BD_ADDR const bd_addr_null = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -66,6 +66,7 @@ int bdcmp(BD_ADDR const a, BD_ADDR const b)
 	return 0;
 }
 
+#if 0
 int bdcmpany(BD_ADDR const a)
 {
 	return bdcmp(a, bd_addr_any);
@@ -75,4 +76,5 @@ void bdsetany(BD_ADDR a)
 {
 	bdcpy(a, bd_addr_any);
 }
+#endif
 

@@ -86,8 +86,7 @@ public:
     }
 
     virtual u32 getType() = 0;
-    virtual void setMatColor(u32, J3DGXColor const*) {
-    }
+    virtual void setMatColor(u32, J3DGXColor const*);
 
     virtual void setMatColor(u32, J3DGXColor) {
     }
@@ -136,8 +135,7 @@ public:
     virtual void setCullMode(u8 const*) {
     }
 
-    virtual void setCullMode(u8) {
-    }
+    virtual void setCullMode(u8);
 
     virtual u8 getCullMode() const {
         return 2;
@@ -447,9 +445,7 @@ public:
     virtual void setTexMtx(u32, J3DTexMtx*) {
     }
 
-    virtual J3DTexMtx* getTexMtx(u32) {
-        return nullptr;
-    }
+    virtual J3DTexMtx* getTexMtx(u32);
 
     virtual void setNBTScale(J3DNBTScale const* scale) {
     }
@@ -673,9 +669,7 @@ public:
         return nullptr;
     }
 
-    virtual void setTevColor(u32, J3DGXColorS10 const*) {
-    }
-
+    virtual void setTevColor(u32, J3DGXColorS10 const*);
     virtual void setTevColor(u32, J3DGXColorS10) {
     }
 
@@ -683,8 +677,7 @@ public:
         return nullptr;
     }
 
-    virtual void setTevKColor(u32, J3DGXColor const*) {
-    }
+    virtual void setTevKColor(u32, J3DGXColor const*);
 
     virtual void setTevKColor(u32, J3DGXColor) {
     }
@@ -1864,9 +1857,7 @@ public:
     virtual void setFog(J3DFog*) {
     }
 
-    virtual J3DFog* getFog() {
-        return nullptr;
-    }
+    virtual J3DFog* getFog();
 
     virtual void setAlphaComp(J3DAlphaComp const*) {
     }
@@ -1878,8 +1869,7 @@ public:
         return nullptr;
     }
 
-    virtual void setBlend(J3DBlend const*) {
-    }
+    virtual void setBlend(J3DBlend const*);
 
     virtual void setBlend(J3DBlend const&) {
     }
@@ -1888,8 +1878,7 @@ public:
         return nullptr;
     }
 
-    virtual void setZMode(J3DZMode const*) {
-    }
+    virtual void setZMode(J3DZMode const*);
 
     virtual void setZMode(J3DZMode) {
     }

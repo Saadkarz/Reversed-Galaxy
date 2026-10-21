@@ -29,7 +29,6 @@ void NameObjHolder::syncWithFlags() {
     callMethodAllObj(&NameObj::syncWithFlags);
 }
 
-/*
 void NameObjHolder::callMethodAllObj(func functionPtr) {
     func function = functionPtr;
 
@@ -42,7 +41,6 @@ void NameObjHolder::callMethodAllObj(func functionPtr) {
         start++;
     }
 }
-*/
 
 void NameObjHolder::clearArray() {
     mObjCount = 0;

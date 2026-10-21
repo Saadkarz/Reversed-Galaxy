@@ -1,4 +1,4 @@
-#define JGADGET_LINKLIST_NOINLINE NO_INLINE
+#define JGADGET_LINKLIST_IN_CPP
 #include "JSystem/JGadget/linklist.hpp"
 #include "JSystem/JGadget/predicate.hpp"
 
@@ -9,6 +9,12 @@ namespace JGadget {
     }
 
     TNodeLinkList::~TNodeLinkList() {
+    }
+
+    void TNodeLinkList::Initialize_() {
+        mLen = 0;
+        mEnd.mNext = &mEnd;
+        mEnd.mPrev = &mEnd;
     }
 
     void TNodeLinkList::splice(iterator a, TNodeLinkList& list, iterator b) {

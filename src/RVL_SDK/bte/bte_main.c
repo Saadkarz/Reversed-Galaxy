@@ -67,7 +67,7 @@ static tHCI_CFG bte_hcisu_h2_cfg = {2652, 8449};
 
 // .sbss
 static tBTA_APP_INFO_CBACK* _bte_app_info;
-#if !defined(NDEBUG)
+#if 0
 static BOOLEAN enable_dbg_msg;
 #endif
 UINT8 volatile bte_target_mode;
@@ -86,7 +86,7 @@ static void bta_register_os_callbacks(void) {
     OSSetPeriodicAlarm(&_bte_alarm, OSGetTime(), OSMillisecondsToTicks(2), &BTUInterruptHandler);
 }
 
-#if !defined(NDEBUG)
+#if 0
 void __btu_interrupt_handler_debug_msg(BOOLEAN enable) {
     enable_dbg_msg = enable;
 }

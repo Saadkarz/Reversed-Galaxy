@@ -63,7 +63,7 @@ namespace MR {
     bool getJMapInfoArg7NoInit(const JMapInfoIter&, bool*);
     bool getJMapInfoFollowID(const JMapInfoIter&, s32*);
     bool getJMapInfoGroupID(const JMapInfoIter&, s32*);
-    bool getJMapInfoClippingGroupID(const JMapInfoIter&, s32*);
+    bool __attribute__((noinline)) getJMapInfoClippingGroupID(const JMapInfoIter&, s32*);
     bool getJMapInfoDemoGroupID(const JMapInfoIter&, s32*);
     bool getJMapInfoLinkID(const JMapInfoIter&, s32*);
     bool getJMapInfoPriorityWithInit(const JMapInfoIter&, s32*);

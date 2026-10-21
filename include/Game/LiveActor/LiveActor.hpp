@@ -27,6 +27,7 @@ public:
     /// @brief Creates a new `LiveActor`.
     /// @param pName A pointer to the null-terminated name of the actor.
     LiveActor(const char* pName);
+    inline virtual ~LiveActor() {}
 
     virtual void init(const JMapInfoIter&);
     virtual void movement();
@@ -50,11 +51,13 @@ public:
     virtual bool receiveMsgEnemyAttack(u32 msg, HitSensor* pSender, HitSensor* pReceiver);
     virtual bool receiveOtherMsg(u32 msg, HitSensor* pSender, HitSensor* pReceiver);
 
+    void calcAnmMtx();
     void setNerve(const Nerve*);
     bool isNerve(const Nerve*) const;
     s32 getNerveStep() const;
 
     HitSensor* getSensor(const char*) const;
+    HitSensorKeeper* getSensorKeeper() const { return mSensorKeeper; }
 
     void initModelManagerWithAnm(const char*, const char*, const char*, bool);
     void initNerve(const Nerve*, s32 = 0);
@@ -66,6 +69,9 @@ public:
     void initShadowControllerList(u32);
     void initActorCollisionParts(const char*, HitSensor*, ResourceHolder*, MtxPtr, bool, bool);
     void initStageSwitch(const JMapInfoIter&);
+    void initActorStarPointerTarget(f32, const TVec3f*, MtxPtr, TVec3f);
+    void initActorLightCtrl();
+    void updateBinder();
 
     TVec3f mPosition;                   // 0x14
     TVec3f mRotation;                   // 0x20

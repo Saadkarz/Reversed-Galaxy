@@ -131,6 +131,7 @@ namespace JASThreadingModel {
 template < typename T >
 class JASMemPool : public JASGenericMemPool {
 public:
+    JASMemPool() {}
     void newMemPool(int n) {
         typename JASThreadingModel::SingleThreaded< JASMemPool< T > >::Lock lock(*this);
         JASGenericMemPool::newMemPool(sizeof(T), n);

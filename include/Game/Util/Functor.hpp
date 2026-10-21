@@ -115,4 +115,8 @@ namespace MR {
 
         void* mFunc;  // 0x4
     };
+
+    inline static FunctorV0F Functor(void (*func)(void)) {
+        return FunctorV0F(func);
+    }
 };  // namespace MR

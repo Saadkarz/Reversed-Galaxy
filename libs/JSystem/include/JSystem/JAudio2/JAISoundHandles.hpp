@@ -29,8 +29,8 @@ public:
     }
 
     JAISoundHandle* getHandleSoundID(JAISoundID);
-    JAISoundHandle* getFreeHandle();
     JAISoundHandle* getHandleUserData(u32);
+    bool isActive() const;
 
     void setPos(const TVec3f&);
 

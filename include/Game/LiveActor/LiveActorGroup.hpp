@@ -18,4 +18,14 @@ public:
     void killAll();
     void appearAll();
     void makeAllDead();
+
+    bool hasActor(const LiveActor* pActor) const {
+        for (int i = 0; i < mObjectCount; i++) {
+            if (getActor(i) == pActor) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 };

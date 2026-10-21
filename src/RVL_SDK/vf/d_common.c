@@ -65,12 +65,6 @@ u32 dCommon_GetPhysicalOffset(u32 startBlock, u32 BPS, u32 reservedSecNum) {
 enum FatType dCommon_GetNiceFatType(u32* spf, u32 SPU, u32 SPC, u32 BPS) {
     u32 SPU_div_SPC;
 
-    // TODO: dumb hack to prevent inlining
-    // This prevents dCommon_GetNiceFatType from being inlined in dCommon_MakeBootSector.
-    int i;
-    for (i = 0; i < 1; i++) {
-    }
-
     SPU_div_SPC = SPU / SPC;
     if (SPU_div_SPC < 0xff5) {
         if (spf != NULL) {
@@ -107,7 +101,21 @@ u32 dCommon_GetRootEntNumFromFatType(enum FatType fatType) {
 void dCommon_MakeBootSector(u8* buf, enum FatType* type, u32 SPU, u32 SPC, u32 BPS, u8 jump0_1, u8 jump2, u32 secPerTrack, u32 reservedSecNum,
                             u32 rootEntNum, u8 mediaDesc) {
     u32 spf;
-    *type = dCommon_GetNiceFatType(&spf, SPU, SPC, BPS);
+    enum FatType t;
+    u32 SPU_div_SPC;
+
+    SPU_div_SPC = SPU / SPC;
+    if (SPU_div_SPC < 0xff5) {
+        spf = (((SPU_div_SPC * 3) / 2) + BPS - 1) / BPS;
+        t = FAT_12;
+    } else if (SPU_div_SPC < 0xfff5) {
+        spf = ((SPU_div_SPC * 2) + BPS - 1) / BPS;
+        t = FAT_16;
+    } else {
+        spf = ((SPU_div_SPC * 4) + BPS - 1) / BPS;
+        t = FAT_32;
+    }
+    *type = t;
 
     VFipf_memset(buf, 0, 0x200);
 

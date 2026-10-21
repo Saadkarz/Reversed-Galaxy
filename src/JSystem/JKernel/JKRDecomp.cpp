@@ -1,7 +1,7 @@
 #include "JSystem/JKernel/JKRDecomp.hpp"
 #include "JSystem/JKernel/JKRAramPiece.hpp"
 #include "JSystem/JKernel/JKRHeap.hpp"
-#include <revolution.h>
+#include <revolution/os.h>
 
 JKRDecomp* JKRDecomp::sDecompObject;
 OSMessage JKRDecomp::sMessageBuffer[8];
@@ -282,8 +282,8 @@ EJKRCompression JKRDecomp::checkCompressed(unsigned char* pSrc) {
 
 JKRDecompCommand::JKRDecompCommand() {
     OSInitMessageQueue(&mMessageQueue, &mMessage, 1);
-    mThis = this;  // Probably a pointer to the data stored at 0x00 instead
     _14 = 0;
     _1C = nullptr;
+    mThis = this;
     _20 = 0;
 }

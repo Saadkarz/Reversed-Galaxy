@@ -42,7 +42,7 @@
  * macros
  */
 
-#define BTE_LOG_BUF_SIZE 2000
+#define BTE_LOG_BUF_SIZE 2016
 
 #ifndef BTE_LOG_BUF_SIZE
 #define BTE_LOG_BUF_SIZE 1024

@@ -133,7 +133,6 @@ tBTM_PM_PWR_MD const bta_dm_pm_md[] =
 };
 
 // .sdata
-tBTA_DM_CFG *p_bta_dm_cfg = (tBTA_DM_CFG *)&bta_dm_cfg;
 tBTA_DM_RM *p_bta_dm_rm_cfg = (tBTA_DM_RM *)bta_dm_rm_cfg;
 tBTA_DM_COMPRESS *p_bta_dm_compress_cfg =
 	(tBTA_DM_COMPRESS *)bta_dm_compress_cfg;

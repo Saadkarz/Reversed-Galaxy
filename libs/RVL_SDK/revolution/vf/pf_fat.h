@@ -13,6 +13,8 @@ s32 VFiPFFAT_ClearClusterLink(PF_FFD* p_ffd, u32 chain_index);
 
 s32 VFiPFFAT_WriteFATEntryPage(PF_VOLUME* p_vol, u32 cluster, u32 value, PF_CACHE_PAGE** p_page);
 
+s32 VFiPFFAT_WriteFATEntry(PF_VOLUME* p_vol, u32 cluster, u32 value);
+
 s32 VFiPFFAT_RefreshFSINFO(PF_VOLUME* p_vol);
 
 s32 VFiPFFAT_FreeChain(PF_FFD* p_ffd, u32 start_cluster, u32 chain_index, u32 size);

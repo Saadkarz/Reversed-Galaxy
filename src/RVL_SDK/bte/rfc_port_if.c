@@ -50,10 +50,12 @@ tRFC_CB rfc_cb;
  * functions
  */
 
+#if 0
 void RFCOMM_StartReq(tRFC_MCB *p_mcb)
 {
 	rfc_mx_sm_execute(p_mcb, RFC_MX_EVENT_START_REQ, NULL);
 }
+#endif
 
 void RFCOMM_StartRsp(tRFC_MCB *p_mcb, UINT16 result)
 {

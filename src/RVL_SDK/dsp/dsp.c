@@ -9,7 +9,7 @@ extern DSPTaskInfo *__DSP_first_task;
 extern DSPTaskInfo *__DSP_last_task;
 extern DSPTaskInfo *__DSP_tmp_task;
 
-const char* __DSPVersion = "<< RVL_SDK - DSP \trelease build: Aug  8 2007 01:59:06 (0x4199_60831) >>";
+const char* __DSPVersion = "<< RVL_SDK - DSP \trelease build: Dec 11 2009 15:55:55 (0x4302_145) >>";
 
 u32 DSPCheckMailToDSP(void) {
     return ((__DSPRegs[0] & 0x8000) >> 15);
@@ -43,7 +43,7 @@ void DSPInit(void) {
     BOOL intr;
     u16 reg;
 
-    __DSP_debug_printf("DSPInit(): Build Date: %s %s\n", "Aug  8 2007", "01:59:06");
+    __DSP_debug_printf("DSPInit(): Build Date: %s %s\n", "Dec 11 2009", "15:55:55");
 
     if (__DSP_init_flag == 1) {
         return;
@@ -62,7 +62,7 @@ void DSPInit(void) {
     reg = (reg & ~(0x20 | 0x8 | 0x80 | 0x4));
     __DSPRegs[5] = reg; 
 
-    __DSP_first_task = __DSP_last_task = __DSP_curr_task = __DSP_tmp_task = NULL;
+    __DSP_curr_task = __DSP_last_task = __DSP_tmp_task = __DSP_first_task = NULL;
     __DSP_init_flag = 1;
     OSRestoreInterrupts(intr);
 }
