@@ -3,19 +3,32 @@
 .vs/
 
 # Caches
-__pycache__
-.mypy_cache
+__pycache__/
+.mypy_cache/
 .cache/
 
-# Original files
+# Original files & dumps
+orig/SB4E01/sys/
+orig/SB4E01/*.dol
 orig/*/*
 !orig/*/.gitkeep
 *.dol
 *.rel
 *.elf
+*.iso
+*.wbfs
+*.bin
+*.rarc
+*.arc
 *.o
+*.a
 *.map
 *.MAP
+*.exe
+
+# Compiler binaries & toolchains
+tools/mwcc_compiler/
+tools/compilers/
 
 # Build files
 build/
@@ -32,4 +45,3 @@ compile_commands.json
 
 # Miscellaneous
 /*.txt
-*.exe
