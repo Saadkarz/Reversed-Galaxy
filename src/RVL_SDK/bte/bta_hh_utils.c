@@ -151,7 +151,7 @@ BOOLEAN bta_hh_tod_spt(tBTA_HH_DEV_CB* p_cb, UINT8 sub_class) {
     return FALSE;
 }
 
-void bta_hh_parse_keybd_rpt(tBTA_HH_BOOT_RPT* p_kb_data, UINT8* p_report, UINT16 report_len) {
+static void bta_hh_parse_keybd_rpt(tBTA_HH_BOOT_RPT* p_kb_data, UINT8* p_report, UINT16 report_len) {
     tBTA_HH_KB_CB* p_kb = &bta_hh_cb.kb_cb;
     tBTA_HH_KEYBD_RPT* p_data = &p_kb_data->data_rpt.keybd_rpt;
     UINT8 this_char;
@@ -266,7 +266,7 @@ void bta_hh_parse_keybd_rpt(tBTA_HH_BOOT_RPT* p_kb_data, UINT8* p_report, UINT16
     memcpy(p_kb->last_report, p_report, report_len);
 }
 
-void bta_hh_parse_mice_rpt(tBTA_HH_BOOT_RPT* p_mice_data, UINT8* p_report, UINT16 report_len) {
+static void bta_hh_parse_mice_rpt(tBTA_HH_BOOT_RPT* p_mice_data, UINT8* p_report, UINT16 report_len) {
     tBTA_HH_MICE_RPT* p_data = &p_mice_data->data_rpt.mice_rpt;
     UINT8 xx;
 

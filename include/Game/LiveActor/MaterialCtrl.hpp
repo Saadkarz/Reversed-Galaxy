@@ -102,9 +102,9 @@ public:
 
 class TexMtxCtrl : public MaterialCtrl {
 public:
-    TexMtxCtrl(J3DModelData*, const u8*);
+    TexMtxCtrl(J3DModelData*, const char*);
 
     virtual void updateMaterial(J3DMaterial*);
 
-    /* 0x0C */ const u8* mCullMode;
+    /* 0x0C */ const char* mCullMode;
 };

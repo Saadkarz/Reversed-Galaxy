@@ -127,9 +127,11 @@ void bta_sys_disable(void) {
     }
 }
 
+#if 0
 void bta_sys_disable_timers(void) {
     bta_sys_cb.timers_disabled = TRUE;
 }
+#endif
 
 void bta_sys_set_trace_level(UINT8 level) {
     appl_trace_level = level;

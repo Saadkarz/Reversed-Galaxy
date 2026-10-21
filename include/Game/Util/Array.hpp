@@ -22,7 +22,7 @@ namespace MR {
         }
 
         /// @brief Destroys the `AssignableArray`.
-        // ~AssignableArray();
+        ~AssignableArray();
 
         /// @brief Returns the element at the given position.
         /// @param idx The position of the element.
@@ -189,6 +189,8 @@ namespace MR {
 
         /// @brief Creates a new `Vector`.
         Vector();
+
+        ~Vector() {}
 
         /// @brief Returns the element at the given position.
         /// @param idx The position of the element.
@@ -357,5 +359,12 @@ namespace MR {
         mCount--;
 
         return pIter;
+    }
+
+    template < class T >
+    AssignableArray< T >::~AssignableArray() {
+        if (mArr != 0) {
+            delete[] mArr;
+        }
     }
 };  // namespace MR

@@ -262,7 +262,7 @@ void MarioShadowProjmapMtxSetter::update() {
 
 extern "C" void setTevKColor__11J3DTevBlockFUlPC10J3DGXColor() {}
 
-TexMtxCtrl::TexMtxCtrl(J3DModelData* pModelData, const u8* pCullMode) : MaterialCtrl(pModelData, nullptr) {
+TexMtxCtrl::TexMtxCtrl(J3DModelData* pModelData, const char* pCullMode) : MaterialCtrl(pModelData, nullptr) {
     mCullMode = pCullMode;
 }
 

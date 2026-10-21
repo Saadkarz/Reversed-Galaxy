@@ -46,6 +46,7 @@
  * functions
  */
 
+#if 0
 UINT16 GAP_SetDiscoverableMode(UINT16 mode, UINT16 duration, UINT16 interval) {
     tBTM_STATUS status = BTM_SetDiscoverability(mode, duration, interval);
 
@@ -398,6 +399,8 @@ UINT8 GAP_SetTraceLevel(UINT8 new_level) {
 
     return gap_cb.trace_level;
 }
+
+#endif
 
 void GAP_Init(void) {
     memset(&gap_cb, 0, sizeof gap_cb);
