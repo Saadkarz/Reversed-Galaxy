@@ -1,6 +1,6 @@
 #pragma once
 
-#include <revolution.h>
+#include <revolution/types.h>
 
 template < typename T >
 class JASGlobalInstance {
@@ -13,11 +13,7 @@ public:
         }
     }
 
-    ~JASGlobalInstance() {
-        if (sInstance == (T*)this) {
-            sInstance = nullptr;
-        }
-    }
+    ~JASGlobalInstance();
 
     static T* getInstance() {
         return sInstance;
@@ -26,3 +22,10 @@ public:
 
 template < typename T >
 T* JASGlobalInstance< T >::sInstance;
+
+template < typename T >
+JASGlobalInstance< T >::~JASGlobalInstance() {
+    if (sInstance == (T*)this) {
+        sInstance = nullptr;
+    }
+}

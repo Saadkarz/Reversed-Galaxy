@@ -3,6 +3,8 @@
 #include "JSystem/JAudio2/JAISound.hpp"
 #include "JSystem/JAudio2/JASGlobal.hpp"
 
+struct JAISoundInfo;
+template <> JASGlobalInstance< JAISoundInfo >::~JASGlobalInstance();
 struct JAISoundInfo : public JASGlobalInstance< JAISoundInfo > {
     JAISoundInfo(bool set);
 

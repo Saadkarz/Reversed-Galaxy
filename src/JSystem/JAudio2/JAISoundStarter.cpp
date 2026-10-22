@@ -4,6 +4,13 @@
 JAISoundStarter::JAISoundStarter(bool setInstance) : JASGlobalInstance< JAISoundStarter >(setInstance) {
 }
 
+template <>
+JASGlobalInstance< JAISoundStarter >::~JASGlobalInstance() {
+    if (sInstance == (JAISoundStarter*)this) {
+        sInstance = nullptr;
+    }
+}
+
 JAISoundStarter::~JAISoundStarter() {
 }
 

@@ -20,8 +20,6 @@ class JAUSeqDataBlocks : public JSUList< JAUSeqDataBlock > {
 public:
     u8* getSeqData(JAISoundID);
     JSULink< JAUSeqDataBlock >* seekFreeBlock(u32);
-    bool append(JSULink< JAUSeqDataBlock >*);
-    bool remove(JSULink< JAUSeqDataBlock >*);
     bool hasFailedBlock(JAISoundID);
 };
 

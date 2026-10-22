@@ -9,23 +9,31 @@ void JASTrackPort::init() {
 }
 
 u16 JASTrackPort::readImport(u32 port) {
-    mImport &= ~(1 << port);
-    return mPorts[port];
+    u16* ptr = &mPorts[port];
+    u16 mask = ~(1 << port);
+    mImport = mImport & mask;
+    return *ptr;
 }
 
 u16 JASTrackPort::readExport(u32 port) {
-    mExport &= ~(1 << port);
-    return mPorts[port];
+    u16* ptr = &mPorts[port];
+    u16 mask = ~(1 << port);
+    mExport = mExport & mask;
+    return *ptr;
 }
 
 void JASTrackPort::writeImport(u32 port, u16 value) {
-    mImport |= 1 << port;
-    mPorts[port] = value;
+    u16* ptr = &mPorts[port];
+    u16 mask = (1 << port);
+    mImport = mImport | mask;
+    *ptr = value;
 }
 
 void JASTrackPort::writeExport(u32 port, u16 value) {
-    mExport |= 1 << port;
-    mPorts[port] = value;
+    u16* ptr = &mPorts[port];
+    u16 mask = (1 << port);
+    mExport = mExport | mask;
+    *ptr = value;
 }
 
 bool JASTrackPort::checkImport(u32 port) const {

@@ -1,6 +1,6 @@
 #include <NMWException.h>
 
-#pragma schedule once
+#pragma opt_strength_reduction off
 #pragma exceptions on
 
 typedef struct ProcessInfo {
@@ -9,8 +9,10 @@ typedef struct ProcessInfo {
 	int active;
 } ProcessInfo;
 
-static ProcessInfo fragmentinfo[1];
+static ProcessInfo fragmentinfo[32];
 
+
+#pragma schedule once
 int __register_fragment(struct __eti_init_info *info, char *TOC) {
 	ProcessInfo* f = fragmentinfo;
 	int i;
@@ -25,12 +27,10 @@ int __register_fragment(struct __eti_init_info *info, char *TOC) {
 
 	return -1;
 }
-
+#pragma schedule on
 void __unregister_fragment(int id) {
-    ProcessInfo* info;
-
     if (id <= 0x1Fu) {
-        info = &fragmentinfo[id];
+        ProcessInfo* info = &fragmentinfo[id];
         info->exception_info = 0;
         info->TOC = 0;
         info->active = 0;

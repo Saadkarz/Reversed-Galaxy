@@ -752,21 +752,19 @@ int VFiPFFILE_p_fwrite(PF_VOLUME* p_vol, u8* p_buf, u32 size, u32 count, PF_FILE
     *p_count_written = size_written / size;
     if (*p_count_written != count) {
         if (p_file->p_sfd->dir_entry.file_size > base_size) {
+            s32 f_err;
             if (base_pos + *p_count_written * size > base_size)
                 p_file->p_sfd->dir_entry.file_size = base_pos + *p_count_written * size;
             else
                 p_file->p_sfd->dir_entry.file_size = base_size;
-        }
-        save_cursor = p_file->cursor;
-        save_hint = p_file->hint;
-        VFiPFFAT_SetHint(&p_file->p_sfd->ffd, &p_file->hint);
-        {
-            s32 f_err;
+            save_cursor = p_file->cursor;
+            save_hint = p_file->hint;
+            VFiPFFAT_SetHint(&p_file->p_sfd->ffd, &p_file->hint);
             if ((f_err = fn_8056CA50(p_file)) != 0) {
                 err = f_err;
-                p_file->cursor = save_cursor;
-                p_file->hint = save_hint;
             }
+            p_file->cursor = save_cursor;
+            p_file->hint = save_hint;
         }
         VFiPFFILE_Cursor_SetPosition(p_file, base_pos + *p_count_written * size);
     }

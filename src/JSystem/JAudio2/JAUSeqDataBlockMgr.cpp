@@ -38,13 +38,7 @@ JSULink< JAUSeqDataBlock >* JAUSeqDataBlocks::seekFreeBlock(u32 size) {
     return nullptr;
 }
 
-bool JAUSeqDataBlocks::append(JSULink< JAUSeqDataBlock >* param_0) {
-    return JSUList::append(param_0);
-}
 
-bool JAUSeqDataBlocks::remove(JSULink< JAUSeqDataBlock >* param_0) {
-    return JSUList::remove(param_0);
-}
 
 bool JAUSeqDataBlocks::hasFailedBlock(JAISoundID param_0) {
     JSULink< JAUSeqDataBlock >* link;
@@ -138,26 +132,7 @@ bool JAUDynamicSeqDataBlocks::loadDynamicSeq(JAISoundID param_0, bool param_1, J
     return true;
 }
 
-u32 JAUDynamicSeqDataBlocks::releaseIdleDynamicSeqDataBlock(JAISeqDataUser* param_0) {
-    rearrangeLoadingSeqs_();
-    u32 size = 0;
-    JSULink< JAUSeqDataBlock >* nextLink;
-    for (JSULink< JAUSeqDataBlock >* link = mLoadedBlocks.getFirst(); link != nullptr;) {
-        nextLink = link->getNext();
-        JAUSeqDataBlock* seqDataBlock = link->getObject();
-        if (param_0 == nullptr || !param_0->isUsingSeqData(seqDataBlock->region)) {
-            mLoadedBlocks.remove(link);
-            JAUSeqDataBlock* seqDataBlock = link->getObject();
-            seqDataBlock->mSoundID.setAnonymous();
-            if (size < seqDataBlock->region.size) {
-                size = seqDataBlock->region.size;
-            }
-            mFreeBlocks.append(link);
-        }
-        link = nextLink;
-    }
-    return size;
-}
+
 
 JAUSeqDataBlock* JAUDynamicSeqDataBlocks::releaseIdleDynamicSeqDataBlock_(JAISeqDataUser* param_0, u32 param_1) {
     rearrangeLoadingSeqs_();

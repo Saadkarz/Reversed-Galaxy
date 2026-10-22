@@ -764,7 +764,7 @@ config.libs = [
                 "JSystem/JAudio2/JASTrack.cpp",
                 cflags=[*cflags_jsys_jaudio, "-inline off"],
             ),
-            Object(NonMatching, "JSystem/JAudio2/JASTrackPort.cpp"),
+            Object(Matching, "JSystem/JAudio2/JASTrackPort.cpp"),
             Object(Matching, "JSystem/JAudio2/JASRegisterParam.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASSeqCtrl.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASSeqParser.cpp"),
@@ -802,9 +802,9 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio2/JAISound.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundChild.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundHandles.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAISoundInfo.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAISoundInfo.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAISoundParams.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAISoundStarter.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAISoundStarter.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAIStream.cpp"),
             Object(Matching, "JSystem/JAudio2/JAIStreamDataMgr.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAIStreamMgr.cpp"),
@@ -815,7 +815,7 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio2/JAUInitializer.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSectionHeap.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSeqCollection.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAUSeqDataBlockMgr.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAUSeqDataBlockMgr.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSoundAnimator.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSoundMgr.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSoundObject.cpp"),
@@ -869,7 +869,7 @@ config.libs = [
                 extra_cflags=["-ipa file"],
             ),
             Object(NonMatching, "JSystem/JKernel/JKRFileFinder.cpp"),
-            Object(NonMatching, "JSystem/JKernel/JKRArchivePub.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRArchivePub.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRArchivePri.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRMemArchive.cpp"),
             Object(
@@ -894,7 +894,7 @@ config.libs = [
                 "JSystem/JKernel/JKRDvdAramRipper.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
-            Object(NonMatching, "JSystem/JKernel/JKRDecomp.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDecomp.cpp"),
         ],
     ),
     JSysLib(
@@ -933,8 +933,7 @@ config.libs = [
             ),
             Object(NonMatching, "JSystem/JParticle/JPAFieldBlock.cpp"),
             Object(Matching, "JSystem/JParticle/JPAKeyBlock.cpp"),
-            Object(
-                NonMatching, "JSystem/JParticle/JPATexture.cpp", extra_cflags=["-ipa off"]
+            Object(Matching, "JSystem/JParticle/JPATexture.cpp", extra_cflags=["-ipa off"]
             ),
             Object(Matching, "JSystem/JParticle/JPAResourceLoader.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAEmitterManager.cpp"),
@@ -950,7 +949,7 @@ config.libs = [
     JSysLib(
         "JSupport",
         [
-            Object(NonMatching, "JSystem/JSupport/JSUList.cpp"),
+            Object(Matching, "JSystem/JSupport/JSUList.cpp"),
             Object(
                 Matching,
                 "JSystem/JSupport/JSUInputStream.cpp",
@@ -981,7 +980,7 @@ config.libs = [
                 "JSystem/JUtility/JUTTexture.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
-            Object(NonMatching, "JSystem/JUtility/JUTPalette.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTPalette.cpp"),
             Object(Matching, "JSystem/JUtility/JUTNameTab.cpp"),
             Object(Matching, "JSystem/JUtility/JUTFont.cpp"),
             Object(
@@ -1035,7 +1034,7 @@ config.libs = [
             Object(Matching, "Runtime/__init_cpp_exceptions.cpp"),
             Object(Matching, "Runtime/__mem.c"),
             Object(NonMatching, "Runtime/__va_arg.c"),
-            Object(NonMatching, "Runtime/Gecko_ExceptionPPC.cpp"),
+            Object(Matching, "Runtime/Gecko_ExceptionPPC.cpp"),
         ],
     },
     GameLib(
@@ -1092,7 +1091,7 @@ config.libs = [
     GameLib(
         "Map",
         [
-            Object(NonMatching, "Game/Map/BezierRail.cpp"),
+            Object(Matching, "Game/Map/BezierRail.cpp"),
             Object(NonMatching, "Game/Map/CollisionCode.cpp"),
             Object(Matching, "Game/Map/RailGraph.cpp"),
             Object(Matching, "Game/Map/RailGraphEdge.cpp"),
@@ -1215,8 +1214,8 @@ config.libs = [
         "kpad",
         [
             Object(NonMatching, "RVL_SDK/kpad/KPAD.c"),
-            Object(NonMatching, "RVL_SDK/kpad/KMPLS.c"),
-            Object(NonMatching, "RVL_SDK/kpad/KZMplsTestSub.c"),
+            Object(Matching, "RVL_SDK/kpad/KMPLS.c"),
+            Object(Matching, "RVL_SDK/kpad/KZMplsTestSub.c"),
         ],
     ),
     RVLLib(
@@ -1253,7 +1252,7 @@ config.libs = [
         [
             Object(Matching, "RVL_SDK/nwc24/NWC24StdAPI.c"),
             Object(NonMatching, "RVL_SDK/nwc24/NWC24FileAPI.c"),
-            Object(NonMatching, "RVL_SDK/nwc24/NWC24Config.c"),
+            Object(Matching, "RVL_SDK/nwc24/NWC24Config.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Utils.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Manage.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24MsgObj.c"),
@@ -1266,9 +1265,9 @@ config.libs = [
             Object(Matching, "RVL_SDK/nwc24/NWC24FriendList.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24SecretFList.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24UserId.c"),
-            Object(NonMatching, "RVL_SDK/nwc24/NWC24Time.c"),
+            Object(Matching, "RVL_SDK/nwc24/NWC24Time.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Ipc.c"),
-            Object(NonMatching, "RVL_SDK/nwc24/NWC24Download.c"),
+            Object(Matching, "RVL_SDK/nwc24/NWC24Download.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24System.c"),
         ],
         "GC/3.0a5.2",
@@ -1314,7 +1313,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/vf/pf_fat16.c"),
             Object(Matching, "RVL_SDK/vf/pf_fat32.c"),
             Object(Matching, "RVL_SDK/vf/pf_fatfs.c"),
-            Object(NonMatching, "RVL_SDK/vf/pf_file.c"),
+            Object(Matching, "RVL_SDK/vf/pf_file.c"),
             Object(Matching, "RVL_SDK/vf/pf_path.c"),
             Object(Matching, "RVL_SDK/vf/pf_sector.c"),
             Object(Matching, "RVL_SDK/vf/pf_volume.c"),
@@ -1371,7 +1370,7 @@ config.libs = [
         "os",
         [
             Object(NonMatching, "RVL_SDK/os/OS.c"),
-            Object(NonMatching, "RVL_SDK/os/OSAlarm.c"),
+            Object(Matching, "RVL_SDK/os/OSAlarm.c"),
             Object(Matching, "RVL_SDK/os/OSAlloc.c"),
             Object(Matching, "RVL_SDK/os/OSArena.c"),
             Object(Matching, "RVL_SDK/os/OSAudioSystem.c"),
@@ -1381,7 +1380,7 @@ config.libs = [
                 mw_version="GC/3.0a5.2",
                 cflags=cflags_sdk_gc,
             ),
-            Object(NonMatching, "RVL_SDK/os/OSContext.c"),
+            Object(Matching, "RVL_SDK/os/OSContext.c"),
             Object(Matching, "RVL_SDK/os/OSError.c"),
             Object(
                 NonMatching,
@@ -1433,7 +1432,7 @@ config.libs = [
                 mw_version="GC/3.0a5.2",
                 cflags=cflags_sdk_gc,
             ),
-            Object(NonMatching, "RVL_SDK/os/OSCrc.c"),
+            Object(Matching, "RVL_SDK/os/OSCrc.c"),
             Object(Matching, "RVL_SDK/os/OSLaunch.c"),
             Object(Matching, "RVL_SDK/os/__ppc_eabi_init.c"),
             Object(
@@ -1463,7 +1462,7 @@ config.libs = [
     RVLLib(
         "si",
         [
-            Object(NonMatching, "RVL_SDK/si/SIBios.c"),
+            Object(Matching, "RVL_SDK/si/SIBios.c"),
             Object(Matching, "RVL_SDK/si/SISamplingRate.c"),
         ],
     ),
@@ -1506,7 +1505,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/gx/GXTev.c"),
             Object(NonMatching, "RVL_SDK/gx/GXPixel.c"),
             Object(Matching, "RVL_SDK/gx/GXDisplayList.c"),
-            Object(NonMatching, "RVL_SDK/gx/GXTransform.c"),
+            Object(Matching, "RVL_SDK/gx/GXTransform.c"),
             Object(Matching, "RVL_SDK/gx/GXPerf.c"),
         ],
     ),
@@ -1597,7 +1596,7 @@ config.libs = [
             ),
             Object(NonMatching, "RVL_SDK/nand/NANDCheck.c"),
             Object(NonMatching, "RVL_SDK/nand/NANDLogging.c"),
-            Object(NonMatching, "RVL_SDK/nand/NANDErrorMessage.c"),
+            Object(Matching, "RVL_SDK/nand/NANDErrorMessage.c"),
         ],
     ),
     RVLLib(
@@ -1658,7 +1657,7 @@ config.libs = [
             Object(NonMatching, "RVL_SDK/wpad/WPADHIDParser.c"),
             Object(NonMatching, "RVL_SDK/wpad/WPADEncrypt.c"),
             Object(NonMatching, "RVL_SDK/wpad/WPADMem.c"),
-            Object(NonMatching, "RVL_SDK/wpad/lint.c"),
+            Object(Matching, "RVL_SDK/wpad/lint.c"),
         ],
     ),
     RVLLib(
@@ -1831,7 +1830,7 @@ config.libs = [
             Object(NonMatching, "nw4r/lyt/lyt_window.cpp"),
             Object(Matching, "nw4r/lyt/lyt_bounding.cpp"),
             Object(NonMatching, "nw4r/lyt/lyt_material.cpp"),
-            Object(NonMatching, "nw4r/lyt/lyt_texMap.cpp"),
+            Object(Matching, "nw4r/lyt/lyt_texMap.cpp"),
             Object(Matching, "nw4r/lyt/lyt_drawInfo.cpp"),
             Object(NonMatching, "nw4r/lyt/lyt_animation.cpp"),
             Object(Matching, "nw4r/lyt/lyt_resourceAccessor.cpp"),

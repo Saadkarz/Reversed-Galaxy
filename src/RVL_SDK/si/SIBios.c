@@ -14,6 +14,7 @@ typedef struct SIControl {
     SICallback callback;
 } SIControl;
 
+static const char* __SIVersion = "<< RVL_SDK - SI \trelease build: Dec 11 2009 15:58:43 (0x4302_145) >>";
 static SIControl Si = {
     -1
 };
@@ -38,7 +39,6 @@ static BOOL InputBufferValid[4];
 static u32 InputBuffer[4][2];
 static vu32 InputBufferVcount[4];
 
-static const char* __SIVersion = "<< RVL_SDK - SI \trelease build: Aug  8 2007 02:07:10 (0x4199_60831) >>";
 
 static void GetTypeCallback(s32, u32, OSContext *);
 
