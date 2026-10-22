@@ -25,7 +25,7 @@ struct JASLfo {
     static JASLfo sFreeRunLfo;
 
     /* 0x00 */ u32 _0;
-    /* 0x04 */ u32 _4;
+    /* 0x04 */ s32 _4;
     /* 0x08 */ f32 _8;
     /* 0x0C */ f32 mDepth;
     /* 0x10 */ f32 mPitch;

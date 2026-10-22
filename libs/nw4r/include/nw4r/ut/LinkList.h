@@ -195,7 +195,16 @@ namespace nw4r {
 
                 Iterator Erase(pointer p);
                 Iterator Erase(Iterator it);
-                Iterator Erase(Iterator, Iterator);
+                inline Iterator Erase(Iterator itFirst, Iterator itLast) {
+                    Node* pIt = itFirst.mPointer;
+                    Node* const pItLast = itLast.mPointer;
+                    Node* pNext;
+                    for (; pIt != pItLast; pIt = pNext) {
+                        pNext = pIt->mNext;
+                        Erase(pIt);
+                    }
+                    return itLast;
+                }
                 Iterator Insert(Iterator, pointer);
 
                 void Initialize_() {
@@ -204,7 +213,9 @@ namespace nw4r {
                     mNode.mPrev = &mNode;
                 }
 
-                void Clear();
+                inline void Clear() {
+                    Erase(GetBeginIter(), GetEndIter());
+                }
 
                 unsigned long mSize;
                 LinkListNode mNode;

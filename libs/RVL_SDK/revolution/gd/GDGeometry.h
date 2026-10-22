@@ -157,11 +157,11 @@ extern "C" {
 #define XF_NUMTEX_SHIFT 0
 #define XF_NUMTEX(numtex) ((((unsigned long)(numtex)) << XF_NUMTEX_SHIFT))
 
-static void GDBegin(GXPrimitive type, GXVtxFmt vtxfmt, u16 nverts) {
+static inline void GDBegin(GXPrimitive type, GXVtxFmt vtxfmt, u16 nverts) {
     GDWrite_u8(vtxfmt | type);
     GDWrite_u16(nverts);
 }
-static void GDEnd(void) {
+static inline void GDEnd(void) {
 }
 
 #define XF_REG_TEX(proj, form, tgType, row, embossRow, embossLit)                                                                                    \

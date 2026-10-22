@@ -2222,8 +2222,9 @@ Game/LiveActor/ShadowSurfaceDrawer.cpp:
 	.data       start:0x80695AA0 end:0x80695AF8
 
 Game/LiveActor/ShadowSurfaceOval.cpp:
-	.text       start:0x80240450 end:0x80240740 align:16
-	.data       start:0x80695B20 end:0x80695B50
+	.text       start:0x80240450 end:0x80240738 align:16
+	.data       start:0x80695AF8 end:0x80695B50
+	.sdata2     start:0x807DC538 end:0x807DC548
 
 Game/LiveActor/ShadowVolumeBox.cpp:
 	.text       start:0x80240740 end:0x80241178 align:16
@@ -4652,7 +4653,8 @@ Game/System/GameSystemFrameControl.cpp:
 	.text       start:0x804B82B0 end:0x804B8348 align:16
 
 Game/System/GameSystemFunction.cpp:
-	.text       start:0x804B8350 end:0x804B8D70
+	.text       start:0x804B8350 end:0x804B8D8C align:16
+	.data       start:0x806FB028 end:0x806FB030
 
 Game/System/GameSystemObjHolder.cpp:
 	.text       start:0x804B8D90 end:0x804B95C0
@@ -4691,10 +4693,13 @@ Game/System/LayoutHolder.cpp:
 	.data       start:0x806FB7D0 end:0x806FB800
 
 Game/System/MainLoopFramework.cpp:
-	.text       start:0x804BDAE0 end:0x804BEE60
+	.text       start:0x804BDAE0 end:0x804BEEE8 align:16
 	.ctors      start:0x80644A2C end:0x80644A30
-	.bss        start:0x8072B894 end:0x8072B8A0
-	.sbss       start:0x807D5D28 end:0x807D5D2C
+	.rodata     start:0x8064CF90 end:0x8064CFB0
+	.data       start:0x806FB800 end:0x806FB880
+	.bss        start:0x8072B888 end:0x8072B8C8
+	.sbss       start:0x807D5D28 end:0x807D5D40
+	.sdata2     start:0x807E1938 end:0x807E1944
 
 Game/System/NANDErrorSequence.cpp:
 	.text       start:0x804C3390 end:0x804C41A0
@@ -5107,9 +5112,14 @@ JSystem/J3DGraphBase/J3DGD.cpp:
 	.text       start:0x80517CF0 end:0x805195E0 align:16
 
 JSystem/J3DGraphBase/J3DSys.cpp:
-	.text       start:0x805195E0 end:0x8051A6C0 align:16
+	.text       start:0x805195E0 end:0x8051A6BC align:16
 	.ctors      start:0x80644B20 end:0x80644B24
-	.bss        start:0x8072C360 end:0x8072C39C
+	.rodata     start:0x80654380 end:0x806543B8
+	.data       start:0x80705868 end:0x807058B0
+	.bss        start:0x8072C240 end:0x8072C410
+	.sdata      start:0x807D0620 end:0x807D0624
+	.sbss       start:0x807D62C0 end:0x807D62C8
+	.sdata2     start:0x807E1F58 end:0x807E1F64
 
 JSystem/J3DGraphBase/J3DVertex.cpp:
 	.text       start:0x8051A6C0 end:0x8051A8C0 align:16
@@ -5356,6 +5366,7 @@ RVLFaceLib/RFL_NANDLoader.c:
 	.text       start:0x80551C10 end:0x80552CB0 align:16
 	.rodata     start:0x80654650 end:0x806546E0
 	.data       start:0x80707658 end:0x80707678
+	.sdata      start:0x807D0700 end:0x807D0704
 
 RVLFaceLib/RFL_NANDAccess.c:
 	extab       start:0x800067C0 end:0x80006838
@@ -5395,7 +5406,7 @@ RVLFaceLib/RFL_Database.c:
 RVLFaceLib/RFL_Controller.c:
 	extab       start:0x80006988 end:0x80006998
 	extabindex  start:0x80006DBC end:0x80006DD4
-	.text       start:0x8055A250 end:0x8055A4F0 align:16
+	.text       start:0x8055A250 end:0x8055A4EC align:16
 
 RVLFaceLib/RFL_MiddleDatabase.c:
 	extab       start:0x80006998 end:0x800069A0
@@ -5718,12 +5729,11 @@ JSystem/JAudio2/JASHeapCtrl.cpp:
 	.bss        start:0x8077B804 end:0x8077B848
 	.sbss       start:0x807D6460 end:0x807D6468
 
-JSystem/JAudio2/JASResArcLoader.cpp:
-	.text       start:0x80584B60 end:0x80584CE8 align:16
-
 JSystem/JAudio2/JASProbe.cpp:
-	.text       start:0x80584CF0 end:0x80584EC0 align:16
+	.text       start:0x80584CF0 end:0x80584EB8 align:16
+	.rodata     start:0x80659260 end:0x80659268
 	.bss        start:0x8077B848 end:0x8077B888
+	.sdata2     start:0x807E23E0 end:0x807E23EC
 
 JSystem/JAudio2/JASReport.cpp:
 	.text       start:0x80584EC0 end:0x80584FD0 align:16
@@ -5796,12 +5806,17 @@ JSystem/JAudio2/JASSimpleWaveBank.cpp:
 	.data       start:0x80709C68 end:0x80709CB0
 
 JSystem/JAudio2/JASInstSense.cpp:
-	.text       start:0x8058D200 end:0x8058D3D0 align:16
+	.text       start:0x8058D200 end:0x8058D3C4 align:16
+	.rodata     start:0x80659340 end:0x80659358
 	.data       start:0x80709CB0 end:0x80709CC0
+	.sdata2     start:0x807E2470 end:0x807E2478
 
 JSystem/JAudio2/JASInstRand.cpp:
-	.text       start:0x8058D3D0 end:0x8058D510 align:16
+	.text       start:0x8058D3D0 end:0x8058D504 align:16
+	.rodata     start:0x80659358 end:0x80659360
 	.data       start:0x80709CC0 end:0x80709CD0
+	.sbss       start:0x807D64B0 end:0x807D64B8
+	.sdata2     start:0x807E2478 end:0x807E2488
 
 JSystem/JAudio2/JASWSParser.cpp:
 	.text       start:0x8058D510 end:0x8058DA9C align:16
@@ -5821,9 +5836,10 @@ JSystem/JAudio2/JASChannel.cpp:
 	.sbss       start:0x807D64D0 end:0x807D64D8
 
 JSystem/JAudio2/JASLfo.cpp:
-	.text       start:0x805903F0 end:0x80590560 align:16
+	.text       start:0x805903F0 end:0x8059055C align:16
 	.ctors      start:0x80644B4C end:0x80644B50
 	.bss        start:0x8077BE28 end:0x8077BE40
+	.sdata2     start:0x807E24D0 end:0x807E24E8
 
 JSystem/JAudio2/JASOscillator.cpp:
 	.text       start:0x80590560 end:0x80590A1C align:16
@@ -5841,7 +5857,8 @@ JSystem/JAudio2/JASAudioThread.cpp:
 	.sbss       start:0x807D6508 end:0x807D6510
 
 JSystem/JAudio2/JASAudioReseter.cpp:
-	.text       start:0x80591680 end:0x805918C0 align:16
+	.text       start:0x80591680 end:0x805918B4 align:16
+	.rodata     start:0x806594C0 end:0x806594C8
 
 JSystem/JAudio2/JASDSPChannel.cpp:
 	.text       start:0x805918C0 end:0x80591F70 align:16
@@ -5860,7 +5877,8 @@ JSystem/JAudio2/JASDriverIF.cpp:
 	.sdata      start:0x807D08E0 end:0x807D08E8
 
 JSystem/JAudio2/JASSoundParams.cpp:
-	.text       start:0x80592870 end:0x805928E0 align:16
+	.text       start:0x80592870 end:0x805928CC align:16
+	.sdata2     start:0x807E2518 end:0x807E251C
 
 JSystem/JAudio2/JAIAudible.cpp:
 	.text       start:0x805934D0 end:0x80593510 align:16
@@ -5929,10 +5947,11 @@ JSystem/JAudio2/JAIStreamMgr.cpp:
 	.bss        start:0x8077E2E0 end:0x8077E2F0
 
 JSystem/JAudio2/JAUAudience.cpp:
-	.text       start:0x80597EC0 end:0x80598400 align:16
+	.text       start:0x80597EC0 end:0x805983F8 align:16
 	.ctors      start:0x80644B6C end:0x80644B70
 	.bss        start:0x8077E2F0 end:0x8077E398
 	.sbss       start:0x807D6560 end:0x807D6566
+	.sdata2     start:0x807E2560 end:0x807E2590
 
 JSystem/JAudio2/JAUAudioArcInterpreter.cpp:
 	.text       start:0x80598400 end:0x80598898 align:16
@@ -5966,7 +5985,7 @@ JSystem/JAudio2/JAUSoundAnimator.cpp:
 	.data       start:0x8070C058 end:0x8070C070
 
 JSystem/JAudio2/JAUSoundMgr.cpp:
-	.text       start:0x8059BA20 end:0x8059BE50 align:16
+	.text       start:0x8059BA20 end:0x8059BE44 align:16
 	.data       start:0x8070C070 end:0x8070C080
 
 JSystem/JAudio2/JAUSoundObject.cpp:
@@ -6031,13 +6050,17 @@ nw4r/db/db_assert.cpp:
 	.sbss       start:0x807D65DC end:0x807D65E0
 
 nw4r/math/math_triangular.cpp:
-	.text       start:0x805A6C60 end:0x805A6D50 align:16
+	.text       start:0x805A6C60 end:0x805A6D48 align:16
+	.rodata     start:0x80659CB0 end:0x8065ACC0
+	.sdata2     start:0x807E2618 end:0x807E2620
 
 nw4r/math/math_types.cpp:
 	.text       start:0x805A6D50 end:0x805A6DE0 align:16
 
 nw4r/lyt/lyt_init.cpp:
-	.text       start:0x805A6DE0 end:0x805A6E40 align:16
+	.text       start:0x805A6DE0 end:0x805A6E34 align:16
+	.data       start:0x8070C358 end:0x8070C3A0
+	.sdata      start:0x807D0918 end:0x807D0920
 
 nw4r/lyt/lyt_pane.cpp:
 	.text       start:0x805A6E40 end:0x805A7E60 align:16
@@ -6088,6 +6111,7 @@ nw4r/lyt/lyt_texMap.cpp:
 nw4r/lyt/lyt_drawInfo.cpp:
 	.text       start:0x805B07E0 end:0x805B08A0 align:16
 	.data       start:0x8070C718 end:0x8070C728
+	.sdata2     start:0x807E26B8 end:0x807E26C0
 
 nw4r/lyt/lyt_animation.cpp:
 	.text       start:0x805B08A0 end:0x805B16D0 align:16
@@ -6219,7 +6243,7 @@ RVL_SDK/os/OSIpc.c:
 	.sbss       start:0x807D66F8 end:0x807D66FC
 
 RVL_SDK/os/OSStateTM.c:
-	.text       start:0x805BE430 end:0x805BEB40
+	.text       start:0x805BE430 end:0x805BEB34 align:16
 	.data       start:0x8071A208 end:0x8071A2D0
 	.bss        start:0x8077F2E0 end:0x8077F3A0
 	.sbss       start:0x807D6700 end:0x807D6720
@@ -6241,8 +6265,8 @@ RVL_SDK/os/OSStateFlags.c:
 	.bss        start:0x8077F5A0 end:0x8077F5C0
 
 RVL_SDK/os/OSNet.c:
-	.text       start:0x805BF480 end:0x805BF540
-	.data       start:0x8071A340 end:0x8071A4A8
+	.text       start:0x805BF480 end:0x805BF534 align:16
+	.data       start:0x8071A340 end:0x8071A3E8
 
 RVL_SDK/os/OSNandbootInfo.c:
 	.text       start:0x805BF540 end:0x805BF748 align:16
@@ -6357,7 +6381,7 @@ RVL_SDK/gx/GXMisc.c:
 	.sbss       start:0x807D68A8 end:0x807D68C0
 
 RVL_SDK/gx/GXGeometry.c:
-	.text       start:0x805CC4B0 end:0x805CCAC0
+	.text       start:0x805CC4B0 end:0x805CCAB4 align:16
 
 RVL_SDK/gx/GXFrameBuf.c:
 	.text       start:0x805CCAC0 end:0x805CD5D0
@@ -6434,7 +6458,7 @@ RVL_SDK/dvd/dvdFatal.c:
 	.sdata2     start:0x807E28A0 end:0x807E28A8
 
 RVL_SDK/dvd/dvdDeviceError.c:
-	.text       start:0x805D7A60 end:0x805D7CF0
+	.text       start:0x805D7A60 end:0x805D7CEC align:16
 	.rodata     start:0x8065AD48 end:0x8065AD68
 	.data       start:0x8071C830 end:0x8071C9C8
 	.bss        start:0x80785780 end:0x807857A0
@@ -6475,7 +6499,7 @@ RVL_SDK/axfx/AXFXReverbHi.c:
 	.sdata2     start:0x807E28B0 end:0x807E28B8
 
 RVL_SDK/axfx/AXFXReverbHiExp.c:
-	.text       start:0x805DACC0 end:0x805DBAF0
+	.text       start:0x805DACC0 end:0x805DBAE4 align:16
 	.data       start:0x8071D918 end:0x8071DAB8
 	.sdata2     start:0x807E28B8 end:0x807E28F8
 

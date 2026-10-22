@@ -6,8 +6,8 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-450_%2F_700_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Code Matched](https://img.shields.io/badge/Code_Matched-17.91%25_(20.47%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-475_%2F_700_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Code Matched](https://img.shields.io/badge/Code_Matched-18.15%25_(20.63%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
 
@@ -33,29 +33,29 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`450` Matching Translation Units Milestone)
+## 📊 Current Progress (`475` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
 ### 🌐 Global Binary Metrics
-* **Total Code Matched:** `1,123,824 / 6,273,432 bytes` (**17.91% Exact Matched** | **20.47% Fuzzy**)
-* **Total Functions Matched:** `6,875 / 50,898 functions`
-* **Total Data Matched:** `325,180 / 1,702,596 bytes` (**19.10%**)
-* **Cleanly Linked `.o` Units (`Matching`):** **`450` Translation Units** (out of `700` currently configured split files / `4,174` total binary slices)
+* **Total Code Matched:** `1,138,876 / 6,273,524 bytes` (**18.15% Exact Matched** | **20.63% Fuzzy**)
+* **Total Functions Matched:** `6,953 / 50,910 functions`
+* **Total Data Matched:** `333,163 / 1,702,527 bytes` (**19.57%**)
+* **Cleanly Linked `.o` Units (`Matching`):** **`475` Translation Units** (out of `700` currently configured split files / `4,193` total binary slices)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)
 
 | Module / Library | Linked `Matching` Units | Configured Units | Configured Completion | Status & Highlights |
 | :--- | :---: | :---: | :---: | :--- |
-| **MSL_C** *(Standard C/C++ Runtime)* | `65` | `65` | `██████████ 100.0%` | ✅ **Complete** |
-| **MetroTRK** *(Debugger Kernel)* | `26` | `26` | `██████████ 100.0%` | ✅ **Complete** |
-| **Game Code** *(SMG2 Gameplay & Engine)* | `87` | `129` | `███████░░░ 67.44%` | 🔥 `LiveActor/` (95%), `System/` (100% of configured), `Util/` |
-| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `179` | `274` | `███████░░░ 65.33%` | 🔥 Virtual FAT (`vf`), Bluetooth (`bte`), `gx`, `gd`, `os`, `nwc24` |
-| **NintendoWare (`nw4r`)** | `8` | `27` | `███░░░░░░░ 29.63%` | 🛠️ `lyt` (Layouts), `ut` (Utilities & Fonts) |
-| **RVLFaceLib** *(Mii Library)* | `3` | `13` | `██░░░░░░░░ 23.08%` | 🛠️ Core Mii data structures |
-| **JSystem** *(JAudio2, JKernel, JGadget)* | `46` | `165` | `███░░░░░░░ 27.88%` | 🛠️ `JAudio2`, `JUtility`, `JSupport`, `JParticle`, `JGadget`, `J3DGraph` |
+| **MSL_C** *(Standard C/C++ Runtime)* | `65` | `65` | `██████████ 100.00%` | ✅ **Complete** |
+| **MetroTRK** *(Debugger Kernel)* | `26` | `26` | `██████████ 100.00%` | ✅ **Complete** |
+| **Game Code** *(SMG2 Gameplay & Engine)* | `103` | `130` | `████████░░ 79.23%` | 🔥 `LiveActor/`, `System/`, `Util/` bit-exact match pipeline |
+| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `197` | `267` | `███████░░░ 73.78%` | 🔥 Virtual FAT (`vf`), Bluetooth (`bte`), `net`, `gx`, `gd`, `os`, `nwc24` |
+| **NintendoWare (`nw4r`)** | `13` | `27` | `█████░░░░░ 48.15%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
+| **RVLFaceLib** *(Mii Library)* | `5` | `13` | `████░░░░░░ 38.46%` | 🛠️ Core Mii data structures & NAND loaders |
+| **JSystem** *(JAudio2, JKernel, JGadget)* | `61` | `165` | `████░░░░░░ 36.97%` | 🛠️ `JAudio2`, `JUtility`, `JSupport`, `JParticle`, `JGadget`, `J3DGraphBase` |
 | **Runtime.PPCEABI.H** | `5` | `7` | `███████░░░ 71.43%` | 🛠️ Exception handling & runtime glue |
-| **TOTAL CONFIGURED** | **`450`** | **`700`** | **`██████░░░░ 64.29%`** | **100% Bit-Exact `main.dol: OK`** |
+| **TOTAL CONFIGURED** | **`475`** | **`700`** | **`███████░░░ 67.86%`** | **100% Bit-Exact `main.dol: OK`** |
 
 ---
 

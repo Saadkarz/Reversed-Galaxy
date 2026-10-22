@@ -31,7 +31,7 @@ static inline void NETMemSet_BufSize32Aligned(register void* buf, register unsig
 }
 
 static inline void NETMemSet_Simple(register void* buf, register unsigned long fill, unsigned long size) {
-    register unsigned char* buf_u8 = (unsigned char*)buf;
+    register void* p = buf;
     register unsigned long numWords = size >> 2;
     register unsigned long remainBytes = size & 3;
 
@@ -39,8 +39,8 @@ static inline void NETMemSet_Simple(register void* buf, register unsigned long f
         asm {
             mtctr numWords
         word_loop:
-            stw fill, 0(buf_u8)
-            addi buf_u8, buf_u8, 4
+            stw fill, 0(p)
+            addi p, p, 4
             bdnz word_loop
         }
     }
@@ -48,8 +48,8 @@ static inline void NETMemSet_Simple(register void* buf, register unsigned long f
         asm {
             mtctr remainBytes
         byte_loop:
-            stb fill, 0(buf_u8)
-            addi buf_u8, buf_u8, 1
+            stb fill, 0(p)
+            addi p, p, 1
             bdnz byte_loop
         }
     }
@@ -58,10 +58,11 @@ static inline void NETMemSet_Simple(register void* buf, register unsigned long f
 void* NETMemSet(void* buf, int ch, unsigned long size) {
     unsigned long headSize;
     unsigned long accBlkSize;
+    void* origBuf = buf;
     register unsigned long fill = ch;
 
     if (size == 0) {
-        return buf;
+        return origBuf;
     }
 
     asm {
@@ -85,5 +86,5 @@ void* NETMemSet(void* buf, int ch, unsigned long size) {
     }
 
     NETMemSet_Simple(buf, fill, size);
-    return buf;
+    return origBuf;
 }

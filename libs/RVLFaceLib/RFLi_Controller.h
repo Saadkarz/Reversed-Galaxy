@@ -30,7 +30,7 @@ typedef struct RFLiCtrlBufManager {
     BOOL loaded[4];                  // at 0x10
     RFLiCtrlBuf* replaceBuf[RFLi_CTRL_REPLACE_BUF_NUM]; // at 0x20
     BOOL read;                                          // at 0x28
-    CARDFileInfo file;                                  // at 0x2C
+    // CARDFileInfo file;                                  // at 0x2C
     void* tempBuffer;                                   // at 0x40
     void* readBuffer;                                   // at 0x44
     void* writeBuffer;                                  // at 0x48

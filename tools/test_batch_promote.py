@@ -16,8 +16,8 @@ def test_promote(files_to_promote):
     new_cfg = orig_cfg
     promoted = []
     for fpath in files_to_promote:
-        pattern = rf'Object\(NonMatching,\s*"{re.escape(fpath)}"'
-        replacement = f'Object(Matching, "{fpath}"'
+        pattern = rf'(\bObject\s*\(\s*)NonMatching(\s*,\s*"{re.escape(fpath)}")'
+        replacement = r'\1Matching\2'
         new_cfg, count = re.subn(pattern, replacement, new_cfg)
         if count > 0:
             promoted.append(fpath)
@@ -40,14 +40,14 @@ def test_promote(files_to_promote):
     # Step 3: re-run configure.py to update splits in ninja if needed
     run_cmd("python configure.py")
 
-    # Step 4: ninja build
-    rc, out, err = run_cmd("ninja")
+    # Step 4: ninja build main.dol
+    rc, out, err = run_cmd("ninja build/SB4E01/main.dol")
     if rc != 0:
         print(f"ninja build failed:\n{err or out}")
         with open("configure.py", "w", encoding="utf-8") as f: f.write(orig_cfg)
         with open("config/SB4E01/splits.txt", "w", encoding="utf-8") as f: f.write(orig_splits)
         run_cmd("python configure.py")
-        run_cmd("ninja")
+        run_cmd("ninja build/SB4E01/main.dol")
         return False
 
     # Step 5: compare_dol.py
@@ -61,7 +61,7 @@ def test_promote(files_to_promote):
         with open("configure.py", "w", encoding="utf-8") as f: f.write(orig_cfg)
         with open("config/SB4E01/splits.txt", "w", encoding="utf-8") as f: f.write(orig_splits)
         run_cmd("python configure.py")
-        run_cmd("ninja")
+        run_cmd("ninja build/SB4E01/main.dol")
         return False
 
 if __name__ == "__main__":

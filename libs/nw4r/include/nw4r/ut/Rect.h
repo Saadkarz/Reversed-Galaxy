@@ -13,8 +13,7 @@ namespace nw4r {
             Rect(f32 l, f32 t, f32 r, f32 b) : left(l), top(t), right(r), bottom(b) {
             }
 
-            ~Rect() {
-            }
+// ~Rect() {}
 
             f32 GetWidth() const {
                 return right - left;
