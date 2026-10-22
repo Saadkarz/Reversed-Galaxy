@@ -6,8 +6,8 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-475_%2F_700_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Code Matched](https://img.shields.io/badge/Code_Matched-18.15%25_(20.63%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-500_%2F_700_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Code Matched](https://img.shields.io/badge/Code_Matched-18.24%25_(20.70%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
 
@@ -33,15 +33,15 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`475` Matching Translation Units Milestone)
+## 📊 Current Progress (`500` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
 ### 🌐 Global Binary Metrics
-* **Total Code Matched:** `1,138,876 / 6,273,524 bytes` (**18.15% Exact Matched** | **20.63% Fuzzy**)
-* **Total Functions Matched:** `6,953 / 50,910 functions`
-* **Total Data Matched:** `333,163 / 1,702,527 bytes` (**19.57%**)
-* **Cleanly Linked `.o` Units (`Matching`):** **`475` Translation Units** (out of `700` currently configured split files / `4,193` total binary slices)
+* **Total Code Matched:** `1,144,052 / 6,273,532 bytes` (**18.24% Exact Matched** | **20.70% Fuzzy**)
+* **Total Functions Matched:** `6,984 / 50,911 functions`
+* **Total Data Matched:** `334,197 / 1,702,521 bytes` (**19.63%**)
+* **Cleanly Linked `.o` Units (`Matching`):** **`500` Translation Units** (out of `700` currently configured split files / `4,192` total binary slices)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)
 
@@ -49,13 +49,13 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | :--- | :---: | :---: | :---: | :--- |
 | **MSL_C** *(Standard C/C++ Runtime)* | `65` | `65` | `██████████ 100.00%` | ✅ **Complete** |
 | **MetroTRK** *(Debugger Kernel)* | `26` | `26` | `██████████ 100.00%` | ✅ **Complete** |
-| **Game Code** *(SMG2 Gameplay & Engine)* | `103` | `130` | `████████░░ 79.23%` | 🔥 `LiveActor/`, `System/`, `Util/` bit-exact match pipeline |
-| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `197` | `267` | `███████░░░ 73.78%` | 🔥 Virtual FAT (`vf`), Bluetooth (`bte`), `net`, `gx`, `gd`, `os`, `nwc24` |
-| **NintendoWare (`nw4r`)** | `13` | `27` | `█████░░░░░ 48.15%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
+| **Game Code** *(SMG2 Gameplay & Engine)* | `104` | `130` | `████████░░ 80.00%` | 🔥 `LiveActor/`, `System/`, `Util/`, `Map/` (BezierRail) |
+| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `207` | `267` | `███████░░░ 77.53%` | 🔥 Virtual FAT (`vf`), Bluetooth (`bte`), `net`, `gx`, `gd`, `os`, `nwc24` |
+| **NintendoWare (`nw4r`)** | `14` | `27` | `█████░░░░░ 51.85%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
 | **RVLFaceLib** *(Mii Library)* | `5` | `13` | `████░░░░░░ 38.46%` | 🛠️ Core Mii data structures & NAND loaders |
-| **JSystem** *(JAudio2, JKernel, JGadget)* | `61` | `165` | `████░░░░░░ 36.97%` | 🛠️ `JAudio2`, `JUtility`, `JSupport`, `JParticle`, `JGadget`, `J3DGraphBase` |
+| **JSystem** *(JAudio2, JKernel, JGadget)* | `74` | `165` | `████░░░░░░ 44.85%` | 🛠️ `JAudio2`, `JKernel` (JKRArchivePub, JKRDecomp), `JUtility` (JUTPalette), `JParticle` (JPATexture) |
 | **Runtime.PPCEABI.H** | `5` | `7` | `███████░░░ 71.43%` | 🛠️ Exception handling & runtime glue |
-| **TOTAL CONFIGURED** | **`475`** | **`700`** | **`███████░░░ 67.86%`** | **100% Bit-Exact `main.dol: OK`** |
+| **TOTAL CONFIGURED** | **`500`** | **`700`** | **`███████░░░ 71.43%`** | **100% Bit-Exact `main.dol: OK`** |
 
 ---
 
