@@ -9,6 +9,12 @@ void JAISoundParamsMove::moveVolume(f32 newValue, u32 maxSteps) {
     }
 }
 
+void JAISoundParamsTransition::TTransition::set(f32 newValue, f32 currentValue, u32 maxSteps) {
+    mRemainingSteps = maxSteps;
+    mStep = (newValue - currentValue) / mRemainingSteps;
+    mTargetValue = newValue;
+}
+
 void JAISoundParamsMove::movePitch(f32 newValue, u32 maxSteps) {
     if (maxSteps == 0) {
         mParams.mPitch = newValue;
@@ -24,23 +30,5 @@ void JAISoundParamsMove::moveFxMix(f32 newValue, u32 maxSteps) {
         mTransition.mFxMix.mRemainingSteps = 0;
     } else {
         mTransition.mFxMix.set(newValue, mParams.mFxMix, maxSteps);
-    }
-}
-
-void JAISoundParamsMove::movePan(f32 newValue, u32 maxSteps) {
-    if (maxSteps == 0) {
-        mParams.mPan = newValue;
-        mTransition.mPan.mRemainingSteps = 0;
-    } else {
-        mTransition.mPan.set(newValue, mParams.mPan, maxSteps);
-    }
-}
-
-void JAISoundParamsMove::moveDolby(f32 newValue, u32 maxSteps) {
-    if (maxSteps == 0) {
-        mParams.mDolby = newValue;
-        mTransition.mDolby.mRemainingSteps = 0;
-    } else {
-        mTransition.mDolby.set(newValue, mParams.mDolby, maxSteps);
     }
 }

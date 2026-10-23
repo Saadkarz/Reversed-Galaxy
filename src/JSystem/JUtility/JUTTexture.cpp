@@ -87,6 +87,10 @@ void JUTTexture::storeTIMG(const ResTIMG* pTIMG, u8 a1) {
     }
 }
 
+void JUTTexture::setEmbPaletteDelFlag(bool flag) {
+    mFlag = (mFlag & 1) | (flag << 1);
+}
+
 void JUTTexture::storeTIMG(const ResTIMG* pTIMG, JUTPalette* pPalette) {
     GXTlut tlut;
 

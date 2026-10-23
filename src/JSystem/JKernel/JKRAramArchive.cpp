@@ -175,6 +175,14 @@ void* JKRAramArchive::fetchResource(SDIFileEntry* pEntry, u32* pOutSize) {
     return pEntry->mFileData;
 }
 
+int JKRConvertAttrToCompressionType(int arg) {
+    if ((arg & 0x4) == 0) {
+        return 0;
+    }
+
+    return ((arg & 0x80) != 0) + 1;
+}
+
 void* JKRAramArchive::fetchResource(void* buffer, u32 bufferSize, SDIFileEntry* pEntry, u32* resourceSize) {
     u32 size = pEntry->mDataSize;
     if (size > bufferSize) {
@@ -228,6 +236,7 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 srcAram, u32 srcLength, u8* dst
 }
 
 u32 JKRAramArchive::fetchResource_subroutine(u32 entryNum, u32 length, JKRHeap* pHeap, int compression, u8** out) {
+    u32 readLen;
     u32 alignedLen = ALIGN_NEXT(length, 0x20);
 
     u8* buffer;
@@ -241,11 +250,10 @@ u32 JKRAramArchive::fetchResource_subroutine(u32 entryNum, u32 length, JKRHeap* 
     case COMPRESSION_YAY0:
     case COMPRESSION_YAZ0: {
         u8 headerBuf[0x40];
-        u8* alignHeader = reinterpret_cast< u8* >(ALIGN_NEXT(reinterpret_cast< s32 >(&headerBuf[0]), sizeof(RarcHeader)));
+        u8* alignHeader = reinterpret_cast< u8* >((reinterpret_cast< s32 >(&headerBuf[0]) + 0x1B) & ~0x1F);
         JKRAramToMainRam(entryNum, alignHeader, sizeof(RarcHeader), EXPAND_SWITCH_UNKNOWN0, 0, NULL, -1, NULL);
         u32 decompressedLen = ALIGN_NEXT(JKRDecompExpandSize(alignHeader), sizeof(RarcHeader));
         buffer = static_cast< u8* >(JKRAllocFromHeap(pHeap, decompressedLen, sizeof(RarcHeader)));
-        u32 readLen;
         JKRAramToMainRam(entryNum, buffer, alignedLen, EXPAND_SWITCH_UNKNOWN1, decompressedLen, pHeap, -1, &readLen);
         *out = buffer;
         return readLen;

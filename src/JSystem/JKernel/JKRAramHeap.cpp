@@ -3,6 +3,7 @@
 
 JSUList< JKRAramBlock > JKRAramHeap::sAramList;
 
+
 JKRAramHeap::JKRAramHeap(u32 startAddress, u32 size) {
     OSInitMutex(&mMutex);
 
@@ -82,3 +83,5 @@ JKRAramBlock* JKRAramHeap::allocFromTail(u32 size) {
 
     return NULL;
 }
+
+

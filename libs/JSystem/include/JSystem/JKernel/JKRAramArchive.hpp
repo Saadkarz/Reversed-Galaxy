@@ -22,10 +22,4 @@ public:
     JKRFile* mDvdFile;
 };
 
-inline int JKRConvertAttrToCompressionType(int arg) {
-    if ((arg & 0x4) == 0) {
-        return 0;
-    }
-
-    return ((arg & 0x80) != 0) + 1;
-}
+int JKRConvertAttrToCompressionType(int arg);

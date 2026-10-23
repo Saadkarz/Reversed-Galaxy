@@ -803,7 +803,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JAISoundChild.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundHandles.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundInfo.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAISoundParams.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAISoundParams.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundStarter.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAIStream.cpp"),
             Object(Matching, "JSystem/JAudio2/JAIStreamDataMgr.cpp"),
@@ -843,7 +843,7 @@ config.libs = [
             ),
             Object(NonMatching, "JSystem/JKernel/JKRExpHeap.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRSolidHeap.cpp"),
-            Object(NonMatching, "JSystem/JKernel/JKRUnitHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRUnitHeap.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRDisposer.cpp"),
             Object(
                 NonMatching,
@@ -856,9 +856,9 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JKernel/JKRAramHeap.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file", "-func_align 16"],
             ),
             Object(Matching, "JSystem/JKernel/JKRAramBlock.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRAramPiece.cpp"),
@@ -871,18 +871,14 @@ config.libs = [
             Object(NonMatching, "JSystem/JKernel/JKRFileFinder.cpp"),
             Object(Matching, "JSystem/JKernel/JKRArchivePub.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRArchivePri.cpp"),
-            Object(NonMatching, "JSystem/JKernel/JKRMemArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRMemArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRDvdArchive.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRCompArchive.cpp"),
             Object(
-                NonMatching,
-                "JSystem/JKernel/JKRAramArchive.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
-            ),
-            Object(NonMatching, "JSystem/JKernel/JKRDvdArchive.cpp"),
-            Object(NonMatching, "JSystem/JKernel/JKRCompArchive.cpp"),
-            Object(
-                NonMatching,
+                Matching,
                 "JSystem/JKernel/JKRDvdFile.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file", "-func_align 16"],
             ),
             Object(
                 NonMatching,
@@ -975,11 +971,7 @@ config.libs = [
     JSysLib(
         "JUtility",
         [
-            Object(
-                NonMatching,
-                "JSystem/JUtility/JUTTexture.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
-            ),
+            Object(Matching, "JSystem/JUtility/JUTTexture.cpp"),
             Object(Matching, "JSystem/JUtility/JUTPalette.cpp"),
             Object(Matching, "JSystem/JUtility/JUTNameTab.cpp"),
             Object(Matching, "JSystem/JUtility/JUTFont.cpp"),
@@ -990,11 +982,7 @@ config.libs = [
             ),
             Object(NonMatching, "JSystem/JUtility/JUTDirectPrint.cpp"),
             Object(NonMatching, "JSystem/JUtility/JUTAssert.cpp"),
-            Object(
-                NonMatching,
-                "JSystem/JUtility/JUTVideo.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
-            ),
+            Object(Matching, "JSystem/JUtility/JUTVideo.cpp"),
             Object(Matching, "JSystem/JUtility/JUTXfb.cpp"),
             Object(
                 NonMatching,
@@ -1628,10 +1616,11 @@ config.libs = [
         "ipc",
         [
             Object(
-                NonMatching,
+                Matching,
                 "RVL_SDK/ipc/ipcMain.c",
                 mw_version="GC/3.0a3",
                 cflags=cflags_sdk_gc,
+                extra_cflags=["-func_align 16"],
             ),
             Object(NonMatching, "RVL_SDK/ipc/ipcclt.c"),
             Object(Matching, "RVL_SDK/ipc/memory.c"),

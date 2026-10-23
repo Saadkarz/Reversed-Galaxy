@@ -4927,7 +4927,9 @@ JSystem/JKernel/JKRSolidHeap.cpp:
 
 JSystem/JKernel/JKRUnitHeap.cpp:
 	.text       start:0x80503F00 end:0x80504B50 align:16
-	.data       start:0x80704680 end:0x807046E0
+	.rodata     start:0x806542B8 end:0x806542C8
+	.data       start:0x80704628 end:0x807046E0
+	.sdata2     start:0x807E1EA8 end:0x807E1EB0
 
 JSystem/JKernel/JKRDisposer.cpp:
 	.text       start:0x80504B50 end:0x80504C40 align:16
@@ -4947,10 +4949,10 @@ JSystem/JKernel/JKRAram.cpp:
 	.sbss       start:0x807D6158 end:0x807D615C
 
 JSystem/JKernel/JKRAramHeap.cpp:
-	.text       start:0x80505FD0 end:0x80506310 align:16
+	.text       start:0x80505FD0 end:0x805063A0 align:16
 	.ctors      start:0x80644B00 end:0x80644B04
 	.data       start:0x80704740 end:0x80704750
-	.bss        start:0x8072BC74 end:0x8072BC80
+	.bss        start:0x8072BC68 end:0x8072BC80
 
 JSystem/JKernel/JKRAramBlock.cpp:
 	.text       start:0x805063A0 end:0x80506630 align:16
@@ -4982,25 +4984,25 @@ JSystem/JKernel/JKRArchivePri.cpp:
 
 JSystem/JKernel/JKRMemArchive.cpp:
 	.text       start:0x80508700 end:0x80508E80 align:16
-	.data       start:0x807048F0 end:0x80704940
+	.data       start:0x807048C8 end:0x80704940
 
 JSystem/JKernel/JKRAramArchive.cpp:
 	.text       start:0x80508E80 end:0x80509920 align:16
-	.data       start:0x80704968 end:0x807049B8
+	.data       start:0x80704940 end:0x807049B8
 
 JSystem/JKernel/JKRDvdArchive.cpp:
 	.text       start:0x80509920 end:0x8050A480 align:16
-	.data       start:0x80704A30 end:0x80704A80
+	.data       start:0x807049B8 end:0x80704A80
 
 JSystem/JKernel/JKRCompArchive.cpp:
 	.text       start:0x8050A480 end:0x8050B170 align:16
-	.data       start:0x80704AC0 end:0x80704B10
+	.data       start:0x80704A80 end:0x80704B10
 
 JSystem/JKernel/JKRDvdFile.cpp:
-	.text       start:0x8050B170 end:0x8050B6A0 align:16
+	.text       start:0x8050B170 end:0x8050B730 align:16
 	.ctors      start:0x80644B0C end:0x80644B10
-	.data       start:0x80704B38 end:0x80704B80
-	.bss        start:0x8072BD1C end:0x8072BD28
+	.data       start:0x80704B10 end:0x80704B80
+	.bss        start:0x8072BD10 end:0x8072BD28
 
 JSystem/JKernel/JKRDvdRipper.cpp:
 	.text       start:0x8050B730 end:0x8050C2F0 align:16
@@ -5046,6 +5048,8 @@ JSystem/JGadget/linklist.cpp:
 
 JSystem/JUtility/JUTTexture.cpp:
 	.text       start:0x8050E6E0 end:0x8050EEC0 align:16
+	.rodata     start:0x806542C8 end:0x806542D8
+	.sdata2     start:0x807E1EB0 end:0x807E1EB8
 
 JSystem/JUtility/JUTPalette.cpp:
 	.text       start:0x8050EEC0 end:0x8050EFC0 align:16
@@ -5073,9 +5077,9 @@ JSystem/JUtility/JUTAssert.cpp:
 	.text       start:0x805113C0 end:0x805116D0 align:16
 
 JSystem/JUtility/JUTVideo.cpp:
-	.text       start:0x805116D0 end:0x80511AA0 align:16
+	.text       start:0x805116D0 end:0x80511C60 align:16
 	.data       start:0x80705528 end:0x80705538
-	.sbss       start:0x807D6288 end:0x807D6294
+	.sbss       start:0x807D6288 end:0x807D62A0
 
 JSystem/JUtility/JUTXfb.cpp:
 	.text       start:0x80511C60 end:0x80511E30 align:16
@@ -5088,11 +5092,14 @@ JSystem/JUtility/JUTConsole.cpp:
 
 JSystem/J2DGraph/J2DGrafContext.cpp:
 	.text       start:0x80512FB0 end:0x80513910 align:16
+	.rodata     start:0x80654348 end:0x80654350
 	.data       start:0x80705548 end:0x80705570
+	.sdata2     start:0x807E1EF8 end:0x807E1F04
 
 JSystem/J2DGraph/J2DOrthoGraph.cpp:
 	.text       start:0x80513910 end:0x80513BD0 align:16
 	.data       start:0x80705570 end:0x80705598
+	.sdata2     start:0x807E1F04 end:0x807E1F08
 
 JSystem/J2DGraph/J2DMatBlock.cpp:
 	.text       start:0x80513BD0 end:0x80513C30 align:16
@@ -5100,8 +5107,10 @@ JSystem/J2DGraph/J2DMatBlock.cpp:
 JSystem/J2DGraph/J2DPane.cpp:
 	.text       start:0x80513C30 end:0x80515090 align:16
 	.ctors      start:0x80644B1C end:0x80644B20
+	.rodata     start:0x80654350 end:0x80654360
 	.data       start:0x80705598 end:0x80705630
 	.bss        start:0x8072C220 end:0x8072C240
+	.sdata2     start:0x807E1F08 end:0x807E1F20
 
 JSystem/J2DGraph/J2DScreen.cpp:
 	.text       start:0x80515090 end:0x805150E0 align:16
@@ -5920,6 +5929,7 @@ JSystem/JAudio2/JAISeqMgr.cpp:
 
 JSystem/JAudio2/JAISound.cpp:
 	.text       start:0x805964C0 end:0x805968A0 align:16
+	.rodata     start:0x80659C88 end:0x80659C90
 	.data       start:0x8070BE48 end:0x8070BE78
 
 JSystem/JAudio2/JAISoundChild.cpp:
@@ -5934,6 +5944,7 @@ JSystem/JAudio2/JAISoundInfo.cpp:
 
 JSystem/JAudio2/JAISoundParams.cpp:
 	.text       start:0x80596BE0 end:0x80596CB0 align:16
+	.rodata     start:0x80659C90 end:0x80659C98
 
 JSystem/JAudio2/JAISoundStarter.cpp:
 	.text       start:0x80596CB0 end:0x80596E70 align:16
@@ -5988,6 +5999,7 @@ JSystem/JAudio2/JAUSeqDataBlockMgr.cpp:
 
 JSystem/JAudio2/JAUSoundAnimator.cpp:
 	.text       start:0x8059B2F0 end:0x8059BA20 align:16
+	.rodata     start:0x80659C98 end:0x80659CA8
 	.data       start:0x8070C058 end:0x8070C070
 
 JSystem/JAudio2/JAUSoundMgr.cpp:
@@ -6003,6 +6015,7 @@ JSystem/JAudio2/JAUSoundTable.cpp:
 
 JSystem/JAudio2/JAUStdSoundInfo.cpp:
 	.text       start:0x8059C8F0 end:0x8059CDD0 align:16
+	.rodata     start:0x80659CA8 end:0x80659CB0
 
 JSystem/JAudio2/JAUStreamFileTable.cpp:
 	.text       start:0x8059CDE0 end:0x8059CF20 align:16
@@ -6607,11 +6620,11 @@ RVL_SDK/esp/esp.c:
 	.sdata      start:0x807D0C40 end:0x807D0C50
 
 RVL_SDK/ipc/ipcMain.c:
-	.text       start:0x805E3EC0 end:0x805E3FB0
+	.text       start:0x805E3EC0 end:0x805E3FB0 align:16
 	.sbss       start:0x807D6A70 end:0x807D6A88
 
 RVL_SDK/ipc/ipcclt.c:
-	.text       start:0x805E3FB0 end:0x805E5A10
+	.text       start:0x805E3FB0 end:0x805E5A10 align:16
 	.bss        start:0x8078DFA0 end:0x8078E0E0
 	.sdata      start:0x807D0C50 end:0x807D0C58
 	.sbss       start:0x807D6A88 end:0x807D6A98

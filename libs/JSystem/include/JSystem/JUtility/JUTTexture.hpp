@@ -95,9 +95,7 @@ public:
     bool getEmbPaletteDelFlag() const {
         return mFlag & 2;
     }
-    void setEmbPaletteDelFlag(bool flag) {
-        mFlag = (mFlag & 1) | (flag << 1);
-    }
+    void setEmbPaletteDelFlag(bool flag);
     int getTlutName() const {
         return mTlutName;
     }
