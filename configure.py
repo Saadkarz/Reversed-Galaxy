@@ -810,7 +810,11 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio2/JAIStreamMgr.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUAudience.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUAudioArcInterpreter.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAUAudioArcLoader.cpp"),
+            Object(
+                Matching,
+                "JSystem/JAudio2/JAUAudioArcLoader.cpp",
+                extra_cflags=["-sym off"],
+            ),
             Object(Matching, "JSystem/JAudio2/JAUBankTable.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUInitializer.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSectionHeap.cpp"),

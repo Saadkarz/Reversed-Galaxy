@@ -22,8 +22,7 @@ public:
     virtual void beginBNKList(u32, u32);
     virtual void endBNKList();
     virtual void readMaxSeCategory(int, int, int);
-    virtual ~JAUAudioArcLoader() {
-    }
+    virtual ~JAUAudioArcLoader();
 
     /* 0x0C */ JAUSection* mSection;
 };
