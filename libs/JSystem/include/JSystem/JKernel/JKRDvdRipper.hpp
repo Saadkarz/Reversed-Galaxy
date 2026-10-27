@@ -36,9 +36,7 @@ public:
     static void* loadToMainRAM(JKRDvdFile*, unsigned char*, JKRExpandSwitch, unsigned long, JKRHeap*, EAllocDirection, unsigned long, int*,
                                unsigned long*);
 
-    static bool isErrorRetry(void) {
-        return errorRetry;
-    }
+    static bool isErrorRetry(void);
     inline static u32 getSZSBufferSize() {
         return sSZSBufferSize;
     }

@@ -885,8 +885,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-func_align 16"],
             ),
             Object(
-                NonMatching,
-                "JSystem/JKernel/JKRDvdRipper.cpp",
+                Matching, "JSystem/JKernel/JKRDvdRipper.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(

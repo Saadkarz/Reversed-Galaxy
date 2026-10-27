@@ -430,5 +430,6 @@ static int JKRDecompressFromDVD(JKRDvdFile* dvdFile, void* dst, u32 fileSize, u3
     return result;
 }
 
-
-
+bool JKRDvdRipper::isErrorRetry(void) {
+    return errorRetry;
+}
