@@ -5255,6 +5255,8 @@ JSystem/J3DGraphLoader/J3DShapeFactory.cpp:
 
 JSystem/J3DGraphLoader/J3DAnmLoader.cpp:
 	.text       start:0x80538E30 end:0x8053A730 align:16
+	.data       start:0x80706E00 end:0x80706E60
+	.sdata2     start:0x807E2048 end:0x807E2050
 
 JSystem/JMath/JMath.cpp:
 	.text       start:0x8053A730 end:0x8053A9AC align:16
