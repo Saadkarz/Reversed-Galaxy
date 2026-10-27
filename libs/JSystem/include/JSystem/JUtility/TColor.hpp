@@ -47,9 +47,4 @@ namespace JUtility {
     } ATTRIBUTE_ALIGN(4);
 };  // namespace JUtility
 
-inline JUtility::TColor::TColor(u8 r, u8 g, u8 b, u8 a) {
-    this->r = r;
-    this->g = g;
-    this->b = b;
-    this->a = a;
-}
+
