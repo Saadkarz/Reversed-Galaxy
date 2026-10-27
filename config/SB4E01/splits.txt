@@ -5456,6 +5456,7 @@ RVL_SDK/net/nettime.c:
 
 RVL_SDK/net/NETVersion.c:
 	.text       start:0x8055B0A0 end:0x8055B0A8
+	.data       start:0x80707700 end:0x80707738
 	.sdata      start:0x807D0710 end:0x807D0718
 
 RVL_SDK/net/netmemcpy.c:

@@ -1233,7 +1233,7 @@ config.libs = [
         "net",
         [
             Object(Matching, "RVL_SDK/net/nettime.c"),
-            Object(NonMatching, "RVL_SDK/net/NETVersion.c"),
+            Object(Matching, "RVL_SDK/net/NETVersion.c"),
             Object(NonMatching, "RVL_SDK/net/netmemcpy.c"),
             Object(Matching, "RVL_SDK/net/netmemset.c"),
         ],
