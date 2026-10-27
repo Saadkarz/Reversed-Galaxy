@@ -1,3 +1,4 @@
+#define JAUSOUNDOBJECT_NO_INLINE_LIFETIME
 #include "JSystem/JAudio2/JAUSoundObject.hpp"
 #include "JSystem/JAudio2/JAISeMgr.hpp"
 #include "JSystem/JAudio2/JAISoundHandles.hpp"
@@ -6,6 +7,7 @@
 #include "JSystem/JAudio2/JASGlobal.hpp"
 #include "JSystem/JKernel/JKRHeap.hpp"
 
+#if 0
 JAUSoundObject::JAUSoundObject(TVec3f* pPos, u8 numHandles, JKRHeap* pHeap)
     : JAISoundHandles(new(pHeap, 0) JAISoundHandle[numHandles], numHandles), _10(0), mPos(pPos) {
     mIsAllocated = true;
@@ -102,6 +104,7 @@ JAISoundHandle* JAUSoundObject::startLevelSound(JAISoundID soundID) {
     return handle;
 }
 
+#endif
 JAISoundHandle* JAUSoundObject::startLevelSoundIndex(JAISoundID soundID, u8 index) {
     if (!mIsAllocated) {
         return nullptr;

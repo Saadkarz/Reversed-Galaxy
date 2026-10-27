@@ -14,12 +14,12 @@ public:
     JAUSoundObject(TVec3f*, u8, JKRHeap*);
     ~JAUSoundObject();
 
-    virtual void process();
-    virtual void dispose();
-    virtual bool stopOK(JAISoundHandle&);
-    virtual JAISoundHandle* startSound(JAISoundID);
-    virtual JAISoundHandle* startSoundIndex(JAISoundID, u8);
-    virtual JAISoundHandle* startLevelSound(JAISoundID);
+    inline virtual void process();
+    inline virtual void dispose();
+    inline virtual bool stopOK(JAISoundHandle&);
+    inline virtual JAISoundHandle* startSound(JAISoundID);
+    inline virtual JAISoundHandle* startSoundIndex(JAISoundID, u8);
+    inline virtual JAISoundHandle* startLevelSound(JAISoundID);
     virtual JAISoundHandle* startLevelSoundIndex(JAISoundID, u8);
 
     void stopSound(JAISoundID, u32);

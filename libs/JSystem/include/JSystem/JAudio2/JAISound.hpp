@@ -527,6 +527,7 @@ public:
         mStatus.pauseWhenOut();
     }
 
+#ifndef JAUSOUNDOBJECT_NO_INLINE_LIFETIME
     void updateLifeTime(u32 lifeTime) {
         if (lifeTime > mLifeTime) {
             mLifeTime = lifeTime;
@@ -538,6 +539,10 @@ public:
         setComesBack(pauseWhenOut);
         mStatus._1.flags.hasLifeTime = true;
     }
+#else
+    void updateLifeTime(u32 lifeTime);
+    void setLifeTime(u32 lifeTime, bool pauseWhenOut);
+#endif
 
     void setComesBack(bool pauseWhenOut) {
         mStatus._1.flags.comesBack = true;
