@@ -1468,7 +1468,7 @@ config.libs = [
     RVLLib(
         "mtx",
         [
-            Object(NonMatching, "RVL_SDK/mtx/mtx.c"),
+            Object(Matching, "RVL_SDK/mtx/mtx.c"),
             Object(Matching, "RVL_SDK/mtx/mtxvec.c"),
             Object(Matching, "RVL_SDK/mtx/mtx44.c"),
             Object(

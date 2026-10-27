@@ -1,23 +1,27 @@
 #include "revolution/mtx.h"
-#include <cmath>
+extern f64 sin(f64);
+extern f64 cos(f64);
+extern f64 tan(f64);
 
 static f32 Unit01[] = {0.0f, 1.0f};
 
 // clang-format off
 void PSMTXIdentity(register Mtx m) {
-    register f32 c_zero = 0.0F;
-    register f32 c_one = 1.0F;
-    register f32 c_01;
+    register f32 c_zero;
+    register f32 c_one;
     register f32 c_10;
+
+    c_one = 1.0F;
+    c_zero = 0.0F;
 
     asm
     {
         psq_st      c_zero, 8(m),   0, 0
-        ps_merge01  c_01, c_zero, c_one 
-        psq_st      c_zero, 24(m),  0, 0
         ps_merge10  c_10, c_one, c_zero 
+        ps_merge01  c_one, c_zero, c_one 
+        psq_st      c_zero, 24(m),  0, 0
         psq_st      c_zero, 32(m),  0, 0
-        psq_st      c_01,   16(m),  0, 0 
+        psq_st      c_one,  16(m),  0, 0 
         psq_st      c_10,   0(m),   0, 0
         psq_st      c_10,   40(m),  0, 0
     }
@@ -164,23 +168,22 @@ asm u32 PSMTXInverse(const register Mtx src, register Mtx inv)
     psq_l       fp5, 36(src), 0, 0
 
     ps_mul      fp11, fp3, fp6
-    ps_mul      fp13, fp5, fp7
     ps_merge10  fp8, fp5, fp4
+    ps_mul      fp13, fp5, fp7
     ps_msub     fp11, fp1, fp7, fp11
     ps_mul      fp12, fp1, fp8
     ps_msub     fp13, fp3, fp8, fp13
     ps_mul      fp10, fp3, fp4
     ps_msub     fp12, fp5, fp6, fp12
+    ps_mul      fp7,  fp0, fp13
     ps_mul      fp9,  fp0, fp5
     ps_mul      fp8,  fp1, fp2
-
+    ps_madd     fp7, fp2, fp12, fp7
     ps_sub      fp6, fp6, fp6
     ps_msub     fp10, fp2, fp5, fp10
-    ps_mul      fp7, fp0, fp13
-    ps_msub     fp9,  fp1, fp4, fp9
-    ps_madd     fp7, fp2, fp12, fp7
-    ps_msub     fp8,  fp0, fp3, fp8
     ps_madd     fp7, fp4, fp11, fp7
+    ps_msub     fp9,  fp1, fp4, fp9
+    ps_msub     fp8,  fp0, fp3, fp8
 
     ps_cmpo0    cr0, fp7, fp6
     bne         _regular
@@ -192,8 +195,8 @@ _regular:
 
     fres        fp0, fp7
     ps_add      fp6, fp0, fp0
-    ps_mul      fp5, fp0, fp0
-    ps_nmsub    fp0, fp7, fp5, fp6
+    ps_mul      fp5, fp7, fp0
+    ps_nmsub    fp0, fp0, fp5, fp6
 
     lfs         fp1, 12(src)
     ps_muls0    fp13, fp13, fp0
@@ -202,29 +205,27 @@ _regular:
     lfs         fp3, 44(src)
     ps_muls0    fp11, fp11, fp0
     ps_merge00  fp5, fp13, fp12
-    ps_muls0    fp10, fp10, fp0
     ps_merge11  fp4, fp13, fp12
-    ps_muls0    fp9,  fp9,  fp0
-
-    psq_st      fp5,  0(inv), 0, 0
     ps_mul      fp6, fp13, fp1
+    psq_st      fp5,  0(inv), 0, 0
     psq_st      fp4,  16(inv), 0, 0
-    ps_muls0    fp8,  fp8,  fp0
+    ps_muls0    fp10, fp10, fp0
+    ps_muls0    fp9,  fp9,  fp0
     ps_madd     fp6, fp12, fp2, fp6
     psq_st      fp10, 32(inv), 1, 0
+    ps_muls0    fp8,  fp8,  fp0
     ps_nmadd    fp6, fp11, fp3, fp6
     psq_st      fp9,  36(inv), 1, 0
     ps_mul      fp7, fp10, fp1
     ps_merge00  fp5, fp11, fp6
     psq_st      fp8,  40(inv), 1, 0
+    ps_madd     fp7, fp9, fp2, fp7
     ps_merge11  fp4, fp11, fp6
     psq_st      fp5,  8(inv), 0, 0
-    ps_madd     fp7, fp9,  fp2, fp7
+    ps_nmadd    fp7, fp8, fp3, fp7
     psq_st      fp4,  24(inv), 0, 0
-    ps_nmadd    fp7, fp8,  fp3, fp7
-    addi        r3, 0, 1
     psq_st      fp7,  44(inv), 1, 0
-
+    addi        r3, 0, 1
     blr
 }
 
@@ -246,46 +247,43 @@ asm u32 PSMTXInvXpose ( const register Mtx src, register Mtx invX )
     ps_msub     fp11, fp1, fp7, fp11
     ps_mul      fp12, fp1, fp8
     ps_msub     fp13, fp3, fp8, fp13
-    ps_msub     fp12, fp5, fp6, fp12
     ps_mul      fp10, fp3, fp4
+    ps_msub     fp12, fp5, fp6, fp12
+    ps_mul      fp7,  fp0, fp13
     ps_mul      fp9,  fp0, fp5
     ps_mul      fp8,  fp1, fp2
+    ps_madd     fp7, fp2, fp12, fp7
+    ps_sub      fp6, fp6, fp6
     ps_msub     fp10, fp2, fp5, fp10
+    ps_madd     fp7, fp4, fp11, fp7
     ps_msub     fp9,  fp1, fp4, fp9
     ps_msub     fp8,  fp0, fp3, fp8
-    ps_mul      fp7, fp0, fp13
-    ps_sub      fp1, fp1, fp1
-    ps_madd     fp7, fp2, fp12, fp7
-    ps_madd     fp7, fp4, fp11, fp7
-    ps_cmpo0    cr0, fp7, fp1
+    ps_cmpo0    cr0, fp7, fp6
     bne         _regular
     addi        r3, 0, 0
     blr
 
   _regular:        
     fres        fp0, fp7
-    psq_st      fp1,  12(invX), 1, 0
-    ps_add      fp6, fp0, fp0
-    ps_mul      fp5, fp0, fp0
-    psq_st      fp1,  28(invX), 1, 0
-
-    ps_nmsub    fp0, fp7, fp5, fp6
-    psq_st      fp1,  44(invX), 1, 0
+    psq_st      fp6,  12(invX), 1, 0
+    ps_add      fp4, fp0, fp0
+    ps_mul      fp5, fp7, fp0
+    psq_st      fp6,  28(invX), 1, 0
+    ps_nmsub    fp0, fp0, fp5, fp4
+    psq_st      fp6,  44(invX), 1, 0
     ps_muls0    fp13, fp13, fp0
     ps_muls0    fp12, fp12, fp0
-    ps_muls0    fp11, fp11, fp0
     psq_st      fp13,  0(invX), 0, 0
+    ps_muls0    fp11, fp11, fp0
     psq_st      fp12,  16(invX), 0, 0
     ps_muls0    fp10, fp10, fp0
-    ps_muls0    fp9,  fp9,  fp0
     psq_st      fp11,  32(invX), 0, 0
+    ps_muls0    fp9,  fp9,  fp0
     psq_st      fp10,  8(invX), 1, 0
     ps_muls0    fp8,  fp8,  fp0
-
-    addi        r3, 0, 1
     psq_st      fp9,   24(invX), 1, 0
     psq_st      fp8,   40(invX), 1, 0
-    
+    addi        r3, 0, 1
     blr
 }
 
@@ -621,11 +619,10 @@ void C_MTXLookAt(Mtx m, const Point3d* camPos, const Vec* camUp, const Point3d* 
 }
 
 // fun float stuff going on here
-extern f64 tan(f64);
-
 void C_MTXLightPerspective(Mtx m, f32 fovY, f32 aspect, float scaleS, float scaleT, float transS, float transT) {
     f32 angle;
     f32 cot;
+    (void)2.0f, (void)-1.0f;
     angle = fovY * 0.5f;
     angle = MTXDegToRad(angle);
     cot = tan(angle);
@@ -644,6 +641,7 @@ void C_MTXLightPerspective(Mtx m, f32 fovY, f32 aspect, float scaleS, float scal
     m[2][3] = 0.0f;
 }
 
+
 void C_MTXLightOrtho(Mtx m, f32 t, f32 b, f32 l, f32 r, float scaleS, float scaleT, float transS, float transT) {
     f32 tmp;
     tmp = 1.0f / (r - l);
@@ -661,3 +659,4 @@ void C_MTXLightOrtho(Mtx m, f32 t, f32 b, f32 l, f32 r, float scaleS, float scal
     m[2][2] = 0.0f;
     m[2][3] = 1.0f;
 }
+
