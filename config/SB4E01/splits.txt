@@ -5921,7 +5921,7 @@ JSystem/JAudio2/JAISeMgr.cpp:
 	.ctors      start:0x80644B58 end:0x80644B5C
 	.data       start:0x8070BD70 end:0x8070BD98
 	.bss        start:0x8077E268 end:0x8077E278
-	.sbss       start:0x807D6540 end:0x807D6544
+	.sbss       start:0x807D6540 end:0x807D6550
 
 JSystem/JAudio2/JAISeq.cpp:
 	.text       start:0x80594FB0 end:0x80595A50 align:16
@@ -5937,6 +5937,7 @@ JSystem/JAudio2/JAISeqMgr.cpp:
 	.ctors      start:0x80644B60 end:0x80644B64
 	.data       start:0x8070BDE0 end:0x8070BE08
 	.bss        start:0x8077E2B0 end:0x8077E2C0
+	.sbss       start:0x807D6550 end:0x807D6558
 
 JSystem/JAudio2/JAISound.cpp:
 	.text       start:0x805964C0 end:0x805968A0 align:16
@@ -5965,6 +5966,8 @@ JSystem/JAudio2/JAIStream.cpp:
 	.text       start:0x80596E70 end:0x80597820 align:16
 	.ctors      start:0x80644B64 end:0x80644B68
 	.data       start:0x8070BEB0 end:0x8070BEE0
+	.bss        start:0x8077E2C0 end:0x8077E2D0
+	.sdata2     start:0x807E2558 end:0x807E2560
 
 JSystem/JAudio2/JAIStreamDataMgr.cpp:
 	.text       start:0x80597820 end:0x805978A0 align:16
@@ -5972,7 +5975,8 @@ JSystem/JAudio2/JAIStreamDataMgr.cpp:
 JSystem/JAudio2/JAIStreamMgr.cpp:
 	.text       start:0x805978A0 end:0x80597EC0 align:16
 	.ctors      start:0x80644B68 end:0x80644B6C
-	.bss        start:0x8077E2E0 end:0x8077E2F0
+	.bss        start:0x8077E2D0 end:0x8077E2F0
+	.sbss       start:0x807D6558 end:0x807D6560
 
 JSystem/JAudio2/JAUAudience.cpp:
 	.text       start:0x80597EC0 end:0x805983F8 align:16

@@ -29,9 +29,7 @@ struct JASSoundParams {
         initDolby();
     }
 
-    JASSoundParams() {
-        init();
-    }
+    JASSoundParams();
 
     void clampVolume() {
         if (mVolume < 0.0f)
