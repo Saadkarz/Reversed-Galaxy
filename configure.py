@@ -1543,7 +1543,7 @@ config.libs = [
         "axfx",
         [
             Object(Matching, "RVL_SDK/axfx/AXFXReverbHi.c"),
-            Object(NonMatching, "RVL_SDK/axfx/AXFXReverbHiExp.c"),
+            Object(Matching, "RVL_SDK/axfx/AXFXReverbHiExp.c"),
             Object(
                 Matching,
                 "RVL_SDK/axfx/AXFXHooks.c",

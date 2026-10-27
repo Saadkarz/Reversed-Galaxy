@@ -23,6 +23,7 @@ BOOL AXFXReverbHiExpInit(AXFX_REVERBHI_EXP* reverb) {
     BOOL result = TRUE;
     BOOL mask = OSDisableInterrupts();
 
+    (void)32000.0f;
     reverb->active = 1;
 
     if (reverb->preDelayTimeMax < 0.0f) {
@@ -329,6 +330,7 @@ static void __FreeDelayLine(AXFX_REVERBHI_EXP* reverb) {
 
 static BOOL __InitParams(AXFX_REVERBHI_EXP* reverb) {
     u32 ch, i;
+    f32 exp;
 
     if (reverb->earlyMode >= 8)
         return FALSE;
@@ -375,7 +377,8 @@ static BOOL __InitParams(AXFX_REVERBHI_EXP* reverb) {
     for (i = 0; i < 3; i++) {
         reverb->combPos[i] = 0;
         reverb->combLength[i] = __FilterSizeTable[reverb->fusedMode][i];
-        reverb->combCoef[i] = pow(10.0f, (-3.0f * (f32)(reverb->combLength[i]) / (f32)(reverb->fusedTime * 32000)));
+        exp = -3.0f * (f32)(reverb->combLength[i]) / (f32)(reverb->fusedTime * 32000);
+        reverb->combCoef[i] = pow(10.0, exp);
     }
 
     for (i = 0; i < 2; i++) {
