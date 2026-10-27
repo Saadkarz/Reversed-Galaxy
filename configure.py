@@ -1171,7 +1171,7 @@ config.libs = [
             Object(Matching, "Game/Util/JMapIdInfo.cpp"),
             Object(Matching, "Game/Util/JMapInfo.cpp"),
             Object(Matching, "Game/Util/JMapLinkInfo.cpp"),
-            Object(NonMatching, "Game/Util/JMapUtil.cpp"),
+            Object(Matching, "Game/Util/JMapUtil.cpp"),
             Object(Matching, "Game/Util/JointController.cpp"),
             Object(Matching, "Game/Util/JointRumbler.cpp"),
             Object(NonMatching, "Game/Util/LiveActorUtil.cpp"),
