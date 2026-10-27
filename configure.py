@@ -981,7 +981,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(NonMatching, "JSystem/JUtility/JUTDirectPrint.cpp"),
-            Object(NonMatching, "JSystem/JUtility/JUTAssert.cpp"),
+            Object(Matching, "JSystem/JUtility/JUTAssert.cpp"),
             Object(Matching, "JSystem/JUtility/JUTVideo.cpp"),
             Object(Matching, "JSystem/JUtility/JUTXfb.cpp"),
             Object(

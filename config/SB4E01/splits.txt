@@ -5071,10 +5071,16 @@ JSystem/JUtility/JUTException.cpp:
 
 JSystem/JUtility/JUTDirectPrint.cpp:
 	.text       start:0x80510CB0 end:0x805113C0 align:16
+	.rodata     start:0x806542D8 end:0x80654330
 	.sbss       start:0x807D6278 end:0x807D6280
 
 JSystem/JUtility/JUTAssert.cpp:
 	.text       start:0x805113C0 end:0x805116D0 align:16
+	.rodata     start:0x80654330 end:0x80654338
+	.bss        start:0x8072C0E0 end:0x8072C220
+	.sdata      start:0x807D0600 end:0x807D0610
+	.sbss       start:0x807D6280 end:0x807D6288
+	.sdata2     start:0x807E1EC8 end:0x807E1ED8
 
 JSystem/JUtility/JUTVideo.cpp:
 	.text       start:0x805116D0 end:0x80511C60 align:16
