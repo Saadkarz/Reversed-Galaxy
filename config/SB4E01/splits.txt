@@ -5275,6 +5275,9 @@ JSystem/JMath/random.cpp:
 JSystem/JMath/JMATrigonometric.cpp:
 	.text       start:0x8053A9C0 end:0x8053ADF0 align:16
 	.ctors      start:0x80644B28 end:0x80644B2C
+	.rodata     start:0x80654598 end:0x806545B8
+	.bss        start:0x8072E9C0 end:0x80750A00
+	.sdata2     start:0x807E2050 end:0x807E2070
 
 JSystem/JParticle/JPAResourceManager.cpp:
 	.text       start:0x8053ADF0 end:0x8053AF30 align:16

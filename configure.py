@@ -900,9 +900,9 @@ config.libs = [
             Object(Matching, "JSystem/JMath/JMath.cpp", extra_cflags=["-opt nocse"]),
             Object(Matching, "JSystem/JMath/random.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JMath/JMATrigonometric.cpp",
-                extra_cflags=["-opt nocse"],
+                extra_cflags=["-opt nocse", "-ipa file"],
             ),
         ],
     ),

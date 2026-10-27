@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <math_types.hpp>
 #include <revolution/types.h>
 
@@ -42,7 +43,12 @@ namespace JMath {
     template < int Bits, typename T >
     class TSinCosTable {
     public:
-        TSinCosTable();
+        TSinCosTable() {
+            for (s32 i = 0; i < static_cast< s32 >(LEN); ++i) {
+                table[i].a1 = sin(i * static_cast< f64 >(TAngleConstant_< T >::RADIAN_DEG360()) / LEN);
+                table[i].b1 = cos(i * static_cast< f64 >(TAngleConstant_< T >::RADIAN_DEG360()) / LEN);
+            }
+        }
 
         static const u32 LEN = 1 << Bits;
         std::pair< T, T > table[LEN];
@@ -115,19 +121,31 @@ namespace JMath {
     template < s32 Len, typename T >
     class TAtanTable {
     public:
-        TAtanTable();
+        TAtanTable() {
+            for (s32 i = 0; static_cast< u32 >(i) < Len; ++i) {
+                mTable[i] = atan(static_cast< f64 >(i) / Len);
+            }
+            mTable[0] = 0.0f;
+            _1000 = TAngleConstant_< T >::RADIAN_DEG090() / 2;
+        }
 
         T atan2_(T, T) const;
         T get_(T, T) const;
 
         T mTable[Len];
         T _1000;
-    };
+    } ATTRIBUTE_ALIGN(32);
 
     template < s32 Len, typename T >
     class TAsinAcosTable {
     public:
-        TAsinAcosTable();
+        TAsinAcosTable() {
+            for (s32 i = 0; i < Len; ++i) {
+                mTable[i] = asin(static_cast< f64 >(i) / Len);
+            }
+            mTable[0] = 0.0f;
+            _1000 = TAngleConstant_< T >::RADIAN_DEG090() / 2;
+        }
 
         T get_(T, T) const;
 
@@ -161,7 +179,7 @@ namespace JMath {
 
         T mTable[Len];
         T _1000;
-    };
+    } ATTRIBUTE_ALIGN(32);
 
     extern TSinCosTable< 14, f32 > sSinCosTable;
     extern TAtanTable< 1024, f32 > sAtanTable;

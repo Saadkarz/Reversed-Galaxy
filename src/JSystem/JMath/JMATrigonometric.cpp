@@ -1,9 +1,17 @@
 #include "JSystem/JMath/JMATrigonometric.hpp"
-#include <cmath>
 
 namespace JMath {
     template < >
     f32 TAtanTable< 1024, f32 >::atan2_(f32 y, f32 x) const {
+        (void)0.0f;
+        (void)1.5707964f;
+        (void)0.5f;
+        (void)1024.0f;
+        (void)-1.5707964f;
+        (void)3.1415927f;
+        (void)-3.1415927f;
+        (void)0.7853982f;
+
         if (y >= 0.0f) {
             if (x >= 0.0f) {
                 if (x >= y) {
@@ -31,41 +39,15 @@ namespace JMath {
         return -get_(negY, x);
     }
 
-    template < s32 Len, typename T >
-    T TAtanTable< Len, T >::get_(T y, T x) const {
+    template < >
+    f32 TAtanTable< 1024, f32 >::get_(f32 y, f32 x) const {
         if (x == 0.0f) {
             return 0.0f;
         }
-        return mTable[static_cast< s32 >(0.5f + Len * y / x)];
-    }
-
-    template < int Bits, typename T >
-    TSinCosTable< Bits, T >::TSinCosTable() {
-        for (s32 i = 0; i < static_cast< s32 >(LEN); ++i) {
-            table[i].a1 = sin(i * static_cast< f64 >(TAngleConstant_< T >::RADIAN_DEG360()) / LEN);
-            table[i].b1 = cos(i * static_cast< f64 >(TAngleConstant_< T >::RADIAN_DEG360()) / LEN);
-        }
-    }
-
-    template < s32 Len, typename T >
-    TAtanTable< Len, T >::TAtanTable() {
-        for (s32 i = 0; static_cast< u32 >(i) < Len; ++i) {
-            mTable[i] = atan(static_cast< f64 >(i) / Len);
-        }
-        mTable[0] = 0.0f;
-        _1000 = TAngleConstant_< T >::RADIAN_DEG090() / 2;
-    }
-
-    template < s32 Len, typename T >
-    TAsinAcosTable< Len, T >::TAsinAcosTable() {
-        for (s32 i = 0; i < Len; ++i) {
-            mTable[i] = asin(static_cast< f64 >(i) / Len);
-        }
-        mTable[0] = 0.0f;
-        _1000 = TAngleConstant_< T >::RADIAN_DEG090() / 2;
+        return mTable[static_cast< s32 >(0.5f + 1024.0f * y / x)];
     }
 
     TSinCosTable< 14, f32 > sSinCosTable;
-    TAtanTable< 1024, f32 > sAtanTable;
-    TAsinAcosTable< 1024, f32 > sAsinAcosTable;
+    TAtanTable< 1024, f32 > sAtanTable ATTRIBUTE_ALIGN(32);
+    TAsinAcosTable< 1024, f32 > sAsinAcosTable ATTRIBUTE_ALIGN(32);
 }
