@@ -664,7 +664,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphBase/J3DShapeMtx.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),

@@ -52,9 +52,7 @@ public:
     u8 getDrawMtxFlag(u16 idx) const {
         return mJointTree.getDrawMtxFlag(idx);
     }
-    u16 getDrawMtxIndex(u16 idx) const {
-        return mJointTree.getDrawMtxIndex(idx);
-    }
+    u16 getDrawMtxIndex(u16 idx) const;
     J3DDrawMtxData* getDrawMtxData() {
         return mJointTree.getDrawMtxData();
     }

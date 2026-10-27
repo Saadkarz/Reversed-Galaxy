@@ -7,6 +7,7 @@
 #include "JSystem/J3DGraphBase/J3DTexture.hpp"
 #include "JSystem/J3DGraphBase/J3DTransform.hpp"
 
+
 u16 J3DShapeMtx::sMtxLoadCache[10];
 MtxPtr J3DShapeMtxConcatView::sMtxPtrTbl[2];
 
@@ -314,11 +315,37 @@ void J3DShapeMtx::load() const {
     (this->*func)(0, mUseMtxIndex);
 }
 
+
 void J3DPSMtx33Copy(Mtx3P, Mtx3P);
 
 void J3DShapeMtx::calcNBTScale(Vec const& param_0, Mtx33* param_1, Mtx33* param_2) {
     J3DPSMtx33Copy(param_1[mUseMtxIndex], param_2[mUseMtxIndex]);
     J3DScaleNrmMtx33(param_2[mUseMtxIndex], param_0);
+}
+
+void J3DPSMtx33Copy(Mtx3P src, Mtx3P dst) {
+#ifdef __MWERKS__
+    __REGISTER const void* source = src;
+    __REGISTER void* destination = dst;
+    __REGISTER f32 fr4;
+    __REGISTER f32 fr3;
+    __REGISTER f32 fr2;
+    __REGISTER f32 fr1;
+    __REGISTER f32 fr0;
+
+    asm {
+        psq_l fr4, 0(source), 0, 0
+        psq_l fr3, 8(source), 0, 0
+        psq_l fr2, 0x10(source), 0, 0
+        psq_l fr1, 0x18(source), 0, 0
+        lfs fr0, 0x20(source)
+        psq_st fr4, 0(destination), 0, 0
+        psq_st fr3, 8(destination), 0, 0
+        psq_st fr2, 0x10(destination), 0, 0
+        psq_st fr1, 0x18(destination), 0, 0
+        stfs fr0, 0x20(destination)
+    }
+#endif
 }
 
 void J3DShapeMtxConcatView::load() const {
@@ -330,6 +357,10 @@ void J3DShapeMtxConcatView::load() const {
 
     u16 draw_mtx_index = j3dSys.getModel()->getModelData()->getDrawMtxIndex(mUseMtxIndex);
     (this->*func)(0, draw_mtx_index);
+}
+
+u16 J3DModelData::getDrawMtxIndex(u16 idx) const {
+    return mJointTree.getDrawMtxIndex(idx);
 }
 
 void J3DShapeMtxConcatView::loadNrmMtx(int param_0, u16 param_1, MtxPtr param_2) const {
@@ -362,6 +393,26 @@ void J3DShapeMtxConcatView::loadNrmMtx(int param_0, u16 param_1, MtxPtr param_2)
             J3DFifoLoadNrmMtxImm3x3(mtx, 0);
         }
     }
+}
+
+void J3DPSMtx33CopyFrom34(__REGISTER MtxPtr src, __REGISTER Mtx3P dst) {
+#ifdef __MWERKS__
+    __REGISTER f32 x, y, z, w, u, v;
+    asm {
+        psq_l x, 0(src), 0, 0
+        lfs y, 8(src)
+        psq_l z, 16(src), 0, 0
+        lfs w, 24(src)
+        psq_l u, 32(src), 0, 0
+        lfs v, 40(src)
+        psq_st x, 0(dst), 0, 0
+        stfs y, 8(dst)
+        psq_st z, 12(dst), 0, 0
+        stfs w, 20(dst)
+        psq_st u, 24(dst), 0, 0
+        stfs v, 32(dst)
+    }
+#endif
 }
 
 void J3DShapeMtxMulti::load() const {
@@ -523,47 +574,6 @@ u32 J3DShapeMtx::sTexMtxLoadType;
 J3DTexGenBlock* J3DDifferedTexMtx::sTexGenBlock;
 J3DTexMtxObj* J3DDifferedTexMtx::sTexMtxObj;
 
-void J3DPSMtx33Copy(Mtx3P src, Mtx3P dst) {
-#ifdef __MWERKS__
-    __REGISTER const void* source = src;
-    __REGISTER void* destination = dst;
-    __REGISTER f32 fr4;
-    __REGISTER f32 fr3;
-    __REGISTER f32 fr2;
-    __REGISTER f32 fr1;
-    __REGISTER f32 fr0;
 
-    asm {
-        psq_l fr4, 0(source), 0, 0
-        psq_l fr3, 8(source), 0, 0
-        psq_l fr2, 0x10(source), 0, 0
-        psq_l fr1, 0x18(source), 0, 0
-        lfs fr0, 0x20(source)
-        psq_st fr4, 0(destination), 0, 0
-        psq_st fr3, 8(destination), 0, 0
-        psq_st fr2, 0x10(destination), 0, 0
-        psq_st fr1, 0x18(destination), 0, 0
-        stfs fr0, 0x20(destination)
-    }
-#endif
-}
 
-void J3DPSMtx33CopyFrom34(__REGISTER MtxPtr src, __REGISTER Mtx3P dst) {
-#ifdef __MWERKS__
-    __REGISTER f32 x, y, z, w, u, v;
-    asm {
-        psq_l x, 0(src), 0, 0
-        lfs y, 8(src)
-        psq_l z, 16(src), 0, 0
-        lfs w, 24(src)
-        psq_l u, 32(src), 0, 0
-        lfs v, 40(src)
-        psq_st x, 0(dst), 0, 0
-        stfs y, 8(dst)
-        psq_st z, 12(dst), 0, 0
-        stfs w, 20(dst)
-        psq_st u, 24(dst), 0, 0
-        stfs v, 32(dst)
-    }
-#endif
-}
+
