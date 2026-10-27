@@ -4965,6 +4965,7 @@ JSystem/JKernel/JKRAramPiece.cpp:
 
 JSystem/JKernel/JKRAramStream.cpp:
 	.text       start:0x80506B90 end:0x805070E0 align:16
+	.data       start:0x807047D8 end:0x80704818
 	.bss        start:0x8072BCB0 end:0x8072BCE0
 	.sbss       start:0x807D6198 end:0x807D61A8
 
