@@ -939,7 +939,7 @@ config.libs = [
             Object(Matching, "JSystem/JParticle/JPAEmitter.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAParticle.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JParticle/JPAMath.cpp",
                 extra_cflags=["-opt nolifetimes,nocse"],
             ),

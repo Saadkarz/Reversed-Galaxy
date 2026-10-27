@@ -368,11 +368,15 @@ namespace JGeometry {
         TVec3(const TVec3< f32 >& vec);
 #endif
 
+#ifndef NO_TVEC_BODIES
         TVec3(f32 _x, f32 _y, f32 _z) {
             x = _x;
             y = _y;
             z = _z;
         }
+#else
+        TVec3(f32 _x, f32 _y, f32 _z);
+#endif
 
         template < typename T >
         TVec3(T _x, T _y, T _z) {
@@ -457,12 +461,17 @@ namespace JGeometry {
             z = rVec.z;
         }
 
+#ifndef NO_TVEC_BODIES
         template < typename T >
         void set(T _x, T _y, T _z) NO_INLINE {
             x = _x;
             y = _y;
             z = _z;
         }
+#else
+        template < typename T >
+        void set(T _x, T _y, T _z);
+#endif
 
         void set(f32 x_, f32 y_, f32 z_) {
             x = x_;

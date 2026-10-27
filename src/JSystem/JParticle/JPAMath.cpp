@@ -1,3 +1,4 @@
+#define NO_TVEC_BODIES
 #include "JSystem/JParticle/JPAMath.hpp"
 #include "JSystem/JMath/JMATrigonometric.hpp"
 
@@ -14,6 +15,7 @@ namespace {
 }
 
 void JPAGetDirMtx(JGeometry::TVec3< f32 > const& param_0, f32 (*param_1)[4]) {
+    (void)1.0f;
     JGeometry::TVec3< f32 > local_78 = JGeometry::TVec3< f32 >(param_0.y, -param_0.x, 0.0f);
     f32 len = local_78.length();
 

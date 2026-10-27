@@ -5313,7 +5313,8 @@ JSystem/JParticle/JPAParticle.cpp:
 	.text       start:0x80542BE0 end:0x80543B10 align:16
 
 JSystem/JParticle/JPAMath.cpp:
-	.text       start:0x80543C40 end:0x80544010 align:16
+	.text       start:0x80543B10 end:0x80544010 align:16
+	.sdata2     start:0x807E20F0 end:0x807E2100
 
 RVL_SDK/gd/GDBase.c:
 	.text       start:0x80544010 end:0x80544178 align:16
