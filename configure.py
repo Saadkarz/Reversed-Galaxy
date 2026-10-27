@@ -872,7 +872,7 @@ config.libs = [
                 "JSystem/JKernel/JKRFileLoader.cpp",
                 extra_cflags=["-ipa file"],
             ),
-            Object(NonMatching, "JSystem/JKernel/JKRFileFinder.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRFileFinder.cpp"),
             Object(Matching, "JSystem/JKernel/JKRArchivePub.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRArchivePri.cpp"),
             Object(Matching, "JSystem/JKernel/JKRMemArchive.cpp"),

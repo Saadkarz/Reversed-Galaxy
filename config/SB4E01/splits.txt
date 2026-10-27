@@ -3420,9 +3420,6 @@ Game/NPC/Kinopio.cpp:
 Game/NPC/MiiDatabase.cpp:
 	.text       start:0x80354580 end:0x80354610
 
-JSystem/JKernel/JKRFileFinder.cpp:
-	.text       start:0x80354610 end:0x80354650 align:16
-
 Game/NPC/MiiFaceIcon.cpp:
 	.text       start:0x803546B0 end:0x803549C0
 	.data       start:0x806BAD38 end:0x806BAD68
@@ -4977,6 +4974,10 @@ JSystem/JKernel/JKRFileLoader.cpp:
 	.data       start:0x80704818 end:0x80704858
 	.bss        start:0x8072BCEC end:0x8072BD10
 	.sbss       start:0x807D61A8 end:0x807D61B0
+
+JSystem/JKernel/JKRFileFinder.cpp:
+	.text       start:0x80507450 end:0x805075E0 align:16
+	.data       start:0x80704858 end:0x80704878
 
 JSystem/JKernel/JKRArchivePub.cpp:
 	.text       start:0x805075E0 end:0x80507FF8 align:16

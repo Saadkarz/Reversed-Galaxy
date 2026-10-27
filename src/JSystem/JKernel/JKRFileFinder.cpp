@@ -11,6 +11,11 @@ JKRArcFinder::JKRArcFinder(JKRArchive* pArchive, long firstFileIndex, long nrFil
     findNextFile();
 }
 
+JKRFileFinder::JKRFileFinder() {
+    mHasMoreFiles = false;
+    mFileIsFolder = false;
+}
+
 bool JKRArcFinder::findNextFile() {
     if (mHasMoreFiles) {
         bool moreFiles = mCurrentIndex <= mLastIndex;
@@ -31,11 +36,6 @@ bool JKRArcFinder::findNextFile() {
     }
 
     return mHasMoreFiles;
-}
-
-JKRFileFinder::JKRFileFinder() {
-    mHasMoreFiles = false;
-    mFileIsFolder = false;
 }
 
 JKRArcFinder::~JKRArcFinder() {
