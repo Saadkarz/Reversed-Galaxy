@@ -5188,8 +5188,10 @@ JSystem/J3DGraphBase/J3DTevs.cpp:
 
 JSystem/J3DGraphBase/J3DDrawBuffer.cpp:
 	.text       start:0x80528BC0 end:0x80529250 align:16
+	.rodata     start:0x80654550 end:0x80654558
 	.data       start:0x80706828 end:0x80706888
 	.sbss       start:0x807D6300 end:0x807D6308
+	.sdata2     start:0x807E1FC0 end:0x807E1FC8
 
 JSystem/J3DGraphBase/J3DStruct.cpp:
 	.text       start:0x80529250 end:0x80529400 align:16

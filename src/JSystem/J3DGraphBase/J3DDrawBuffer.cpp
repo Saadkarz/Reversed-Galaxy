@@ -16,6 +16,11 @@ void J3DDrawBuffer::initialize() {
     calcZRatio();
 }
 
+void J3DDrawBuffer::calcZRatio() {
+    mZRatio = (mZFar - mZNear) / static_cast< f32 >(mEntryTableSize);
+}
+
+
 int J3DDrawBuffer::allocBuffer(u32 size) {
     mpBuffer = new (0x20) J3DPacket*[size];
     mEntryTableSize = size;
@@ -197,6 +202,3 @@ void J3DDrawBuffer::drawTail() const {
     }
 }
 
-void J3DDrawBuffer::calcZRatio() {
-    mZRatio = (mZFar - mZNear) / static_cast< f32 >(mEntryTableSize);
-}
