@@ -116,6 +116,13 @@ J3DError J3DDrawPacket::newDisplayList(u32 size) {
     return kJ3DError_Success;
 }
 
+J3DDisplayListObj::J3DDisplayListObj() {
+    mpDisplayList[0] = nullptr;
+    mpDisplayList[1] = nullptr;
+    mSize = 0;
+    mMaxSize = 0;
+}
+
 J3DError J3DDrawPacket::newSingleDisplayList(u32 size) {
     mpDisplayListObj = new J3DDisplayListObj();
 

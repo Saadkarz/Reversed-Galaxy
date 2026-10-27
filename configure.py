@@ -659,7 +659,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on", "-opt nolifetimes,nocse"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphBase/J3DPacket.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
