@@ -41,6 +41,8 @@ public:
 
     virtual ~JKRHeap();
     virtual void callAllDisposer();
+    void appendDisposer(JKRDisposer* disposer);
+    void removeDisposer(JKRDisposer* disposer);
     virtual u32 getHeapType() = 0;
     virtual bool check() = 0;
     virtual bool dump_sort();
