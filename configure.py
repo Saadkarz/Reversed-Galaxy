@@ -1606,7 +1606,7 @@ config.libs = [
     RVLLib(
         "arc",
         [
-            Object(NonMatching, "RVL_SDK/arc/arc.c"),
+            Object(Matching, "RVL_SDK/arc/arc.c"),
         ],
     ),
     RVLLib(

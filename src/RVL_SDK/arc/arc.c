@@ -28,6 +28,8 @@ struct FSTEntry {
 #define fileLength(fstStart, i)         \
         ( fstStart[i].nextEntryOrLength )
 
+#pragma push
+#pragma force_active on
 BOOL ARCInitHandle(void* arcStart, ARCHandle* handle) {
     FSTEntry* FSTEntries;
     ARCHeader* arcHeader = (ARCHeader*)arcStart;
@@ -45,6 +47,7 @@ BOOL ARCInitHandle(void* arcStart, ARCHandle* handle) {
     handle->currDir = 0;
     return TRUE;
 }
+#pragma pop
 
 // These SDK entry points are retained in the retail binary for the product.sel export symbol table.
 #pragma push
@@ -71,8 +74,6 @@ BOOL ARCOpen(ARCHandle* handle, const char* fileName, ARCFileInfo* af) {
 
     return TRUE;
 }
-#pragma pop
-
 BOOL ARCFastOpen(ARCHandle* handle, s32 entrynum, ARCFileInfo* af) {
     FSTEntry* FSTEntries = (FSTEntry*)handle->FSTStart;
 
@@ -85,6 +86,7 @@ BOOL ARCFastOpen(ARCHandle* handle, s32 entrynum, ARCFileInfo* af) {
     af->length = fileLength(FSTEntries, entrynum);
     return TRUE;
 }
+#pragma pop
 
 static BOOL isSame(const char* path, const char* string) {
     while(*string != '\0') {
@@ -242,6 +244,8 @@ static BOOL ARCGetCurrentDir(ARCHandle* handle, char* path, u32 maxlen) {
     return ARCConvertEntrynumToPath(handle, (s32)handle->currDir, path, maxlen);
 }
 
+#pragma push
+#pragma force_active on
 void* ARCGetStartAddrInMem(ARCFileInfo* af) {
     ARCHandle* handle = af->handle;
     return (void*)((u32)handle->archiveStartAddr + af->startOffset);
@@ -318,3 +322,5 @@ retry:
 BOOL ARCCloseDir(ARCDir* dir) {
     return TRUE;
 }
+
+#pragma pop
