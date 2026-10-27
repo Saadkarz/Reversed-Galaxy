@@ -1,7 +1,7 @@
 #include "revolution/nand.h"
 #include "revolution/fs.h"
 
-static const char *USER_DIR_LIST[] =
+static const char *USER_DIR_LIST[] __attribute__((aligned(8))) =
 {
     "/meta",
     "/ticket",
@@ -13,6 +13,7 @@ static const char *USER_DIR_LIST[] =
     "/title/00010006",
     "/title/00010007",
     "/shared2/title",
+    NULL,
     NULL,
 };
 
@@ -43,7 +44,7 @@ s32 nandCalcUsage(u32* fsBlock, u32* inode, const char* dir_list[]) {
     return ret;
 }
 
-ISFSError nandCalcUserUsage(u32* fsBlock, u32* inode) {
+static inline ISFSError nandCalcUserUsage(u32* fsBlock, u32* inode) {
     return nandCalcUsage(fsBlock, inode, USER_DIR_LIST);
 }
 

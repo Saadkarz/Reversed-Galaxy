@@ -6576,7 +6576,7 @@ RVL_SDK/nand/NANDCore.c:
 	.sbss       start:0x807D6A40 end:0x807D6A48
 
 RVL_SDK/nand/NANDCheck.c:
-	.text       start:0x805E02D0 end:0x805E04A0
+	.text       start:0x805E02D0 end:0x805E0498 align:16
 	.data       start:0x8071DE10 end:0x8071DEC0
 	.sdata      start:0x807D0B00 end:0x807D0B10
 
