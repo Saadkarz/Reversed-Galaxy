@@ -43,23 +43,7 @@ public:
         return (mFlags & 0x80) != 0;  // 0x80
     }
 
-    bool isNoting(f32 time) const {
-        if (mNoteOnTime == mNoteOffTime) {
-            return true;
-        }
-
-        if (mNoteOnTime > mNoteOffTime) {
-            if (mNoteOffTime <= time && time < mNoteOnTime) {
-                return true;
-            }
-        } else {
-            if (mNoteOnTime <= time && time < mNoteOffTime) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    bool isNoting(f32 time) const;
 
     bool isNotingOn(f32 time, bool reversed) const {
         if (setsLifeTime()) {

@@ -61,6 +61,7 @@ void JAUSoundAnimator::ageSounds_() {
 }
 
 void JAUSoundAnimator::startAnimation(const JAUSoundAnimation* pAnimation, bool reversed, f32 loopStartFrame, f32 loopEndFrame) {
+    (void)0.0f;
     ageSounds_();
     mSoundAnimation = pAnimation;
     if (mSoundAnimation == nullptr) {
@@ -136,6 +137,24 @@ void JAUSoundAnimator::updateSoundLifeTime_(f32 time, f32 speed) {
             }
         }
     }
+}
+
+bool JAUSoundAnimationSound::isNoting(f32 time) const {
+    if (mNoteOnTime == mNoteOffTime) {
+        return true;
+    }
+
+    if (mNoteOnTime > mNoteOffTime) {
+        if (mNoteOffTime <= time && time < mNoteOnTime) {
+            return true;
+        }
+    } else {
+        if (mNoteOnTime <= time && time < mNoteOffTime) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 JAISoundHandle* JAUSoundAnimator::getFreeHandle(const JAUSoundAnimationSound* pAnimation) {

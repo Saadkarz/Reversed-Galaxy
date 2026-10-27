@@ -818,7 +818,7 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio2/JAUSectionHeap.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSeqCollection.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSeqDataBlockMgr.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAUSoundAnimator.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAUSoundAnimator.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSoundMgr.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSoundObject.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSoundTable.cpp"),

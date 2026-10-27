@@ -5182,9 +5182,9 @@ playsSound__17AudAnmSoundObjectFPC22JAUSoundAnimationSoundRCQ29JGeometry8TVec3<f
 getSoundID__17AudAnmSoundObjectFPC22JAUSoundAnimationSoundRCQ29JGeometry8TVec3<f>f = .text:0x8007FF60; // type:function size:0x1BC
 getFreeHandle__17AudAnmSoundObjectFPC22JAUSoundAnimationSound = .text:0x80080120; // type:function size:0x8
 fn_80080130 = .text:0x80080130; // type:function size:0x254
-getNumSounds__17JAUSoundAnimationCFv = .text:0x80080390; // type:function size:0x2C
+getNumSounds__17JAUSoundAnimationCFv = .text:0x80080390; // type:function size:0x2C scope:weak
 isNotingOn__22JAUSoundAnimationSoundCFfb = .text:0x800803C0; // type:function size:0xA4
-getSound__17JAUSoundAnimationCFi = .text:0x80080470; // type:function size:0x3C
+getSound__17JAUSoundAnimationCFi = .text:0x80080470; // type:function size:0x3C scope:weak
 fn_800804B0 = .text:0x800804B0; // type:function size:0x84
 fn_80080540 = .text:0x80080540; // type:function size:0x290
 fn_800807D0 = .text:0x800807D0; // type:function size:0x1DC
