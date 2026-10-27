@@ -4969,10 +4969,10 @@ JSystem/JKernel/JKRAramStream.cpp:
 	.sbss       start:0x807D6198 end:0x807D61A8
 
 JSystem/JKernel/JKRFileLoader.cpp:
-	.text       start:0x805070E0 end:0x805073C0 align:16
+	.text       start:0x805070E0 end:0x80507450 align:16
 	.ctors      start:0x80644B08 end:0x80644B0C
 	.data       start:0x80704818 end:0x80704858
-	.bss        start:0x8072BCEC end:0x8072BD10
+	.bss        start:0x8072BCE0 end:0x8072BD10
 	.sbss       start:0x807D61A8 end:0x807D61B0
 
 JSystem/JKernel/JKRFileFinder.cpp:

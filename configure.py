@@ -868,7 +868,7 @@ config.libs = [
             Object(Matching, "JSystem/JKernel/JKRAramPiece.cpp"),
             Object(Matching, "JSystem/JKernel/JKRAramStream.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JKernel/JKRFileLoader.cpp",
                 extra_cflags=["-ipa file"],
             ),
