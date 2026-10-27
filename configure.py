@@ -923,7 +923,7 @@ config.libs = [
                 "JSystem/JParticle/JPAExtraShape.cpp",
                 extra_cflags=["-opt nocse"],
             ),
-            Object(NonMatching, "JSystem/JParticle/JPAChildShape.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAChildShape.cpp"),
             Object(Matching, "JSystem/JParticle/JPAExTexShape.cpp"),
             Object(
                 NonMatching,

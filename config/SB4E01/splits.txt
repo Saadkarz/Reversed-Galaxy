@@ -5281,6 +5281,7 @@ JSystem/JParticle/JPAExtraShape.cpp:
 
 JSystem/JParticle/JPAChildShape.cpp:
 	.text       start:0x8053FFF0 end:0x80540190 align:16
+	.sdata2     start:0x807E20B0 end:0x807E20B8
 
 JSystem/JParticle/JPAExTexShape.cpp:
 	.text       start:0x80540190 end:0x80540280 align:16
