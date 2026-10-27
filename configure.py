@@ -865,7 +865,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-func_align 16"],
             ),
             Object(Matching, "JSystem/JKernel/JKRAramBlock.cpp"),
-            Object(NonMatching, "JSystem/JKernel/JKRAramPiece.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRAramPiece.cpp"),
             Object(Matching, "JSystem/JKernel/JKRAramStream.cpp"),
             Object(
                 NonMatching,

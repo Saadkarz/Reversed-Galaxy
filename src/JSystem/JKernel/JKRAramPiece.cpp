@@ -78,6 +78,18 @@ BOOL JKRAramPiece::orderSync(int direction, u32 source, u32 destination, u32 len
     return result;
 }
 
+
+void JKRAramPiece::startDMA(JKRAMCommand* command) {
+    if (command->mTransferDirection == 1) {
+        DCInvalidateRange((void*)command->mDst, command->mDataLength);
+    } else {
+        DCStoreRange((void*)command->mSrc, command->mDataLength);
+    }
+
+    ARStartDMA(command->mTransferDirection, command->mSrc, command->mDst, command->mDataLength);
+    doneDMA(reinterpret_cast< u32 >(command));
+}
+
 void JKRAramPiece::doneDMA(u32 requestAddress) {
     JKRAMCommand* command = reinterpret_cast< JKRAMCommand* >(requestAddress);
 
