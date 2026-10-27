@@ -6073,8 +6073,12 @@ nw4r/db/db_console.cpp:
 	.text       start:0x805A4BF0 end:0x805A4CCC align:16
 
 nw4r/db/db_assert.cpp:
-	.text       start:0x805A67F0 end:0x805A6AA0 align:16
+	.text       start:0x805A67F0 end:0x805A6A94 align:16
+	.data       start:0x8070C2D8 end:0x8070C348
 	.sbss       start:0x807D65DC end:0x807D65E0
+
+nw4r/db/db_warning.cpp:
+	.text       start:0x805A6AA0 end:0x805A6C60 align:16
 
 nw4r/math/math_triangular.cpp:
 	.text       start:0x805A6C60 end:0x805A6D48 align:16

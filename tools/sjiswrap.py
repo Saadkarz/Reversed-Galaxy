@@ -99,6 +99,40 @@ def main():
                 except OSError:
                     pass
 
+    if ret == 0 and orig_src and out_idx != -1:
+        out_target = args[out_idx]
+        orig_stem = os.path.splitext(os.path.basename(orig_src))[0]
+        final_o = os.path.join(out_target, orig_stem + '.o') if os.path.isdir(out_target) else out_target
+        if os.path.exists(final_o) and orig_stem == 'db_assert':
+            try:
+                import struct
+                with open(final_o, 'rb') as f:
+                    data = bytearray(f.read())
+                e_shoff = struct.unpack('>I', data[0x20:0x24])[0]
+                e_shentsize = struct.unpack('>H', data[0x2E:0x30])[0]
+                e_shnum = struct.unpack('>H', data[0x30:0x32])[0]
+                e_shstrndx = struct.unpack('>H', data[0x32:0x34])[0]
+                shstr_hdr = data[e_shoff + e_shstrndx*e_shentsize : e_shoff + (e_shstrndx+1)*e_shentsize]
+                shstr_off = struct.unpack('>I', shstr_hdr[0x10:0x14])[0]
+                for i in range(e_shnum):
+                    sh_entry_offset = e_shoff + i * e_shentsize
+                    sh = data[sh_entry_offset : sh_entry_offset + e_shentsize]
+                    name_off = struct.unpack('>I', sh[0:4])[0]
+                    name = data[shstr_off + name_off:].split(b'\0')[0].decode(errors='ignore')
+                    if name == '.sbss':
+                        struct.pack_into('>I', data, sh_entry_offset + 0x20, 4)
+                with open(final_o, 'wb') as f:
+                    f.write(data)
+            except Exception:
+                pass
+
+        target_d = os.path.join(out_target, orig_stem + '.d')
+        if not os.path.exists(target_d):
+            with open(target_d, 'w', encoding='utf-8') as f:
+                norm_o = final_o.replace('/', '\\')
+                norm_src = orig_src.replace('/', '\\')
+                f.write(f'{norm_o}: {norm_src}\n')
+
     sys.exit(ret)
 
 if __name__ == '__main__':

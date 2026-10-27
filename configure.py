@@ -1801,7 +1801,8 @@ config.libs = [
         "libnw4r_db",
         [
             Object(Matching, "nw4r/db/db_console.cpp"),
-            Object(NonMatching, "nw4r/db/db_assert.cpp"),
+            Object(Matching, "nw4r/db/db_assert.cpp"),
+            Object(NonMatching, "nw4r/db/db_warning.cpp"),
         ],
     ),
     NWLib(

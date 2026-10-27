@@ -4,6 +4,8 @@
 #include "nw4r/db/mapFile.h"
 #include <va_list.h>
 
+extern "C" const char lbl_807D0914[2];
+
 namespace nw4r {
     namespace db {
         ConsoleHandle sAssertionConsole;
@@ -31,7 +33,7 @@ namespace nw4r {
                 result = MapFile_QuerySymbol(address, strBuf, STR_LEN);
                 if (result) {
                     if (preCRFlag) {
-                        Assertion_Printf_("\n");
+                        Assertion_Printf_(lbl_807D0914);
                     }
                     Assertion_Printf_("%s\n", strBuf);
                     return true;
@@ -55,7 +57,7 @@ namespace nw4r {
                 }
                 Assertion_Printf_("%08X:  %08X    %08X ", p, p[0], p[1]);
                 if (!ShowMapInfoSubroutine_(p[1], false)) {
-                    Assertion_Printf_("\n");
+                    Assertion_Printf_(lbl_807D0914);
                 }
 
                 p = (u32*)*p;
@@ -64,7 +66,7 @@ namespace nw4r {
             return;
         }
 
-        __declspec(weak) void VPanic(const char* file, int line, const char* fmt, va_list vlist, bool halt) {
+        void VPanic(const char* file, int line, const char* fmt, va_list vlist, bool halt) {
             register u32 stackPointer;
             asm {
         mr  stackPointer, r1
@@ -83,16 +85,16 @@ namespace nw4r {
             ShowStack_(stackPointer);
 
             if (sAssertionConsole) {
-                Console_Printf(sAssertionConsole, "%s:%d Panic:", file, line);
-                Console_Printf(sAssertionConsole, "\n");
+                Console_Printf(sAssertionConsole, "%s:%d Panic:\0\0\0", file, line);
+                Console_Printf(sAssertionConsole, lbl_807D0914);
 
                 (void)Console_ShowLatestLine(sAssertionConsole);
                 (void)Console_SetVisible(sAssertionConsole, true);
                 Console_DrawDirect(sAssertionConsole);
             } else {
-                OSReport("%s:%d Panic:", file, line);
+                OSReport("%s:%d Panic:\0\0\0", file, line);
                 OSVReport(fmt, vlist);
-                OSReport("\n");
+                OSReport(lbl_807D0914);
             }
 
             if (halt) {
@@ -100,7 +102,7 @@ namespace nw4r {
             }
         }
 
-        __declspec(weak) void Panic(const char* file, int line, const char* fmt, ...) {
+        void Panic(const char* file, int line, const char* fmt, ...) {
             va_list vlist;
             va_start(vlist, fmt);
             nw4r::db::VPanic(file, line, fmt, vlist, true);
@@ -110,3 +112,5 @@ namespace nw4r {
 
     };  // namespace db
 };  // namespace nw4r
+
+
