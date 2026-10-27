@@ -822,7 +822,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JAUSoundMgr.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSoundObject.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSoundTable.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAUStdSoundInfo.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAUStdSoundInfo.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUStreamFileTable.cpp"),
         ],
     ),

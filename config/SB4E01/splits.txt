@@ -6038,8 +6038,10 @@ JSystem/JAudio2/JAUSoundTable.cpp:
 	.text       start:0x8059C390 end:0x8059C8F0 align:16
 
 JSystem/JAudio2/JAUStdSoundInfo.cpp:
-	.text       start:0x8059C8F0 end:0x8059CDD0 align:16
+	.text       start:0x8059C8F0 end:0x8059CDE0 align:16
 	.rodata     start:0x80659CA8 end:0x80659CB0
+	.data       start:0x8070C0B8 end:0x8070C108
+	.sdata2     start:0x807E25B0 end:0x807E25C0
 
 JSystem/JAudio2/JAUStreamFileTable.cpp:
 	.text       start:0x8059CDE0 end:0x8059CF20 align:16
