@@ -186,7 +186,6 @@ void JASDriver::readDspBuffer(s16* param_0, u32 param_1) {
 }
 
 void JASDriver::finishDSPFrame() {
-    static u32 waitcount;
     int r30 = sDspDacWriteBuffer + 1;
     if (r30 == sDspDacBufferSize) {
         r30 = 0;
@@ -208,29 +207,12 @@ void JASDriver::finishDSPFrame() {
     }
 }
 
-void JASDriver::registerMixCallback(MixCallback param_0, JASMixMode param_1) {
-    extMixCallback = param_0;
-    sMixMode = param_1;
-}
-
-void JASDriver::registDSPBufCallback(DSPBufCallback cb) {
-    sDspDacCallback = cb;
-}
-
 f32 JASDriver::getDacRate() {
     return sDacRate;
 }
 
 u32 JASDriver::getSubFrames() {
     return sSubFrames;
-}
-
-u32 JASDriver::getDacSize() {
-    return sSubFrames * 0x50 * 2;
-}
-
-u32 JASDriver::getFrameSamples() {
-    return sSubFrames * 0x50;
 }
 
 void JASDriver::mixMonoTrack(s16* buffer, u32 param_1, MixCallback callback) {
@@ -253,6 +235,17 @@ void JASDriver::mixMonoTrack(s16* buffer, u32 param_1, MixCallback callback) {
         pTrack++;
         r28++;
     }
+}
+
+namespace JASCalc {
+template <>
+s16 clamp<s16, s32>(s32 x) {
+    if (x <= -32768)
+        return -32768;
+    if (x >= 32767)
+        return 32767;
+    return x;
+}
 }
 
 void JASDriver::mixMonoTrackWide(s16* buffer, u32 param_1, MixCallback callback) {

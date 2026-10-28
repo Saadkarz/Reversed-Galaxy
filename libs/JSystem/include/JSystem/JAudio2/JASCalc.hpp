@@ -24,12 +24,6 @@ namespace JASCalc {
     };
 
     template < typename T, typename S >
-    inline T clamp(S x) {
-        if (x <= std::numeric_limits< T >::min())
-            return std::numeric_limits< T >::min();
-        if (x >= std::numeric_limits< T >::max())
-            return std::numeric_limits< T >::max();
-        return x;
-    }
+    T clamp(S x);
 
 };  // namespace JASCalc

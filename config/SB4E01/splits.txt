@@ -5909,6 +5909,12 @@ JSystem/JAudio2/JASOscillator.cpp:
 
 JSystem/JAudio2/JASAiCtrl.cpp:
 	.text       start:0x80590A20 end:0x80591330 align:16
+	.rodata     start:0x806594A8 end:0x806594C0
+	.data       start:0x80709D38 end:0x80709DB8
+	.bss        start:0x8077BE40 end:0x8077BE50
+	.sdata      start:0x807D08C8 end:0x807D08D8
+	.sbss       start:0x807D64D8 end:0x807D6508
+	.sdata2     start:0x807E24F8 end:0x807E2510
 
 JSystem/JAudio2/JASAudioThread.cpp:
 	.text       start:0x80591330 end:0x80591680 align:16

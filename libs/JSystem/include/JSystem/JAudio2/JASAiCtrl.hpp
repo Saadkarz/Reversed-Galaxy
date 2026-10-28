@@ -26,12 +26,12 @@ namespace JASDriver {
     void updateDSP();
     void readDspBuffer(s16*, u32);
     void finishDSPFrame();
-    void registerMixCallback(MixCallback, JASMixMode);
-    void registDSPBufCallback(DSPBufCallback);
+    inline void registerMixCallback(MixCallback, JASMixMode);
+    inline void registDSPBufCallback(DSPBufCallback);
     f32 getDacRate();
     u32 getSubFrames();
-    u32 getDacSize();
-    u32 getFrameSamples();
+    inline u32 getDacSize();
+    inline u32 getFrameSamples();
     void mixMonoTrack(s16*, u32, MixCallback);
     void mixMonoTrackWide(s16*, u32, MixCallback);
     void mixExtraTrack(s16*, u32, MixCallback);
@@ -55,4 +55,18 @@ namespace JASDriver {
     extern MixCallback extMixCallback;
     extern u32 sOutputRate;
     extern volatile u32 sSubFrameCounter;
+
+    inline void registerMixCallback(MixCallback param_0, JASMixMode param_1) {
+        extMixCallback = param_0;
+        sMixMode = param_1;
+    }
+    inline void registDSPBufCallback(DSPBufCallback cb) {
+        sDspDacCallback = cb;
+    }
+    inline u32 getDacSize() {
+        return sSubFrames * 0x50 * 2;
+    }
+    inline u32 getFrameSamples() {
+        return sSubFrames * 0x50;
+    }
 };  // namespace JASDriver
