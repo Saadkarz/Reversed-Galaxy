@@ -22,6 +22,8 @@ public:
     public:
         TInner() : mSeqData(nullptr, 0) {
         }
+        ~TInner() {
+        }
 
         /* 0x000 */ JASTrack outputTrack;
         /* 0x248 */ JAISoundChild* mSoundChild[NUM_CHILDREN];
