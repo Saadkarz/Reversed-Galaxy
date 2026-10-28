@@ -6,7 +6,7 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-511_%2F_700_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-550_%2F_701_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Code Matched](https://img.shields.io/badge/Code_Matched-18.25%25_(20.71%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
@@ -33,7 +33,7 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`511` Matching Translation Units Milestone)
+## 📊 Current Progress (`550` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
@@ -49,13 +49,13 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | :--- | :---: | :---: | :---: | :--- |
 | **MSL_C** *(Standard C/C++ Runtime)* | `65` | `65` | `██████████ 100.00%` | ✅ **Complete** |
 | **MetroTRK** *(Debugger Kernel)* | `26` | `26` | `██████████ 100.00%` | ✅ **Complete** |
-| **Game Code** *(SMG2 Gameplay & Engine)* | `104` | `130` | `████████░░ 80.00%` | 🔥 `LiveActor/`, `System/`, `Util/`, `Map/` (BezierRail) |
-| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `208` | `267` | `███████░░░ 77.90%` | 🔥 `ipc` (ipcMain), `vf`, `bte`, `net`, `gx`, `gd`, `os`, `nwc24` |
-| **NintendoWare (`nw4r`)** | `14` | `27` | `█████░░░░░ 51.85%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
+| **Runtime.PPCEABI.H** | `7` | `7` | `██████████ 100.00%` | ✅ **Complete** |
+| **Game Code** *(SMG2 Gameplay & Engine)* | `107` | `130` | `████████░░ 82.31%` | 🔥 `LiveActor/`, `System/`, `Util/`, `Map/` |
+| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `217` | `267` | `████████░░ 81.27%` | 🔥 `ipc`, `vf`, `bte`, `net`, `gx`, `gd`, `os`, `nwc24` |
+| **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `108` | `165` | `██████░░░░ 65.45%` | 🚀 Promoted `JKRArchivePri.cpp`, `J3DModelData.cpp` |
+| **NintendoWare (`nw4r`)** | `15` | `28` | `█████░░░░░ 53.57%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
 | **RVLFaceLib** *(Mii Library)* | `5` | `13` | `████░░░░░░ 38.46%` | 🛠️ Core Mii data structures & NAND loaders |
-| **JSystem** *(JAudio2, JKernel, JGadget)* | `84` | `165` | `█████░░░░░ 50.91%` | 🚀 **Passed 50% Milestone!** `JKernel` (JKRMemArchive, JKRAramArchive, JKRDvdArchive, JKRCompArchive, JKRUnitHeap, JKRAramHeap, JKRDvdFile), `JAudio2` (JAISoundParams), `JUtility` (JUTTexture, JUTVideo) |
-| **Runtime.PPCEABI.H** | `5` | `7` | `███████░░░ 71.43%` | 🛠️ Exception handling & runtime glue |
-| **TOTAL CONFIGURED** | **`511`** | **`700`** | **`███████░░░ 73.00%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **TOTAL CONFIGURED** | **`550`** | **`701`** | **`████████░░ 78.46%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 

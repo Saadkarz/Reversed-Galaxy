@@ -1,4 +1,5 @@
 #pragma once
+#include <cstring>
 
 #include "JSystem/JKernel/JKRFileLoader.hpp"
 
@@ -138,7 +139,9 @@ public:
     u32 readResource(void*, u32, u16);
     u32 countResource() const;
     u32 getFileAttribute(u32) const;
-    bool isSameName(CArcName&, u32, u16) const;
+    inline bool isSameName(CArcName& rName, u32 nameOffset, u16 hash) const {
+        return strcasecmp(mStringTable + nameOffset, rName.mName) == 0;
+    }
     SDIDirEntry* findResType(u32) const;
     SDIDirEntry* findDirectory(const char*, u32) const;
     SDIFileEntry* findTypeResource(u32, const char*) const;

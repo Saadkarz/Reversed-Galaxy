@@ -24,21 +24,15 @@ JKRArchive::JKRArchive(s32 entryNum, EMountMode mountMode) {
     mEntryNum = entryNum;
 
     if (sCurrentVolume == nullptr) {
-        sCurrentDirID = 0;
         sCurrentVolume = this;
+        sCurrentDirID = 0;
     }
 }
 
 JKRArchive::~JKRArchive() {
 }
 
-bool JKRArchive::isSameName(CArcName& rName, u32 nameOffset, u16 hash) const {
-    if (rName.mHash != hash) {
-        return false;
-    }
 
-    return strcmp(mStringTable + nameOffset, rName.mName) == 0;
-}
 
 JKRArchive::SDIDirEntry* JKRArchive::findResType(u32 a1) const {
     SDIDirEntry* current = mDirs;
@@ -185,7 +179,7 @@ void JKRArchive::CArcName::store(const char* name) {
     mHash = 0;
     s32 length = 0;
     while (*name) {
-        s32 ch = tolower(*name);
+        s32 ch = *name;
         mHash = ch + mHash * 3;
         if (length < ARRAY_SIZE(mName)) {
             mName[length++] = ch;
@@ -201,7 +195,7 @@ const char* JKRArchive::CArcName::store(const char* name, char endChar) {
     mHash = 0;
     s32 length = 0;
     while (*name && *name != endChar) {
-        s32 lch = tolower(static_cast< int >(*name));
+        s32 lch = *name;
         mHash = lch + mHash * 3;
         if (length < ARRAY_SIZE(mName)) {
             mName[length++] = lch;
