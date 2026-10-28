@@ -814,7 +814,7 @@ config.libs = [
                 extra_cflags=["-sym off"],
             ),
             Object(Matching, "JSystem/JAudio2/JAUBankTable.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAUInitializer.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAUInitializer.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAUSectionHeap.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSeqCollection.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUSeqDataBlockMgr.cpp"),

@@ -6016,8 +6016,10 @@ JSystem/JAudio2/JAUBankTable.cpp:
 	.text       start:0x80598B60 end:0x80598B84 align:16
 
 JSystem/JAudio2/JAUInitializer.cpp:
-	.text       start:0x80598CB0 end:0x80598E20 align:16
+	.text       start:0x80598B90 end:0x80598E20 align:16
 	.ctors      start:0x80644B70 end:0x80644B74
+	.bss        start:0x8077E398 end:0x8077E440
+	.sdata2     start:0x807E2590 end:0x807E2598
 
 JSystem/JAudio2/JAUSectionHeap.cpp:
 	.text       start:0x80598E20 end:0x8059A990 align:16
