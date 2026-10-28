@@ -51,7 +51,11 @@ ShadowControllerHolder::ShadowControllerHolder() : NameObj(((void)1.0f, (void)0.
     }
 }
 
-template MR::Vector< MR::AssignableArray< ShadowController* > >::Vector();
+
+template <>
+MR::Vector< MR::AssignableArray< ShadowController* > >::Vector() {
+    clear();
+}
 
 
 void ShadowControllerHolder::movement() {
@@ -537,7 +541,10 @@ namespace MR {
     }
 };  // namespace MR
 
-template void MR::Vector< MR::AssignableArray< ShadowController* > >::push_back(ShadowController* const&);
+template <>
+void MR::Vector< MR::AssignableArray< ShadowController* > >::push_back(ShadowController* const& rItem) {
+    mArray[mCount++] = rItem;
+}
 template <>
 MR::AssignableArray< ShadowController* >::~AssignableArray() {
     if (mArr != 0) {

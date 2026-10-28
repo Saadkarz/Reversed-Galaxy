@@ -2205,10 +2205,14 @@ Game/LiveActor/RailRider.cpp:
 Game/LiveActor/SensorHitChecker.cpp:
 	.text       start:0x8023DFE0 end:0x8023E780
 	.data       start:0x8069592C end:0x80695958
+	.sdata      start:0x807CFAE0 end:0x807CFAE8
 
 Game/LiveActor/ShadowController.cpp:
-	.text       start:0x8023ECC0 end:0x8023F970
-	.data       start:0x806959BC end:0x806959E8
+	.text       start:0x8023E780 end:0x8023FA70
+	.rodata     start:0x80648AB8 end:0x80648AC0
+	.data       start:0x80695958 end:0x806959E8
+	.sdata      start:0x807CFAE8 end:0x807CFAF0
+	.sdata2     start:0x807DC500 end:0x807DC518
 
 Game/LiveActor/ShadowDrawer.cpp:
 	.text       start:0x8023FA70 end:0x8023FAD8 align:16

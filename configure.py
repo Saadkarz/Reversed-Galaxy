@@ -1059,7 +1059,7 @@ config.libs = [
             Object(Matching, "Game/LiveActor/RailObj.cpp"),
             Object(Matching, "Game/LiveActor/RailRider.cpp"),
             Object(NonMatching, "Game/LiveActor/SensorHitChecker.cpp"),
-            Object(NonMatching, "Game/LiveActor/ShadowController.cpp"),
+            Object(Matching, "Game/LiveActor/ShadowController.cpp"),
             Object(Matching, "Game/LiveActor/ShadowDrawer.cpp"),
             Object(Matching, "Game/LiveActor/ShadowSurfaceBox.cpp"),
             Object(NonMatching, "Game/LiveActor/ShadowSurfaceCircle.cpp"),
