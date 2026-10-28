@@ -43,15 +43,7 @@ public:
         return sAramObject->mAramHeap;
     }
 
-    static u8 decideAramGroupId(int groupId) {
-        u8 finalGroupId;
-        if (groupId < 0) {
-            finalGroupId = getAramHeap()->getCurrentGroupID();
-        } else {
-            finalGroupId = groupId;
-        }
-        return finalGroupId;
-    }
+    static u8 decideAramGroupId(int groupId);
 
     static u32 getSZSBufferSize() {
         return sSZSBufferSize;

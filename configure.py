@@ -853,7 +853,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JKernel/JKRAram.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),

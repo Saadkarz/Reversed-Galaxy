@@ -55,15 +55,7 @@ inline JKRDecomp* JKRCreateDecompManager(s32 priority) {
     return JKRDecomp::create(priority);
 }
 
-inline JKRCompression JKRCheckCompressed_noASR(u8* pBuf) {
-    JKRCompression compression = JKRDecomp::checkCompressed(pBuf);
-
-    if (compression == COMPRESSION_ASR) {
-        compression = COMPRESSION_NONE;
-    }
-
-    return compression;
-}
+JKRCompression JKRCheckCompressed_noASR(u8* pBuf);
 
 u32 JKRDecompExpandSize(u8* pBuf);
 

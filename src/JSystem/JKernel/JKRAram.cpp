@@ -143,6 +143,31 @@ JKRAramBlock* JKRAram::mainRamToAram(u8* buf, u32 bufSize, u32 alignedSize, JKRE
         *pSize = alignedSize;
     }
     return block;
+
+}
+
+JKRCompression JKRCheckCompressed_noASR(u8* pBuf) {
+    JKRCompression compression = JKRDecomp::checkCompressed(pBuf);
+
+    if (compression == COMPRESSION_ASR) {
+        compression = COMPRESSION_NONE;
+    }
+
+    return compression;
+}
+
+u32 JKRDecompExpandSize(u8* src) {
+    return (src[4] << 24) | (src[5] << 16) | (src[6] << 8) | src[7];
+}
+
+u8 JKRAram::decideAramGroupId(int groupId) {
+    u8 finalGroupId;
+    if (groupId < 0) {
+        finalGroupId = getAramHeap()->getCurrentGroupID();
+    } else {
+        finalGroupId = groupId;
+    }
+    return finalGroupId;
 }
 
 u8* JKRAram::aramToMainRam(u32 address, u8* buf, u32 p3, JKRExpandSwitch expandSwitch, u32 p5, JKRHeap* heap, int id, u32* pSize) {

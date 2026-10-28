@@ -4941,10 +4941,12 @@ JSystem/JKernel/JKRThread.cpp:
 	.sbss       start:0x807D6150 end:0x807D6158
 
 JSystem/JKernel/JKRAram.cpp:
-	.text       start:0x80505280 end:0x80505F40 align:16
+	.text       start:0x80505280 end:0x80505FD0 align:16
 	.ctors      start:0x80644AFC end:0x80644B00
-	.data       start:0x80704730 end:0x80704740
-	.sbss       start:0x807D6158 end:0x807D615C
+	.data       start:0x80704700 end:0x80704740
+	.bss        start:0x8072BC08 end:0x8072BC68
+	.sdata      start:0x807D05C8 end:0x807D05D0
+	.sbss       start:0x807D6158 end:0x807D6198
 
 JSystem/JKernel/JKRAramHeap.cpp:
 	.text       start:0x80505FD0 end:0x805063A0 align:16
