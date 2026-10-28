@@ -787,7 +787,7 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio2/JASAudioThread.cpp"),
             Object(Matching, "JSystem/JAudio2/JASAudioReseter.cpp"),
             Object(Matching, "JSystem/JAudio2/JASDSPChannel.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JASDSPInterface.cpp"),
+            Object(Matching, "JSystem/JAudio2/JASDSPInterface.cpp"),
             Object(Matching, "JSystem/JAudio2/JASDriverIF.cpp"),
             Object(Matching, "JSystem/JAudio2/JASSoundParams.cpp"),
             Object(Matching, "JSystem/JAudio2/JAIAudible.cpp"),

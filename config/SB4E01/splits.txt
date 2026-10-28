@@ -5917,9 +5917,11 @@ JSystem/JAudio2/JASDSPChannel.cpp:
 
 JSystem/JAudio2/JASDSPInterface.cpp:
 	.text       start:0x80591F70 end:0x80592670 align:16
-	.rodata     start:0x806594E0 end:0x80659A20
+	.rodata     start:0x806594E0 end:0x80659A48
+	.data       start:0x80709DE0 end:0x80709DF8
 	.sdata      start:0x807D08D8 end:0x807D08E0
 	.sbss       start:0x807D6518 end:0x807D6528
+	.sdata2     start:0x807E2510 end:0x807E2518
 
 JSystem/JAudio2/JASDriverIF.cpp:
 	.text       start:0x80592670 end:0x80592870 align:16

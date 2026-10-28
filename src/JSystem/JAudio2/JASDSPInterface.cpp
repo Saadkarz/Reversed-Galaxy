@@ -62,7 +62,7 @@ void JASDsp::setFilterTable(s16* param_0, s16* param_1, u32 param_2) {
     }
 }
 
-void JASDsp::flushBuffer() {
+inline void JASDsp::flushBuffer() {
     DCFlushRange(CH_BUF, sizeof(TChannel) * 64);
     DCFlushRange(FX_BUF, sizeof(FxBuf) * 4);
 }
@@ -186,10 +186,6 @@ void JASDsp::TChannel::replyFinishRequest() {
 
 void JASDsp::TChannel::forceStop() {
     mForcedStop = 1;
-}
-
-bool JASDsp::TChannel::isActive() const {
-    return mIsActive != 0;
 }
 
 bool JASDsp::TChannel::isFinish() const {

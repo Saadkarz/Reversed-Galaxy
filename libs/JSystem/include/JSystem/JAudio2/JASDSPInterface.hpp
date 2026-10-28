@@ -36,7 +36,7 @@ namespace JASDsp {
         void playStop();
         void replyFinishRequest();
         void forceStop();
-        bool isActive() const;
+        bool isActive() const { return mIsActive != 0; }
         bool isFinish() const;
         void setWaveInfo(JASWaveInfo const&, u32, u32);
         void setOscInfo(u32);
