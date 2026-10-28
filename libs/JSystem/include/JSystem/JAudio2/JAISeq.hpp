@@ -1,5 +1,11 @@
 #pragma once
 
+#include "JSystem/JAudio2/JASSoundParams.hpp"
+
+inline JASSoundParams::JASSoundParams() {
+    init();
+}
+
 #include "JSystem/JAudio2/JAISeqDataMgr.hpp"
 #include "JSystem/JAudio2/JASTrack.hpp"
 #include "JSystem/JSupport/JSUList.hpp"
@@ -55,10 +61,6 @@ public:
         return inner_.mCategory;
     }
 
-    JASTrack* getOutputTrack() {
-        return &inner_.outputTrack;
-    }
-
     /* 0x0A8 */ TInner inner_;
-    /* 0x3A8 */ JAISoundStrategy< JAISeq >* soundStrategy;
+    /* 0x3B0 */ JAISoundStrategy< JAISeq >* soundStrategy;
 };

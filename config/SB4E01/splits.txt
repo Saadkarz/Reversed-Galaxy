@@ -5935,20 +5935,21 @@ JSystem/JAudio2/JAISe.cpp:
 	.data       start:0x8070BD00 end:0x8070BD58
 
 JSystem/JAudio2/JAISeMgr.cpp:
-	.text       start:0x805944C0 end:0x80594DC0 align:16
+	.text       start:0x805944C0 end:0x80594E50 align:16
 	.ctors      start:0x80644B58 end:0x80644B5C
 	.data       start:0x8070BD70 end:0x8070BD98
 	.bss        start:0x8077E268 end:0x8077E278
 	.sbss       start:0x807D6540 end:0x807D6550
 
 JSystem/JAudio2/JAISeq.cpp:
-	.text       start:0x80594FB0 end:0x80595A50 align:16
+	.text       start:0x80594E50 end:0x80595AE0 align:16
 	.ctors      start:0x80644B5C end:0x80644B60
 	.data       start:0x8070BDB0 end:0x8070BDE0
-	.bss        start:0x8077E290 end:0x8077E2A0
+	.bss        start:0x8077E278 end:0x8077E2A0
+	.sdata2     start:0x807E2540 end:0x807E2548
 
 JSystem/JAudio2/JAISeqDataMgr.cpp:
-	.text       start:0x80595B20 end:0x80595B60 align:16
+	.text       start:0x80595AE0 end:0x80595B60 align:16
 
 JSystem/JAudio2/JAISeqMgr.cpp:
 	.text       start:0x80595F40 end:0x80596290 align:16

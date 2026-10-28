@@ -78162,7 +78162,7 @@ sInstance__Q231@unnamed@NANDErrorSequence_cpp@47NANDErrorSequenceCheckEnableToCr
 lbl_807D5D78 = .sbss:0x807D5D78; // type:object size:0x1 data:byte
 lbl_807D5D7C = .sbss:0x807D5D7C; // type:object size:0x4 data:4byte
 lbl_807D5D80 = .sbss:0x807D5D80; // type:object size:0x1 data:byte
-lbl_807D5D81 = .sbss:0x807D5D81; // type:object size:0x7 data:byte
+@GUARD@memPool___43JASPoolAllocObject_MultiThreaded<8JASTrack> = .sbss:0x807D5D81; // type:object size:0x7 scope:weak data:byte
 lbl_807D5D88 = .sbss:0x807D5D88; // type:object size:0x8 data:byte
 lbl_807D5D90 = .sbss:0x807D5D90; // type:object size:0x8 data:byte
 sInstanceForCallback__10WPadRumble = .sbss:0x807D5D98; // type:object size:0x4 data:4byte
