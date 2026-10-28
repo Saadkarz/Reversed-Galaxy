@@ -746,7 +746,7 @@ config.libs = [
     JSys_JAudioLib(
         "JAudio2",
         [
-            Object(NonMatching, "JSystem/JAudio2/JASCalc.cpp", cflags=cflags_jsys),
+            Object(Matching, "JSystem/JAudio2/JASCalc.cpp", cflags=cflags_jsys),
             Object(NonMatching, "JSystem/JAudio2/JASTaskThread.cpp"),
             Object(Matching, "JSystem/JAudio2/JASDvdThread.cpp"),
             Object(Matching, "JSystem/JAudio2/JASCallback.cpp"),

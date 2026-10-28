@@ -5763,6 +5763,8 @@ RVL_SDK/vf/sd_drv.c:
 
 JSystem/JAudio2/JASCalc.cpp:
 	.text       start:0x80583400 end:0x80583780 align:16
+	.rodata     start:0x80658E30 end:0x80659260
+	.sdata2     start:0x807E23D0 end:0x807E23E0
 
 JSystem/JAudio2/JASTaskThread.cpp:
 	.text       start:0x80583780 end:0x80583D40 align:16

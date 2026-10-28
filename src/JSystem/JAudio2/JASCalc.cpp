@@ -155,14 +155,11 @@ void JASCalc::bzero(void* dest, u32 size) {
 }
 
 
-f32 JASCalc::pow2(f32 x) {
-    static const f32 scale_frac[] = {0.0f, 0.5f};
-    // { 1 , 1/sqrt2 }
-    static const f32 two_to_frac[] = {1.0f, 0.70710677f};
-    // coefficients of Taylor polynomial of 2^x - 1 at 0:
-    // 2^x - 1 = (log2) * x + (log2)^2 / 2! * x^2 + ...
-    static const f32 __two_to_x[] = {0.6931472f, 0.24022661, 0.055502914f, 0.009625022f, 0.0013131053f, 1.8300806E-4f};
+extern const f32 scale_frac[];
+extern const f32 two_to_frac[];
+extern const f32 __two_to_x[];
 
+f32 JASCalc::pow2(f32 x) {
     s32 frac_index = 0;
     union {
         s32 l;
@@ -197,3 +194,10 @@ f32 JASCalc::pow2(f32 x) {
 
     return ret;
 }
+
+const f32 scale_frac[] = {0.0f, 0.5f};
+// { 1 , 1/sqrt2 }
+const f32 two_to_frac[] = {1.0f, 0.70710677f};
+// coefficients of Taylor polynomial of 2^x - 1 at 0:
+// 2^x - 1 = (log2) * x + (log2)^2 / 2! * x^2 + ...
+const f32 __two_to_x[] = {0.6931472f, 0.24022661, 0.055502914f, 0.009625022f, 0.0013131053f, 1.8300806E-4f};
