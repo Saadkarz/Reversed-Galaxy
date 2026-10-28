@@ -779,7 +779,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JASInstRand.cpp"),
             Object(Matching, "JSystem/JAudio2/JASWSParser.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASBNKParser.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JASWaveArcLoader.cpp"),
+            Object(Matching, "JSystem/JAudio2/JASWaveArcLoader.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASChannel.cpp"),
             Object(Matching, "JSystem/JAudio2/JASLfo.cpp"),
             Object(Matching, "JSystem/JAudio2/JASOscillator.cpp"),
