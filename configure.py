@@ -805,7 +805,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JAISoundStarter.cpp"),
             Object(Matching, "JSystem/JAudio2/JAIStream.cpp"),
             Object(Matching, "JSystem/JAudio2/JAIStreamDataMgr.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAIStreamMgr.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAIStreamMgr.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUAudience.cpp"),
             Object(Matching, "JSystem/JAudio2/JAUAudioArcInterpreter.cpp"),
             Object(

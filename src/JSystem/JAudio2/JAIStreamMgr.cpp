@@ -3,6 +3,10 @@
 #include "JSystem/JAudio2/JAISoundInfo.hpp"
 #include "JSystem/JAudio2/JAIStreamDataMgr.hpp"
 
+inline JASSoundParams::JASSoundParams() {
+    init();
+}
+
 JAIStreamMgr::JAIStreamMgr(bool setInstance) : JASGlobalInstance< JAIStreamMgr >(setInstance) {
     streamDataMgr_ = nullptr;
     mStreamAramMgr = nullptr;
