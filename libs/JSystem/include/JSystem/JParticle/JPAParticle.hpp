@@ -14,8 +14,6 @@ struct JPAEmitterWorkData;
 
 class JPABaseParticle {
 public:
-    ~JPABaseParticle() {
-    }
 
     void init_p(JPAEmitterWorkData*);
     void init_c(JPAEmitterWorkData*, JPABaseParticle*);

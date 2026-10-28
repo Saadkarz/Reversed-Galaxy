@@ -933,7 +933,7 @@ config.libs = [
             Object(Matching, "JSystem/JParticle/JPATexture.cpp", extra_cflags=["-ipa off"]
             ),
             Object(Matching, "JSystem/JParticle/JPAResourceLoader.cpp"),
-            Object(NonMatching, "JSystem/JParticle/JPAEmitterManager.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAEmitterManager.cpp"),
             Object(Matching, "JSystem/JParticle/JPAEmitter.cpp"),
             Object(NonMatching, "JSystem/JParticle/JPAParticle.cpp"),
             Object(

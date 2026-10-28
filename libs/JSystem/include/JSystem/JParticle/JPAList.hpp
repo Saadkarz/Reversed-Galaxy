@@ -28,8 +28,6 @@ struct JPAList {
     /* 0x08 */ u32 mNum;
 
     JPAList();
-    ~JPAList() {
-    }
 
     JPANode< T >* getEnd() {
         return NULL;

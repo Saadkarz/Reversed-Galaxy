@@ -1,11 +1,12 @@
-#define JPA_LIST_DEFER_INLINE
-#define JPA_EMITTER_DEFER_INLINE
-#define JSU_LIST_DEFER_INLINE
 #include "JSystem/JParticle/JPAEmitterManager.hpp"
 #include "JSystem/JKernel/JKRHeap.hpp"
 #include "JSystem/JParticle/JPAEmitter.hpp"
 #include "JSystem/JParticle/JPAParticle.hpp"
 #include "JSystem/JParticle/JPAResourceManager.hpp"
+#include "JSystem/JParticle/JPAListInline.hpp"
+#include "JSystem/JParticle/JPAEmitterInline.hpp"
+
+template JSUList< JPABaseEmitter >::~JSUList();
 
 JPAEmitterManager::JPAEmitterManager(u32 i_ptclNum, u32 i_emtrNum, JKRHeap* pHeap, u8 i_gidMax, u8 i_ridMax) {
     emtrNum = i_emtrNum;
@@ -109,12 +110,3 @@ void JPAEmitterManager::forceDeleteEmitter(JPABaseEmitter* emtr) {
 void JPAEmitterManager::entryResourceManager(JPAResourceManager* resMgr, u8 resMgrID) {
     pResMgrAry[resMgrID] = resMgr;
 }
-
-#include "JSystem/JParticle/JPAListInline.hpp"
-
-template JPAList< JPABaseParticle >::JPAList();
-template JPANode< JPABaseParticle >::JPANode();
-template JPANode< JPABaseParticle >::~JPANode();
-
-#include "JSystem/JParticle/JPAEmitterInline.hpp"
-#include "JSystem/JSupport/JSUListInline.hpp"

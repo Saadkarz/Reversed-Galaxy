@@ -10,8 +10,6 @@ public:
     JPARandom(u32 seed) {
         mSeed = seed;
     }
-    ~JPARandom() {
-    }
     void set_seed(u32 seed) {
         mSeed = seed;
     }
