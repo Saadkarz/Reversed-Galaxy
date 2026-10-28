@@ -30,8 +30,6 @@ public:
 class J3DVertexData {
 public:
     J3DVertexData();
-    ~J3DVertexData() {
-    }
 
     void* getVtxPosArray() const {
         return mVtxPosArray;

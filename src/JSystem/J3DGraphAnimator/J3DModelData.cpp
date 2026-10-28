@@ -13,6 +13,9 @@ J3DModelData::J3DModelData() {
     clear();
 }
 
+J3DShapeTable::~J3DShapeTable() {
+}
+
 s32 J3DModelData::newSharedDisplayList(u32 mdlFlags) {
     u16 matNum = getMaterialNum();
 
@@ -61,4 +64,3 @@ void J3DModelData::syncJ3DSysFlags() const {
         j3dSys.offFlag(J3DSysFlag_PostTexMtx);
     }
 }
-
