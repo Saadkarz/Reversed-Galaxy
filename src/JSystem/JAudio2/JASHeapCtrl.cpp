@@ -6,6 +6,7 @@
 #include <revolution/aralt.h>
 #include <revolution/os/OSMutex.h>
 
+
 JASHeap::JASHeap(JASDisposer* pDisposer) : mTree(this), mDisposer(pDisposer), mBase(), mSize(), mHeap() {
     OSInitMutex(&mMutex);
 }
@@ -77,6 +78,12 @@ bool JASHeap::alloc(JASHeap* pParent, u32 size) {
     return true;
 }
 
+template <>
+JSUTreeIterator< JASHeap >& JSUTreeIterator< JASHeap >::operator++() {
+    this->mTree = this->mTree->getNextChild();
+    return *this;
+}
+
 bool JASHeap::allocTail(JASHeap* pParent, u32 size) {
     JASMutexLock lock(&mMutex);
     if (isAllocated()) {
@@ -134,6 +141,32 @@ bool JASHeap::free() {
     }
 
     return true;
+}
+
+template <>
+JSUTreeIterator< JASHeap > JSUTreeIterator< JASHeap >::operator++(int) {
+    JSUTreeIterator< JASHeap > prev = *this;
+    this->mTree = this->mTree->getNextChild();
+    return prev;
+}
+
+u32 JASHeap::getFreeSize() {
+    JASMutexLock lock(&mMutex);
+    u8* current = mBase;
+    u32 maxGap = 0;
+    for (JSUTreeIterator< JASHeap > it(mTree.getFirstChild()); it != nullptr; ) {
+        u32 gap = (u8*)it->mBase - current;
+        if (gap > maxGap) {
+            maxGap = gap;
+        }
+        current = (u8*)it->mBase + it->mSize;
+        it++;
+    }
+    u32 tailGap = (mBase + mSize) - current;
+    if (tailGap > maxGap) {
+        maxGap = tailGap;
+    }
+    return maxGap;
 }
 
 void JASHeap::insertChild(JASHeap* pHeap, JASHeap* pNext, void* pBase, u32 size, bool fromTail) {
@@ -282,4 +315,8 @@ void JASKernel::setupAramHeap(u32 base, u32 size) {
 
 JASHeap* JASKernel::getAramHeap() {
     return &audioAramHeap;
+}
+
+u32 JASKernel::getAramFreeSize() {
+    return audioAramHeap.getFreeSize();
 }

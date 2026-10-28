@@ -5776,10 +5776,14 @@ JSystem/JAudio2/JASCallback.cpp:
 	.text       start:0x80583DF0 end:0x80583F78 align:16
 
 JSystem/JAudio2/JASHeapCtrl.cpp:
-	.text       start:0x80584B10 end:0x80584B60 align:16
+	.text       start:0x80583F80 end:0x80584B60 align:16
 	.ctors      start:0x80644B2C end:0x80644B30
-	.bss        start:0x8077B804 end:0x8077B848
-	.sbss       start:0x807D6460 end:0x807D6468
+	.data       start:0x807081D8 end:0x807081F8
+	.bss        start:0x8077B7F8 end:0x8077B848
+	.sbss       start:0x807D6458 end:0x807D6468
+
+JSystem/JAudio2/JASResArcLoader.cpp:
+	.text       start:0x80584B60 end:0x80584CE8 align:16
 
 JSystem/JAudio2/JASProbe.cpp:
 	.text       start:0x80584CF0 end:0x80584EB8 align:16

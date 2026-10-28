@@ -16,11 +16,13 @@ extern JKRSolidHeap* JASDram;
 class JASHeap {
 public:
     JASHeap(JASDisposer* disposer = nullptr);
+    inline ~JASHeap() {}
 
     void initRootHeap(void*, u32);
     bool alloc(JASHeap*, u32);
     bool allocTail(JASHeap*, u32);
     bool free();
+    u32 getFreeSize();
     void insertChild(JASHeap*, JASHeap*, void*, u32, bool);
     JASHeap* getTailHeap();
     u32 getTailOffset();

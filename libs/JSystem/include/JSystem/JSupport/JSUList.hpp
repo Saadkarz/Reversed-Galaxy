@@ -273,16 +273,8 @@ public:
         return this->mTree != other;
     }
 
-    JSUTreeIterator< T > operator++(int) {
-        JSUTreeIterator< T > prev = *this;
-        this->mTree = this->mTree->getNextChild();
-        return prev;
-    }
-
-    JSUTreeIterator< T >& operator++() NO_INLINE {
-        this->mTree = this->mTree->getNextChild();
-        return *this;
-    }
+    JSUTreeIterator< T > operator++(int);
+    JSUTreeIterator< T >& operator++();
 
     T& operator*() {
         return *this->getObject();
@@ -294,3 +286,16 @@ public:
 
     JSUTree< T >* mTree;  // 0x0
 };
+
+template <typename T>
+JSUTreeIterator< T > JSUTreeIterator< T >::operator++(int) {
+    JSUTreeIterator< T > prev = *this;
+    this->mTree = this->mTree->getNextChild();
+    return prev;
+}
+
+template <typename T>
+JSUTreeIterator< T >& JSUTreeIterator< T >::operator++() {
+    this->mTree = this->mTree->getNextChild();
+    return *this;
+}
