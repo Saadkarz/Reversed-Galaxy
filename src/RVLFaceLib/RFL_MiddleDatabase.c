@@ -79,6 +79,9 @@ void RFLInitMiddleDB(RFLMiddleDB* db, RFLMiddleDBType type, void* buffer,
         hparam->sex = RFLSex_All;
         hparam->dstIdx = 0;
         break;
+    case RFLMiddleDBType_Reserved1:
+        ((HiddenRandomParam*)&idb->userData1)->dstIdx = 0;
+        break;
     }
 
     memset(idb->data, 0, RFLGetMiddleDBBufferSize(idb->size));

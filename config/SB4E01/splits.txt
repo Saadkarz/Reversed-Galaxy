@@ -5861,7 +5861,7 @@ JSystem/JAudio2/JASBasicWaveBank.cpp:
 	.data       start:0x80709C08 end:0x80709C68
 
 JSystem/JAudio2/JASSimpleWaveBank.cpp:
-	.text       start:0x8058CED0 end:0x8058D1F0 align:16
+	.text       start:0x8058CED0 end:0x8058D200 align:16
 	.data       start:0x80709C68 end:0x80709CB0
 
 JSystem/JAudio2/JASInstSense.cpp:

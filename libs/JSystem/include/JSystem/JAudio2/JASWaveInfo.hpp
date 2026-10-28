@@ -43,16 +43,14 @@ struct JASWaveInfo {
 
 class JASWaveHandle {
 public:
-    virtual ~JASWaveHandle() {
-    }
+    virtual ~JASWaveHandle();
     virtual const JASWaveInfo* getWaveInfo() const = 0;
     virtual int getWavePtr() const = 0;
 };
 
 class JASWaveBank {
 public:
-    virtual ~JASWaveBank() {
-    }
+    virtual ~JASWaveBank();
     virtual JASWaveHandle* getWaveHandle(u32) const = 0;
     virtual JASWaveArc* getWaveArc(u32) = 0;
     virtual u32 getArcCount() const = 0;
