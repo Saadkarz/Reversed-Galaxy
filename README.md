@@ -6,7 +6,7 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-554_%2F_701_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-555_%2F_701_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Code Matched](https://img.shields.io/badge/Code_Matched-18.25%25_(20.71%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
@@ -33,7 +33,7 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`554` Matching Translation Units Milestone)
+## 📊 Current Progress (`555` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
@@ -52,10 +52,10 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | **Runtime.PPCEABI.H** | `7` | `7` | `██████████ 100.00%` | ✅ **Complete** |
 | **Game Code** *(SMG2 Gameplay & Engine)* | `107` | `130` | `████████░░ 82.31%` | 🔥 `LiveActor/`, `System/`, `Util/`, `Map/` |
 | **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `217` | `267` | `████████░░ 81.27%` | 🔥 `ipc`, `vf`, `bte`, `net`, `gx`, `gd`, `os`, `nwc24` |
-| **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `112` | `165` | `██████░░░░ 67.88%` | 🚀 Promoted `JSystem/JAudio2/JASAiCtrl.cpp` |
+| **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `113` | `165` | `██████░░░░ 68.48%` | 🚀 Promoted `JSystem/JAudio2/JASAudioThread.cpp` |
 | **NintendoWare (`nw4r`)** | `15` | `28` | `█████░░░░░ 53.57%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
 | **RVLFaceLib** *(Mii Library)* | `5` | `13` | `████░░░░░░ 38.46%` | 🛠️ Core Mii data structures & NAND loaders |
-| **TOTAL CONFIGURED** | **`554`** | **`701`** | **`████████░░ 79.03%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **TOTAL CONFIGURED** | **`555`** | **`701`** | **`████████░░ 79.17%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 

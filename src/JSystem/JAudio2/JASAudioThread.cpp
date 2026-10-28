@@ -11,15 +11,10 @@
 #include <revolution/dsp.h>
 #include <stdint.h>
 
-inline JASAudioThread::JASAudioThread(int stackSize, int msgCount, u32 threadPriority)
-    : JKRThread(JASDram, threadPriority, msgCount, stackSize), JASGlobalInstance< JASAudioThread >(true) {
-    sbPauseFlag = false;
-    OSInitThreadQueue(&sThreadQueue);
-}
+
 
 void JASAudioThread::create(s32 threadPriority) {
-    const int size = 0x2000;
-    JASAudioThread* pAudioThread = new (JASDram, 0) JASAudioThread(threadPriority, 0x10, size);
+    JASAudioThread* pAudioThread = new (JASDram, 0) JASAudioThread(threadPriority, 0x10, 0x2000);
     JKRHeap* pCurrentHeap = JKRGetSystemHeap();
     pAudioThread->setCurrentHeap(pCurrentHeap);
     pAudioThread->resume();
@@ -44,7 +39,7 @@ void* JASAudioThread::run() {
     OSMessage msg;
     while (true) {
         msg = waitMessageBlock();
-        switch ((intptr_t)msg) {
+        switch ((u32)msg) {
         case AUDIOMSG_DMA:
             if (sbPauseFlag) {
                 JASDriver::stopDMA();
@@ -100,3 +95,5 @@ void JASAudioThread::DSPCallback(void*) {
         }
     }
 }
+
+JASAudioThread::~JASAudioThread() {}

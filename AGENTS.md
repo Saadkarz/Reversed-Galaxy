@@ -58,6 +58,9 @@ When a function is close (90–99%) and brute-force edits stall (stop after 5 fa
   - Check template specialization order and inline destructor depth.
   - Use explicit template specialization declarations or suppress generated weak functions if retail eliminated them.
   - Check `#include` order in the TU, which affects COMDAT weak function emission order.
+- **Diff Type E — Out-of-Line Template Specialization & `.text` Ordering:**
+  - When MWCC emits a non-inlined template instantiation into `.text` between two member functions (e.g. `JASCalc::clamp<s16, s32>` or `JSUTreeIterator<T>::operator++`), do NOT declare the template function `inline` in the header. Declaring it `inline` in the header causes MWCC to either inline it or emit it into a weak COMDAT section, and defining an explicit specialization later triggers compiler error `(10333) object '...' redefined`.
+  - Instead, declare the primary template prototype *without* `inline` in the header, and implement the explicit template specialization (e.g. `template <> s16 JASCalc::clamp<s16, s32>(s32 x) { ... }`) directly at the exact position in the `.cpp` file where the function was emitted in retail `.text`. This gives 100% deterministic control over function emission order.
 
 ### Step 5: Slice Carving, Parity Verification, Mandatory README Sync & Promotion
 - Once the target `.o` matches retail 100%:

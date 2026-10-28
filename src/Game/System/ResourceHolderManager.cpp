@@ -124,7 +124,7 @@ ResourceHolderManagerName2Resource* ResourceHolderManager::createAndAddInner(con
         (*pMakeArchiveFileNameFunc)(archivePath, sizeof(archivePath), pArcName);
     } else {
         MR::copyString(archivePath, pArcName, sizeof(archivePath));
-        MR::isExistFile(archivePath, false);
+        MR::isFileExist(archivePath, false);
     }
 
     if (MR::receiveArchive(archivePath) == nullptr) {
