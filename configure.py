@@ -1394,7 +1394,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/os/OSRtc.c"),
             Object(Matching, "RVL_SDK/os/OSSync.c"),
             Object(NonMatching, "RVL_SDK/os/OSThread.c"),
-            Object(NonMatching, "RVL_SDK/os/OSTime.c"),
+            Object(Matching, "RVL_SDK/os/OSTime.c"),
             Object(Matching, "RVL_SDK/os/OSUtf.c"),
             Object(Matching, "RVL_SDK/os/OSIpc.c"),
             Object(
