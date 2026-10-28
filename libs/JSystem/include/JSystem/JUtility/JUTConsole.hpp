@@ -7,7 +7,6 @@
 
 class JUTConsole;
 
-extern "C" void JUTConsole_print_f_va_(JUTConsole*, const char*, va_list);
 extern "C" void JUTWarningConsole_f(const char*, ...);
 extern "C" void JUTReportConsole_f(const char*, ...);
 extern "C" JUTConsole* JUTGetWarningConsole();
@@ -43,7 +42,10 @@ public:
 
     static JUTConsole* create(unsigned int, void*, u32);
 
-    static size_t getLineFromObjectSize(u32, unsigned int);
+        static inline size_t getLineFromObjectSize(u32 bufferSize, unsigned int param_1, void* dummy) {
+        return (bufferSize - sizeof(JUTConsole)) / (param_1 + 2);
+    }
+    static size_t getLineFromObjectSize(u32 bufferSize, unsigned int param_1);
 
     void doDraw(EConsoleType) const;
     u32 getOutput() const {
@@ -53,12 +55,10 @@ public:
     u8 getLineAttr(int param_0) const {
         return mBuf[(field_0x20 + 2) * param_0];
     }
-    void setLineAttr(int param_0, u8 param_1) {
+    inline void setLineAttr(int param_0, u8 param_1) {
         mBuf[(field_0x20 + 2) * param_0] = param_1;
     }
-    u8* getLinePtr(int param_0) const {
-        return &mBuf[(field_0x20 + 2) * param_0] + 1;
-    }
+    u8* getLinePtr(int param_0) const;
 
     int prevIndex(int index) const {
         return --index < 0 ? index = mMaxLines - 1 : index;
@@ -73,9 +73,7 @@ public:
         return diff >= 0 ? diff : diff + mMaxLines;
     }
 
-    void print_f_va(const char* fmt, va_list args) {
-        JUTConsole_print_f_va_(this, fmt, args);
-    }
+
 
     void print(char const*);
     void scroll(int);

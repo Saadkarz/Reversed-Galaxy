@@ -21,8 +21,7 @@ class J2DGrafContext {
 public:
     J2DGrafContext(f32, f32, f32, f32);
 
-    virtual ~J2DGrafContext() {
-    }
+    // virtual ~J2DGrafContext();
 
     virtual void place(const TBox2f&);
     virtual void place(f32 x, f32 y, f32 width, f32 height) {

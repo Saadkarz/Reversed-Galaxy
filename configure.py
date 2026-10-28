@@ -985,11 +985,7 @@ config.libs = [
             Object(Matching, "JSystem/JUtility/JUTAssert.cpp"),
             Object(Matching, "JSystem/JUtility/JUTVideo.cpp"),
             Object(Matching, "JSystem/JUtility/JUTXfb.cpp"),
-            Object(
-                NonMatching,
-                "JSystem/JUtility/JUTConsole.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
-            ),
+            Object(Matching, "JSystem/JUtility/JUTConsole.cpp"),
             Object(Matching, "JSystem/JUtility/JUTDbPrint.cpp"),
         ],
     ),

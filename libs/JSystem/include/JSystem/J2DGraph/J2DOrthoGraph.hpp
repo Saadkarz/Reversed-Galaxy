@@ -8,8 +8,7 @@ public:
     J2DOrthoGraph();
     J2DOrthoGraph(f32, f32, f32, f32, f32, f32);
 
-    virtual ~J2DOrthoGraph() {
-    }
+    // virtual ~J2DOrthoGraph();
     virtual void setPort();
     virtual J2DGrafType getGrafType() const {
         return J2DGraf_Ortho;

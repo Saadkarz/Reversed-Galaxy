@@ -17,7 +17,7 @@ static JUTConsole* sWarningConsole;
 JUTConsole* JUTConsole::create(unsigned int param_0, void* buffer, u32 bufferSize) {
     JUTConsoleManager* pManager = JUTConsoleManager::getManager();
 
-    u32 maxLines = getLineFromObjectSize(bufferSize, param_0);
+    u32 maxLines = getLineFromObjectSize(bufferSize, param_0, 0);
 
     JUTConsole* console = new (buffer) JUTConsole(param_0, maxLines, false);
     console->mBuf = static_cast< u8* >(buffer) + sizeof(JUTConsole);
@@ -57,9 +57,7 @@ JUTConsole::~JUTConsole() {
 }
 
 size_t JUTConsole::getLineFromObjectSize(u32 bufferSize, unsigned int param_1) {
-    bufferSize -= sizeof(JUTConsole);
-    size_t result = (bufferSize) / (param_1 + 2);
-    return result;
+    return getLineFromObjectSize(bufferSize, param_1, 0);
 }
 
 void JUTConsole::clear() {
@@ -69,11 +67,15 @@ void JUTConsole::clear() {
     field_0x3c = 0;
 
     for (u32 i = 0; i < mMaxLines; i++) {
-        setLineAttr(i, 0);
+        mBuf[(field_0x20 + 2) * i] = 0;
     }
 
-    setLineAttr(0, -1);
-    *getLinePtr(0) = 0;
+    mBuf[0] = 0xff;
+    mBuf[1] = 0;
+}
+
+u8* JUTConsole::getLinePtr(int param_0) const {
+    return &mBuf[(field_0x20 + 2) * param_0] + 1;
 }
 
 void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const {
@@ -145,7 +147,9 @@ void JUTConsole::doDraw(JUTConsole::EConsoleType consoleType) const {
 void JUTConsole::print_f(char const* fmt, ...) {
     va_list args;
     va_start(args, fmt);
-    print_f_va(fmt, args);
+    char buf[1024];
+    vsnprintf(buf, sizeof(buf), fmt, args);
+    print(buf);
     va_end(args);
 }
 
@@ -190,7 +194,7 @@ void JUTConsole::print(char const* str) {
             *dst = '\0';
             field_0x38 = nextIndex(field_0x38);
             field_0x3c = 0;
-            setLineAttr(field_0x38, 0xff);
+            mBuf[(field_0x20 + 2) * field_0x38] = 0xff;
             dst = getLinePtr(field_0x38);
             *dst = '\0';
             int local_28 = diffIndex(field_0x30, field_0x38);
@@ -212,11 +216,6 @@ void JUTConsole::print(char const* str) {
     }
 }
 
-extern "C" void JUTConsole_print_f_va_(JUTConsole* console, const char* fmt, va_list args) {
-    char buf[1024];
-    int len = vsnprintf(buf, sizeof(buf), fmt, args);
-    console->print(buf);
-}
 
 void JUTConsole::scroll(int scrollAmnt) {
     if (scrollAmnt < 0) {
@@ -255,10 +254,13 @@ int JUTConsole::getLineOffset() const {
     return result;
 }
 
+#pragma push
+#pragma optimize_for_size off
 JUTConsoleManager::JUTConsoleManager() {
     mActiveConsole = nullptr;
     mDirectConsole = nullptr;
 }
+#pragma pop
 
 JUTConsoleManager* JUTConsoleManager::createManager(JKRHeap* pHeap) {
     if (pHeap == nullptr) {
@@ -288,9 +290,9 @@ void JUTConsoleManager::removeConsole(JUTConsole* console) {
         }
     }
 
-    if (JUTGetWarningConsole() == console)
+    if (sWarningConsole == console)
         sWarningConsole = nullptr;
-    if (JUTGetReportConsole() == console)
+    if (sReportConsole == console)
         sReportConsole = nullptr;
 
     mList.Remove(console);
@@ -339,23 +341,16 @@ void JUTConsoleManager::setDirectConsole(JUTConsole* pConsole) {
     mDirectConsole = pConsole;
 }
 
-extern "C" JUTConsole* JUTGetReportConsole() {
-    return sReportConsole;
-}
-
-extern "C" JUTConsole* JUTGetWarningConsole() {
-    return sWarningConsole;
-}
 
 extern "C" void JUTReportConsole_f_va(const char* fmt, va_list args) {
     char buf[256];
     int len;
 
-    if (JUTGetReportConsole() == nullptr) {
+    if (sReportConsole == nullptr) {
         len = vsnprintf(buf, sizeof(buf), fmt, args);
-    } else if (JUTGetReportConsole()->getOutput() & (JUTConsole::OUTPUT_CONSOLE | JUTConsole::OUTPUT_OSREPORT)) {
+    } else if (sReportConsole->getOutput() & (JUTConsole::OUTPUT_CONSOLE | JUTConsole::OUTPUT_OSREPORT)) {
         len = vsnprintf(buf, sizeof(buf), fmt, args);
-        JUTGetReportConsole()->print(buf);
+        sReportConsole->print(buf);
     }
 }
 
@@ -374,10 +369,10 @@ extern "C" void JUTWarningConsole_f_va(const char* fmt, va_list args) {
     char buf[256];
     int len;
 
-    if (JUTGetWarningConsole() == nullptr) {
+    if (sWarningConsole == nullptr) {
         len = vsnprintf(buf, sizeof(buf), fmt, args);
-    } else if (JUTGetWarningConsole()->getOutput() & (JUTConsole::OUTPUT_CONSOLE | JUTConsole::OUTPUT_OSREPORT)) {
+    } else if (sWarningConsole->getOutput() & (JUTConsole::OUTPUT_CONSOLE | JUTConsole::OUTPUT_OSREPORT)) {
         len = vsnprintf(buf, sizeof(buf), fmt, args);
-        JUTGetWarningConsole()->print(buf);
+        sWarningConsole->print(buf);
     }
 }

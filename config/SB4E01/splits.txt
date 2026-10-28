@@ -5106,9 +5106,12 @@ JSystem/JUtility/JUTXfb.cpp:
 	.sbss       start:0x807D62A0 end:0x807D62A8
 
 JSystem/JUtility/JUTConsole.cpp:
-	.text       start:0x80512670 end:0x80512FB0 align:16
+	.text       start:0x80511E30 end:0x80512FB0 align:16
+	.rodata     start:0x80654338 end:0x80654348
 	.data       start:0x80705538 end:0x80705548
-	.sbss       start:0x807D62A8 end:0x807D62AC
+	.sdata      start:0x807D0610 end:0x807D0618
+	.sbss       start:0x807D62A8 end:0x807D62B8
+	.sdata2     start:0x807E1ED8 end:0x807E1EF8
 
 JSystem/J2DGraph/J2DGrafContext.cpp:
 	.text       start:0x80512FB0 end:0x80513910 align:16
