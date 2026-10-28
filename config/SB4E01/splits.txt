@@ -6671,7 +6671,7 @@ RVL_SDK/sc/scsystem.c:
 	.sbss       start:0x807D6A58 end:0x807D6A70
 
 RVL_SDK/sc/scapi.c:
-	.text       start:0x805E2780 end:0x805E2C30
+	.text       start:0x805E2780 end:0x805E2C30 align:16
 
 RVL_SDK/sc/scapi_prdinfo.c:
 	.text       start:0x805E2C30 end:0x805E2EC0 align:16

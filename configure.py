@@ -1587,10 +1587,10 @@ config.libs = [
         [
             Object(NonMatching, "RVL_SDK/sc/scsystem.c"),
             Object(
-                NonMatching,
+                Matching,
                 "RVL_SDK/sc/scapi.c",
                 mw_version="GC/3.0a3",
-                cflags=cflags_sdk_gc,
+                cflags=[*cflags_sdk_gc, "-func_align 16"],
             ),
             Object(Matching, "RVL_SDK/sc/scapi_prdinfo.c"),
         ],

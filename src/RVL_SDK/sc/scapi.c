@@ -3,7 +3,7 @@
 u8 SCGetAspectRatio(void) {
     u8 ratio;
 
-    if (!SCFindU8Item(&ratio, SC_ITEM_ID_IPL_ASPECT_RATIO)) {
+    if (!SCFindS8Item((s8*)&ratio, SC_ITEM_ID_IPL_ASPECT_RATIO)) {
         ratio = SC_ASPECT_RATIO_DEFAULT;
     } else {
         if (ratio != SC_ASPECT_RATIO_16x9) {
@@ -17,7 +17,7 @@ u8 SCGetAspectRatio(void) {
 s8 SCGetDisplayOffsetH(void) {
     s8 offset;
 
-    if (!SCFindS8Item(&offset, 5)) {
+    if (!SCFindU8Item((u8*)&offset, 5)) {
         offset = 0;
     } else {
         if (offset < -32) {
@@ -34,7 +34,7 @@ s8 SCGetDisplayOffsetH(void) {
 u8 SCGetEuRgb60Mode(void) {
     u8 mode;
 
-    if (!SCFindU8Item(&mode, 6)) {
+    if (!SCFindS8Item((s8*)&mode, 6)) {
         mode = 0;
     } else {
         if (mode != 1) {
@@ -53,7 +53,7 @@ u8 SCGetLanguage(void) {
     u8 lang;
     s8 area;
 
-    if (!SCFindU8Item(&lang, 11)) {
+    if (!SCFindS8Item((s8*)&lang, 11)) {
         area = SCGetProductArea();
 
         if (area == 0) {
@@ -70,24 +70,10 @@ u8 SCGetLanguage(void) {
     return lang;
 }
 
-u8 SCGetProgressiveMode(void) {
-    u8 mode;
-
-    if (!SCFindU8Item(&mode, SC_ITEM_ID_IPL_PROGRESSIVE_MODE)) {
-        mode = SC_PROGRESSIVE_MODE_DEFAULT;
-    } else {
-        if (mode != SC_PROGRESSIVE_MODE_ON) {
-            mode = SC_PROGRESSIVE_MODE_OFF;
-        }
-    }
-
-    return mode;
-}
-
 u8 SCGetScreenSaverMode(void) {
     u8 mode;
 
-    if (!SCFindU8Item(&mode, 15)) {
+    if (!SCFindS8Item((s8*)&mode, 15)) {
         mode = 1;
     } else {
         if (mode != 1) {
@@ -101,10 +87,10 @@ u8 SCGetScreenSaverMode(void) {
 u8 SCGetSoundMode(void) {
     u8 mode;
 
-    if (!SCFindU8Item(&mode, SC_ITEM_ID_IPL_SOUND_MODE)) {
+    if (!SCFindS8Item((s8*)&mode, SC_ITEM_ID_IPL_SOUND_MODE)) {
         mode = SC_SOUND_MODE_DEFAULT;
     } else {
-        if (mode != SC_SOUND_MODE_MONO && mode != SC_SOUND_MODE_STEREO && mode != SC_SOUND_MODE_SURROUND) {
+        if (mode > 2) {
             mode = SC_SOUND_MODE_DEFAULT;
         }
     }
@@ -157,7 +143,7 @@ u32 SCGetBtDpdSensibility(void) {
 u8 SCGetWpadMotorMode(void) {
     u8 mode;
 
-    if (!SCFindU8Item(&mode, SC_ITEM_ID_BT_MOTOR_MODE)) {
+    if (!SCFindS8Item((s8*)&mode, SC_ITEM_ID_BT_MOTOR_MODE)) {
         mode = 1;
     } else {
         if (mode != 1) {
@@ -175,7 +161,7 @@ BOOL SCSetWpadMotorMode(u8 mode) {
 u8 SCGetWpadSensorBarPosition(void) {
     u8 position;
 
-    if (!SCFindU8Item(&position, SC_ITEM_ID_BT_SENSOR_BAR_POSITION)) {
+    if (!SCFindS8Item((s8*)&position, SC_ITEM_ID_BT_SENSOR_BAR_POSITION)) {
         position = 0;
     } else {
         if (position != 1) {
@@ -189,7 +175,7 @@ u8 SCGetWpadSensorBarPosition(void) {
 u8 SCGetWpadSpeakerVolume(void) {
     u8 volume;
 
-    if (!SCFindU8Item(&volume, SC_ITEM_ID_BT_SPEAKER_VOLUME)) {
+    if (!SCFindS8Item((s8*)&volume, SC_ITEM_ID_BT_SPEAKER_VOLUME)) {
         volume = 89;
     } else {
         if (volume > 127) {
