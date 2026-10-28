@@ -1061,7 +1061,7 @@ config.libs = [
             Object(NonMatching, "Game/LiveActor/SensorHitChecker.cpp"),
             Object(NonMatching, "Game/LiveActor/ShadowController.cpp"),
             Object(Matching, "Game/LiveActor/ShadowDrawer.cpp"),
-            Object(NonMatching, "Game/LiveActor/ShadowSurfaceBox.cpp"),
+            Object(Matching, "Game/LiveActor/ShadowSurfaceBox.cpp"),
             Object(NonMatching, "Game/LiveActor/ShadowSurfaceCircle.cpp"),
             Object(Matching, "Game/LiveActor/ShadowSurfaceDrawer.cpp"),
             Object(Matching, "Game/LiveActor/ShadowSurfaceOval.cpp"),
