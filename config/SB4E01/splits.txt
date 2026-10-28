@@ -5821,6 +5821,9 @@ JSystem/JAudio2/JASAramStream.cpp:
 JSystem/JAudio2/JASBank.cpp:
 	.text       start:0x8058BB80 end:0x8058BCC0 align:16
 	.ctors      start:0x80644B44 end:0x80644B48
+	.rodata     start:0x80659300 end:0x80659328
+	.bss        start:0x8077BD50 end:0x8077BD60
+	.sdata2     start:0x807E2450 end:0x807E2458
 
 JSystem/JAudio2/JASBasicBank.cpp:
 	.text       start:0x8058BCC0 end:0x8058BE10 align:16

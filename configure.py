@@ -768,7 +768,7 @@ config.libs = [
             Object(NonMatching, "JSystem/JAudio2/JASSeqParser.cpp"),
             Object(Matching, "JSystem/JAudio2/JASSeqReader.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASAramStream.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JASBank.cpp"),
+            Object(Matching, "JSystem/JAudio2/JASBank.cpp"),
             Object(Matching, "JSystem/JAudio2/JASBasicBank.cpp"),
             Object(Matching, "JSystem/JAudio2/JASVoiceBank.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASBasicInst.cpp"),
