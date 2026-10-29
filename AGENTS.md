@@ -81,6 +81,11 @@ When a function is close (90–99%) and brute-force edits stall (stop after 5 fa
 ---
 
 ## 3. Strict Anti-Fakematch Rules (`decomp-code-rules`)
+- **STRICT BAN on Inline Assembly (`asm`), `#ifdef __MWERKS__` Assembly Workarounds & `#pragma schedule off`:**
+  - Inline `asm { ... }` blocks and assembly function bodies are **STRICTLY BANNED** in C/C++ functions (unless the function is an authentic OS hardware intrinsic such as `OSDisableInterrupts` or `__lhbrx`).
+  - `#ifdef __MWERKS__` assembly blocks inserted to bypass register swaps, latency gaps, or scheduling differences with a C++ fallback are **STRICTLY BANNED**.
+  - `#pragma schedule off` / `#pragma schedule on` used to artificially alter instruction scheduling are **STRICTLY BANNED**.
+  - Every function must compile from 100% authentic, pure C/C++ source code under `mwcc`. Register allocation and scheduling parity must be achieved naturally via proper types, variables, scopes, inlined helpers, or compiler flags.
 - **NO Raw Pointer Offset Casts:** BANNED: `*(f32*)((u8*)this + 0x54)` or `((s32*)this)[12]`. All members must have typed representations in class/struct headers.
 - **NO Fake Local Buffers:** BANNED: defining dummy arrays to artificially shift the stack frame. Reconstruct authentic variable types and scopes.
 - **NO Hardcoded Symbol Addresses:** Always reference global objects through proper `extern` declarations, header includes, or accessor methods.

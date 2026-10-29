@@ -727,7 +727,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                Matching,
+                NonMatching,
                 "JSystem/J3DGraphLoader/J3DJointFactory.cpp",
                 mw_version="Wii/1.3",
                 extra_cflags=["-ipa file", "-sym on"],
@@ -1559,12 +1559,7 @@ config.libs = [
         [
             Object(Matching, "RVL_SDK/dsp/dsp.c"),
             Object(Matching, "RVL_SDK/dsp/dsp_debug.c"),
-            Object(
-                NonMatching,
-                "RVL_SDK/dsp/dsp_task.c",
-                mw_version="GC/3.0a3",
-                cflags=cflags_sdk_gc,
-            ),
+            Object(Matching, "RVL_SDK/dsp/dsp_task.c"),
         ],
     ),
     RVLLib(

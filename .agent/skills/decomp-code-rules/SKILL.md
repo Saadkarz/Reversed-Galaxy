@@ -38,7 +38,7 @@ a long function, a bug the original shipped. Section F of the catalogue lists bo
    - R4: no offset casts;
    - R13: real vtables;
    - R17: no fake code;
-   - R18: no assembly bodies.
+   - R18: no assembly bodies, inline asm { ... } blocks, #ifdef __MWERKS__ asm workarounds, or #pragma schedule off in C/C++ functions.
 
    Byte-identical but failing is `MATCH-PENDING`. Report it, and don't count it. Naming (R7) is not required:
    placeholder names are reported as open work, not as a failed match.

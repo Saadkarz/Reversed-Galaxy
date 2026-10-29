@@ -6627,7 +6627,7 @@ RVL_SDK/dsp/dsp_task.c:
 	.sbss       start:0x807D6A28 end:0x807D6A38
 
 RVL_SDK/nand/nand.c:
-	.text       start:0x805DCF90 end:0x805DE540
+	.text       start:0x805DCF90 end:0x805DE540 align:16
 	.rodata     start:0x8065AD68 end:0x8065ADB0
 	.sdata      start:0x807D0AC0 end:0x807D0AC8
 
