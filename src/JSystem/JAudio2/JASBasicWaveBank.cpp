@@ -12,6 +12,9 @@ JASBasicWaveBank::JASBasicWaveBank() {
     OSInitMutex(&mMutex);
 }
 
+JASWaveBank::~JASWaveBank() {
+}
+
 JASBasicWaveBank::~JASBasicWaveBank() {
     delete[] mWaveTable;
     for (int i = 0; i < mGroupCount; i++) {
@@ -127,6 +130,12 @@ void JASBasicWaveBank::TWaveGroup::setWaveCount(u32 count, JKRHeap* heap) {
     }
 }
 
+JASBasicWaveBank::TWaveInfo::TWaveInfo() {
+    mWaveId = 0;
+    mNext = nullptr;
+    mPrev = nullptr;
+}
+
 void JASBasicWaveBank::TWaveGroup::setWaveInfo(int index, u32 waveId, const JASWaveInfo& waveInfo) {
     mCtrlWaveArray[index].mWaveId = (u16)waveId;
     mCtrlWaveArray[index].mWaveHandle.mWaveInfo.copy(waveInfo);
@@ -141,6 +150,10 @@ void JASBasicWaveBank::TWaveGroup::onEraseDone() {
     mBank->decWaveTable(this);
 }
 
+u32 JASBasicWaveBank::TWaveGroup::getWaveID(int index) const {
+    return mCtrlWaveArray[index].mWaveId;
+}
+
 int JASBasicWaveBank::TWaveHandle::getWavePtr() const {
     void* base = mHeap->getBase();
     if (base == 0) {
@@ -148,4 +161,8 @@ int JASBasicWaveBank::TWaveHandle::getWavePtr() const {
     }
 
     return (intptr_t)base + mWaveInfo.mAWStartOffs;
+}
+
+JASWaveArc* JASBasicWaveBank::getWaveArc(u32 param_0) {
+    return getWaveGroup(param_0);
 }

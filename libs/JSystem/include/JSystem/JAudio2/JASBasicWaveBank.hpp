@@ -12,9 +12,7 @@ struct JASBasicWaveBank : public JASWaveBank {
         void setWaveCount(u32, JKRHeap*);
         virtual void onLoadDone();
         virtual void onEraseDone();
-        u32 getWaveID(int index) const {
-            return mCtrlWaveArray[index].mWaveId;
-        }
+        u32 getWaveID(int index) const;
         void setWaveInfo(int param_0, u32 param_1, const JASWaveInfo& waveInfo);
 
         /* 0x74 */ JASBasicWaveBank* mBank;
@@ -45,11 +43,7 @@ struct JASBasicWaveBank : public JASWaveBank {
     };
 
     struct TWaveInfo {
-        TWaveInfo() {
-            mWaveId = 0;
-            mNext = nullptr;
-            mPrev = nullptr;
-        }
+        TWaveInfo();
 
         u32 getWaveID() const {
             return mWaveId;
@@ -73,9 +67,7 @@ struct JASBasicWaveBank : public JASWaveBank {
     void setWaveInfo(JASBasicWaveBank::TWaveGroup* waveGroup, int index, u16 waveId, JASWaveInfo const& waveInfo) {
         waveGroup->setWaveInfo(index, waveId, waveInfo);
     }
-    JASWaveArc* getWaveArc(u32 param_0) {
-        return getWaveGroup(param_0);
-    }
+    virtual JASWaveArc* getWaveArc(u32);
     u32 getArcCount() const {
         return mGroupCount;
     }
