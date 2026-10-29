@@ -93,7 +93,7 @@ namespace JASThreadingModel {
             Lock(const T&) {
                 mInterruptState = OSDisableInterrupts();
             }
-            ~Lock() {
+            inline ~Lock() {
                 OSRestoreInterrupts(mInterruptState);
             }
 
@@ -106,6 +106,12 @@ namespace JASThreadingModel {
         ObjectLevelLockable() {
             OSInitMutex(this);
         }
+        void lock() const {
+            OSLockMutex((OSMutex*)this);
+        }
+        void unlock() const {
+            OSUnlockMutex((OSMutex*)this);
+        }
 
         struct Lock {
             Lock(T const& mutex) {
@@ -113,7 +119,7 @@ namespace JASThreadingModel {
                 OSLockMutex(mMutex);
             }
 
-            ~Lock() {
+            inline ~Lock() {
                 OSUnlockMutex(mMutex);
             }
 
@@ -182,7 +188,7 @@ public:
             return mNextChunk;
         }
 
-        void* alloc(u32 size) {
+        inline void* alloc(u32 size) {
             u8* rv = mBuffer + mUsedSize;
             mUsedSize += size;
             mChunks++;
@@ -220,7 +226,7 @@ public:
         createNewChunk();
     }
 
-    bool createNewChunk() {
+    inline bool createNewChunk() {
         if (mChunk != nullptr && mChunk->isEmpty()) {
             mChunk->revive();
             return true;
@@ -240,38 +246,43 @@ public:
         return false;
     }
 
-    void* alloc(u32 size) {
-        typename T< JASMemChunkPool< ChunkSize, T > >::Lock lock(*this);
+    inline void* alloc(u32 size) {
+        this->lock();
         u32 freeSize = mChunk->getFreeSize();
         if (freeSize < size) {
             if (ChunkSize < size) {
+                this->unlock();
                 return nullptr;
             }
             if (createNewChunk() == 0) {
+                this->unlock();
                 return nullptr;
             }
         }
-        return mChunk->alloc(size);
+        void* ptr = mChunk->alloc(size);
+        this->unlock();
+        return ptr;
     }
 
     void free(void* ptr) {
-        typename T< JASMemChunkPool< ChunkSize, T > >::Lock lock(*this);
+        this->lock();
         MemoryChunk* chunk = mChunk;
         MemoryChunk* prevChunk = nullptr;
         while (chunk != nullptr) {
             if (chunk->checkArea(ptr)) {
                 chunk->free(ptr);
-                bool r26 = false;
                 if (chunk != mChunk && chunk->isEmpty()) {
                     MemoryChunk* nextChunk = chunk->getNextChunk();
                     delete chunk;
                     prevChunk->setNextChunk(nextChunk);
                 }
+                this->unlock();
                 return;
             }
             prevChunk = chunk;
             chunk = chunk->getNextChunk();
         }
+        this->unlock();
     }
 
     /* 0x18 */ MemoryChunk* mChunk;
@@ -321,7 +332,7 @@ public:
         JASGenericMemPool::newMemPool(sizeof(T), n);
     }
 
-    void* alloc(u32 size) {
+    inline void* alloc(u32 size) {
         typename JASThreadingModel::InterruptsDisable< JASMemPool_MultiThreaded >::Lock lock(*this);
         return JASGenericMemPool::alloc(size);
     }

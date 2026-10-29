@@ -96,14 +96,3 @@ void* JASTaskThread::run() {
     } while (true);
 }
 
-void JASTaskThread::pause(bool param_0) {
-    JASCriticalSection aJStack_14;
-    if (param_0) {
-        _84 = 1;
-    } else {
-        if (_84) {
-            OSWakeupThread(&threadQueue_);
-        }
-        _84 = 0;
-    }
-}
