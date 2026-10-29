@@ -1239,7 +1239,7 @@ config.libs = [
         "nwc24",
         [
             Object(Matching, "RVL_SDK/nwc24/NWC24StdAPI.c"),
-            Object(NonMatching, "RVL_SDK/nwc24/NWC24FileAPI.c"),
+            Object(Matching, "RVL_SDK/nwc24/NWC24FileAPI.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Config.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Utils.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Manage.c"),
