@@ -190,7 +190,7 @@ namespace MR {
         /// @brief Creates a new `Vector`.
         Vector();
 
-        ~Vector() {}
+        // ~Vector() {}
 
         /// @brief Returns the element at the given position.
         /// @param idx The position of the element.

@@ -4749,7 +4749,8 @@ Game/System/ResourceHolder.cpp:
 	.sdata      start:0x807D0468 end:0x807D0470
 
 Game/System/ResourceHolderManager.cpp:
-	.text       start:0x804CA650 end:0x804CAFE0
+	.text       start:0x804CA650 end:0x804CB0D0 align:16
+	.data       start:0x806FC290 end:0x806FC2E0
 
 Game/System/ResourceInfo.cpp:
 	.text       start:0x804CB0D0 end:0x804CB454 align:16

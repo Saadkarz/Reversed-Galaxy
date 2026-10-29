@@ -100,9 +100,25 @@ void ResourceHolderManager::restoreInitMaterialDataAll() {
     }
 }
 
+
+namespace MR {
+template <>
+FunctorV2M<ResourceHolderManager*, void (ResourceHolderManager::*)(const char*, CreateResourceHolderArgs*), const char*, CreateResourceHolderArgs*>
+Functor(ResourceHolderManager* a1, void (ResourceHolderManager::*a2)(const char*, CreateResourceHolderArgs*), const char* arg_0, CreateResourceHolderArgs* arg_1);
+}
+
 void ResourceHolderManager::startCreateResourceHolderOnMainThread(const char* pParam1, CreateResourceHolderArgs* pArgs) {
     MR::startFunctionAsyncExecuteOnMainThread(MR::Functor(SingletonHolder< ResourceHolderManager >::get(), &ResourceHolderManager::createResourceHolder, pParam1, pArgs),
                                               pParam1);
+}
+
+
+namespace MR {
+template <>
+FunctorV2M<ResourceHolderManager*, void (ResourceHolderManager::*)(const char*, CreateResourceHolderArgs*), const char*, CreateResourceHolderArgs*>
+Functor(ResourceHolderManager* a1, void (ResourceHolderManager::*a2)(const char*, CreateResourceHolderArgs*), const char* arg_0, CreateResourceHolderArgs* arg_1) {
+    return FunctorV2M<ResourceHolderManager*, void (ResourceHolderManager::*)(const char*, CreateResourceHolderArgs*), const char*, CreateResourceHolderArgs*>(a1, a2, arg_0, arg_1);
+}
 }
 
 void ResourceHolderManager::startCreateLayoutHolderOnMainThread(const char* pParam1, CreateResourceHolderArgs* pArgs) {
@@ -124,7 +140,7 @@ ResourceHolderManagerName2Resource* ResourceHolderManager::createAndAddInner(con
         (*pMakeArchiveFileNameFunc)(archivePath, sizeof(archivePath), pArcName);
     } else {
         MR::copyString(archivePath, pArcName, sizeof(archivePath));
-        MR::isFileExist(archivePath, false);
+        MR::isExistFile(archivePath, false);
     }
 
     if (MR::receiveArchive(archivePath) == nullptr) {

@@ -25,7 +25,7 @@ namespace MR {
         }
 
         virtual FunctorBase* clone(JKRHeap* pHeap) const {
-            return new (pHeap, 0x16) FunctorV0M(*this);
+            return new (pHeap, 0) FunctorV0M(*this);
         };
 
         T mCaller;
@@ -49,7 +49,7 @@ namespace MR {
         }
 
         virtual FunctorBase* clone(JKRHeap* pHeap) const {
-            return new (pHeap, 0x16) FunctorV1M(*this);
+            return new (pHeap, 0) FunctorV1M(*this);
         };
 
         T mCaller;
@@ -75,7 +75,7 @@ namespace MR {
         }
 
         virtual FunctorBase* clone(JKRHeap* pHeap) const {
-            return new (pHeap, 0x16) FunctorV2M(*this);
+            return new (pHeap, 0) FunctorV2M(*this);
         };
 
         T mCaller;

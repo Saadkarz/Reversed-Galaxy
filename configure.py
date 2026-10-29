@@ -633,7 +633,7 @@ config.libs = [
             Object(
                 NonMatching,
                 "JSystem/J3DGraphAnimator/J3DMaterialAttach.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file", "-sym on", "-func_align 16"],
             ),
         ],
     ),
@@ -729,6 +729,7 @@ config.libs = [
             Object(
                 NonMatching,
                 "JSystem/J3DGraphLoader/J3DJointFactory.cpp",
+                mw_version="Wii/1.3",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
@@ -1134,7 +1135,11 @@ config.libs = [
             Object(NonMatching, "Game/System/PlayResultInStageHolder.cpp"),
             Object(Matching, "Game/System/RenderMode.cpp"),
             Object(Matching, "Game/System/ResourceHolder.cpp"),
-            Object(NonMatching, "Game/System/ResourceHolderManager.cpp"),
+            Object(
+                Matching,
+                "Game/System/ResourceHolderManager.cpp",
+                extra_cflags=["-func_align 16"],
+            ),
             Object(Matching, "Game/System/ResourceInfo.cpp"),
             Object(NonMatching, "Game/System/ScenarioDataParser.cpp"),
             Object(Matching, "Game/System/StationedArchiveLoader.cpp"),
