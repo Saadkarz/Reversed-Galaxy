@@ -54,7 +54,7 @@ static EXIControl Ecb[3];
 s32 __EXIProbeStartTime[2] : (OS_BASE_CACHED | 0x30C0);
 static u32 IDSerialPort1;
 
-static const char* __EXIVersion = "<< RVL_SDK - EXI \trelease build: Aug  8 2007 01:59:22 (0x4199_60831) >>";
+static const char* __EXIVersion = "<< RVL_SDK - EXI \trelease build: Dec 11 2009 15:55:59 (0x4302_145) >>";
 
 #define REG(chan, idx) (__EXIRegs[((chan) * 5) + (idx)])
 
@@ -92,7 +92,7 @@ void SetExiInterruptMask(s32 chan, EXIControl* exi) {
     }
 }
 
-static void CompleteTransfer(s32 chan) {
+static inline void CompleteTransfer(s32 chan) {
     EXIControl* exi = &Ecb[chan];
     u8* buf;
     u32 data;
@@ -112,6 +112,29 @@ static void CompleteTransfer(s32 chan) {
 
         exi->state &= ~3;
     }
+}
+
+static inline u32 EXIClearInterrupts(s32 channel, BOOL exi, BOOL tc, BOOL ext) {
+    u32 cpr;
+    u32 prev;
+
+    prev = cpr = REG(channel, EXI_0CPR_IDX);
+    cpr &= 0x7F5;
+
+    if (exi) {
+        cpr |= 2;
+    }
+
+    if (tc) {
+        cpr |= 8;
+    }
+
+    if (ext) {
+        cpr |= 0x800;
+    }
+
+    REG(channel, EXI_0CPR_IDX) = cpr;
+    return prev;
 }
 
 BOOL EXIImm(s32 chan, void* buf, s32 len, u32 type, EXICallback callback) {
@@ -173,29 +196,6 @@ BOOL EXIImmEx(s32 chan, void* buf, s32 len, u32 mode) {
     }
 
     return TRUE;
-}
-
-u32 EXIClearInterrupts(s32 channel, BOOL exi, BOOL tc, BOOL ext) {
-    u32 cpr;
-    u32 prev;
-
-    prev = cpr = REG(channel, EXI_0CPR_IDX);
-    cpr &= 0x7F5;
-
-    if (exi) {
-        cpr |= 2;
-    }
-
-    if (tc) {
-        cpr |= 8;
-    }
-
-    if (ext) {
-        cpr |= 0x800;
-    }
-
-    REG(channel, EXI_0CPR_IDX) = cpr;
-    return prev;
 }
 
 BOOL EXIDma(s32 channel, void *buffer, s32 length, u32 type, EXICallback cb) {
@@ -275,7 +275,7 @@ EXICallback EXISetExiCallback(s32 chan, EXICallback exiCallback) {
     return prev;
 }
 
-void EXIProbeReset(void) {
+static inline void EXIProbeReset(void) {
     __EXIProbeStartTime[0] = __EXIProbeStartTime[1] = 0;
     Ecb[0].idTime = Ecb[1].idTime = 0;
 
@@ -329,7 +329,7 @@ static BOOL __EXIProbe(s32 chan) {
     return rc;
 }
 
-BOOL EXIProbe(s32 chan) {
+static inline BOOL EXIProbe(s32 chan) {
     EXIControl* exi = &Ecb[chan];
     BOOL rc;
     u32 id;
@@ -343,7 +343,7 @@ BOOL EXIProbe(s32 chan) {
     return rc;
 }
 
-static BOOL __EXIAttach(s32 chan, EXICallback extCallback) {
+static inline BOOL __EXIAttach(s32 chan, EXICallback extCallback) {
     EXIControl* exi = &Ecb[chan];
     BOOL enabled;
 

@@ -1442,7 +1442,11 @@ config.libs = [
     RVLLib(
         "exi",
         [
-            Object(NonMatching, "RVL_SDK/exi/EXIBios.c"),
+            Object(
+                Matching,
+                "RVL_SDK/exi/EXIBios.c",
+                extra_cflags=["-func_align 16"],
+            ),
             Object(Matching, "RVL_SDK/exi/EXIUart.c", cflags=cflags_sdk_ipa),
             Object(Matching, "RVL_SDK/exi/EXICommon.c", cflags=cflags_sdk_ipa),
         ],
