@@ -23,15 +23,15 @@ const char* const __DVDErrorMessageDefault[] = {
     "\n"
     "An error has occurred.\n"
     "Press the Eject Button, remove the\n"
-    "Game Disc, and turn the power off.\n"
-    "Please read the Wii Operations Manual\n"
-    "for more information.",
+    "Game Disc, and turn off the power to the\n"
+    "console. Please read the Wii Operations\n"
+    "Manual for further instructions.",
 
     "\n"
     "\n"
     "\n"
     "Ein Fehler ist aufgetreten.\n"
-    "Dr\xFC""cke den Ausgabeknopf, entnimm die\n"
+    "Dr\xfc""cke den Ausgabeknopf, entnimm die\n"
     "Disc und schalte die Wii-Konsole aus.\n"
     "Bitte lies die Wii-Bedienungsanleitung,\n"
     "um weitere Informationen zu erhalten.",
@@ -41,23 +41,23 @@ const char* const __DVDErrorMessageDefault[] = {
     "\n"
     "Une erreur est survenue.\n"
     "Appuyez sur le bouton EJECT, retirez\n"
-    "le disque et \xE9""teignez la console.\n"
-    "Veuillez vous r\xE9""f\xE9""rer au mode d'emploi\n"
-    "Wii pour plus de d\xE9""tails.",
+    "le disque et \xe9""teignez la console.\n"
+    "Veuillez vous r\xe9""f\xe9""rer au Mode d'emploi\n"
+    "de la Wii pour plus de d\xe9""tails.",
 
     "\n"
     "\n"
     "\n"
-    "Se ha producido un error.\n"
-    "Pulsa el Bot\xF3""n EJECT, extrae el disco y\n"
-    "apaga la consola. Consulta el manual de\n"
-    "instrucciones de la consola Wii para\n"
-    "obtener m\xE1""s informaci\xF3""n.",
+    "Ocurri\xf3"" un Error.\n"
+    "Oprime el Bot\xf3""n EJECT, saca el disco\n"
+    "y apaga la consola. Consulta el manual\n"
+    "de operaciones de la consola Wii para\n"
+    "obtener m\xe1""s informaci\xf3""n.",
 
     "\n"
     "\n"
     "\n"
-    "Si \xE8"" verificato un errore.\n"
+    "Si \xe8"" verificato un errore.\n"
     "Premi il pulsante EJECT, estrai il disco\n"
     "e spegni la console. Per maggiori\n"
     "informazioni, consulta il manuale di\n"
@@ -69,7 +69,7 @@ const char* const __DVDErrorMessageDefault[] = {
     "Er is een fout opgetreden.\n"
     "Druk op de EJECT-knop, verwijder de\n"
     "disk en zet het Wii-systeem uit. Lees\n"
-    "de handleiding voor meer informatie."
+    "de Wii-handleiding voor meer informatie."
 };
 
 const char* const __DVDErrorMessageEurope[] = {
@@ -86,16 +86,16 @@ const char* const __DVDErrorMessageEurope[] = {
     "\n"
     "\n"
     "An error has occurred.\n"
-    "Press the EJECT Button, remove the\n"
-    "Game Disc, and turn the power off.\n"
-    "Please read the Wii Operations Manual\n"
-    "for more information.",
+    "Press the EJECT Button, remove the Disc,\n"
+    "and turn off the power to the console.\n"
+    "Please refer to the Wii Operations Manual\n"
+    "for details.",
 
     "\n"
     "\n"
     "\n"
     "Ein Fehler ist aufgetreten.\n"
-    "Dr\xFC""cke den Ausgabeknopf, entnimm die\n"
+    "Dr\xfc""cke den Ausgabeknopf, entnimm die\n"
     "Disc und schalte die Wii-Konsole aus.\n"
     "Bitte lies die Wii-Bedienungsanleitung,\n"
     "um weitere Informationen zu erhalten.",
@@ -105,23 +105,23 @@ const char* const __DVDErrorMessageEurope[] = {
     "\n"
     "Une erreur est survenue.\n"
     "Appuyez sur le bouton EJECT, retirez\n"
-    "le disque et \xE9""teignez la console.\n"
-    "Veuillez vous r\xE9""f\xE9""rer au mode d'emploi\n"
-    "Wii pour plus de d\xE9""tails.",
+    "le disque et \xe9""teignez la console.\n"
+    "Veuillez vous r\xe9""f\xe9""rer au mode d'emploi\n"
+    "Wii pour plus de d\xe9""tails.",
 
     "\n"
     "\n"
     "\n"
     "Se ha producido un error.\n"
-    "Pulsa el Bot\xF3""n EJECT, extrae el disco y\n"
+    "Pulsa el Bot\xf3""n EJECT, extrae el disco y\n"
     "apaga la consola. Consulta el manual de\n"
     "instrucciones de la consola Wii para\n"
-    "obtener m\xE1""s informaci\xF3""n.",
+    "obtener m\xe1""s informaci\xf3""n.",
 
     "\n"
     "\n"
     "\n"
-    "Si \xE8"" verificato un errore.\n"
+    "Si \xe8"" verificato un errore.\n"
     "Premi il pulsante EJECT, estrai il disco\n"
     "e spegni la console. Per maggiori\n"
     "informazioni, consulta il manuale di\n"
@@ -133,10 +133,10 @@ const char* const __DVDErrorMessageEurope[] = {
     "Er is een fout opgetreden.\n"
     "Druk op de EJECT-knop, verwijder de\n"
     "disk en zet het Wii-systeem uit. Lees\n"
-    "de handleiding voor meer informatie."
+    "de Wii-handleiding voor meer informatie."
 };
 
-const char* __DVDErrorMessage104 [] = {
+const char* __DVDErrorMessage104[] = {
     "\n"
     "\n"
     "エラーコード１０４。\n"
@@ -156,11 +156,16 @@ const char* __DVDErrorMessage104 [] = {
     "for more information."
 };
 
+static const GXColor default_colors[2] = {
+    { 255, 255, 255, 0 },
+    { 0, 0, 0, 0 }
+};
+
 void __DVDShowFatalMessage(void) {
     const char* message;
     const char* const* messageList;
     GXColor bg = { 0, 0, 0, 0 };
-    GXColor fg = { 255, 255, 255, 0 };
+    GXColor fg = default_colors[0];
 
     if (SCGetLanguage() == 0) {
         OSSetFontEncode(1);
