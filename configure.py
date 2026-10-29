@@ -1458,7 +1458,7 @@ config.libs = [
     RVLLib(
         "vi",
         [
-            Object(NonMatching, "RVL_SDK/vi/vi.c"),
+            Object(Matching, "RVL_SDK/vi/vi.c"),
             Object(NonMatching, "RVL_SDK/vi/i2c.c"),
             Object(NonMatching, "RVL_SDK/vi/vi3in1.c"),
         ],

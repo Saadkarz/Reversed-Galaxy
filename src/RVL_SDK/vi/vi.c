@@ -4,7 +4,7 @@
 #include "revolution/sc.h"
 #include "revolution/vi.h"
 
-const char* __VIVersion = "<< RVL_SDK - VI \trelease build: Aug  8 2007 02:07:17 (0x4199_60831) >>";
+const char* __VIVersion = "<< RVL_SDK - VI \trelease build: Dec 11 2009 15:58:44 (0x4302_145) >>";
 
 static BOOL IsInitialized = FALSE;
 static void __VIRetraceHandler(__OSInterrupt, OSContext*);
@@ -162,6 +162,7 @@ GXRenderModeObj GXPal524ProgAa = {
     {4, 8, 12, 16, 12, 8, 4},
 };
 
+void __VISetGamma1_0(void);
 static BOOL OnShutdown(BOOL final, u32 event);
 static OSShutdownFunctionInfo ShutdownFunctionInfo = {OnShutdown, 127};
 
@@ -191,9 +192,10 @@ static BOOL OnShutdown(BOOL final, u32 event) {
             break;
 
         case 4:
-        case 0:
-        case 6:
         case 5:
+        case 6:
+        case 0:
+            __VISetGamma1_0();
             retval = TRUE;
             break;
         }
@@ -1095,7 +1097,7 @@ void VIConfigure(const GXRenderModeObj* rm) {
 
     if (((tvInBootrom != VI_PAL && tvInBootrom != VI_EURGB60) && (tvInGame == VI_PAL || tvInGame == VI_EURGB60)) ||
         ((tvInBootrom == VI_PAL || tvInBootrom == VI_EURGB60) && (tvInGame != VI_PAL && tvInGame != VI_EURGB60))) {
-        OSPanic(__FILE__, 0xA57, "VIConfigure(): Tried to change mode from (%d) to (%d), which is forbidden\n", tvInBootrom, tvInGame);
+        OSPanic(__FILE__, 0xA5B, "VIConfigure(): Tried to change mode from (%d) to (%d), which is forbidden\n", tvInBootrom, tvInGame);
     }
 
     if ((tvInGame == VI_NTSC) || (tvInGame == VI_MPAL)) {
@@ -1427,10 +1429,10 @@ BOOL VIEnableDVDStopMotor(BOOL enable) {
 u32 VIGetDVDStopMotorCount(void) {
     u32 count;
 
-    if (_gIdleCount_dvd >= THD_TIME_TO_DVD_STOP) {
+    if (_gIdleCount_dimming >= THD_TIME_TO_DIMMING) {
         count = 0;
     } else {
-        count = (u32)THD_TIME_TO_DVD_STOP - _gIdleCount_dvd;
+        count = (u32)THD_TIME_TO_DIMMING - _gIdleCount_dimming;
     }
 
     return count;
