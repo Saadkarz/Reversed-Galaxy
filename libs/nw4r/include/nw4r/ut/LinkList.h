@@ -208,9 +208,10 @@ namespace nw4r {
                 Iterator Insert(Iterator, pointer);
 
                 void Initialize_() {
+                    Node* p = &mNode;
                     mSize = 0;
-                    mNode.mNext = &mNode;
-                    mNode.mPrev = &mNode;
+                    mNode.mNext = p;
+                    mNode.mPrev = p;
                 }
 
                 inline void Clear() {

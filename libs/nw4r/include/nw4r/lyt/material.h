@@ -9,6 +9,7 @@
 namespace nw4r {
     namespace lyt {
         class TexMap;
+        class AnimResource;
 
         namespace detail {
             struct BitGXNums {
@@ -27,7 +28,7 @@ namespace nw4r {
         };  // namespace detail
         class Material {
         public:
-            Material();
+            inline Material() {}
             Material(const res::Material*, const ResBlockSet&);
 
             const char* GetName() const {
@@ -45,10 +46,24 @@ namespace nw4r {
             virtual void UnbindAllAnimation();
             virtual void Animate();
             virtual AnimationLink* FindAnimationLink(AnimTransform*);
+            virtual AnimationLink* FindAnimationLink(const AnimResource&);
             virtual void SetAnimationEnable(AnimTransform*, bool);
+            virtual void SetAnimationEnable(const AnimResource&, bool);
 
             void Init();
-            void InitBitGXNums(detail::BitGXNums*);
+            static void InitBitGXNums(detail::BitGXNums* ptr) {
+                ptr->texMap = 0;
+                ptr->texSRT = 0;
+                ptr->texCoordGen = 0;
+                ptr->indSRT = 0;
+                ptr->indStage = 0;
+                ptr->tevSwap = 0;
+                ptr->tevStage = 0;
+                ptr->chanCtrl = 0;
+                ptr->matCol = 0;
+                ptr->alpComp = 0;
+                ptr->blendMode = 0;
+            }
             void ReserveGXMem(u8 texMapNum, u8 texSRTNum, u8 texCoordGenNum, u8 tevStageNum, bool allocTevSwap, u8 indStageNum, u8 indSRTNum,
                               bool allocChanCtrl, bool allocMatCol, bool allocAlpComp, bool allocBlendMode);
 

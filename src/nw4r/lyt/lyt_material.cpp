@@ -1,3 +1,5 @@
+#include <new>
+#include "nw4r/ut/LinkList.h"
 #include "nw4r/lyt/animation.h"
 #include "nw4r/lyt/layout.h"
 #include "nw4r/lyt/material.h"
@@ -215,20 +217,13 @@ namespace nw4r {
                 return rNums.indSRT * ROUND_UP(sizeof(nw4r::lyt::TexSRT), 4) + CalcOffsetIndTexSRTAry(rNums);
             }
 
-            void InitTexSRT(nw4r::lyt::TexSRT* texSRTs, u32 num) {
-                for (u32 i = 0; i < num; ++i) {
-                    texSRTs[i].translate = nw4r::math::VEC2(0.f, 0.f);
-                    texSRTs[i].rotate = 0.f;
-                    texSRTs[i].scale = nw4r::math::VEC2(1.f, 1.f);
-                }
+
+
+            void DummyInitLinkList(void* p) {
+                new (p) AnimationList();
             }
 
         };  // namespace
-
-        Material::Material() {
-            Init();
-            memset(mName, 0, sizeof(mName));
-        }
 
 #pragma dont_inline on
 
@@ -390,18 +385,16 @@ namespace nw4r {
             }
         }
 
-        void Material::InitBitGXNums(detail::BitGXNums* ptr) {
-            ptr->texMap = 0;
-            ptr->texSRT = 0;
-            ptr->texCoordGen = 0;
-            ptr->indSRT = 0;
-            ptr->indStage = 0;
-            ptr->tevSwap = 0;
-            ptr->tevStage = 0;
-            ptr->chanCtrl = 0;
-            ptr->matCol = 0;
-            ptr->alpComp = 0;
-            ptr->blendMode = 0;
+
+
+        namespace {
+            void InitTexSRT(nw4r::lyt::TexSRT* texSRTs, u32 num) {
+                for (u32 i = 0; i < num; ++i) {
+                    texSRTs[i].translate = nw4r::math::VEC2(0.f, 0.f);
+                    texSRTs[i].rotate = 0.f;
+                    texSRTs[i].scale = nw4r::math::VEC2(1.f, 1.f);
+                }
+            }
         }
 
         void Material::ReserveGXMem(u8 texMapNum, u8 texSRTNum, u8 texCoordGenNum, u8 tevStageNum, bool allocTevSwap, u8 indStageNum, u8 indSRTNum,
@@ -998,8 +991,20 @@ namespace nw4r {
             return detail::FindAnimationLink(&mAnimList, pAnimTrans);
         }
 
+        AnimationLink* Material::FindAnimationLink(const AnimResource& animRes) {
+            return detail::FindAnimationLink(&mAnimList, animRes);
+        }
+
         void Material::SetAnimationEnable(AnimTransform* pAnimTrans, bool enable) {
             AnimationLink* pAnimLink = FindAnimationLink(pAnimTrans);
+
+            if (pAnimLink != NULL) {
+                pAnimLink->SetEnable(enable);
+            }
+        }
+
+        void Material::SetAnimationEnable(const AnimResource& animRes, bool enable) {
+            AnimationLink* pAnimLink = FindAnimationLink(animRes);
 
             if (pAnimLink != NULL) {
                 pAnimLink->SetEnable(enable);

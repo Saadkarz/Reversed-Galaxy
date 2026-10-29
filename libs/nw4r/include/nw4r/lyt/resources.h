@@ -103,13 +103,13 @@ namespace nw4r {
                 }
 
                 GXTexFilter GetMinFilter() const {
-                    const int bitLen = 3;
+                    enum { bitLen = 3 };
                     const u8 bitData = detail::GetBits(wrapSflt, 2, bitLen);
                     return GXTexFilter(detail::GetBits(bitData + GX_LINEAR, 0, bitLen));
                 }
 
                 GXTexFilter GetMagFilter() const {
-                    const int bitLen = 1;
+                    enum { bitLen = 1 };
                     const u8 bitData = detail::GetBits(wrapTflt, 2, bitLen);
                     return GXTexFilter(detail::GetBits(bitData + GX_LINEAR, 0, bitLen));
                 }
@@ -123,13 +123,13 @@ namespace nw4r {
                 }
 
                 void SetMinFilter(GXTexFilter value) {
-                    const int bitLen = 3;
+                    enum { bitLen = 3 };
                     const u8 bitData = u8(detail::GetBits(value - GX_LINEAR, 0, bitLen));  // Set to zero when (value = GX_LINEAR)
                     detail::SetBits(&wrapSflt, 2, bitLen, bitData);
                 }
 
                 void SetMagFilter(GXTexFilter value) {
-                    const int bitLen = 1;
+                    enum { bitLen = 1 };
                     const u8 bitData = u8(detail::GetBits(value - GX_LINEAR, 0, bitLen));
                     detail::SetBits(&wrapTflt, 2, bitLen, bitData);
                 }

@@ -6,8 +6,6 @@ namespace nw4r {
         protected:
             inline NonCopyable() {
             }
-            inline ~NonCopyable() {
-            }
 
         private:
             NonCopyable(const NonCopyable&);
