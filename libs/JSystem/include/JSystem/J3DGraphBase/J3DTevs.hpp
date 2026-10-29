@@ -32,11 +32,11 @@ extern const GXColor j3dDefaultTevKColor;
 extern u8 j3dAlphaCmpTable[768];
 extern const u8 j3dDefaultNumChans;
 
-extern const J3DIndTexCoordScaleInfo j3dDefaultIndTexCoordScaleInfo;
+extern J3DIndTexCoordScaleInfo j3dDefaultIndTexCoordScaleInfo;
 
 extern const J3DIndTexOrderInfo j3dDefaultIndTexOrderNull;
 
-extern const J3DTevSwapModeInfo j3dDefaultTevSwapMode;
+extern J3DTevSwapModeInfo j3dDefaultTevSwapMode;
 extern const J3DTevSwapModeTableInfo j3dDefaultTevSwapModeTable;
 extern const J3DBlendInfo j3dDefaultBlendInfo;
 extern const J3DColorChanInfo j3dDefaultColorChanInfo;

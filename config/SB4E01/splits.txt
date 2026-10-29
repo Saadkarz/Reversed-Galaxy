@@ -5186,7 +5186,7 @@ JSystem/J3DGraphBase/J3DShapeDraw.cpp:
 JSystem/J3DGraphBase/J3DShape.cpp:
 	.text       start:0x8051D8B0 end:0x8051E470 align:16
 	.data       start:0x80705B70 end:0x80705B88
-	.sbss       start:0x807D62E8 end:0x807D62F4
+	.sbss       start:0x807D62E8 end:0x807D62F8
 
 JSystem/J3DGraphBase/J3DMaterial.cpp:
 	.text       start:0x8051E470 end:0x8051FDB0 align:16
@@ -5198,7 +5198,12 @@ JSystem/J3DGraphBase/J3DMatBlock.cpp:
 	.data       start:0x80705D28 end:0x80706708
 
 JSystem/J3DGraphBase/J3DTevs.cpp:
-	.text       start:0x80527D70 end:0x80528BC0 align:16
+	.text       start:0x80527CB0 end:0x80528BC0 align:16
+	.rodata     start:0x80654428 end:0x80654550
+	.data       start:0x80706708 end:0x80706828
+	.bss        start:0x8072C440 end:0x8072E968
+	.sbss       start:0x807D62F8 end:0x807D6300
+	.sdata2     start:0x807E1F90 end:0x807E1FC0
 
 JSystem/J3DGraphBase/J3DDrawBuffer.cpp:
 	.text       start:0x80528BC0 end:0x80529250 align:16

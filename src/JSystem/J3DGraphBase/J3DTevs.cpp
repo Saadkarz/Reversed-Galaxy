@@ -253,9 +253,10 @@ void J3DTexMtx::calcPostTexMtx(const Mtx param_0) {
 }
 
 bool isTexNoReg(void* pDL) {
-    u8 r31 = ((u8*)pDL)[1];
-    if (r31 >= 0x80 && r31 <= 0xbb) {
-        return true;
+    if ((u8)*((char*)pDL + 1) >= 0x80) {
+        if ((u8)*((char*)pDL + 1) <= 0xbb) {
+            return true;
+        }
     }
     return false;
 }
@@ -470,9 +471,9 @@ const J3DIndTexOrderInfo j3dDefaultIndTexOrderNull = {0xFF, 0xFF, 0x00, 0x00};
 
 const GXColor j3dDefaultTevKColor = {0xFF, 0xFF, 0xFF, 0xFF};
 
-const J3DIndTexCoordScaleInfo j3dDefaultIndTexCoordScaleInfo = {};
+J3DIndTexCoordScaleInfo j3dDefaultIndTexCoordScaleInfo = {};
 
-J3DTevSwapModeInfo const j3dDefaultTevSwapMode = {
+J3DTevSwapModeInfo j3dDefaultTevSwapMode = {
     0x00,
     0x00,
     0x00,

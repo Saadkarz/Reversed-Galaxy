@@ -689,9 +689,9 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphBase/J3DTevs.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file"],
             ),
             Object(Matching, "JSystem/J3DGraphBase/J3DDrawBuffer.cpp",
                 extra_cflags=["-ipa file"],
