@@ -727,8 +727,9 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphLoader/J3DJointFactory.cpp",
+                mw_version="Wii/1.3",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
