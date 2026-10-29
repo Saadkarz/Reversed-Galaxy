@@ -6,8 +6,8 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-566_%2F_701_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Code Matched](https://img.shields.io/badge/Code_Matched-18.52%25_(20.98%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-567_%2F_701_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Code Matched](https://img.shields.io/badge/Code_Matched-18.53%25_(20.98%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
 
@@ -33,13 +33,13 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`566` Matching Translation Units Milestone)
+## 📊 Current Progress (`567` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
 ### 🌐 Global Binary Metrics
-* **Total Code Matched:** `1,161,988 / 6,273,504 bytes` (**18.52% Exact Matched** | **20.98% Fuzzy**)
-* **Total Functions Matched:** `7,148 / 50,907 functions`
+* **Total Code Matched:** `1,162,188 / 6,273,504 bytes` (**18.53% Exact Matched** | **20.98% Fuzzy**)
+* **Total Functions Matched:** `7,150 / 50,907 functions`
 * **Total Data Matched:** `480,517 / 1,702,521 bytes` (**28.22%**)
 * **Cleanly Linked `.o` Units (`Matching`):** **`511` Translation Units** (out of `700` currently configured split files / `4,186` total binary slices)
 
@@ -51,11 +51,11 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | **MetroTRK** *(Debugger Kernel)* | `26` | `26` | `██████████ 100.00%` | ✅ **Complete** |
 | **Runtime.PPCEABI.H** | `7` | `7` | `██████████ 100.00%` | ✅ **Complete** |
 | **Game Code** *(SMG2 Gameplay & Engine)* | `108` | `130` | `████████░░ 83.08%` | 🔥 Promoted `Game/System/ResourceHolderManager.cpp` |
-| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `223` | `267` | `████████░░ 83.52%` | 🚀 Promoted `RVL_SDK/gx/GXPixel.c` |
+| **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `224` | `267` | `████████░░ 83.90%` | 🚀 Promoted `RVL_SDK/gx/GXTexture.c` |
 | **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `115` | `165` | `███████░░░ 69.70%` | 🚀 Promoted `JSystem/JAudio2/JASTaskThread.cpp` |
 | **NintendoWare (`nw4r`)** | `15` | `28` | `█████░░░░░ 53.57%` | 🛠️ `math`, `ut` (LinkList, Utilities), `lyt` (Layouts) |
 | **RVLFaceLib** *(Mii Library)* | `7` | `13` | `█████░░░░░ 53.85%` | 🛠️ Core Mii data structures & NAND loaders |
-| **TOTAL CONFIGURED** | **`566`** | **`701`** | **`████████░░ 80.74%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **TOTAL CONFIGURED** | **`567`** | **`701`** | **`████████░░ 80.88%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 

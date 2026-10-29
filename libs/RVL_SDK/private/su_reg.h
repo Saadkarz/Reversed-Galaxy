@@ -23,6 +23,16 @@
 #define SU_TS1_SET_TSIZE(su_ts1, tsize)                                                                                                              \
     { su_ts1 = (((unsigned long)(su_ts1)) & ~SU_TS1_TSIZE_MASK) | (((unsigned long)(tsize)) << SU_TS1_TSIZE_SHIFT); }
 
+#define SU_TS1_BT_SIZE 1
+#define SU_TS1_BT_SHIFT 16
+#define SU_TS1_BT_MASK 0x00010000
+#define SU_TS1_GET_BT(su_ts1) ((((unsigned long)(su_ts1)) & SU_TS1_BT_MASK) >> SU_TS1_BT_SHIFT)
+
+#define SU_TS1_WT_SIZE 1
+#define SU_TS1_WT_SHIFT 17
+#define SU_TS1_WT_MASK 0x00020000
+#define SU_TS1_GET_WT(su_ts1) ((((unsigned long)(su_ts1)) & SU_TS1_WT_MASK) >> SU_TS1_WT_SHIFT)
+
 #define SU_SCIS0_RID_SIZE 8
 #define SU_SCIS0_RID_SHIFT 24
 #define SU_SCIS0_RID_MASK 0xff000000

@@ -598,6 +598,28 @@ void GXSetTexCoordScaleManually(GXTexCoordID coord, GXBool enable, u16 ss, u16 t
     }
 }
 
+void GXSetTexCoordCylWrap(GXTexCoordID coord, GXBool s_enable, GXBool t_enable) {
+    SC_SU_TS0_SET_WS(gx->suTs0[coord], s_enable);
+    SC_SU_TS1_SET_WT(gx->suTs1[coord], t_enable);
+
+    if (gx->tcsManEnab & (1 << coord)) {
+        GX_WRITE_RA_REG(gx->suTs0[coord]);
+        GX_WRITE_RA_REG(gx->suTs1[coord]);
+        BP_SENT();
+    }
+}
+
+void GXSetTexCoordBias(GXTexCoordID coord, GXBool s_enable, GXBool t_enable) {
+    SC_SU_TS0_SET_BS(gx->suTs0[coord], s_enable);
+    SC_SU_TS1_SET_BT(gx->suTs1[coord], t_enable);
+
+    if (gx->tcsManEnab & (1 << coord)) {
+        GX_WRITE_RA_REG(gx->suTs0[coord]);
+        GX_WRITE_RA_REG(gx->suTs1[coord]);
+        BP_SENT();
+    }
+}
+
 void __SetSURegs(u32 tmap, u32 tcoord) NO_INLINE {
     u32 w, h;
     GXBool s_bias, t_bias;
