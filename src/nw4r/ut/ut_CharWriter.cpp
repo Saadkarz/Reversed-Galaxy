@@ -32,103 +32,15 @@ namespace nw4r {
             EnableLinearFilter(true, true);
         }
 
-        void CharWriter::LoadTexture(const Glyph& glyph, GXTexMapID slot) {
-            LoadingTexture loadInfo;
-
-            loadInfo.slot = slot;
-            loadInfo.texture = glyph.pTexture;
-            loadInfo.filter = mFilter;
-
-            if (loadInfo != mLoadingTexture) {
-                GXTexObj tobj;
-
-                GXInitTexObj(&tobj, const_cast< void* >(glyph.pTexture), glyph.texWidth, glyph.texHeight, glyph.texFormat, GX_CLAMP, GX_CLAMP,
-                             GX_FALSE);
-                GXInitTexObjLOD(&tobj, mFilter.atSmall, mFilter.atLarge, 0, 0, 0, GX_DISABLE, GX_DISABLE, GX_ANISO_1);
-                GXLoadTexObj(&tobj, slot);
-
-                mLoadingTexture = loadInfo;
-            }
-        }
-
         CharWriter::~CharWriter() {
-        }
-
-        void CharWriter::SetupVertexFormat() {
-            GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
-            GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
-            GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_U16, TEXTURE_COODINATE_FRACTION_BITS);
-            GXClearVtxDesc();
-            GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
-            GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
-            GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
-        }
-
-        void CharWriter::SetupGX() {
-            ResetTextureCache();
-
-            if ((mColorMapping.min != 0x00000000UL) || (mColorMapping.max != 0xFFFFFFFFUL)) {
-                SetupGXWithColorMapping(mColorMapping.min, mColorMapping.max);
-            } else {
-                if (mFont) {
-                    GXTexFmt format = mFont->GetTextureFormat();
-
-                    switch (format) {
-                    case GX_TF_I4:
-                    case GX_TF_I8:
-                        SetupGXForI();
-                        break;
-
-                    case GX_TF_IA4:
-                    case GX_TF_IA8:
-                        SetupGXDefault();
-                        break;
-
-                    case GX_TF_RGB565:
-                    case GX_TF_RGB5A3:
-                    case GX_TF_RGBA8:
-                        SetupGXForRGBA();
-                        break;
-
-                    default:
-                        SetupGXDefault();
-                        break;
-                    }
-                } else {
-                    SetupGXDefault();
-                }
-            }
-        }
-
-        void CharWriter::SetupGXDefault() {
-            SetupGXCommon();
-            GXSetNumTevStages(1);
-            GXSetTevDirect(GX_TEVSTAGE0);
-            GXSetTevSwapMode(GX_TEVSTAGE0, GX_TEV_SWAP0, GX_TEV_SWAP0);
-            GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
-            GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
-            SetupVertexFormat();
-        }
-
-        void CharWriter::SetupGXForI() {
-            SetupGXCommon();
-            GXSetNumTevStages(1);
-            GXSetTevDirect(GX_TEVSTAGE0);
-            GXSetTevSwapMode(GX_TEVSTAGE0, GX_TEV_SWAP0, GX_TEV_SWAP0);
-            GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
-            GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_RASC);
-            GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_TEXA, GX_CA_RASA, GX_CA_ZERO);
-            GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
-            GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
-            SetupVertexFormat();
-        }
-
-        void CharWriter::SetupGXForRGBA() {
-            SetupGXDefault();
         }
 
         void CharWriter::SetFontSize(f32 width, f32 height) {
             SetScale(width / mFont->GetWidth(), height / mFont->GetHeight());
+        }
+
+        void CharWriter::SetFontSize(f32 height) {
+            SetScale(height / mFont->GetHeight());
         }
 
         f32 CharWriter::GetFontWidth() const {
@@ -141,11 +53,6 @@ namespace nw4r {
 
         f32 CharWriter::GetFontAscent() const {
             return mFont->GetAscent() * mScale.y;
-        }
-
-        void CharWriter::EnableLinearFilter(bool atSmall, bool atLarge) {
-            mFilter.atSmall = atSmall ? GX_LINEAR : GX_NEAR;
-            mFilter.atLarge = atLarge ? GX_LINEAR : GX_NEAR;
         }
 
         f32 CharWriter::Print(CharCode code) {
@@ -220,6 +127,26 @@ namespace nw4r {
             mVertexColor.rd.a = static_cast< u8 >(mVertexColor.rd.a * mAlpha / Color::ALPHA_MAX);
         }
 
+        void CharWriter::SetupVertexFormat() {
+            GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_F32, 0);
+            GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+            GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_U16, TEXTURE_COODINATE_FRACTION_BITS);
+            GXClearVtxDesc();
+            GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+            GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+            GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+        }
+
+        void CharWriter::SetupGXDefault() {
+            SetupGXCommon();
+            GXSetNumTevStages(1);
+            GXSetTevDirect(GX_TEVSTAGE0);
+            GXSetTevSwapMode(GX_TEVSTAGE0, GX_TEV_SWAP0, GX_TEV_SWAP0);
+            GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+            GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+            SetupVertexFormat();
+        }
+
         void CharWriter::SetupGXWithColorMapping(Color min, Color max) {
             SetupGXCommon();
             GXSetNumTevStages(2);
@@ -241,6 +168,23 @@ namespace nw4r {
             GXSetTevAlphaOp(GX_TEVSTAGE1, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
 
             SetupVertexFormat();
+        }
+
+        void CharWriter::SetupGXForI() {
+            SetupGXCommon();
+            GXSetNumTevStages(1);
+            GXSetTevDirect(GX_TEVSTAGE0);
+            GXSetTevSwapMode(GX_TEVSTAGE0, GX_TEV_SWAP0, GX_TEV_SWAP0);
+            GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+            GXSetTevColorIn(GX_TEVSTAGE0, GX_CC_ZERO, GX_CC_ZERO, GX_CC_ZERO, GX_CC_RASC);
+            GXSetTevAlphaIn(GX_TEVSTAGE0, GX_CA_ZERO, GX_CA_TEXA, GX_CA_RASA, GX_CA_ZERO);
+            GXSetTevColorOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
+            GXSetTevAlphaOp(GX_TEVSTAGE0, GX_TEV_ADD, GX_TB_ZERO, GX_CS_SCALE_1, GX_TRUE, GX_TEVPREV);
+            SetupVertexFormat();
+        }
+
+        void CharWriter::SetupGXForRGBA() {
+            SetupGXDefault();
         }
     };  // namespace ut
 };  // namespace nw4r

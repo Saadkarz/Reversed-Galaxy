@@ -6,6 +6,7 @@
 #include "nw4r/ut/Color.h"
 #include "nw4r/ut/Font.h"
 #include <revolution/gx/GXEnum.h>
+#include <revolution/gx/GXTexture.h>
 
 namespace nw4r {
     namespace ut {
@@ -97,7 +98,41 @@ namespace nw4r {
                 UpdateVertexColor();
             }
 
-            void SetupGX();
+            inline void SetupGX() {
+                ResetTextureCache();
+
+                if ((mColorMapping.min != 0x00000000UL) || (mColorMapping.max != 0xFFFFFFFFUL)) {
+                    SetupGXWithColorMapping(mColorMapping.min, mColorMapping.max);
+                } else {
+                    if (mFont) {
+                        GXTexFmt format = mFont->GetTextureFormat();
+
+                        switch (format) {
+                        case GX_TF_I4:
+                        case GX_TF_I8:
+                            SetupGXForI();
+                            break;
+
+                        case GX_TF_IA4:
+                        case GX_TF_IA8:
+                            SetupGXDefault();
+                            break;
+
+                        case GX_TF_RGB565:
+                        case GX_TF_RGB5A3:
+                        case GX_TF_RGBA8:
+                            SetupGXForRGBA();
+                            break;
+
+                        default:
+                            SetupGXDefault();
+                            break;
+                        }
+                    } else {
+                        SetupGXDefault();
+                    }
+                }
+            }
             void SetupGXForI();
             void SetupGXDefault();
             void SetupGXForRGBA();
@@ -107,7 +142,10 @@ namespace nw4r {
                 mLoadingTexture.Reset();
             }
 
-            void EnableLinearFilter(bool, bool);
+            inline void EnableLinearFilter(bool atSmall, bool atLarge) {
+                mFilter.atSmall = atSmall ? GX_LINEAR : GX_NEAR;
+                mFilter.atLarge = atLarge ? GX_LINEAR : GX_NEAR;
+            }
 
             void SetTextColor(Color start, Color end) {
                 mTextColor.start = start;
@@ -118,7 +156,25 @@ namespace nw4r {
             f32 GetFontWidth() const;
             f32 GetFontHeight() const;
             void SetFontSize(f32 width, f32 height);
-            void LoadTexture(const Glyph&, GXTexMapID);
+            void SetFontSize(f32 height);
+            inline void LoadTexture(const Glyph& glyph, GXTexMapID slot) {
+                LoadingTexture loadInfo;
+
+                loadInfo.slot = slot;
+                loadInfo.texture = glyph.pTexture;
+                loadInfo.filter = mFilter;
+
+                if (loadInfo != mLoadingTexture) {
+                    GXTexObj tobj;
+
+                    GXInitTexObj(&tobj, const_cast< void* >(glyph.pTexture), glyph.texWidth, glyph.texHeight, glyph.texFormat, GX_CLAMP, GX_CLAMP,
+                                 GX_FALSE);
+                    GXInitTexObjLOD(&tobj, mFilter.atSmall, mFilter.atLarge, 0, 0, 0, GX_DISABLE, GX_DISABLE, GX_ANISO_1);
+                    GXLoadTexObj(&tobj, slot);
+
+                    mLoadingTexture = loadInfo;
+                }
+            }
             f32 GetFontAscent() const;
             f32 Print(CharCode);
             void PrintGlyph(f32, f32, f32, const Glyph&);
