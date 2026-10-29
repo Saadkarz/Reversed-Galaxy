@@ -5258,6 +5258,7 @@ JSystem/J3DGraphAnimator/J3DJoint.cpp:
 
 JSystem/J3DGraphAnimator/J3DMaterialAttach.cpp:
 	.text       start:0x80530F20 end:0x80531910 align:16
+	.data       start:0x80706A18 end:0x80706A28
 
 JSystem/J3DGraphLoader/J3DMaterialFactory.cpp:
 	.text       start:0x80531910 end:0x80534550 align:16

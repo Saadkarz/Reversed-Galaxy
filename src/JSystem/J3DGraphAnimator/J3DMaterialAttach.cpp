@@ -47,6 +47,10 @@ int J3DMaterialTable::removeMatColorAnimator(J3DAnmColor* pAnmColor) {
     return ret;
 }
 
+J3DMaterialAnm* J3DMaterial::getMaterialAnm() {
+    return (uintptr_t)mMaterialAnm < 0xC0000000 ? mMaterialAnm : NULL;
+}
+
 int J3DMaterialTable::removeTexNoAnimator(J3DAnmTexPattern* pAnmTexPattern) {
     int ret = 0;
 

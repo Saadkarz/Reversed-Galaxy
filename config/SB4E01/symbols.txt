@@ -4579,7 +4579,7 @@ modifyDiffFlag<19J3DAnmTextureSRTKey>__FPUlPC19J3DAnmTextureSRTKey11J3DDiffFlagb
 offDiffFlagBtk__2MRFPUlPC19J3DAnmTextureSRTKeyPCc = .text:0x8006AC30; // type:function size:0x18
 fn_8006AC50 = .text:0x8006AC50; // type:function size:0x10
 fn_8006AC60 = .text:0x8006AC60; // type:function size:0x10
-fn_8006AC70 = .text:0x8006AC70; // type:function size:0x14
+calc__11J3DTexNoAnmCFPUs = .text:0x8006AC70; // type:function size:0x14
 __as__10QuaternionFRC10Quaternion = .text:0x8006AC90; // type:function size:0x24
 init__11XanimeTrackFv = .text:0x8006ACC0; // type:function size:0x1C
 __ct__10XjointInfoFv = .text:0x8006ACE0; // type:function size:0x90
@@ -52837,7 +52837,7 @@ __vt__9BtkPlayer = .data:0x80669EB8; // type:object size:0x18
 __vt__9BtpPlayer = .data:0x80669ED0; // type:object size:0x18
 __vt__9BvaPlayer = .data:0x80669EE8; // type:object size:0x10
 __vt__15LayoutAnmPlayer = .data:0x80669EF8; // type:object size:0x18
-lbl_80669F10 = .data:0x80669F10; // type:object size:0x10
+__vt__11J3DTexNoAnm = .data:0x80669F10; // type:object size:0x10
 __vt__10XanimeCore = .data:0x80669F20; // type:object size:0x30
 lbl_80669F50 = .data:0x80669F50; // type:object size:0x5 data:string
 lbl_80669F58 = .data:0x80669F58; // type:object size:0xE data:string

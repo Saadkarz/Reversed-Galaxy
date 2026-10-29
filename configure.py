@@ -631,9 +631,9 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphAnimator/J3DMaterialAttach.cpp",
-                extra_cflags=["-ipa file", "-sym on", "-func_align 16"],
+                extra_cflags=["-ipa file", "-sym on"],
             ),
         ],
     ),

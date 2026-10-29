@@ -53,9 +53,7 @@ public:
     s32 newSharedDisplayList(u32);
     s32 newSingleSharedDisplayList(u32);
 
-    inline J3DMaterialAnm* getMaterialAnm() {
-        return reinterpret_cast< uintptr_t >(mMaterialAnm) < 0xC0000000 ? mMaterialAnm : nullptr;
-    }
+    J3DMaterialAnm* getMaterialAnm();
 
     bool isDrawModeOpaTexEdge() {
         return (mMaterialMode & 3) == 0;
