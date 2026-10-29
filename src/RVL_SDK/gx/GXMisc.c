@@ -125,9 +125,10 @@ void GXSetDrawDone(void) {
     GXFlush();
     DrawDone = GX_FALSE;
     OSRestoreInterrupts(en);
+    gx->bpSentNot = GX_FALSE;
 }
 
-void GXWaitDrawDone(void) {
+static inline void GXWaitDrawDone(void) {
     BOOL en = OSDisableInterrupts();
     while (!DrawDone) {
         OSSleepThread(&FinishQueue);
