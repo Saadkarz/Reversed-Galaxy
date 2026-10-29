@@ -11,7 +11,7 @@ static void __AIDHandler(__OSInterrupt, OSContext*);
 static void __AICallbackStackSwitch(register void*);
 static void __AI_SRC_INIT(void);
 
-const char* __AIVersion = "<< RVL_SDK - AI \trelease build: Aug  8 2007 01:58:12 (0x4199_60831) >>";
+const char* __AIVersion = "<< RVL_SDK - AI \trelease build: Dec 11 2009 15:55:41 (0x4302_145) >>";
 
 AIDCallback AIRegisterDMACallback(AIDCallback cb) {
     AIDCallback old;
@@ -51,7 +51,7 @@ u32 AIGetDMALength(void) {
 }
 
 // this ends up being inlined into AISetDSPSampleRate in the condition
-u32 AIGetDSPSampleRate(void) {
+static inline u32 AIGetDSPSampleRate(void) {
     return ((__AIRegs[0] & 0x40) >> 6) ^ 1;
 }
 

@@ -1519,7 +1519,7 @@ config.libs = [
     RVLLibGC(
         "ai",
         [
-            Object(NonMatching, "RVL_SDK/ai/ai.c"),
+            Object(Matching, "RVL_SDK/ai/ai.c", extra_cflags=["-func_align 16"]),
         ],
     ),
     RVLLib(
