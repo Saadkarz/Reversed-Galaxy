@@ -240,6 +240,14 @@ void J3DShape::makeVcdVatCmd() {
     OSRestoreInterrupts(sInterruptFlag);
 }
 
+void J3DCurrentMtx::load() const {
+    J3DFifoLoadCPCmd(0x30, mMtxIdxRegA);
+    J3DFifoLoadCPCmd(0x40, mMtxIdxRegB);
+    J3DFifoLoadXFCmdHdr(0x1018, 2);
+    GXCmd1u32(mMtxIdxRegA);
+    GXCmd1u32(mMtxIdxRegB);
+}
+
 void J3DShape::loadPreDrawSetting() const {
     if (sOldVcdVatCmd != mVcdVatCmd) {
         GXCallDisplayList(mVcdVatCmd, kVcdVatDLSize);

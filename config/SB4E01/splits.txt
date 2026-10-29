@@ -5185,8 +5185,10 @@ JSystem/J3DGraphBase/J3DShapeDraw.cpp:
 
 JSystem/J3DGraphBase/J3DShape.cpp:
 	.text       start:0x8051D8B0 end:0x8051E470 align:16
+	.rodata     start:0x80654418 end:0x80654428
 	.data       start:0x80705B70 end:0x80705B88
 	.sbss       start:0x807D62E8 end:0x807D62F8
+	.sdata2     start:0x807E1F80 end:0x807E1F88
 
 JSystem/J3DGraphBase/J3DMaterial.cpp:
 	.text       start:0x8051E470 end:0x8051FDB0 align:16

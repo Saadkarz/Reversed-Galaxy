@@ -44,13 +44,7 @@ public:
         return mMtxIdxRegB;
     }
 
-    void load() const {
-        J3DFifoLoadCPCmd(0x30, mMtxIdxRegA);
-        J3DFifoLoadCPCmd(0x40, mMtxIdxRegB);
-        J3DFifoLoadXFCmdHdr(0x1018, 2);
-        GXCmd1u32(mMtxIdxRegA);
-        GXCmd1u32(mMtxIdxRegB);
-    }
+    void load() const;
 
     inline void setCurrentTexMtx(u8 param_1, u8 param_2, u8 param_3, u8 param_4, u8 param_5, u8 param_6, u8 param_7, u8 param_8) {
         mMtxIdxRegA = (param_1 << 6) | (param_2 << 0xc) | (param_3 << 0x12) | (param_4 << 0x18);
