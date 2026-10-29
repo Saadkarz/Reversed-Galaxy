@@ -34,9 +34,9 @@ int VFiPFDRV_GetBPBInformation(unsigned char* p_buf, PF_BPB* p_bpb) {
     return 0;
 }
 
-static void VFiPFDRV_notifyExecuteFormatAfterMount(PF_VOLUME* p_vol, const PDM_DISK_INFO* p_disk_inf) {
+static void VFiPFDRV_notifyExecuteFormatAfterMount(PF_VOLUME* p_vol, void* param) {
+    p_vol->format_param = param;
     p_vol->flags |= 0x10u;
-    p_vol->format_param = p_disk_inf->format_param;
 }
 
 static void VFiPFDRV_notifyNoExecuteLogicalFormat(PF_VOLUME* p_vol) {
@@ -207,11 +207,8 @@ s32 VFiPFDRV_mount(PF_VOLUME* p_vol) {
         VFipdm_part_release_permission(p_vol->p_part, 1);
         return -1;
     } else {
-        if ((disk_inf.media_attr & 2) != 0) {
-            u16 flags = p_vol->flags | 0x10;
-            p_vol->flags = flags;
-            p_vol->format_param = disk_inf.format_param;
-        }
+        if ((disk_inf.media_attr & 2) != 0)
+            VFiPFDRV_notifyExecuteFormatAfterMount(p_vol, disk_inf.format_param);
         if ((disk_inf.media_attr & 8) != 0)
             VFiPFDRV_notifyNoExecuteLogicalFormat(p_vol);
         VFiPFCACHE_AllocateDataPage(p_vol, 0xFFFFFFFF, &p_page);

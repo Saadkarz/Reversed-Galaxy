@@ -5,8 +5,8 @@
 #include <stdint.h>
 
 J3DJointFactory::J3DJointFactory(J3DJointBlock const& block) {
-    mJointInitData = JSUConvertOffsetToPtr< J3DJointInitData >(&block, block.mpJointInitData);
-    mIndexTable = JSUConvertOffsetToPtr< u16 >(&block, block.mpIndexTable);
+    mJointInitData = JSUConvertOffsetToPtr< J3DJointInitData >(&block, (uintptr_t)block.mpJointInitData);
+    mIndexTable = JSUConvertOffsetToPtr< u16 >(&block, (uintptr_t)block.mpIndexTable);
 }
 
 J3DJoint* J3DJointFactory::create(int no) {

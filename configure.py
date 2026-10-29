@@ -729,7 +729,6 @@ config.libs = [
             Object(
                 NonMatching,
                 "JSystem/J3DGraphLoader/J3DJointFactory.cpp",
-                mw_version="Wii/1.3",
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
@@ -1277,11 +1276,12 @@ config.libs = [
             ),
             Object(Matching, "RVL_SDK/vf/pf_w_clib.c"),
             Object(
-                NonMatching,
+                Matching,
                 "RVL_SDK/vf/pf_driver.c",
-                mw_version="GC/3.0a3",
+                mw_version="Wii/1.0",
                 cflags=cflags_sdk_gc,
-                ),
+                extra_cflags=["-func_align 16"],
+            ),
             Object(Matching, "RVL_SDK/vf/pdm_bpb.c"),
             Object(Matching, "RVL_SDK/vf/pdm_disk.c"),
             Object(Matching, "RVL_SDK/vf/pdm_partition.c"),
