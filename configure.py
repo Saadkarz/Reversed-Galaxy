@@ -1247,7 +1247,7 @@ config.libs = [
             Object(NonMatching, "RVL_SDK/nwc24/NWC24MBoxCtrl.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Mime.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Parser.c"),
-            Object(NonMatching, "RVL_SDK/nwc24/NWC24MsgCommit.c"),
+            Object(Matching, "RVL_SDK/nwc24/NWC24MsgCommit.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Schedule.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24DateParser.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24FriendList.c"),
