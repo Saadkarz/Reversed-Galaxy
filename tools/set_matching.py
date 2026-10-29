@@ -1,11 +1,12 @@
 import sys
 
-def set_matching(file_path):
+def set_status(file_path, status):
     with open("configure.py", "r", encoding="utf-8") as f:
         content = f.read()
     
-    target = f'Object(NonMatching, "{file_path}")'
-    repl = f'Object(Matching, "{file_path}")'
+    other = "NonMatching" if status == "Matching" else "Matching"
+    target = f'Object({other}, "{file_path}")'
+    repl = f'Object({status}, "{file_path}")'
     
     if target not in content:
         print(f"Error: Could not find {target} in configure.py")
@@ -16,10 +17,12 @@ def set_matching(file_path):
     with open("configure.py", "w", encoding="utf-8") as f:
         f.write(content)
         
-    print(f"Successfully marked {file_path} as Matching in configure.py")
+    print(f"Successfully marked {file_path} as {status} in configure.py")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        set_matching(sys.argv[1])
+    if len(sys.argv) > 2:
+        set_status(sys.argv[1], sys.argv[2])
+    elif len(sys.argv) > 1:
+        set_status(sys.argv[1], "Matching")
     else:
-        print("Usage: python tools/set_matching.py <path>")
+        print("Usage: python tools/set_matching.py <path> [Matching|NonMatching]")
