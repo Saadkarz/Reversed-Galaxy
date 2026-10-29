@@ -1492,7 +1492,7 @@ config.libs = [
             Object(NonMatching, "RVL_SDK/gx/GXTexture.c"),
             Object(Matching, "RVL_SDK/gx/GXBump.c"),
             Object(Matching, "RVL_SDK/gx/GXTev.c"),
-            Object(NonMatching, "RVL_SDK/gx/GXPixel.c"),
+            Object(Matching, "RVL_SDK/gx/GXPixel.c", extra_cflags=["-sdata 8", "-sdata2 8"]),
             Object(Matching, "RVL_SDK/gx/GXDisplayList.c"),
             Object(Matching, "RVL_SDK/gx/GXTransform.c"),
             Object(Matching, "RVL_SDK/gx/GXPerf.c"),

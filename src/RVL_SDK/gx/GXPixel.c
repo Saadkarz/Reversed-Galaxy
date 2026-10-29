@@ -3,7 +3,7 @@
 #include "revolution/gx/GXTypes.h"
 
 void GXSetFog(GXFogType type, f32 startz, f32 endz, f32 nearz, f32 farz, GXColor color) {
-    u32 fogclr = 0, fog0 = 0, fog1 = 0, fog2 = 0, fog3 = 0;
+    u32 fogclr, fog0, fog1, fog2, fog3;
     f32 A, B, B_mant, C, a, c;
     u32 B_expn, b_m, b_s, a_hex, c_hex;
     u32 fsel, proj;
@@ -44,25 +44,32 @@ void GXSetFog(GXFogType type, f32 startz, f32 endz, f32 nearz, f32 farz, GXColor
         }
 
         a = A / (1 << (B_expn + 1));
-        b_m = (u32)(B_mant * 8388638);
+        b_m = (u32)(B_mant * 8388638.0f);
         b_s = B_expn + 1;
         c = C;
 
+        fog1 = 0;
         SC_TEV_FOG_PARAM_1_SET_B_MAG(fog1, b_m);
         SC_TEV_FOG_PARAM_1_SET_RID(fog1, 0xEF);
 
+        fog2 = 0;
         SC_TEV_FOG_PARAM_2_SET_B_SHF(fog2, b_s);
         SC_TEV_FOG_PARAM_2_SET_RID(fog2, 0xF0);
+
+        GX_WRITE_RA_REG(fog1);
+        GX_WRITE_RA_REG(fog2);
     }
 
     a_hex = (*(u32*)&a);
     c_hex = (*(u32*)&c);
 
+    fog0 = 0;
     SC_TEV_FOG_PARAM_0_SET_A_MANT(fog0, ((a_hex >> 12) & 0x7ff));
     SC_TEV_FOG_PARAM_0_SET_A_EXPN(fog0, ((a_hex >> 23) & 0x0ff));
     SC_TEV_FOG_PARAM_0_SET_A_SIGN(fog0, (a_hex >> 31));
     SC_TEV_FOG_PARAM_0_SET_RID(fog0, 0xEE);
 
+    fog3 = 0;
     SC_TEV_FOG_PARAM_3_SET_C_MANT(fog3, ((c_hex >> 12) & 0x7ff));
     SC_TEV_FOG_PARAM_3_SET_C_EXPN(fog3, ((c_hex >> 23) & 0x0ff));
     SC_TEV_FOG_PARAM_3_SET_C_SIGN(fog3, (c_hex >> 31));
@@ -71,12 +78,11 @@ void GXSetFog(GXFogType type, f32 startz, f32 endz, f32 nearz, f32 farz, GXColor
     SC_TEV_FOG_PARAM_3_SET_RID(fog3, 0xF1);
 
     rgba = *(u32*)(&color);
+    fogclr = 0;
     SC_TEV_FOG_COLOR_SET_RGB(fogclr, (rgba >> 8));
     SC_TEV_FOG_COLOR_SET_RID(fogclr, 0xF2);
 
     GX_WRITE_RA_REG(fog0);
-    GX_WRITE_RA_REG(fog1);
-    GX_WRITE_RA_REG(fog2);
     GX_WRITE_RA_REG(fog3);
     GX_WRITE_RA_REG(fogclr);
     BP_SENT();
