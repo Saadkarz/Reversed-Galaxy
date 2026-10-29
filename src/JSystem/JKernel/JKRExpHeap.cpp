@@ -528,7 +528,7 @@ s32 JKRExpHeap::getUsedSize(u8 groupId) const {
 
     for (CMemBlock* block = mHeadUsedList; block; block = block->mNext) {
         if (block->mGroupId == groupId) {
-            size += block->mSize + sizeof(CMemBlock);
+            size += (u32)(block->mSize + sizeof(CMemBlock));
         }
     }
 

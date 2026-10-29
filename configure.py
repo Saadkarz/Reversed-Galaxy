@@ -842,7 +842,7 @@ config.libs = [
             Object(
                 NonMatching, "JSystem/JKernel/JKRHeap.cpp", extra_cflags=["-ipa file"]
             ),
-            Object(NonMatching, "JSystem/JKernel/JKRExpHeap.cpp"),
+            Object(Matching, "JSystem/JKernel/JKRExpHeap.cpp"),
             Object(NonMatching, "JSystem/JKernel/JKRSolidHeap.cpp"),
             Object(Matching, "JSystem/JKernel/JKRUnitHeap.cpp"),
             Object(Matching, "JSystem/JKernel/JKRDisposer.cpp"),
