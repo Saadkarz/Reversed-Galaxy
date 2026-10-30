@@ -52,7 +52,7 @@ struct JASInstParam : public JASSoundParams {
 };
 
 struct JASInst {
-    virtual ~JASInst() {};
+    virtual ~JASInst() {}
     virtual bool getParam(int, int, JASInstParam*) const = 0;
     virtual u32 getType() const = 0;
 };
@@ -67,11 +67,7 @@ struct JASBasicInst : public JASInst {
 
     struct TKeymap {
         ~TKeymap();
-        TKeymap() {
-            mHighKey = -1;
-            mVelomapCount = 0;
-            mVelomap = nullptr;
-        }
+        TKeymap();
         s32 getHighKey() const {
             return mHighKey;
         }
@@ -101,9 +97,7 @@ struct JASBasicInst : public JASInst {
 
     virtual ~JASBasicInst();
     virtual bool getParam(int, int, JASInstParam*) const;
-    virtual u32 getType() const {
-        return 'BSIC';
-    };
+    virtual u32 getType() const;
 
     void setVolume(f32 volume) {
         mVolume = volume;

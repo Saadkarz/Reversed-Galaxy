@@ -8,6 +8,9 @@ JASBasicInst::JASBasicInst() : mVolume(1.0f), mPitch(1.0f), mEffects(nullptr), m
     JASCalc::bzero(mOscillatorData, sizeof(mOscillatorData));
 }
 
+template <> JASPtrList<JASInstEffect>::~JASPtrList() {}
+
+
 JASBasicInst::~JASBasicInst() {
     delete[] mKeymap;
 }
@@ -54,6 +57,8 @@ void JASBasicInst::setKeyRegionCount(u32 count, JKRHeap* pHeap) {
     mKeymap = new (pHeap, 0) TKeymap[count];
     mKeymapCount = count;
 }
+
+JASBasicInst::TKeymap::TKeymap() : mHighKey(-1), mVelomapCount(0), mVelomap(nullptr) {}
 
 void JASBasicInst::appendEffect(JASPtrListAdaptor< JASInstEffect >* p) {
     if (mEffects.isEmpty()) {
@@ -109,4 +114,8 @@ const JASBasicInst::TVelomap* JASBasicInst::TKeymap::getVeloRegion(int index) co
         return nullptr;
     }
     return &mVelomap[index];
+}
+
+u32 JASBasicInst::getType() const {
+    return 'BSIC';
 }

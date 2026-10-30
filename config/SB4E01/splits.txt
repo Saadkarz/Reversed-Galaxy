@@ -5868,6 +5868,7 @@ JSystem/JAudio2/JASVoiceBank.cpp:
 JSystem/JAudio2/JASBasicInst.cpp:
 	.text       start:0x8058BEA0 end:0x8058C380 align:16
 	.data       start:0x80709BD8 end:0x80709BF0
+	.sdata2     start:0x807E2458 end:0x807E2460
 
 JSystem/JAudio2/JASDrumSet.cpp:
 	.text       start:0x8058C380 end:0x8058C6B0 align:16

@@ -36,7 +36,7 @@ public:
         return mList == nullptr;
     }
 
-    ~JASPtrList() NO_INLINE {};
+    ~JASPtrList() NO_INLINE;
 
     JASPtrListAdaptor< T >* begin() const {
         return mList;
