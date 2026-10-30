@@ -2591,7 +2591,7 @@ turnQuatXDirRate__2MRFPQ29JGeometry9TQuat4<f>RCQ29JGeometry9TQuat4<f>RCQ29JGeome
 turnQuatYDirRate__2MRFPQ29JGeometry9TQuat4<f>RCQ29JGeometry9TQuat4<f>RCQ29JGeometry8TVec3<f>f = .text:0x8003D8A0; // type:function size:0xD0
 turnQuatZDirRate__2MRFPQ29JGeometry9TQuat4<f>RCQ29JGeometry9TQuat4<f>RCQ29JGeometry8TVec3<f>f = .text:0x8003D970; // type:function size:0xD0
 sign__2MRFf = .text:0x8003DA40; // type:function size:0x2C
-swap__10J2DPictureFRfRf = .text:0x8003DA70; // type:function size:0x14
+swap__10J2DPictureFRfRf = .text:0x8003DA70; // type:function size:0x14 scope:weak
 floatToFixed16__2MRFPQ29JGeometry8TVec3<s>RCQ29JGeometry8TVec3<f>Uc = .text:0x8003DA90; // type:function size:0x7C
 fixed16ToFloat__2MRFPQ29JGeometry8TVec3<f>RCQ29JGeometry8TVec3<s>Uc = .text:0x8003DB10; // type:function size:0x94
 fn_8003DBB0 = .text:0x8003DBB0; // type:function size:0x2C

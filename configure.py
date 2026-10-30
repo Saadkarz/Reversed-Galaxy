@@ -1640,7 +1640,7 @@ config.libs = [
             Object(NonMatching, "RVL_SDK/wpad/WPAD.c", extra_cflags=["-fp off"]),
             Object(NonMatching, "RVL_SDK/wpad/WPADHIDParser.c"),
             Object(NonMatching, "RVL_SDK/wpad/WPADEncrypt.c"),
-            Object(NonMatching, "RVL_SDK/wpad/WPADMem.c"),
+            Object(Matching, "RVL_SDK/wpad/WPADMem.c"),
             Object(Matching, "RVL_SDK/wpad/lint.c"),
         ],
     ),

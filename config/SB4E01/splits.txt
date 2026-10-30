@@ -6766,10 +6766,10 @@ RVL_SDK/wpad/WPADEncrypt.c:
 	.sbss       start:0x807D6B48 end:0x807D6B50
 
 RVL_SDK/wpad/WPADMem.c:
-	.text       start:0x805F8530 end:0x805F8640
+	.text       start:0x805F8530 end:0x805F8634
 
 RVL_SDK/wpad/lint.c:
-	.text       start:0x805F8640 end:0x805F8EB0
+	.text       start:0x805F8640 end:0x805F8EB0 align:16
 
 RVL_SDK/wud/WUD.c:
 	.text       start:0x805F8EB0 end:0x805FE5A0
