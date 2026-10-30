@@ -1710,7 +1710,7 @@ config.libs = [
                 mw_version="Wii/1.0",
                 cflags=cflags_sdk_ipa,
             ),
-            Object(NonMatching, "RVL_SDK/bte/btu_task1.c"),
+            Object(Matching, "RVL_SDK/bte/btu_task1.c", mw_version="Wii/1.0", cflags=cflags_sdk_ipa),
             Object(Matching, "RVL_SDK/bte/bd.c"),
             Object(Matching, "RVL_SDK/bte/bta_sys_conn.c"),
             Object(Matching, "RVL_SDK/bte/bta_sys_main.c"),
