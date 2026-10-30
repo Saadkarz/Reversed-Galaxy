@@ -1047,7 +1047,7 @@ config.libs = [
             Object(Matching, "Game/LiveActor/LodCtrl.cpp"),
             Object(Matching, "Game/LiveActor/MaterialCtrl.cpp"),
             Object(Matching, "Game/LiveActor/MessageSensorHolder.cpp"),
-            Object(NonMatching, "Game/LiveActor/MirrorActor.cpp"),
+            Object(Matching, "Game/LiveActor/MirrorActor.cpp", mw_version="Wii/1.3"),
             Object(Matching, "Game/LiveActor/ModelObj.cpp"),
             Object(Matching, "Game/LiveActor/Nerve.cpp"),
             Object(Matching, "Game/LiveActor/PartsModel.cpp"),

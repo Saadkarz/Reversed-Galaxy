@@ -2166,8 +2166,9 @@ Game/LiveActor/MessageSensorHolder.cpp:
 	.data       start:0x806954D0 end:0x80695540
 
 Game/LiveActor/MirrorActor.cpp:
-	.text       start:0x8023A680 end:0x8023AA30
+	.text       start:0x8023A680 end:0x8023AA2C align:16
 	.data       start:0x80695540 end:0x806955B0
+	.sdata2     start:0x807DC4B8 end:0x807DC4C0
 
 Game/LiveActor/MirrorCamera.cpp:
 	.text       start:0x8023AA30 end:0x8023B050
