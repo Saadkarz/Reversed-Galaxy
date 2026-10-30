@@ -62,6 +62,16 @@ void JASDrumSet::setPerc(int index, JASDrumSet::TPerc* pPerc) {
     mPercArray[index] = pPerc;
 }
 
+JASDrumSet::TPerc* JASDrumSet::getPerc(int index) {
+    if (index < 0) {
+        return nullptr;
+    }
+    if ((u32)index >= PERC_MAX) {
+        return nullptr;
+    }
+    return mPercArray[index];
+}
+
 JASDrumSet::TPerc::TPerc() : mVolume(1.0f), mPitch(1.0f), mPan(0.5f), mRelease(1000), mEffects(), mVelomapCount(0), mVelomap(nullptr) {
 }
 
@@ -72,6 +82,10 @@ void JASDrumSet::TPerc::setVeloRegionCount(u32 count, JKRHeap* pHeap) {
 }
 
 JASDrumSet::TVelomap* JASDrumSet::TPerc::getVeloRegion(int index) {
+    return &mVelomap[index];
+}
+
+const JASDrumSet::TVelomap* JASDrumSet::TPerc::getVeloRegion(int index) const {
     return &mVelomap[index];
 }
 
@@ -89,4 +103,8 @@ void JASDrumSet::TPerc::appendEffect(JASPtrListAdaptor< JASInstEffect >* p) {
 
 void JASDrumSet::TPerc::setRelease(u32 release) {
     mRelease = release;
+}
+
+u32 JASDrumSet::getType() const {
+    return 'PERC';
 }

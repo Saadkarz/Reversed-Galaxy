@@ -4919,6 +4919,8 @@ Game/NWC24/ReceiverTagMail.cpp:
 JSystem/JKernel/JKRHeap.cpp:
 	.text       start:0x80500F60 end:0x80501920 align:16
 	.data       start:0x80704000 end:0x80704060
+	.sdata      start:0x807D05B8 end:0x807D05C8
+	.sbss       start:0x807D6110 end:0x807D6138
 
 JSystem/JKernel/JKRExpHeap.cpp:
 	.text       start:0x805019F0 end:0x80503670 align:16
@@ -5870,6 +5872,9 @@ JSystem/JAudio2/JASBasicInst.cpp:
 JSystem/JAudio2/JASDrumSet.cpp:
 	.text       start:0x8058C380 end:0x8058C6B0 align:16
 	.data       start:0x80709BF0 end:0x80709C08
+	.bss        start:0x8077BD60 end:0x8077BD78
+	.sdata      start:0x807D08C0 end:0x807D08C4
+	.sdata2     start:0x807E2460 end:0x807E2470
 
 JSystem/JAudio2/JASBasicWaveBank.cpp:
 	.text       start:0x8058C6B0 end:0x8058CED0 align:16
@@ -5977,7 +5982,7 @@ JSystem/JAudio2/JAISe.cpp:
 JSystem/JAudio2/JAISeMgr.cpp:
 	.text       start:0x805944C0 end:0x80594E50 align:16
 	.ctors      start:0x80644B58 end:0x80644B5C
-	.data       start:0x8070BD70 end:0x8070BD98
+	.data       start:0x8070BD70 end:0x8070BDB0
 	.bss        start:0x8077E268 end:0x8077E278
 	.sbss       start:0x807D6540 end:0x807D6550
 
