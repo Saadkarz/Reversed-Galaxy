@@ -78,6 +78,7 @@ namespace JGeometry {
             return val;
         }
 
+#ifndef JGEOMETRY_TUTIL_INV_SQRT_DECL_ONLY
         static f32 inv_sqrt(f32 val) NO_INLINE {
             if (val <= 0.0f) {
                 return val;
@@ -85,6 +86,9 @@ namespace JGeometry {
             f32 outVal = (f32)__frsqrte(val);
             return outVal * 0.5f * (3.0f - outVal * outVal * val);
         }
+#else
+        static f32 inv_sqrt(f32 val);
+#endif
 
         static inline f32 epsilon() {
             return 32.0f * FLT_EPSILON;

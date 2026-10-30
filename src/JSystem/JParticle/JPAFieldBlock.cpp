@@ -1,10 +1,18 @@
+#define JPA_FIELD_BLOCK_DEFER_INLINE
 #define JGEOMETRY_VEC3_ZERO_NOINLINE
+#define JGEOMETRY_TUTIL_INV_SQRT_DECL_ONLY
 #include "JSystem/JParticle/JPAFieldBlock.hpp"
 #include "JSystem/JKernel/JKRHeap.hpp"
 #include "JSystem/JParticle/JPAEmitter.hpp"
 #include "JSystem/JParticle/JPAParticle.hpp"
 
+
 void JPAFieldBase::calcAffect(JPAFieldBlock* block, JPABaseParticle* ptcl) {
+    (void)1.0f;
+    (void)0.0f;
+    (void)3.8146973e-6f;
+    (void)0.5f;
+    (void)10.0f;
     JGeometry::TVec3< f32 > vec = mAccel;
     if (!ptcl->checkStatus(4) && block->checkStatus(0x78)) {
         vec.scale(calcFadeAffect(block, ptcl->mTime));

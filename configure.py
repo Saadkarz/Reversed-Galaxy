@@ -927,7 +927,7 @@ config.libs = [
                 "JSystem/JParticle/JPADynamicsBlock.cpp",
                 extra_cflags=["-opt nolifetimes,nocse,noprop", "-sym on"],
             ),
-            Object(NonMatching, "JSystem/JParticle/JPAFieldBlock.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAFieldBlock.cpp"),
             Object(Matching, "JSystem/JParticle/JPAKeyBlock.cpp"),
             Object(Matching, "JSystem/JParticle/JPATexture.cpp", extra_cflags=["-ipa off"]
             ),

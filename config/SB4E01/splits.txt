@@ -5325,8 +5325,9 @@ JSystem/JParticle/JPADynamicsBlock.cpp:
 	.text       start:0x80540280 end:0x80540EE0 align:16
 
 JSystem/JParticle/JPAFieldBlock.cpp:
-	.text       start:0x805416E0 end:0x805419B0 align:16
-	.data       start:0x80707254 end:0x807072B8
+	.text       start:0x80540EE0 end:0x80541AF0 align:16
+	.data       start:0x80707230 end:0x807072B8
+	.sdata2     start:0x807E20C8 end:0x807E20E0
 
 JSystem/JParticle/JPAKeyBlock.cpp:
 	.text       start:0x80541AF0 end:0x80541B98 align:16

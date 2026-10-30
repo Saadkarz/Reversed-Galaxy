@@ -12,12 +12,12 @@ class JPAFieldBase {
 public:
     inline JPAFieldBase() {
     }
+    virtual ~JPAFieldBase() {}
 
     void calcAffect(JPAFieldBlock*, JPABaseParticle*);
     f32 calcFadeAffect(JPAFieldBlock*, f32) const;
 
-    virtual ~JPAFieldBase() {
-    }
+
     virtual void prepare(JPAEmitterWorkData*, JPAFieldBlock*);
     virtual void calc(JPAEmitterWorkData*, JPAFieldBlock*, JPABaseParticle*) = 0;
 
@@ -37,17 +37,35 @@ public:
     /* 0x28 */ JGeometry::TVec3< f32 > field_0x28;
 };
 
-class JPAFieldRandom : public JPAFieldBase {
+class JPAFieldGravity : public JPAFieldBase {
 public:
-    inline JPAFieldRandom() {
+    inline JPAFieldGravity() {
+    }
+    virtual ~JPAFieldGravity() {
     }
 
+    void prepare(JPAEmitterWorkData*, JPAFieldBlock*);
     void calc(JPAEmitterWorkData*, JPAFieldBlock*, JPABaseParticle*);
+};
+
+class JPAFieldMagnet : public JPAFieldBase {
+public:
+    inline JPAFieldMagnet() {
+    }
+    virtual ~JPAFieldMagnet() {
+    }
+
+    void prepare(JPAEmitterWorkData*, JPAFieldBlock*);
+    void calc(JPAEmitterWorkData*, JPAFieldBlock*, JPABaseParticle*);
+
+    /* 0x10 */ JGeometry::TVec3< f32 > mDir;
 };
 
 class JPAFieldNewton : public JPAFieldBase {
 public:
     inline JPAFieldNewton() {
+    }
+    virtual ~JPAFieldNewton() {
     }
 
     void prepare(JPAEmitterWorkData*, JPAFieldBlock*);
@@ -57,23 +75,13 @@ public:
     /* 0x1C */ f32 mCutoff;
 };
 
-class JPAFieldMagnet : public JPAFieldBase {
+class JPAFieldRandom : public JPAFieldBase {
 public:
-    inline JPAFieldMagnet() {
+    inline JPAFieldRandom() {
+    }
+    virtual ~JPAFieldRandom() {
     }
 
-    void prepare(JPAEmitterWorkData*, JPAFieldBlock*);
-    void calc(JPAEmitterWorkData*, JPAFieldBlock*, JPABaseParticle*);
-
-    /* 0x10 */ JGeometry::TVec3< f32 > mDir;
-};
-
-class JPAFieldGravity : public JPAFieldBase {
-public:
-    inline JPAFieldGravity() {
-    }
-
-    void prepare(JPAEmitterWorkData*, JPAFieldBlock*);
     void calc(JPAEmitterWorkData*, JPAFieldBlock*, JPABaseParticle*);
 };
 
@@ -81,9 +89,13 @@ class JPAFieldDrag : public JPAFieldBase {
 public:
     inline JPAFieldDrag() {
     }
+    virtual ~JPAFieldDrag() {
+    }
 
     void calc(JPAEmitterWorkData*, JPAFieldBlock*, JPABaseParticle*);
 };
+
+
 
 class JPAFieldConvection : public JPAFieldBase {
 public:
