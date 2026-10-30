@@ -1335,7 +1335,7 @@ config.libs = [
                 mw_version="GC/3.0a3",
                 cflags=cflags_sdk_gc,
                 ),
-            Object(NonMatching, "RVL_SDK/vf/d_vf_sys.c"),
+            Object(Matching, "RVL_SDK/vf/d_vf_sys.c"),
             Object(Matching, "RVL_SDK/vf/d_hash.c"),
             Object(Matching, "RVL_SDK/vf/d_time.c"),
             Object(Matching, "RVL_SDK/vf/d_common.c"),
