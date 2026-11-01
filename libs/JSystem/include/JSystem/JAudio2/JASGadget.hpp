@@ -6,8 +6,7 @@
 template < typename T >
 class JASPtrListAdaptor {
 public:
-    // TEMP NO_INLINE
-    JASPtrListAdaptor(T* pData) NO_INLINE : mNext(), mData(pData) {};
+    JASPtrListAdaptor(T* pData) NO_INLINE;
 
     ~JASPtrListAdaptor() {};
 

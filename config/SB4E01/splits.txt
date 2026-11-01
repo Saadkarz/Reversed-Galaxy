@@ -5906,7 +5906,10 @@ JSystem/JAudio2/JASWSParser.cpp:
 	.sbss       start:0x807D64B8 end:0x807D64C0
 
 JSystem/JAudio2/JASBNKParser.cpp:
-	.text       start:0x8058DCE0 end:0x8058EA50 align:16
+	.text       start:0x8058DAA0 end:0x8058EA50 align:16
+	.rodata     start:0x80659360 end:0x80659370
+	.sbss       start:0x807D64C0 end:0x807D64C8
+	.sdata2     start:0x807E2488 end:0x807E2498
 
 JSystem/JAudio2/JASWaveArcLoader.cpp:
 	.text       start:0x8058EA50 end:0x8058EFE0 align:16

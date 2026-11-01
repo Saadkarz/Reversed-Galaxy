@@ -3,10 +3,6 @@
 #include "JSystem/JAudio2/JAISoundInfo.hpp"
 #include "JSystem/JAudio2/JASReport.hpp"
 
-inline JASSoundParams::JASSoundParams() {
-    init();
-}
-
 bool JAISeCategoryMgr::isUsingSeqData(const JAISeqDataRegion& seqDataRegion) {
     for (JSULink< JAISe >* i = mSeList.getFirst(); i != mSeList.getEnd(); i = i->getNext()) {
         if (seqDataRegion.intersects(*i->getObject()->getSeqData())) {

@@ -80,6 +80,10 @@ JASInstEffect* JASBNKParser::Ver1::createEffector(void const* stream, JKRHeap* h
     }
 }
 
+JASInstRand::JASInstRand() : JASInstEffect(), mType(VOLUME), mBaseValue(1.0f), mRange(0.0f) {}
+
+JASInstSense::JASInstSense() : JASInstEffect(), mType(VOLUME), mSenseType(0), mMaxPoint(60), mStartLvl(1.0f), mEndLvl(1.0f) {}
+
 JASBasicBank* JASBNKParser::Ver1::createBasicBank(void const* stream, JKRHeap* heap) {
     if (heap == nullptr) {
         heap = JASDram;
@@ -200,6 +204,9 @@ JASBasicBank* JASBNKParser::Ver1::createBasicBank(void const* stream, JKRHeap* h
 
     return bank;
 }
+
+template <>
+JASPtrListAdaptor<JASInstEffect>::JASPtrListAdaptor(JASInstEffect* pData) : mNext(), mData(pData) {}
 
 inline JASInstParam::JASInstParam() {
     init();

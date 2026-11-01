@@ -21,8 +21,16 @@ struct JASSoundParams {
     void initDolby() {
         mDolby = 0.0f;
     }
-    void init();
-    JASSoundParams();
+    void init() {
+        initVolume();
+        initPitch();
+        initFxMix();
+        initPan();
+        initDolby();
+    }
+    JASSoundParams() {
+        init();
+    }
 
     void clampVolume() {
         if (mVolume < 0.0f)
