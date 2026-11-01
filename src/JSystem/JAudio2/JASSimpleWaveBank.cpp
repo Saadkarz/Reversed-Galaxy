@@ -10,10 +10,16 @@ JASSimpleWaveBank::~JASSimpleWaveBank() {
     delete[] mWaveTable;
 }
 
+JASSimpleWaveBank::TWaveHandle::~TWaveHandle() {
+}
+
 void JASSimpleWaveBank::setWaveTableSize(u32 size, JKRHeap* heap) {
     delete[] mWaveTable;
     mWaveTable = new (heap, 0) TWaveHandle[size];
     mWaveTableSize = size;
+}
+
+JASSimpleWaveBank::TWaveHandle::TWaveHandle() : mHeap(nullptr) {
 }
 
 JASWaveHandle* JASSimpleWaveBank::getWaveHandle(u32 no) const {
@@ -42,4 +48,18 @@ int JASSimpleWaveBank::TWaveHandle::getWavePtr() const {
         return 0;
     }
     return (intptr_t)base + mWaveInfo.mAWStartOffs;
+}
+
+void JASWaveArc::onEraseDone() {
+}
+
+void JASWaveArc::onLoadDone() {
+}
+
+u32 JASSimpleWaveBank::getArcCount() const {
+    return 1;
+}
+
+const JASWaveInfo* JASSimpleWaveBank::TWaveHandle::getWaveInfo() const {
+    return &mWaveInfo;
 }

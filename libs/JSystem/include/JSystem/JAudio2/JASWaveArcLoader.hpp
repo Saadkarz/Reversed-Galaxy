@@ -39,10 +39,8 @@ struct JASWaveArc : JASDisposer {
 
     virtual ~JASWaveArc();
     virtual void onDispose();
-    virtual void onLoadDone() {
-    }
-    virtual void onEraseDone() {
-    }
+    virtual void onLoadDone();
+    virtual void onEraseDone();
 
     s32 getStatus() const {
         return mStatus;

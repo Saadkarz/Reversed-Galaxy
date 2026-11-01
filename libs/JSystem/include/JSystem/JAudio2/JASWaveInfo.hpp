@@ -51,7 +51,7 @@ public:
 
 class JASWaveBank {
 public:
-    virtual ~JASWaveBank();
+    virtual ~JASWaveBank() {}
     virtual JASWaveHandle* getWaveHandle(u32) const = 0;
     virtual JASWaveArc* getWaveArc(u32) = 0;
     virtual u32 getArcCount() const = 0;
