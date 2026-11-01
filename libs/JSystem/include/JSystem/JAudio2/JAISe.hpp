@@ -11,6 +11,7 @@ public:
     public:
         TInner() : mSeqData(nullptr, 0) {
         }
+        ~TInner();
 
         /* 0x000 */ u32 mProperPriority;
         /* 0x004 */ u32 mPriority;

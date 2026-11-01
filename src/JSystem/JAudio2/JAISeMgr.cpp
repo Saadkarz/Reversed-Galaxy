@@ -3,6 +3,10 @@
 #include "JSystem/JAudio2/JAISoundInfo.hpp"
 #include "JSystem/JAudio2/JASReport.hpp"
 
+inline JASSoundParams::JASSoundParams() {
+    init();
+}
+
 bool JAISeCategoryMgr::isUsingSeqData(const JAISeqDataRegion& seqDataRegion) {
     for (JSULink< JAISe >* i = mSeList.getFirst(); i != mSeList.getEnd(); i = i->getNext()) {
         if (seqDataRegion.intersects(*i->getObject()->getSeqData())) {
@@ -12,6 +16,7 @@ bool JAISeCategoryMgr::isUsingSeqData(const JAISeqDataRegion& seqDataRegion) {
 
     return false;
 }
+
 
 int JAISeCategoryMgr::releaseSeqData(const JAISeqDataRegion& seqDataRegion) {
     bool found = false;
@@ -34,6 +39,7 @@ void JAISeCategoryMgr::JAISeMgr_calc_() {
 
     sortByPriority_();
 }
+
 
 void JAISeCategoryMgr::JAISeMgr_freeDeadSe_() {
     JSULink< JAISe >* i = mSeList.getFirst();
@@ -155,6 +161,7 @@ JAISeMgr::JAISeMgr(bool setInstance) : JASGlobalInstance< JAISeMgr >(setInstance
     mSoundActivity.init();
 }
 
+
 bool JAISeMgr::isUsingSeqData(const JAISeqDataRegion& seqDataRegion) {
     for (int i = 0; i < NUM_CATEGORIES; i++) {
         if (mCategoryMgrs[i].JAISeCategoryMgr::isUsingSeqData(seqDataRegion)) {
@@ -186,14 +193,6 @@ void JAISeMgr::setCategoryArrangement(const JAISeCategoryArrangement& arrangemen
     }
 }
 
-void JAISeMgr::getCategoryArrangement(JAISeCategoryArrangement* arrangement) {
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
-        int active = mCategoryMgrs[i].getMaxActiveSe();
-        arrangement->mItems[i].mMaxActiveSe = active;
-        int inactive = mCategoryMgrs[i].getMaxInactiveSe();
-        arrangement->mItems[i].mMaxInactiveSe = inactive;
-    }
-}
 
 void JAISeMgr::stop() {
     for (int i = 0; i < NUM_CATEGORIES; i++) {
@@ -275,12 +274,14 @@ void JAISeMgr::mixOut() {
     }
 }
 
-int JAISeMgr::getNumActiveSe() const {
-    int num = 0;
-    for (int i = 0; i < NUM_CATEGORIES; i++) {
-        num += mCategoryMgrs[i].getNumSe();
+JAIAudience* JAISeMgr::getAudience(int index) {
+    if (index >= 0 && index < NUM_CATEGORIES) {
+        JAIAudience* rv = mCategoryMgrs[index].getAudience();
+        if (rv != nullptr) {
+            return rv;
+        }
     }
-    return num;
+    return mAudience;
 }
 
 bool JAISeMgr::startSound(JAISoundID id, JAISoundHandle* handle, const TVec3f* posPtr) {
@@ -318,3 +319,12 @@ bool JAISeMgr::startSound(JAISoundID id, JAISoundHandle* handle, const TVec3f* p
 
     return true;
 }
+
+int JAISeMgr::getNumActiveSe() const {
+    int num = 0;
+    for (int i = 0; i < NUM_CATEGORIES; i++) {
+        num += mCategoryMgrs[i].getNumSe();
+    }
+    return num;
+}
+

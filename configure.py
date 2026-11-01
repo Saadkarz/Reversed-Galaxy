@@ -792,7 +792,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JAIAudible.cpp"),
             Object(Matching, "JSystem/JAudio2/JAIAudience.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JAISe.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAISeMgr.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAISeMgr.cpp", extra_cflags=["-sym off"]),
             Object(Matching, "JSystem/JAudio2/JAISeq.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISeqDataMgr.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISeqMgr.cpp"),

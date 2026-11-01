@@ -5980,15 +5980,16 @@ JSystem/JAudio2/JAIAudience.cpp:
 	.text       start:0x80593510 end:0x80593550 align:16
 
 JSystem/JAudio2/JAISe.cpp:
-	.text       start:0x80593690 end:0x80593D80 align:16
+	.text       start:0x80593690 end:0x80593E00 align:16
 	.data       start:0x8070BD00 end:0x8070BD58
 
 JSystem/JAudio2/JAISeMgr.cpp:
-	.text       start:0x805944C0 end:0x80594E50 align:16
+	.text       start:0x80593E00 end:0x80594E50 align:16
 	.ctors      start:0x80644B58 end:0x80644B5C
-	.data       start:0x8070BD70 end:0x8070BDB0
-	.bss        start:0x8077E268 end:0x8077E278
+	.data       start:0x8070BD58 end:0x8070BDB0
+	.bss        start:0x8077E258 end:0x8077E278
 	.sbss       start:0x807D6540 end:0x807D6550
+	.sdata2     start:0x807E2538 end:0x807E2540
 
 JSystem/JAudio2/JAISeq.cpp:
 	.text       start:0x80594E50 end:0x80595AE0 align:16

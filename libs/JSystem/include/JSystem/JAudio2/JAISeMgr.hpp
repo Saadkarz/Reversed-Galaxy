@@ -125,15 +125,7 @@ public:
     JAIAudience* getAudience() {
         return mAudience;
     }
-    JAIAudience* getAudience(int index) NO_INLINE {
-        if (index >= 0 && index < NUM_CATEGORIES) {
-            JAIAudience* rv = mCategoryMgrs[index].getAudience();
-            if (rv != nullptr) {
-                return rv;
-            }
-        }
-        return mAudience;
-    }
+    JAIAudience* getAudience(int index);
     JAISeqDataMgr* getSeqDataMgr() {
         return mSeqDataMgr;
     }
