@@ -59,18 +59,18 @@ int JASSeqCtrl::tickProc(JASTrack* track) {
 }
 
 void JASSeqCtrl::interrupt(JASSeqCtrl::IntrType interrupt) {
-    u32 mask = 1 << interrupt;
+    int mask = 1 << interrupt;
     if (!(_4E & mask))
         return;
-    _4C |= mask;
+    _4C |= (u16)mask;
 }
 
 void JASSeqCtrl::setIntrMask(u32 mask) {
-    _4E |= mask;
+    _4E |= (u16)mask;
 }
 
 void JASSeqCtrl::clrIntrMask(u32 mask) {
-    _4E &= ~mask;
+    _4E &= (u16)~mask;
 }
 
 bool JASSeqCtrl::retIntr() {
@@ -85,7 +85,7 @@ s32 JASSeqCtrl::findIntr() {
     u32 intr = _4E & _4C;
     for (u32 i = 0; intr != 0; i++) {
         if (intr & 1) {
-            _4C &= ~(1 << i);
+            _4C &= (u16)~(1 << i);
             return i;
         } else
             intr >>= 1;

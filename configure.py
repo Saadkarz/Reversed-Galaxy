@@ -763,7 +763,11 @@ config.libs = [
             ),
             Object(Matching, "JSystem/JAudio2/JASTrackPort.cpp"),
             Object(Matching, "JSystem/JAudio2/JASRegisterParam.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JASSeqCtrl.cpp"),
+            Object(
+                Matching,
+                "JSystem/JAudio2/JASSeqCtrl.cpp",
+                extra_cflags=["-sdata 8", "-sdata2 8"],
+            ),
             Object(NonMatching, "JSystem/JAudio2/JASSeqParser.cpp"),
             Object(Matching, "JSystem/JAudio2/JASSeqReader.cpp"),
             Object(NonMatching, "JSystem/JAudio2/JASAramStream.cpp"),

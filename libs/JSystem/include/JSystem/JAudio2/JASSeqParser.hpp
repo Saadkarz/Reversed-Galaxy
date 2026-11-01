@@ -93,4 +93,5 @@ public:
     s32 parseNoteOn(JASTrack*, u8);
     s32 parseCommand(JASTrack*, u8, u16);
     s32 parseRegCommand(JASTrack*, int);
+    u32 _4;
 };
