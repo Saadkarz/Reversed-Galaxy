@@ -5031,9 +5031,11 @@ JSystem/JKernel/JKRDvdRipper.cpp:
 	.sbss       start:0x807D61B8 end:0x807D61F8
 
 JSystem/JKernel/JKRDvdAramRipper.cpp:
-	.text       start:0x8050C380 end:0x8050D0B0 align:16
+	.text       start:0x8050C380 end:0x8050D140 align:16
 	.ctors      start:0x80644B14 end:0x80644B18
 	.bss        start:0x8072BD58 end:0x8072BD88
+	.sdata      start:0x807D05D8 end:0x807D05E0
+	.sbss       start:0x807D61F8 end:0x807D6240
 
 JSystem/JKernel/JKRDecomp.cpp:
 	.text       start:0x8050D140 end:0x8050D860 align:16

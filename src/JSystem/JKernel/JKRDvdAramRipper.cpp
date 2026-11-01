@@ -180,6 +180,9 @@ JKRADCommand* JKRDvdAramRipper::callCommand_Async(JKRADCommand* command) {
     return bVar1 == true ? command : nullptr;
 }
 
+JSUFileInputStream::~JSUFileInputStream() {
+}
+
 bool JKRDvdAramRipper::syncAram(JKRADCommand* command, int param_1) {
     JKRDvdFile* dvdFile = command->mDvdFile;
     OSLockMutex(&dvdFile->mMutex2);

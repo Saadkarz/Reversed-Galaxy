@@ -886,9 +886,9 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JKernel/JKRDvdAramRipper.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file", "-sym on", "-func_align 16"],
             ),
             Object(Matching, "JSystem/JKernel/JKRDecomp.cpp"),
         ],

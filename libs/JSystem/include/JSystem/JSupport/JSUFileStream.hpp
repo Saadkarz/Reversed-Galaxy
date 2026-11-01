@@ -7,13 +7,12 @@ class JKRFile;
 class JSUFileInputStream : public JSURandomInputStream {
 public:
     JSUFileInputStream(JKRFile*);
-    virtual ~JSUFileInputStream() {
-    }
 
-    u32 readData(void*, s32);
-    s32 seekPos(s32, JSUStreamSeekFrom);
-    s32 getLength() const;
-    s32 getPosition() const;
+    virtual u32 readData(void*, s32);
+    virtual s32 seekPos(s32, JSUStreamSeekFrom);
+    virtual ~JSUFileInputStream();
+    virtual s32 getLength() const;
+    virtual s32 getPosition() const;
 
 private:
     /* 0x08 */ JKRFile* mFile;
