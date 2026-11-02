@@ -82,6 +82,14 @@ J3DAnmBase* J3DAnmLoaderDataBase::load(const void* i_data, J3DAnmLoaderDataBaseF
     return NULL;
 }
 
+J3DAnmCluster::J3DAnmCluster(s16 frameMax, f32* pWeight) : J3DAnmBase(frameMax) {
+    mWeight = pWeight;
+}
+
+J3DAnmTransformFull::J3DAnmTransformFull() : J3DAnmTransform(0, NULL, NULL, NULL) {
+    mAnmTable = NULL;
+}
+
 J3DAnmFullLoader_v15::J3DAnmFullLoader_v15() {
 }
 

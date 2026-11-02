@@ -738,7 +738,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphLoader/J3DAnmLoader.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),

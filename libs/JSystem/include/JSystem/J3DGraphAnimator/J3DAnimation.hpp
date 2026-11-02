@@ -400,9 +400,7 @@ public:
 
 class J3DAnmTransformFull : public J3DAnmTransform {
 public:
-    J3DAnmTransformFull() : J3DAnmTransform(0, NULL, NULL, NULL) {
-        mAnmTable = NULL;
-    }
+    J3DAnmTransformFull();
 
     virtual ~J3DAnmTransformFull() {
     }
@@ -520,9 +518,7 @@ public:
 
 class J3DAnmCluster : public J3DAnmBase {
 public:
-    J3DAnmCluster(s16 frameMax, f32* pWeight) : J3DAnmBase(frameMax) {
-        mWeight = pWeight;
-    }
+    J3DAnmCluster(s16 frameMax, f32* pWeight);
 
     virtual ~J3DAnmCluster() {
     }
