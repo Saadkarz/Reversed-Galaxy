@@ -1,53 +1,20 @@
 #include "JSystem/J2DGraph/J2DGrafContext.hpp"
 #include <revolution/gx/GXVert.h>
 
+void J2DGrafContext::setColor(JUtility::TColor color) {
+    setColor(color, color, color, color);
+}
+
+template JGeometry::TBox2< f32 >::TBox2(const JGeometry::TBox2< f32 >&);
+
+
+
 J2DGrafContext::J2DGrafContext(f32 x, f32 y, f32 width, f32 height)
     : mBounds(x, y, x + width, y + height), mScissorBounds(x, y, x + width, y + height) {
     JUtility::TColor color(-1);
     setColor(color);
     mLineWidth = 6;
     GXSetLineWidth(mLineWidth, GX_TO_ZERO);
-}
-
-void J2DGrafContext::setColor(JUtility::TColor colorTL, JUtility::TColor colorTR, JUtility::TColor colorBR, JUtility::TColor colorBL) {
-    mColorTL = colorTL;
-    mColorTR = colorTR;
-    mColorBR = colorBR;
-    mColorBL = colorBL;
-    _B0.mType = GX_BM_BLEND;
-    _B0.mSrcFactor = GX_BL_SRCALPHA;
-    _B0.mDestFactor = GX_BL_INVSRCALPHA;
-    mLinePart.mType = GX_BM_BLEND;
-    mLinePart.mSrcFactor = GX_BL_SRCALPHA;
-    mLinePart.mDestFactor = GX_BL_INVSRCALPHA;
-    mBoxPart.mType = GX_BM_BLEND;
-    mBoxPart.mSrcFactor = GX_BL_SRCALPHA;
-    mBoxPart.mDestFactor = GX_BL_INVSRCALPHA;
-    if ((mColorTL & 0xFF) != 0xFF) {
-        return;
-    }
-
-    _B0.mType = GX_BM_NONE;
-    _B0.mSrcFactor = GX_BL_ONE;
-    _B0.mDestFactor = GX_BL_ZERO;
-    if ((mColorBR & 0xFF) != 0xFF) {
-        return;
-    }
-
-    mLinePart.mType = GX_BM_NONE;
-    mLinePart.mSrcFactor = GX_BL_ONE;
-    mLinePart.mDestFactor = GX_BL_ZERO;
-    if ((mColorTR & 0xFF) != 0xFF) {
-        return;
-    }
-
-    if ((mColorBL & 0xFF) != 0xFF) {
-        return;
-    }
-
-    mBoxPart.mType = GX_BM_NONE;
-    mBoxPart.mSrcFactor = GX_BL_ONE;
-    mBoxPart.mDestFactor = GX_BL_ZERO;
 }
 
 void J2DGrafContext::setPort() {
@@ -105,7 +72,13 @@ void J2DGrafContext::setScissor() {
     JGeometry::TBox2< f32 > bounds(0, 0, 1024, 1024);
     JGeometry::TBox2< f32 > curBounds(mScissorBounds);
     mScissorBounds.intersect(bounds);
-    curBounds.absolute();
+    if (!curBounds.isValid()) {
+        struct Box { f32 x0, y0, x1, y1; } box = { curBounds.i.x, curBounds.i.y, curBounds.f.x, curBounds.f.y };
+        curBounds.i.setMin(*(JGeometry::TVec2<f32>*)&box.x0);
+        curBounds.i.setMin(*(JGeometry::TVec2<f32>*)&box.x1);
+        curBounds.f.setMax(*(JGeometry::TVec2<f32>*)&box.x0);
+        curBounds.f.setMax(*(JGeometry::TVec2<f32>*)&box.x1);
+    }
     if (curBounds.intersect(bounds)) {
         curBounds.i.x = (u32)curBounds.i.x;
         curBounds.i.y = (u32)curBounds.i.y;
@@ -117,12 +90,62 @@ void J2DGrafContext::setScissor() {
     }
 }
 
+template void JGeometry::TVec2< f32 >::setMax(const JGeometry::TVec2< f32 >&);
+template void JGeometry::TVec2< f32 >::setMin(const JGeometry::TVec2< f32 >&);
+
+bool JGeometry::TBox< JGeometry::TVec2< f32 > >::isValid() const {
+    return f.x >= i.x && f.y >= i.y;
+}
+
+template void JGeometry::TBox2< f32 >::operator=(const JGeometry::TBox2< f32 >&);
+
 void J2DGrafContext::place(JGeometry::TBox2< f32 > const& rBounds) {
     if (rBounds.i.x < 0.0f || rBounds.i.y < 0.0f) {
     }
 
     mBounds = rBounds;
     mScissorBounds = rBounds;
+}
+
+void J2DGrafContext::setColor(JUtility::TColor colorTL, JUtility::TColor colorTR, JUtility::TColor colorBR, JUtility::TColor colorBL) {
+    mColorTL = colorTL;
+    mColorTR = colorTR;
+    mColorBR = colorBR;
+    mColorBL = colorBL;
+    _B0.mType = GX_BM_BLEND;
+    _B0.mSrcFactor = GX_BL_SRCALPHA;
+    _B0.mDestFactor = GX_BL_INVSRCALPHA;
+    mLinePart.mType = GX_BM_BLEND;
+    mLinePart.mSrcFactor = GX_BL_SRCALPHA;
+    mLinePart.mDestFactor = GX_BL_INVSRCALPHA;
+    mBoxPart.mType = GX_BM_BLEND;
+    mBoxPart.mSrcFactor = GX_BL_SRCALPHA;
+    mBoxPart.mDestFactor = GX_BL_INVSRCALPHA;
+    if ((mColorTL & 0xFF) != 0xFF) {
+        return;
+    }
+
+    _B0.mType = GX_BM_NONE;
+    _B0.mSrcFactor = GX_BL_ONE;
+    _B0.mDestFactor = GX_BL_ZERO;
+    if ((mColorBR & 0xFF) != 0xFF) {
+        return;
+    }
+
+    mLinePart.mType = GX_BM_NONE;
+    mLinePart.mSrcFactor = GX_BL_ONE;
+    mLinePart.mDestFactor = GX_BL_ZERO;
+    if ((mColorTR & 0xFF) != 0xFF) {
+        return;
+    }
+
+    if ((mColorBL & 0xFF) != 0xFF) {
+        return;
+    }
+
+    mBoxPart.mType = GX_BM_NONE;
+    mBoxPart.mSrcFactor = GX_BL_ONE;
+    mBoxPart.mDestFactor = GX_BL_ZERO;
 }
 
 void J2DGrafContext::fillBox(JGeometry::TBox2< f32 > const& rBox) {
@@ -147,11 +170,4 @@ void J2DGrafContext::setLookat() {
 
 J2DGrafType J2DGrafContext::getGrafType() const {
     return J2DGraf_Base;
-}
-
-void J2DGrafContext_FORCE_MATCH(J2DGrafContext* pContext, JUtility::TColor color) {
-    pContext->setColor(color);
-    pContext->setColor(color);
-    pContext->setColor(color);
-    pContext->setColor(color);
 }

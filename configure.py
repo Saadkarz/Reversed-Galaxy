@@ -561,9 +561,8 @@ config.libs = [
         "J2DGraph",
         [
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J2DGraph/J2DGrafContext.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(NonMatching, "JSystem/J2DGraph/J2DOrthoGraph.cpp"),
             Object(Matching, "JSystem/J2DGraph/J2DMatBlock.cpp"),

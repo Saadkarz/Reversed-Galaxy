@@ -21,7 +21,7 @@ class J2DGrafContext {
 public:
     J2DGrafContext(f32, f32, f32, f32);
 
-    // virtual ~J2DGrafContext();
+    virtual ~J2DGrafContext() {}
 
     virtual void place(const TBox2f&);
     virtual void place(f32 x, f32 y, f32 width, f32 height) {
@@ -34,9 +34,7 @@ public:
     virtual J2DGrafType getGrafType() const;
     virtual void setLookat();
 
-    void setColor(JUtility::TColor c) {
-        setColor(c, c, c, c);
-    }
+    void setColor(JUtility::TColor);
 
     void setColor(JUtility::TColor, JUtility::TColor, JUtility::TColor, JUtility::TColor);
     void fillBox(const TBox2f&);

@@ -9,8 +9,7 @@ namespace JGeometry {
         TBox() : i(), f() {
         }
 
-        TBox(const TBox& rOther) : i(rOther.i), f(rOther.f) {
-        }
+
 
         T i, f;
     };
@@ -25,9 +24,7 @@ namespace JGeometry {
             return f.y - i.y;
         }
 
-        bool isValid() const {
-            return f.x >= i.x && f.y >= i.y;
-        }
+        bool isValid() const;
 
         void addPos(f32 x, f32 y) {
             addPos(TVec2< f32 >(x, y));
@@ -149,9 +146,7 @@ namespace JGeometry {
             TBox< TVec2< T > >::f.set(rMax);
         }
 
-        TBox2(T x0, T y0, T x1, T y1) {
-            set(x0, y0, x1, y1);
-        }
+        TBox2(T x0, T y0, T x1, T y1);
 
         // void set<T>(const TBox2<T> &a1, const TBox2<T> &a2);
 
@@ -202,7 +197,17 @@ namespace JGeometry {
 
     template < typename T >
     void TBox2< T >::operator=(const TBox2< T >& rOther) {
-        *static_cast< TBox< TVec2< T > >* >(this) = rOther;
+        const u32* s = (const u32*)&rOther;
+        u32* d = (u32*)this;
+        *d++ = *s++;
+        *d++ = *s++;
+        *d++ = *s++;
+        *d++ = *s++;
+    }
+
+    template < typename T >
+    TBox2< T >::TBox2(T x0, T y0, T x1, T y1) {
+        set(x0, y0, x1, y1);
     }
 
     template < typename T >

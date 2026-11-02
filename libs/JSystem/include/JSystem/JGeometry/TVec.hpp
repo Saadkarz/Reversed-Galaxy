@@ -109,25 +109,8 @@ namespace JGeometry {
             this->y = y;
         }
 
-        void setMin(const TVec2< f32 >& min) {
-            if (x >= min.x) {
-                x = min.x;
-            }
-
-            if (y >= min.y) {
-                y = min.y;
-            }
-        }
-
-        void setMax(const TVec2< f32 >& max) {
-            if (x <= max.x) {
-                x = max.x;
-            }
-
-            if (y <= max.y) {
-                y = max.y;
-            }
-        }
+        void setMax(const TVec2< T >& max);
+        void setMin(const TVec2< T >& min);
 
         inline bool isAbove(const TVec2< T >& other) const {
             return (x >= other.x) && (y >= other.y) ? true : false;
@@ -258,6 +241,28 @@ namespace JGeometry {
 
     template <>
     TVec2< f32 >::TVec2() {
+    }
+
+    template < typename T >
+    void TVec2< T >::setMax(const TVec2< T >& max) {
+        if (x <= max.x) {
+            x = max.x;
+        }
+
+        if (y <= max.y) {
+            y = max.y;
+        }
+    }
+
+    template < typename T >
+    void TVec2< T >::setMin(const TVec2< T >& min) {
+        if (x >= min.x) {
+            x = min.x;
+        }
+
+        if (y >= min.y) {
+            y = min.y;
+        }
     }
 
     template < typename T >
