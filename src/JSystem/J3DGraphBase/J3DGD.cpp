@@ -17,12 +17,6 @@ void J3DGDSetGenMode(u8 nTexGens, u8 nChans, u8 nTevs, u8 nInds, GXCullMode cm) 
     J3DGDWriteBPCmd(BP_GEN_MODE(nTexGens, nChans, nTevs - 1, cm2hw[cm], nInds));
 }
 
-void J3DGDSetGenMode_3Param(u8 nTexGens, u8 nTevs, u8 nInds) {
-    GDOverflowCheck(10);
-    J3DGDWriteBPCmd(0xFE073C0F);
-    J3DGDWriteBPCmd(BP_GEN_MODE(nTexGens, 0, nTevs - 1, 0, nInds));
-}
-
 void J3DGDSetLightAttn(GXLightID light, f32 a0, f32 a1, f32 a2, f32 k0, f32 k1, f32 k2) {
     J3DGDWriteXFCmdHdr(0x0604 + __GDLightID2Offset(light), 6);
     J3DGDWrite_f32(a0);
@@ -394,7 +388,7 @@ void J3DGDSetIndTexMtx(GXIndTexMtxID mtx_id, f32 offset[2][3], s8 scale_exp) {
     offsetS32[4] = (s32)(offset[0][2] * 0x400) & 0x7FF;
     offsetS32[5] = (s32)(offset[1][2] * 0x400) & 0x7FF;
 
-    scale_exp = static_cast< s8 >(scale_exp + 17);
+    scale_exp += 17;
     GDOverflowCheck(15);
 
     J3DGDWriteBPCmd(BP_IND_MTX(offsetS32[0], offsetS32[1], scale_exp & 3, 6 + id_offset * 3));

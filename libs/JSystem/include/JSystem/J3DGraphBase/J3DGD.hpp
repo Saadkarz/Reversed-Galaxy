@@ -66,7 +66,11 @@ inline void J3DGDWriteCPCmd(u8 reg, u32 value) {
 }
 
 void J3DGDSetGenMode(u8 texGenNum, u8 colorChanNum, u8 tevStageNum, u8 IndTexStageNum, GXCullMode cullMode);
-void J3DGDSetGenMode_3Param(u8 texGenNum, u8 tevStageNum, u8 indTexStageNum);
+inline void J3DGDSetGenMode_3Param(u8 nTexGens, u8 nTevs, u8 nInds) {
+    GDOverflowCheck(10);
+    J3DGDWriteBPCmd(0xFE073C0F);
+    J3DGDWriteBPCmd(BP_GEN_MODE(nTexGens, 0, nTevs - 1, 0, nInds));
+}
 void J3DGDSetLightAttn(GXLightID, f32, f32, f32, f32, f32, f32);
 void J3DGDSetLightColor(GXLightID, GXColor);
 void J3DGDSetLightPos(GXLightID, f32, f32, f32);

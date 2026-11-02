@@ -641,9 +641,10 @@ config.libs = [
         "J3DGraphBase",
         [
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphBase/J3DGD.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                mw_version="Wii/1.3",
+                extra_cflags=["-ipa file"],
             ),
             Object(
                 Matching, "JSystem/J3DGraphBase/J3DSys.cpp", extra_cflags=["-ipa file"]
