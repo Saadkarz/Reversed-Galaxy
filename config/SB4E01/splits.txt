@@ -4758,7 +4758,7 @@ Game/System/ResourceInfo.cpp:
 	.sdata      start:0x807D0470 end:0x807D0478
 
 Game/System/ScenarioDataParser.cpp:
-	.text       start:0x804CB460 end:0x804CC010
+	.text       start:0x804CB460 end:0x804CC008 align:16
 	.data       start:0x806FC2E0 end:0x806FC3B8
 	.sdata      start:0x807D0478 end:0x807D0480
 

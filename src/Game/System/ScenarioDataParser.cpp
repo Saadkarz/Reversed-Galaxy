@@ -70,6 +70,12 @@ bool ScenarioData::getValueString(const char* pKey, s32 idx, const char** pOut) 
     return str;
 }
 
+template <>
+bool JMapInfoIter::getValue< u32 >(const char* pKey, u32* pValueOut) const;
+
+template <>
+const bool JMapInfo::getValue< const char* >(int entryIndex, const char* pKey, const char** pValueOut) const;
+
 bool ScenarioData::getValueU32(const char* pKey, s32 idx, s32* pOut) const {
     return getScenarioDataIter(idx).getValue< u32 >(pKey, (u32*)pOut);
 }

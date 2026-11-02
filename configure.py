@@ -1145,7 +1145,11 @@ config.libs = [
                 extra_cflags=["-func_align 16"],
             ),
             Object(Matching, "Game/System/ResourceInfo.cpp"),
-            Object(NonMatching, "Game/System/ScenarioDataParser.cpp"),
+            Object(
+                Matching,
+                "Game/System/ScenarioDataParser.cpp",
+                extra_cflags=["-sym off"],
+            ),
             Object(Matching, "Game/System/StationedArchiveLoader.cpp"),
             Object(Matching, "Game/System/WPad.cpp"),
             Object(Matching, "Game/System/WPadAcceleration.cpp"),
