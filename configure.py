@@ -1080,7 +1080,7 @@ config.libs = [
         "Map",
         [
             Object(Matching, "Game/Map/BezierRail.cpp"),
-            Object(NonMatching, "Game/Map/CollisionCode.cpp"),
+            Object(Matching, "Game/Map/CollisionCode.cpp"),
             Object(Matching, "Game/Map/RailGraph.cpp"),
             Object(Matching, "Game/Map/RailGraphEdge.cpp"),
             Object(Matching, "Game/Map/RailGraphIter.cpp"),

@@ -127,6 +127,8 @@ public:
         return !(*this == rIter);
     }
 
+#ifndef JMAPINFO_NO_ITER_INLINES
+#ifndef JMAPINFO_NO_ITER_INLINES
     bool isValid() const {
         return mInfo != nullptr && mIndex >= 0 && mIndex < mInfo->getNumEntries();
     }
@@ -135,6 +137,18 @@ public:
     bool getValue(const char* pKey, T* pValueOut) const NO_INLINE {
         return mInfo->getValue(mIndex, pKey, pValueOut);
     }
+#else
+    bool isValid() const;
+
+    template < typename T >
+    bool getValue(const char* pKey, T* pValueOut) const;
+#endif
+#else
+    bool isValid() const;
+
+    template < typename T >
+    bool getValue(const char* pKey, T* pValueOut) const;
+#endif
 
     /* 0x00 */ const JMapInfo* mInfo;
     /* 0x04 */ s32 mIndex;

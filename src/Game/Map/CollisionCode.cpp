@@ -1,3 +1,4 @@
+#define JMAPINFO_NO_ITER_INLINES 1
 #include "Game/Map/CollisionCode.hpp"
 #include "Game/Util/HashUtil.hpp"
 
@@ -9,7 +10,7 @@ CollisionCode::CollisionCode() : mFloorTable(0), mWallTable(0), mSoundTable(0), 
 }
 
 void CollisionCode::createFloorTable() {
-    mFloorTable = new CodeTable(0x23);
+    mFloorTable = new CodeTable(0x2C);
 
     mFloorTable->add("Normal", 0);
     mFloorTable->add("Death", 1);
@@ -87,7 +88,7 @@ void CollisionCode::createWallTable() {
 }
 
 void CollisionCode::createSoundTable() {
-    mSoundTable = new CodeTable(0x10);
+    mSoundTable = new CodeTable(0x17);
 
     mSoundTable->add("null", 0);
     mSoundTable->add("Soil", 1);
@@ -130,7 +131,7 @@ const char* CollisionCode::getFloorCodeString(const Triangle& rTriangle) {
     return mFloorTable->getString(code);
 }
 
-const char* CodeTable::getString(u32 val) {
+inline const char* CodeTable::getString(u32 val) {
     for (s32 i = 0; i < mNumCodes; i++) {
         if (val == _C[i]) {
             return mNames[i];
@@ -181,6 +182,11 @@ const char* CollisionCode::getSoundCodeString(const JMapInfoIter& rIter) {
     }
 
     return "null";
+}
+
+template <>
+bool JMapInfoIter::getValue< u32 >(const char* pKey, u32* pValueOut) const {
+    return mInfo->getValue(mIndex, pKey, pValueOut);
 }
 
 u32 CollisionCode::getCameraCode(const JMapInfoIter& rIter) {
