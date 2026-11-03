@@ -48,90 +48,43 @@ public:
     J2DPicture(JUTTexture*);
 
     virtual ~J2DPicture();
-    virtual u16 getTypeID() const {
-        return 18;
-    }
+    virtual u16 getTypeID() const;
     virtual void drawSelf(f32, f32);
     virtual void drawSelf(f32, f32, Mtx*);
     virtual void initiate(ResTIMG const*, ResTLUT const*);
     virtual bool prepareTexture(u8);
-    virtual bool append(ResTIMG const* param_0, f32 param_1) {
-        return insert(param_0, mTextureNum, param_1);
-    }
-    virtual bool append(ResTIMG const* param_0, JUTPalette* param_1, f32 param_2) {
-        return insert(param_0, param_1, mTextureNum, param_2);
-    }
-    virtual bool append(char const* param_0, f32 param_1) {
-        return insert(param_0, mTextureNum, param_1);
-    }
-    virtual bool append(char const* param_0, JUTPalette* param_1, f32 param_2) {
-        return insert(param_0, param_1, mTextureNum, param_2);
-    }
-    virtual bool append(JUTTexture* param_0, f32 param_1) {
-        return insert(param_0, mTextureNum, param_1);
-    }
-    virtual void prepend(ResTIMG const* param_0, f32 param_1) {
-        insert(param_0, 0, param_1);
-    }
-    virtual void prepend(ResTIMG const* param_0, JUTPalette* param_1, f32 param_2) {
-        insert(param_0, param_1, 0, param_2);
-    }
-    virtual void prepend(char const* param_0, f32 param_1) {
-        insert(param_0, 0, param_1);
-    }
-    virtual void prepend(char const* param_0, JUTPalette* param_1, f32 param_2) {
-        insert(param_0, param_1, 0, param_2);
-    }
-    virtual void prepend(JUTTexture* param_0, f32 param_1) {
-        insert(param_0, 0, param_1);
-    }
-    virtual bool insert(ResTIMG const* param_0, u8 param_1, f32 param_2) {
-        return insert(param_0, NULL, param_1, param_2);
-    }
+    virtual bool append(ResTIMG const* param_0, f32 param_1);
+    virtual bool append(ResTIMG const* param_0, JUTPalette* param_1, f32 param_2);
+    virtual bool append(char const* param_0, f32 param_1);
+    virtual bool append(char const* param_0, JUTPalette* param_1, f32 param_2);
+    virtual bool append(JUTTexture* param_0, f32 param_1);
+    virtual void prepend(ResTIMG const* param_0, f32 param_1);
+    virtual void prepend(ResTIMG const* param_0, JUTPalette* param_1, f32 param_2);
+    virtual void prepend(char const* param_0, f32 param_1);
+    virtual void prepend(char const* param_0, JUTPalette* param_1, f32 param_2);
+    virtual void prepend(JUTTexture* param_0, f32 param_1);
+    virtual bool insert(ResTIMG const* param_0, u8 param_1, f32 param_2);
     virtual bool insert(ResTIMG const*, JUTPalette*, u8, f32);
-    virtual bool insert(char const* param_0, u8 param_1, f32 param_2) {
-        return insert(param_0, NULL, param_1, param_2);
-    }
+    virtual bool insert(char const* param_0, u8 param_1, f32 param_2);
     virtual bool insert(char const*, JUTPalette*, u8, f32);
     virtual bool insert(JUTTexture*, u8, f32);
     virtual bool remove(u8);
-    virtual bool remove() {
-        return remove(mTextureNum - 1);
-    }
+    virtual bool remove();
     virtual bool remove(JUTTexture*);
-    virtual void draw(f32 param_0, f32 param_1, bool param_2, bool param_3, bool param_4) {
-        draw(param_0, param_1, 0, param_2, param_3, param_4);
-    }
+    virtual void draw(f32 param_0, f32 param_1, bool param_2, bool param_3, bool param_4);
     virtual void draw(f32 param_0, f32 param_1, u8 param_2, bool param_3, bool param_4, bool param_5) {
         if (param_2 < mTextureNum && mTexture[param_2] != NULL) {
             draw(param_0, param_1, mTexture[param_2]->getWidth(), mTexture[param_2]->getHeight(), param_3, param_4, param_5);
         }
     }
     virtual void draw(f32, f32, f32, f32, bool, bool, bool);
-    virtual void drawOut(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5) {
-        if (mTexture[0] != NULL) {
-            drawOut(JGeometry::TBox2< f32 >(param_0, param_1, param_0 + param_2, param_1 + param_3),
-                    JGeometry::TBox2< f32 >(param_4, param_5, param_4 + mTexture[0]->getWidth(), param_5 + mTexture[0]->getHeight()));
-        }
-    }
-    virtual void drawOut(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5, f32 param_6, f32 param_7) {
-        drawOut(JGeometry::TBox2< f32 >(param_0, param_1, param_0 + param_2, param_1 + param_3),
-                JGeometry::TBox2< f32 >(param_4, param_5, param_4 + param_6, param_5 + param_7));
-    }
+    virtual void drawOut(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5);
+    virtual void drawOut(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5, f32 param_6, f32 param_7);
     virtual void drawOut(JGeometry::TBox2< f32 > const&, JGeometry::TBox2< f32 > const&);
-    virtual void load(_GXTexMapID param_0, u8 param_1) {
-        if (param_1 < mTextureNum && param_1 < 4 && mTexture[param_1] != NULL) {
-            mTexture[param_1]->load(param_0);
-        }
-    }
-    virtual void load(u8 param_0) {
-        load((_GXTexMapID)param_0, param_0);
-    }
+    virtual void load(_GXTexMapID param_0, u8 param_1);
+    virtual void load(u8 param_0);
 
-    virtual void setBlendRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8) {
-        setBlendColorRatio(a1, a2, a3, a4, a5, a6, a7, a8);
-        setBlendAlphaRatio(a1, a2, a3, a4, a5, a6, a7, a8);
-    }
+    virtual void setBlendRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8);
 
     /* NEW IN SMG1 */
     virtual void setBlendColorRatio(f32, f32, f32, f32, f32, f32, f32, f32);
@@ -141,47 +94,21 @@ public:
     virtual const ResTIMG* changeTexture(char const*, u8);
     virtual const ResTIMG* changeTexture(ResTIMG const*, u8, JUTPalette*);
     virtual const ResTIMG* changeTexture(char const*, u8, JUTPalette*);
-    virtual JUTTexture* getTexture(u8 param_0) const {
-        if (param_0 < 4) {
-            return mTexture[param_0];
-        }
-        return NULL;
-    }
-    virtual u8 getTextureCount() const {
-        return mTextureNum;
-    }
-    /* vt 0x128 */ virtual bool setBlack(JUtility::TColor i_black) {
-        mBlack = i_black;
-        return true;
-    }
-    /* vt 0x12C */ virtual bool setWhite(JUtility::TColor i_white) {
-        mWhite = i_white;
-        return true;
-    }
+    virtual JUTTexture* getTexture(u8 param_0) const;
+    virtual u8 getTextureCount() const;
+    /* vt 0x128 */ virtual bool setBlack(JUtility::TColor i_black);
+    /* vt 0x12C */ virtual bool setWhite(JUtility::TColor i_white);
 
-    virtual bool setBlackWhite(JUtility::TColor i_black, JUtility::TColor i_white) {
-        mBlack = i_black;
-        mWhite = i_white;
-        return true;
-    }
-    virtual JUtility::TColor getBlack() const {
-        return mBlack;
-    }
-    virtual JUtility::TColor getWhite() const {
-        return mWhite;
-    }
-    virtual J2DMaterial* getMaterial() const {
-        return NULL;
-    }
+    virtual bool setBlackWhite(JUtility::TColor i_black, JUtility::TColor i_white);
+    virtual JUtility::TColor getBlack() const;
+    virtual JUtility::TColor getWhite() const;
+    virtual J2DMaterial* getMaterial() const;
     virtual void drawFullSet(f32, f32, f32, f32, Mtx*);
     virtual void drawTexCoord(f32, f32, f32, f32, s16, s16, s16, s16, s16, s16, s16, s16, Mtx*);
     virtual u8 getUsableTlut(u8);
     virtual bool isUsed(ResTIMG const*);
-    virtual bool isUsed(ResFONT const* param_0) {
-        return J2DPane::isUsed(param_0);
-    }
-    virtual void rewriteAlpha() {
-    }
+    virtual bool isUsed(ResFONT const* param_0);
+    virtual void rewriteAlpha();
 
     J2DPicture(u64, JGeometry::TBox2< f32 > const&, ResTIMG const*, ResTLUT const*);
     J2DPicture(ResTIMG const*);

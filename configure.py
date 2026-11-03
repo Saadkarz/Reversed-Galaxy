@@ -569,7 +569,7 @@ config.libs = [
             Object(NonMatching, "JSystem/J2DGraph/J2DPane.cpp"),
             Object(Matching, "JSystem/J2DGraph/J2DScreen.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J2DGraph/J2DPicture.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),

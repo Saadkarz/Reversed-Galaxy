@@ -51,7 +51,15 @@ __GXCDEF(GXCmd, 1, u16)
 __GXCDEF(GXCmd, 1, u32)
 __GXCDEF(GXCmd, 1, f32)
 
+#ifdef __GX_NO_INLINE_GXPOSITION3F32__
+static inline void GXPosition3f32_inline(const f32 x, const f32 y, const f32 z) {
+    GXWGFifo.f32 = (f32)x;
+    GXWGFifo.f32 = (f32)y;
+    GXWGFifo.f32 = (f32)z;
+}
+#else
 __GXCDEF(GXPosition, 3, f32)
+#endif
 __GXCDEF(GXPosition, 3, u8)
 __GXCDEF(GXPosition, 3, s8)
 __GXCDEF(GXPosition, 3, u16)

@@ -1,3 +1,4 @@
+#define __JAS_BASIC_WAVE_BANK__
 #include "JSystem/JAudio2/JASBasicWaveBank.hpp"
 #include "JSystem/JAudio2/JASCalc.hpp"
 #include "JSystem/JAudio2/JASMutex.hpp"

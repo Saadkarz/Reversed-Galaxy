@@ -1,8 +1,32 @@
+#define __GX_NO_INLINE_GXPOSITION3F32__
 #include "JSystem/J2DGraph/J2DPicture.hpp"
 #include "JSystem/J2DGraph/J2DScreen.hpp"
 #include "JSystem/JUtility/JUTPalette.hpp"
-#include <revolution/gx/GXVert.h>
+#include "revolution/base/PPCWGPipe.h"
 
+
+
+// 1. 0x805150E0
+bool J2DPicture::append(ResTIMG const* param_0, f32 param_1) {
+    return insert(param_0, mTextureNum, param_1);
+}
+
+// 2. 0x80515100
+bool J2DPicture::insert(ResTIMG const* param_0, u8 param_1, f32 param_2) {
+    return insert(param_0, NULL, param_1, param_2);
+}
+
+// 3. 0x80515120
+bool J2DPicture::append(char const* param_0, f32 param_1) {
+    return insert(param_0, mTextureNum, param_1);
+}
+
+// 4. 0x80515140
+bool J2DPicture::insert(char const* param_0, u8 param_1, f32 param_2) {
+    return insert(param_0, NULL, param_1, param_2);
+}
+
+// 5. 0x80515160
 J2DPicture::J2DPicture(JUTTexture* texture) {
     for (u32 i = 0; i < 4; i++) {
         mTexture[i] = NULL;
@@ -16,6 +40,26 @@ J2DPicture::J2DPicture(JUTTexture* texture) {
     initinfo();
 }
 
+// 6. 0x80515240
+bool J2DPicture::append(JUTTexture* param_0, f32 param_1) {
+    return insert(param_0, mTextureNum, param_1);
+}
+
+// 7. 0x80515260
+void J2DPicture::setBlendRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8) {
+    setBlendColorRatio(a1, a2, a3, a4, a5, a6, a7, a8);
+    setBlendAlphaRatio(a1, a2, a3, a4, a5, a6, a7, a8);
+}
+
+// 8. 0x80515300
+void J2DPicture::setCornerColor(JUtility::TColor c0, JUtility::TColor c1, JUtility::TColor c2, JUtility::TColor c3) {
+    mCornerColor[0] = c0;
+    mCornerColor[1] = c1;
+    mCornerColor[2] = c2;
+    mCornerColor[3] = c3;
+}
+
+// 9. 0x80515370
 void J2DPicture::initiate(const ResTIMG* img, const ResTLUT* lut) {
     private_initiate(img, lut);
     if (mTexture[0] == NULL) {
@@ -25,6 +69,7 @@ void J2DPicture::initiate(const ResTIMG* img, const ResTLUT* lut) {
     place(JGeometry::TBox2< f32 >(0.0f, 0.0f, mTexture[0]->getWidth(), mTexture[0]->getHeight()));
 }
 
+// 10. 0x80515410
 void J2DPicture::private_initiate(const ResTIMG* timg, const ResTLUT* tlut) {
     if (mTextureNum != 0) {
         return;
@@ -55,6 +100,7 @@ void J2DPicture::private_initiate(const ResTIMG* timg, const ResTLUT* tlut) {
     }
 }
 
+// 11. 0x80515540
 void J2DPicture::initinfo() {
     mKind = 'PIC1';
     setTexCoord(field_0x10a, NULL, BIND15, MIRROR0, false);
@@ -65,6 +111,7 @@ void J2DPicture::initinfo() {
     setCornerColor(-1, -1, -1, -1);
 }
 
+// 12. 0x80515620
 J2DPicture::~J2DPicture() {
     for (int i = 0; i < 4; i++) {
         if ((int)(field_0x109 & 1 << i) != 0) {
@@ -75,6 +122,7 @@ J2DPicture::~J2DPicture() {
     delete mPalette;
 }
 
+// 13. 0x805156D0
 bool J2DPicture::prepareTexture(u8 param_0) {
     for (u8 i = 0; i < param_0; i++) {
         if (i >= 4) {
@@ -94,6 +142,7 @@ bool J2DPicture::prepareTexture(u8 param_0) {
     return 1;
 }
 
+// 14. 0x805157A0
 bool J2DPicture::insert(ResTIMG const* img, JUTPalette* palette, u8 param_2, f32 param_3) {
     if (img == NULL || mTextureNum >= 4 || param_2 >= 4 || param_2 > mTextureNum) {
         return false;
@@ -166,11 +215,13 @@ bool J2DPicture::insert(ResTIMG const* img, JUTPalette* palette, u8 param_2, f32
     return true;
 }
 
+// 15. 0x80515AF0
 bool J2DPicture::insert(char const* resName, JUTPalette* palette, u8 param_2, f32 param_3) {
     void* resource = J2DScreen::getNameResource(resName);
     return insert((ResTIMG*)resource, palette, param_2, param_3);
 }
 
+// 16. 0x80515B60
 bool J2DPicture::insert(JUTTexture* texture, u8 param_1, f32 param_2) {
     if (texture == NULL || mTextureNum >= 4 || param_1 >= 4 || param_1 > mTextureNum) {
         return false;
@@ -205,6 +256,7 @@ bool J2DPicture::insert(JUTTexture* texture, u8 param_1, f32 param_2) {
     return true;
 }
 
+// 17. 0x80515D40
 bool J2DPicture::remove(u8 param_0) {
     if (mTextureNum <= param_0 || mTextureNum == 1) {
         return false;
@@ -229,6 +281,7 @@ bool J2DPicture::remove(u8 param_0) {
     return true;
 }
 
+// 18. 0x80515E60
 bool J2DPicture::remove(JUTTexture* param_0) {
     u8 i = 0;
     for (; i < mTextureNum; i++) {
@@ -239,6 +292,7 @@ bool J2DPicture::remove(JUTTexture* param_0) {
     return remove(i);
 }
 
+// 19. 0x80515EB0
 const ResTIMG* J2DPicture::changeTexture(ResTIMG const* img, u8 texIndex) {
     if (texIndex > mTextureNum || 4 <= texIndex || img == NULL) {
         return NULL;
@@ -261,11 +315,21 @@ const ResTIMG* J2DPicture::changeTexture(ResTIMG const* img, u8 texIndex) {
     return NULL;
 }
 
+// 20. 0x80515FA0
+JUTTexture* J2DPicture::getTexture(u8 param_0) const {
+    if (param_0 < 4) {
+        return mTexture[param_0];
+    }
+    return NULL;
+}
+
+// 21. 0x80515FC0
 const ResTIMG* J2DPicture::changeTexture(char const* resName, u8 param_1) {
     void* resource = J2DScreen::getNameResource(resName);
     return changeTexture((ResTIMG*)resource, param_1);
 }
 
+// 22. 0x80516020
 const ResTIMG* J2DPicture::changeTexture(ResTIMG const* img, u8 texIndex, JUTPalette* palette) {
     if (texIndex > mTextureNum || 4 <= texIndex || img == NULL) {
         return NULL;
@@ -288,11 +352,18 @@ const ResTIMG* J2DPicture::changeTexture(ResTIMG const* img, u8 texIndex, JUTPal
     return NULL;
 }
 
+// 23. 0x80516130
+bool J2DPicture::append(ResTIMG const* param_0, JUTPalette* param_1, f32 param_2) {
+    return insert(param_0, param_1, mTextureNum, param_2);
+}
+
+// 24. 0x80516150
 const ResTIMG* J2DPicture::changeTexture(char const* param_0, u8 param_1, JUTPalette* param_2) {
     void* resource = J2DScreen::getNameResource(param_0);
     return changeTexture((ResTIMG*)resource, param_1, param_2);
 }
 
+// 25. 0x805161B0
 void J2DPicture::drawSelf(f32 param_0, f32 param_1) {
     Mtx tmp;
     PSMTXIdentity(tmp);
@@ -300,12 +371,14 @@ void J2DPicture::drawSelf(f32 param_0, f32 param_1) {
     drawSelf(param_0, param_1, &tmp);
 }
 
+// 26. 0x80516220
 void J2DPicture::drawSelf(f32 param_0, f32 param_1, Mtx* param_2) {
     if (mTexture[0] != NULL && mTextureNum != 0) {
         drawFullSet(mGlobalBounds.i.x + param_0, mGlobalBounds.i.y + param_1, getWidth(), getHeight(), param_2);
     }
 }
 
+// 27. 0x80516280
 void J2DPicture::drawFullSet(f32 param_0, f32 param_1, f32 param_2, f32 param_3, Mtx* param_4) {
     if (mTexture[0] != NULL && mTextureNum != 0) {
         drawTexCoord(mBounds.i.x, mBounds.i.y, param_2, param_3, field_0x10a[0].x, field_0x10a[0].y, field_0x10a[1].x, field_0x10a[1].y,
@@ -313,6 +386,7 @@ void J2DPicture::drawFullSet(f32 param_0, f32 param_1, f32 param_2, f32 param_3,
     }
 }
 
+// 28. 0x80516300
 void J2DPicture::draw(f32 x, f32 y, f32 width, f32 height, bool mirrorX, bool mirrorY, bool rotate90) {
     if (isVisible() && mTextureNum != 0 && mTexture[0] != NULL) {
         for (u8 i = 0; i < mTextureNum; i++) {
@@ -339,19 +413,19 @@ void J2DPicture::draw(f32 x, f32 y, f32 width, f32 height, bool mirrorX, bool mi
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_POS_XYZ, GX_S16, 8);
 
         GXBegin(GX_QUADS, GX_VTXFMT0, 4);
-        GXPosition3f32(0.0f, 0.0f, 0.0f);
+        GXPosition3f32_inline(0.0f, 0.0f, 0.0f);
         GXColor1u32(color[0]);
         GXTexCoord2s16(coords[0].x, coords[0].y);
 
-        GXPosition3f32(width, 0.0f, 0.0f);
+        GXPosition3f32_inline(width, 0.0f, 0.0f);
         GXColor1u32(color[1]);
         GXTexCoord2s16(coords[1].x, coords[1].y);
 
-        GXPosition3f32(width, height, 0.0f);
+        GXPosition3f32_inline(width, height, 0.0f);
         GXColor1u32(color[3]);
         GXTexCoord2s16(coords[3].x, coords[3].y);
 
-        GXPosition3f32(0.0f, height, 0.0f);
+        GXPosition3f32_inline(0.0f, height, 0.0f);
         GXColor1u32(color[2]);
         GXTexCoord2s16(coords[2].x, coords[2].y);
         GXEnd();
@@ -368,6 +442,29 @@ void J2DPicture::draw(f32 x, f32 y, f32 width, f32 height, bool mirrorX, bool mi
         GXSetChanCtrl(GX_COLOR0A0, GX_DISABLE, GX_SRC_REG, GX_SRC_VTX, GX_LIGHT_NULL, GX_DF_NONE, GX_AF_NONE);
         GXSetVtxDesc(GX_VA_TEX0, GX_NONE);
     }
+}
+
+// 29. 0x80516620
+void J2DPicture::load(u8 param_0) {
+    load((_GXTexMapID)param_0, param_0);
+}
+
+// 30. 0x80516640
+void J2DPicture::load(_GXTexMapID param_0, u8 param_1) {
+    if (param_1 < mTextureNum && param_1 < 4 && mTexture[param_1] != NULL) {
+        mTexture[param_1]->load(param_0);
+    }
+}
+
+// 31. 0x80516670
+
+// 32. 0x80516690
+extern "C" {
+static void GXPosition3f32(f32 x, f32 y, f32 z) {
+    GXWGFifo.f32 = x;
+    GXWGFifo.f32 = y;
+    GXWGFifo.f32 = z;
+}
 }
 
 void J2DPicture::drawOut(JGeometry::TBox2< f32 > const& posBox, JGeometry::TBox2< f32 > const& texRect) {
@@ -425,6 +522,7 @@ void J2DPicture::drawOut(JGeometry::TBox2< f32 > const& posBox, JGeometry::TBox2
     }
 }
 
+// 33. 0x80516A80
 void J2DPicture::drawTexCoord(f32 param_0, f32 param_1, f32 param_2, f32 param_3, s16 param_4, s16 param_5, s16 param_6, s16 param_7, s16 param_8,
                               s16 param_9, s16 param_10, s16 param_11, Mtx* param_12) {
     if (mTextureNum != 0) {
@@ -454,19 +552,19 @@ void J2DPicture::drawTexCoord(f32 param_0, f32 param_1, f32 param_2, f32 param_3
         GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_CLR_RGBA, GX_RGBA4, 8);
         GXBegin(GX_QUADS, GX_VTXFMT0, 4);
 
-        GXPosition3f32(param_0, param_1, 0.0f);
+        GXPosition3f32_inline(param_0, param_1, 0.0f);
         GXColor1u32(black[0]);
         GXTexCoord2s16(param_4, param_5);
 
-        GXPosition3f32(tmp1, param_1, 0.0f);
+        GXPosition3f32_inline(tmp1, param_1, 0.0f);
         GXColor1u32(black[1]);
         GXTexCoord2s16(param_6, param_7);
 
-        GXPosition3f32(tmp1, tmp2, 0.0f);
+        GXPosition3f32_inline(tmp1, tmp2, 0.0f);
         GXColor1u32(black[3]);
         GXTexCoord2s16(param_10, param_11);
 
-        GXPosition3f32(param_0, tmp2, 0.0f);
+        GXPosition3f32_inline(param_0, tmp2, 0.0f);
         GXColor1u32(black[2]);
         GXTexCoord2s16(param_8, param_9);
 
@@ -477,6 +575,7 @@ void J2DPicture::drawTexCoord(f32 param_0, f32 param_1, f32 param_2, f32 param_3
     }
 }
 
+// 34. 0x80516CD0
 void J2DPicture::setTevMode() {
     u8 i;
     for (i = 0; i < mTextureNum; i++) {
@@ -553,13 +652,14 @@ void J2DPicture::setTevMode() {
     }
 }
 
+// 35. 0x80517150
 void J2DPicture::swap(f32& lhs, f32& rhs) {
     f32 tmp = lhs;
     lhs = rhs;
     rhs = tmp;
 }
 
-/* NEW IN SMG1 */
+// 36. 0x80517170
 void J2DPicture::setBlendColorRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8) {
     field_0x11c[0] = a1;
     field_0x11c[1] = a2;
@@ -568,7 +668,7 @@ void J2DPicture::setBlendColorRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 
     setBlendKonstColor();
 }
 
-/* NEW IN SMG1 */
+// 37. 0x80517190
 void J2DPicture::setBlendAlphaRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 a6, f32 a7, f32 a8) {
     field_0x124[0] = a1;
     field_0x124[1] = a2;
@@ -577,6 +677,7 @@ void J2DPicture::setBlendAlphaRatio(f32 a1, f32 a2, f32 a3, f32 a4, f32 a5, f32 
     setBlendKonstAlpha();
 }
 
+// 38. 0x805171B0
 void J2DPicture::setBlendKonstColor() {
     int uvar3 = 0;
     for (u8 i = 1; i < mTextureNum; i++) {
@@ -593,6 +694,7 @@ void J2DPicture::setBlendKonstColor() {
     mBlendKonstColor = uvar3;
 }
 
+// 39. 0x80517280
 void J2DPicture::setBlendKonstAlpha() {
     int uvar3 = 0;
     for (u8 i = 1; i < mTextureNum; i++) {
@@ -609,6 +711,7 @@ void J2DPicture::setBlendKonstAlpha() {
     mBlendKonstAlpha = uvar3;
 }
 
+// 40. 0x80517350
 void J2DPicture::getNewColor(JUtility::TColor* param_0) {
     param_0[0] = mCornerColor[0];
     param_0[1] = mCornerColor[1];
@@ -623,10 +726,7 @@ void J2DPicture::getNewColor(JUtility::TColor* param_0) {
     }
 }
 
-void J2DPicture::setTexCoord(JUTTexture const* param_0, J2DBinding param_1, J2DMirror param_2, bool param_3) {
-    setTexCoord(&field_0x10a[0], param_0, param_1, param_2, param_3);
-}
-
+// 41. 0x80517410
 void J2DPicture::setTexCoord(JGeometry::TVec2< s16 >* param_0, JUTTexture const* param_1, J2DBinding binding, J2DMirror mirror, bool rotate90) {
     bool bindLeft;
     bool bindRight;
@@ -739,6 +839,7 @@ void J2DPicture::setTexCoord(JGeometry::TVec2< s16 >* param_0, JUTTexture const*
     }
 }
 
+// 42. 0x80517710
 bool J2DPicture::isUsed(ResTIMG const* param_0) {
     for (u8 i = 0; i < mTextureNum; i++) {
         if (mTexture[i] != NULL && mTexture[i]->getTexInfo() == param_0) {
@@ -749,6 +850,7 @@ bool J2DPicture::isUsed(ResTIMG const* param_0) {
     return J2DPane::isUsed(param_0);
 }
 
+// 43. 0x80517760
 u8 J2DPicture::getUsableTlut(u8 param_0) {
     u8 var_r8 = 0;
 
@@ -762,7 +864,7 @@ u8 J2DPicture::getUsableTlut(u8 param_0) {
 
                 u8 temp_r0 = name - var_r0;
                 if (temp_r0 < 4) {
-                    var_r8 |= (1 << temp_r0);
+                    var_r8 |= (u8)(1 << temp_r0);
                 }
             }
         }
@@ -779,6 +881,7 @@ u8 J2DPicture::getUsableTlut(u8 param_0) {
     return var_r26;
 }
 
+// 44. 0x80517830
 GXTlut J2DPicture::getTlutID(ResTIMG const* img, u8 param_1) {
     if (img->mPaletteNum > 256) {
         return (GXTlut)((param_1 % 4) + 0x10);
@@ -787,9 +890,109 @@ GXTlut J2DPicture::getTlutID(ResTIMG const* img, u8 param_1) {
     return (GXTlut)param_1;
 }
 
-void J2DPicture::setCornerColor(JUtility::TColor c0, JUtility::TColor c1, JUtility::TColor c2, JUtility::TColor c3) {
-    mCornerColor[0] = c0;
-    mCornerColor[1] = c1;
-    mCornerColor[2] = c2;
-    mCornerColor[3] = c3;
+// 45. 0x80517860
+void J2DPicture::rewriteAlpha() {
+}
+
+// 46. 0x80517870
+bool J2DPicture::isUsed(ResFONT const* param_0) {
+    return J2DPane::isUsed(param_0);
+}
+
+// 47. 0x80517880
+J2DMaterial* J2DPicture::getMaterial() const {
+    return NULL;
+}
+
+// 48. 0x80517890
+JUtility::TColor J2DPicture::getWhite() const {
+    return mWhite;
+}
+
+// 49. 0x805178A0
+JUtility::TColor J2DPicture::getBlack() const {
+    return mBlack;
+}
+
+// 50. 0x805178B0
+bool J2DPicture::setBlackWhite(JUtility::TColor i_black, JUtility::TColor i_white) {
+    mBlack = i_black;
+    mWhite = i_white;
+    return true;
+}
+
+// 51. 0x80517900
+bool J2DPicture::setWhite(JUtility::TColor i_white) {
+    mWhite = i_white;
+    return true;
+}
+
+// 52. 0x80517930
+bool J2DPicture::setBlack(JUtility::TColor i_black) {
+    mBlack = i_black;
+    return true;
+}
+
+// 53. 0x80517960
+u8 J2DPicture::getTextureCount() const {
+    return mTextureNum;
+}
+
+// 54. 0x80517970
+void J2DPicture::drawOut(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5) {
+    if (mTexture[0] != NULL) {
+        drawOut(JGeometry::TBox2< f32 >(param_0, param_1, param_0 + param_2, param_1 + param_3),
+                JGeometry::TBox2< f32 >(param_4, param_5, param_4 + mTexture[0]->getWidth(), param_5 + mTexture[0]->getHeight()));
+    }
+}
+
+// 55. 0x80517A90
+void J2DPicture::drawOut(f32 param_0, f32 param_1, f32 param_2, f32 param_3, f32 param_4, f32 param_5, f32 param_6, f32 param_7) {
+    drawOut(JGeometry::TBox2< f32 >(param_0, param_1, param_0 + param_2, param_1 + param_3),
+            JGeometry::TBox2< f32 >(param_4, param_5, param_4 + param_6, param_5 + param_7));
+}
+
+// 56. 0x80517B60
+void J2DPicture::draw(f32 param_0, f32 param_1, bool param_2, bool param_3, bool param_4) {
+    draw(param_0, param_1, 0, param_2, param_3, param_4);
+}
+
+// 57. 0x80517B90
+bool J2DPicture::remove() {
+    return remove(mTextureNum - 1);
+}
+
+// 58. 0x80517BB0
+void J2DPicture::prepend(ResTIMG const* param_0, f32 param_1) {
+    insert(param_0, 0, param_1);
+}
+
+// 59. 0x80517BD0
+void J2DPicture::prepend(ResTIMG const* param_0, JUTPalette* param_1, f32 param_2) {
+    insert(param_0, param_1, 0, param_2);
+}
+
+// 60. 0x80517BF0
+void J2DPicture::prepend(char const* param_0, f32 param_1) {
+    insert(param_0, 0, param_1);
+}
+
+// 61. 0x80517C10
+void J2DPicture::prepend(char const* param_0, JUTPalette* param_1, f32 param_2) {
+    insert(param_0, param_1, 0, param_2);
+}
+
+// 62. 0x80517C30
+void J2DPicture::prepend(JUTTexture* param_0, f32 param_1) {
+    insert(param_0, 0, param_1);
+}
+
+// 63. 0x80517C50
+bool J2DPicture::append(char const* param_0, JUTPalette* param_1, f32 param_2) {
+    return insert(param_0, param_1, mTextureNum, param_2);
+}
+
+// 64. 0x80517C70
+u16 J2DPicture::getTypeID() const {
+    return 18;
 }

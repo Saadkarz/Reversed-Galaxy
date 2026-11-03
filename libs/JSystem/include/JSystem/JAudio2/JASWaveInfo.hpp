@@ -51,7 +51,11 @@ public:
 
 class JASWaveBank {
 public:
+#ifndef __JAS_BASIC_WAVE_BANK__
     virtual ~JASWaveBank() {}
+#else
+    virtual ~JASWaveBank();
+#endif
     virtual JASWaveHandle* getWaveHandle(u32) const = 0;
     virtual JASWaveArc* getWaveArc(u32) = 0;
     virtual u32 getArcCount() const = 0;
