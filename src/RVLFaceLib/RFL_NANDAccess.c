@@ -110,12 +110,12 @@ static void endWorkingClose_(RFLErrcode err) {
     endWorkingCloseReason_(err, NAND_RESULT_OK);
 }
 
-void RFLiEndWorkingReason(RFLErrcode err, s32 reason) {
+static inline void RFLiEndWorkingReason(RFLErrcode err, s32 reason) {
     BOOL enabled;
 
     switch (RFLiGetManager()->lastErrCode) {
-    case RFLErrcode_Busy:
     case RFLErrcode_Success:
+    case RFLErrcode_Busy:
         enabled = OSDisableInterrupts();
 
         RFLiSetWorking(FALSE);
@@ -133,7 +133,7 @@ void RFLiEndWorking(RFLErrcode err) {
     RFLiEndWorkingReason(err, NAND_RESULT_OK);
 }
 
-NANDCommandBlock* RFLiSetCommandBlock(RFLiFileType type, RFLiAsyncTag tag) {
+static inline NANDCommandBlock* RFLiSetCommandBlock(RFLiFileType type, RFLiAsyncTag tag) {
     NANDCommandBlock* block;
     RFLiAccessInfo* info;
     RFLiCallbackTag* data;
@@ -149,14 +149,14 @@ NANDCommandBlock* RFLiSetCommandBlock(RFLiFileType type, RFLiAsyncTag tag) {
     return block;
 }
 
-RFLiFileType RFLiGetType(NANDCommandBlock* block) {
+static inline RFLiFileType RFLiGetType(NANDCommandBlock* block) {
     const RFLiCallbackTag* data;
     data = (const RFLiCallbackTag*)NANDGetUserData(block);
 
     return data->type;
 }
 
-NANDFileInfo* RFLiGetWorkingFile(RFLiFileType type) {
+static inline NANDFileInfo* RFLiGetWorkingFile(RFLiFileType type) {
     return RFLAvailable() ? &RFLiGetAccInfo(type)->file : NULL;
 }
 
@@ -603,6 +603,7 @@ RFLErrcode RFLiReadAsync(RFLiFileType type, void* dst, u32 size,
     return RFLGetAsyncStatus();
 }
 
+#if 0
 static void retryWrite_(u32 arg) {
     NANDCommandBlock* block;
     RFLiAccessInfo* info;
@@ -822,6 +823,7 @@ RFLErrcode RFLiWriteAsync(RFLiFileType type, const void* src, u32 size,
     return RFLGetAsyncStatus();
 }
 
+#endif
 static s32 closecore_(u32 arg) {
     NANDCommandBlock* block;
     NANDFileInfo* info;
@@ -956,6 +958,7 @@ RFLErrcode RFLiGetLengthAsync(RFLiFileType type, u32* out,
     return RFLGetAsyncStatus();
 }
 
+#if 0
 static void deletecallback_(s32 result, NANDCommandBlock* block) {
     RFLiAccessInfo* info;
     RFLiFileType type;
@@ -1133,3 +1136,4 @@ RFLErrcode RFLiCreateSaveDirAsync(RFLiCallback callback) {
 
     return RFLGetAsyncStatus();
 }
+#endif

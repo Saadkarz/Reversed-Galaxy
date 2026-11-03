@@ -2018,12 +2018,13 @@ Game/Gravity/SegmentGravity.cpp:
 	.data       start:0x80694690 end:0x806946A0
 
 Game/Gravity/WireGravity.cpp:
-	.text       start:0x80228090 end:0x80228150
+	.text       start:0x80228090 end:0x80228320
 	.data       start:0x806946A0 end:0x806946B0
 
 Game/LiveActor/ActorAnimKeeper.cpp:
-	.text       start:0x802283B0 end:0x80228D20
-	.sdata      start:0x807CF9F0 end:0x807CF9F4
+	.text       start:0x80228320 end:0x80228D20
+	.data       start:0x806946B0 end:0x80694700
+	.sdata      start:0x807CF9F0 end:0x807CFA10
 
 Game/LiveActor/ActionBgmCtrl.cpp:
 	.text       start:0x80228D60 end:0x80229200
@@ -5454,6 +5455,10 @@ RVLFaceLib/RFL_NANDAccess.c:
 	extab       start:0x800067C0 end:0x80006838
 	extabindex  start:0x80006B10 end:0x80006BC4
 	.text       start:0x80552CB0 end:0x805544F0 align:16
+	.data       start:0x80707678 end:0x80707700
+	.sdata      start:0x807D0708 end:0x807D0710
+	.sdata2     start:0x807E2270 end:0x807E2278
+	.sbss2      start:0x807E3168 end:0x807E3170
 
 RVLFaceLib/RFL_Model.c:
 	extab       start:0x80006838 end:0x800068A0
