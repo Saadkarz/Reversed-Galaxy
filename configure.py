@@ -1088,7 +1088,8 @@ config.libs = [
             Object(NonMatching, "Game/Map/RailPart.cpp"),
             Object(Matching, "Game/Map/StageSwitch.cpp"),
             Object(Matching, "Game/Map/SwitchSynchronizer.cpp"),
-            Object(NonMatching, "Game/Map/SwitchWatcher.cpp"),
+            Object(Matching, "Game/Map/SwitchWatcher.cpp"),
+            Object(Matching, "Game/Map/SwitchWatcherHolder.cpp"),
         ],
     ),
     GameLib(

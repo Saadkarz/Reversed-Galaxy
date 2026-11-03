@@ -1,7 +1,5 @@
 #include "Game/Map/SwitchWatcher.hpp"
 #include "Game/Map/StageSwitch.hpp"
-#include "Game/Scene/SceneObjHolder.hpp"
-#include "Game/Util/ObjUtil.hpp"
 
 #define Listener_A 1
 #define Listener_B 2
@@ -64,73 +62,4 @@ void SwitchWatcher::addSwitchListener(SwitchEventListener* pListener, u32 type) 
 }
 
 SwitchWatcher::~SwitchWatcher() {
-}
-
-SwitchWatcherHolder::SwitchWatcherHolder() : NameObj("SwitchWatcherHolder") {
-    mWatcherCount = 0;
-    MR::connectToScene(this, 0x19, -1, -1, -1);
-}
-
-inline void SwitchWatcherHolder::callMethodAll(void (SwitchWatcher::*func)()) {
-    SwitchWatcher** start = &mWatchers[0];
-    SwitchWatcher** end = &mWatchers[mWatcherCount];
-    while (start != end) {
-        (*start->*func)();
-        start++;
-    }
-}
-
-void SwitchWatcherHolder::movement() {
-    callMethodAll(&SwitchWatcher::movement);
-}
-
-void SwitchWatcherHolder::joinSwitchEventListenerA(const StageSwitchCtrl* pCtrl, SwitchEventListener* pListener) {
-    joinSwitchEventListener(pCtrl, Listener_A, pListener);
-}
-
-void SwitchWatcherHolder::joinSwitchEventListenerB(const StageSwitchCtrl* pCtrl, SwitchEventListener* pListener) {
-    joinSwitchEventListener(pCtrl, Listener_B, pListener);
-}
-
-void SwitchWatcherHolder::joinSwitchEventListenerAppear(const StageSwitchCtrl* pCtrl, SwitchEventListener* pListener) {
-    joinSwitchEventListener(pCtrl, Listener_Appear, pListener);
-}
-
-SwitchWatcher* SwitchWatcherHolder::findSwitchWatcher(const StageSwitchCtrl* pCtrl) {
-    for (SwitchWatcher** cur = &mWatchers[0]; cur != &mWatchers[mWatcherCount]; cur++) {
-        if ((*cur)->isSameSwitch(pCtrl)) {
-            return *cur;
-        }
-    }
-
-    return nullptr;
-}
-
-void SwitchWatcherHolder::joinSwitchEventListener(const StageSwitchCtrl* pCtrl, u32 type, SwitchEventListener* pEventListener) {
-    SwitchWatcher* sw = findSwitchWatcher(pCtrl);
-
-    if (sw == nullptr) {
-        sw = new SwitchWatcher(pCtrl);
-        addSwitchWatcher(sw);
-    }
-
-    sw->addSwitchListener(pEventListener, type);
-}
-
-void SwitchWatcherHolder::addSwitchWatcher(SwitchWatcher* pWatcher) {
-    s32 count = mWatcherCount++;
-    mWatchers[count] = pWatcher;
-}
-
-namespace MR {
-    SwitchWatcherHolder* getSwitchWatcherHolder() {
-        return MR::getSceneObj< SwitchWatcherHolder* >(SceneObj_SwitchWatcherHolder);
-    }
-
-    void requestMovementOnSwitchWatcher() {
-        MR::requestMovementOn(getSwitchWatcherHolder());
-    }
-};  // namespace MR
-
-SwitchWatcherHolder::~SwitchWatcherHolder() {
 }
