@@ -927,7 +927,7 @@ config.libs = [
             Object(Matching, "JSystem/JParticle/JPAChildShape.cpp"),
             Object(Matching, "JSystem/JParticle/JPAExTexShape.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JParticle/JPADynamicsBlock.cpp",
                 extra_cflags=["-opt nolifetimes,nocse,noprop", "-sym on"],
             ),

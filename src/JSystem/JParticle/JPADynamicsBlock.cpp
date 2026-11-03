@@ -21,6 +21,15 @@ void JPAVolumePoint(JPAEmitterWorkData* work) {
     work->mVolumeCalcData.mVelAxis.set< f32 >(work->mVolumeCalcData.mVelOmni.x, 0.0f, work->mVolumeCalcData.mVelOmni.z);
 }
 
+f32 JPARandom::get_rndm_f() {
+    union {
+        u32 u;
+        f32 f;
+    } a;
+    a.u = ((get_rndm_u() >> 9) | 0x3f800000);
+    return a.f - 1.0f;
+}
+
 void JPAVolumeLine(JPAEmitterWorkData* work) {
     if (work->mpEmtr->checkFlag(JPADynFlag_FixedInterval)) {
         work->mVolumeCalcData.mVolumePos.set< f32 >(0.0f, 0.0f, work->mVolumeSize * ((work->mVolumeEmitIdx / (work->mEmitCount - 1.0f) - 0.5f)));
@@ -31,6 +40,10 @@ void JPAVolumeLine(JPAEmitterWorkData* work) {
 
     work->mVolumeCalcData.mVelOmni.set< f32 >(0.0f, 0.0f, work->mVolumeCalcData.mVolumePos.z * work->mGlobalScl.z);
     work->mVolumeCalcData.mVelAxis.set< f32 >(0.0f, 0.0f, work->mVolumeCalcData.mVolumePos.z);
+}
+
+u32 JPABaseEmitter::checkFlag(u32 flag) const {
+    return (mpRes->getDyn()->getFlag() & flag);
 }
 
 void JPAVolumeCircle(JPAEmitterWorkData* work) {
@@ -54,6 +67,10 @@ void JPAVolumeCircle(JPAEmitterWorkData* work) {
     work->mVolumeCalcData.mVolumePos.set< f32 >(distance * JPASinShort(theta), 0.0f, distance * JPACosShort(theta));
     work->mVolumeCalcData.mVelOmni.mul(work->mVolumeCalcData.mVolumePos, work->mGlobalScl);
     work->mVolumeCalcData.mVelAxis.set< f32 >(work->mVolumeCalcData.mVolumePos.x, 0.0f, work->mVolumeCalcData.mVolumePos.z);
+}
+
+s16 JPABaseEmitter::get_r_ss() {
+    return mRndm.get_rndm_ss();
 }
 
 void JPAVolumeCube(JPAEmitterWorkData* work) {
@@ -106,6 +123,10 @@ static void JPAVolumeCylinder(JPAEmitterWorkData* work) {
     work->mVolumeCalcData.mVolumePos.set< f32 >(rad * JPASinShort(theta), work->mVolumeSize * work->mpEmtr->get_r_zp(), rad * JPACosShort(theta));
     work->mVolumeCalcData.mVelOmni.mul(work->mVolumeCalcData.mVolumePos, work->mGlobalScl);
     work->mVolumeCalcData.mVelAxis.set< f32 >(work->mVolumeCalcData.mVolumePos.x, 0.0f, work->mVolumeCalcData.mVolumePos.z);
+}
+
+f32 JPABaseEmitter::get_r_zp() {
+    return mRndm.get_rndm_zp();
 }
 
 static void JPAVolumeTorus(JPAEmitterWorkData* work) {
@@ -206,7 +227,7 @@ void JPADynamicsBlock::create(JPAEmitterWorkData* work) {
 
     JPABaseEmitter* emtr = work->mpEmtr;
     if (++emtr->mRateStepTimer >= (emtr->mRateStep + 1)) {
-        work->mpEmtr->mRateStepTimer -= (work->mpEmtr->mRateStep + 1);
+        work->mpEmtr->mRateStepTimer -= (s16)(work->mpEmtr->mRateStep + 1);
         work->mpEmtr->setStatus(JPAEmtrStts_RateStepEmit);
     } else {
         work->mpEmtr->clearStatus(JPAEmtrStts_RateStepEmit);

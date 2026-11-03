@@ -5342,6 +5342,8 @@ JSystem/JParticle/JPAExTexShape.cpp:
 
 JSystem/JParticle/JPADynamicsBlock.cpp:
 	.text       start:0x80540280 end:0x80540EE0 align:16
+	.rodata     start:0x806545D8 end:0x806545E8
+	.sdata2     start:0x807E20B8 end:0x807E20C8
 
 JSystem/JParticle/JPAFieldBlock.cpp:
 	.text       start:0x80540EE0 end:0x80541AF0 align:16
