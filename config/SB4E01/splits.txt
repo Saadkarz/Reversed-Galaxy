@@ -5179,6 +5179,8 @@ JSystem/J3DGraphBase/J3DVertex.cpp:
 
 JSystem/J3DGraphBase/J3DTransform.cpp:
 	.text       start:0x8051A8C0 end:0x8051B360 align:16
+	.data       start:0x807058B0 end:0x807058B8
+	.sdata2     start:0x807E1F64 end:0x807E1F78
 
 JSystem/J3DGraphBase/J3DPacket.cpp:
 	.text       start:0x8051B360 end:0x8051BF40 align:16

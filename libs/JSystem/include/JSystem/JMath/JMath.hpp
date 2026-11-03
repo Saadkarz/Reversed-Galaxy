@@ -68,9 +68,7 @@ namespace JMath {
     }
 
     template < typename T >
-    inline T fastSqrt(T value) {
-        return JMAFastSqrt(value);
-    }
+    T fastSqrt(T value);
 
     inline void gekko_ps_copy3(__REGISTER void* dest, __REGISTER const void* src) {
 #ifdef __MWERKS__

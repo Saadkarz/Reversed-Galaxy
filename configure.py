@@ -654,7 +654,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphBase/J3DTransform.cpp",
                 extra_cflags=["-ipa file", "-sym on", "-opt nolifetimes,nocse"],
             ),

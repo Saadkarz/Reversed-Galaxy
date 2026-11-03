@@ -5,21 +5,6 @@
 #include <cmath>
 #include <revolution/mtx.h>
 
-const J3DTransformInfo j3dDefaultTransformInfo = {
-    {1.0f, 1.0f, 1.0f},
-    {0, 0, 0},
-    0,
-    {0.0f, 0.0f, 0.0f},
-};
-
-const Vec j3dDefaultScale = {1.0f, 1.0f, 1.0f};
-
-const Mtx j3dDefaultMtx = {
-    {1.0f, 0.0f, 0.0f, 0.0f},
-    {0.0f, 1.0f, 0.0f, 0.0f},
-    {0.0f, 0.0f, 1.0f, 0.0f},
-};
-
 void J3DCalcBBoardMtx(Mtx mtx) {
     f32 x = (mtx[0][0] * mtx[0][0]) + (mtx[1][0] * mtx[1][0]) + (mtx[2][0] * mtx[2][0]);
     f32 y = (mtx[0][1] * mtx[0][1]) + (mtx[1][1] * mtx[1][1]) + (mtx[2][1] * mtx[2][1]);
@@ -37,11 +22,11 @@ void J3DCalcBBoardMtx(Mtx mtx) {
         z = sqrt(z);
     }
 
-    mtx[0][0] = x;
     mtx[0][1] = 0.0f;
     mtx[0][2] = 0.0f;
     mtx[2][0] = 0.0f;
     mtx[2][1] = 0.0f;
+    mtx[0][0] = x;
     mtx[1][0] = 0.0f;
     mtx[1][1] = y;
     mtx[1][2] = 0.0f;
@@ -71,6 +56,15 @@ void J3DCalcYBBoardMtx(Mtx mtx) {
     mtx[2][0] = 0.0f;
     mtx[2][2] = vec.z * z;
 }
+
+namespace JMath {
+template <>
+f32 fastSqrt<f32>(f32 value) {
+    return JMAFastSqrt(value);
+}
+}
+
+
 
 asm void J3DPSCalcInverseTranspose(__REGISTER Mtx src, __REGISTER Mtx33 dst) {
 #ifdef __MWERKS__  // clang-format off
