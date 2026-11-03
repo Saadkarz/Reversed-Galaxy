@@ -65,7 +65,10 @@ public:
     J2DPane* getNextChildPane();
     J2DPane* getParentPane();
     static s16 J2DCast_F32_to_S16(f32 value, u8 arg2);
-    void animationTransform();
+    void animationTransform() {
+        if (mTransform != NULL)
+            animationTransform(mTransform);
+    }
     void updateTransform(const J2DAnmTransform*);
 
     f32 getHeight() const {

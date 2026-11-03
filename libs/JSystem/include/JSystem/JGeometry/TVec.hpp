@@ -68,11 +68,16 @@ namespace JGeometry {
         inline TVec2() {
         }
 
+#ifndef J2DPANE_NO_GEOMETRY_INLINES
         template < typename A >
         TVec2(A _x, A _y) {
             x = _x;
             y = _y;
         }
+#else
+        template < typename A >
+        TVec2(A _x, A _y);
+#endif
 
         void add(const TVec2< T >& other) {
             x += other.x;

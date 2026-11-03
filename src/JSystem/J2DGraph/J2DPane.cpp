@@ -1,6 +1,71 @@
+#define J2DPANE_NO_GEOMETRY_INLINES 1
+
+#pragma section RX ".unused"
+
+#include <revolution.h>
+#include "JSystem/JSupport/JSUList.hpp"
+
+template <typename T>
+struct J2DTreeList : public JSUPtrList {
+    __declspec(section ".unused") ~J2DTreeList() {}
+};
+
+template <typename T>
+struct J2DTreeLink : public JSUPtrLink {
+    inline J2DTreeLink(T* p) : JSUPtrLink(p) {}
+    __declspec(section ".unused") ~J2DTreeLink() {}
+};
+
+class J2DPane;
+
+template <>
+class JSUTree<J2DPane> : public J2DTreeList<J2DPane>, public J2DTreeLink<J2DPane> {
+public:
+    JSUTree(J2DPane* pOwner);
+    ~JSUTree();
+
+    bool appendChild(JSUTree< J2DPane >* pChild) {
+        return this->append(pChild);
+    }
+    bool removeChild(JSUTree< J2DPane >* child) {
+        return this->remove(child);
+    }
+    bool insertChild(JSUTree< J2DPane >* before, JSUTree< J2DPane >* child) {
+        return this->insert(before, child);
+    }
+    JSUTree< J2DPane >* getEndChild() const {
+        return nullptr;
+    }
+    JSUTree< J2DPane >* getFirstChild() const {
+        return (JSUTree< J2DPane >*)getFirstLink();
+    }
+    JSUTree< J2DPane >* getLastChild() const {
+        return (JSUTree< J2DPane >*)getLastLink();
+    }
+    JSUTree< J2DPane >* getNextChild() const {
+        return (JSUTree< J2DPane >*)getNext();
+    }
+    JSUTree< J2DPane >* getPrevChild() const {
+        return (JSUTree< J2DPane >*)getPrev();
+    }
+    u32 getNumChildren() const {
+        return getNumLinks();
+    }
+    J2DPane* getObject() const {
+        return (J2DPane*)getObjectPtr();
+    }
+    JSUTree< J2DPane >* getParent() const {
+        return (JSUTree< J2DPane >*)getList();
+    }
+};
+
 #include "JSystem/J2DGraph/J2DPane.hpp"
 #include "JSystem/J2DGraph/J2DAnimation.hpp"
 #include <cmath>
+
+
+extern "C" __declspec(section ".sdata2") const double lbl_807E1F08 = 0.0;
+
 
 J2DPane::J2DPane() : mBounds(), mGlobalBounds(), mClipRect(), mPaneTree(this) {
     mTransform = NULL;
@@ -14,6 +79,19 @@ J2DPane::J2DPane() : mBounds(), mGlobalBounds(), mClipRect(), mPaneTree(this) {
     calcMtx();
 }
 
+void J2DPane::calcMtx() {
+    if (mPaneTree.getParent() != NULL) {
+        makeMatrix(mTranslateX, mTranslateY);
+    }
+}
+
+void J2DPane::makeMatrix(f32 a, f32 b) {
+    makeMatrix(a, b, -mBounds.i.x, -mBounds.i.y);
+}
+
+JSUTree<J2DPane>::JSUTree(J2DPane* pOwner) : J2DTreeList<J2DPane>(), J2DTreeLink<J2DPane>(pOwner) {}
+JSUTree<J2DPane>::~JSUTree() {}
+
 void J2DPane::initiate() {
     _4 = -1;
     mRotateOffsetY = mRotateOffsetX = mRotateZ = mRotateY = mRotateX = 0;
@@ -26,6 +104,14 @@ void J2DPane::initiate() {
     mColorAlpha = 255;
     mConnected = false;
     calcMtx();
+}
+
+template <>
+void JGeometry::TBox2< f32 >::set(const JGeometry::TBox< JGeometry::TVec2< f32 > >& rOther) {
+    this->i.x = rOther.i.x;
+    this->i.y = rOther.i.y;
+    this->f.x = rOther.f.x;
+    this->f.y = rOther.f.y;
 }
 
 void J2DPane::changeUseTrans(J2DPane* p_pane) {
@@ -71,11 +157,26 @@ void J2DPane::changeUseTrans(J2DPane* p_pane) {
 }
 
 J2DPane::~J2DPane() {
-    JSUTreeIterator< J2DPane > iterator;
-    for (iterator = mPaneTree.getFirstChild(); iterator != mPaneTree.getEndChild();) {
-        J2DPane* child = (iterator++).getObject();
-        delete child;
+    JSUTree< J2DPane >* child = mPaneTree.getFirstChild();
+    while (child != NULL) {
+        JSUTree< J2DPane >* next = child->getNextChild();
+        J2DPane* pane = child->getObject();
+        child = next;
+        delete pane;
     }
+}
+
+void J2DPane::rewriteAlpha() {
+}
+
+void J2DPane::drawSelf(f32, f32, f32 (*)[3][4]) {
+}
+
+template <>
+JSUTreeIterator< J2DPane >& JSUTreeIterator< J2DPane >::operator++() {
+    JSUPtrLink* next = this->mTree->getNext();
+    this->mTree = (JSUTree< J2DPane >*)next;
+    return *this;
 }
 
 void J2DPane::place(JGeometry::TBox2< f32 > const& box) {
@@ -164,13 +265,13 @@ J2DPane* J2DPane::search(u64 tag) {
         return this;
     }
 
-    JSUTreeIterator< J2DPane > iter;
-    for (iter = mPaneTree.getFirstChild(); iter != mPaneTree.getEndChild(); ++iter) {
-        if (J2DPane* result = iter.getObject()->search(tag)) {
-            return result;
+    for (JSUTreeIterator< J2DPane > iter(mPaneTree.getFirstChild()); iter.mTree != NULL; ++iter) {
+        J2DPane* pane = iter->search(tag);
+        if (pane != NULL) {
+            return pane;
         }
     }
-    return nullptr;
+    return NULL;
 }
 
 J2DPane* J2DPane::searchUserInfo(u64 tag) {
@@ -178,13 +279,13 @@ J2DPane* J2DPane::searchUserInfo(u64 tag) {
         return this;
     }
 
-    JSUTreeIterator< J2DPane > iter;
-    for (iter = mPaneTree.getFirstChild(); iter != mPaneTree.getEndChild(); ++iter) {
-        if (J2DPane* result = iter.getObject()->searchUserInfo(tag)) {
-            return result;
+    for (JSUTreeIterator< J2DPane > iter(mPaneTree.getFirstChild()); iter.mTree != NULL; ++iter) {
+        J2DPane* pane = iter->searchUserInfo(tag);
+        if (pane != NULL) {
+            return pane;
         }
     }
-    return nullptr;
+    return NULL;
 }
 
 bool J2DPane::isUsed(const ResTIMG* p_timg) {
@@ -227,6 +328,10 @@ void J2DPane::setCullBack(GXCullMode mode) {
     for (iter = mPaneTree.getFirstChild(); iter != mPaneTree.getEndChild(); ++iter) {
         iter.getObject()->setCullBack(mode);
     }
+}
+
+void J2DPane::setAlpha(u8 alpha) {
+    mAlpha = alpha;
 }
 
 J2DPane* J2DPane::getFirstChildPane() {
@@ -302,13 +407,26 @@ void J2DPane::setAnimation(J2DAnmBase* anm) {
     }
 }
 
-void J2DPane::setAnimation(J2DAnmTransform* p_anm) {
-    mTransform = p_anm;
+void J2DPane::setAnimation(J2DAnmColor* anm) {
 }
 
-void J2DPane::animationTransform() {
-    if (mTransform != NULL)
-        animationTransform(mTransform);
+void J2DPane::setAnimation(J2DAnmVtxColor* anm) {
+}
+
+void J2DPane::setAnimation(J2DAnmTextureSRTKey* anm) {
+}
+
+void J2DPane::setAnimation(J2DAnmTexPattern* anm) {
+}
+
+void J2DPane::setAnimation(J2DAnmVisibilityFull* anm) {
+}
+
+void J2DPane::setAnimation(J2DAnmTevRegKey* anm) {
+}
+
+void J2DPane::setAnimation(J2DAnmTransform* p_anm) {
+    mTransform = p_anm;
 }
 
 void J2DPane::clearAnmTransform() {
@@ -344,6 +462,10 @@ void J2DPane::setVisibileAnimation(J2DAnmVisibilityFull* p_visibility) {
     }
 }
 
+void J2DPane::setAnimationVF(J2DAnmVisibilityFull* p_visibility) {
+    setAnimation(p_visibility);
+}
+
 void J2DPane::setVtxColorAnimation(J2DAnmVtxColor* p_vtxColor) {
     setAnimationVC(p_vtxColor);
 
@@ -351,6 +473,10 @@ void J2DPane::setVtxColorAnimation(J2DAnmVtxColor* p_vtxColor) {
     for (iter = mPaneTree.getFirstChild(); iter != mPaneTree.getEndChild(); ++iter) {
         iter.getObject()->setVtxColorAnimation(p_vtxColor);
     }
+}
+
+void J2DPane::setAnimationVC(J2DAnmVtxColor* p_vtxColor) {
+    setAnimation(p_vtxColor);
 }
 
 const J2DAnmTransform* J2DPane::animationPane(const J2DAnmTransform* p_transform) {
@@ -382,54 +508,6 @@ void J2DPane::updateTransform(J2DAnmTransform const* p_anmTransform) {
     }
 }
 
-JGeometry::TBox2< f32 > J2DPane::static_mBounds(0, 0, 0, 0);
-
-void J2DPane::calcMtx() {
-    if (mPaneTree.getParent() != NULL) {
-        makeMatrix(mTranslateX, mTranslateY);
-    }
-}
-
-void J2DPane::makeMatrix(f32 a, f32 b) {
-    makeMatrix(a, b, -mBounds.i.x, -mBounds.i.y);
-}
-
-void J2DPane::rewriteAlpha() {
-}
-
-void J2DPane::drawSelf(f32, f32, f32 (*)[3][4]) {
-}
-
-void J2DPane::setAlpha(u8 alpha) {
-    mAlpha = alpha;
-}
-
-void J2DPane::setAnimation(J2DAnmColor* anm) {
-}
-
-void J2DPane::setAnimation(J2DAnmVtxColor* anm) {
-}
-
-void J2DPane::setAnimation(J2DAnmTextureSRTKey* anm) {
-}
-
-void J2DPane::setAnimation(J2DAnmTexPattern* anm) {
-}
-
-void J2DPane::setAnimation(J2DAnmVisibilityFull* anm) {
-}
-
-void J2DPane::setAnimation(J2DAnmTevRegKey* anm) {
-}
-
-void J2DPane::setAnimationVF(J2DAnmVisibilityFull* p_visibility) {
-    setAnimation(p_visibility);
-}
-
-void J2DPane::setAnimationVC(J2DAnmVtxColor* p_vtxColor) {
-    setAnimation(p_vtxColor);
-}
-
 void J2DPane::drawSelf(f32, f32) {
 }
 
@@ -455,3 +533,5 @@ void J2DPane::setCullBack(bool cull) {
 u16 J2DPane::getTypeID() const {
     return 16;
 }
+
+JGeometry::TBox2< f32 > J2DPane::static_mBounds(0, 0, 0, 0);

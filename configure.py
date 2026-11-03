@@ -566,7 +566,7 @@ config.libs = [
             ),
             Object(NonMatching, "JSystem/J2DGraph/J2DOrthoGraph.cpp"),
             Object(Matching, "JSystem/J2DGraph/J2DMatBlock.cpp"),
-            Object(NonMatching, "JSystem/J2DGraph/J2DPane.cpp"),
+            Object(Matching, "JSystem/J2DGraph/J2DPane.cpp"),
             Object(Matching, "JSystem/J2DGraph/J2DScreen.cpp"),
             Object(
                 Matching,

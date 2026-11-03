@@ -5146,7 +5146,7 @@ JSystem/J2DGraph/J2DPane.cpp:
 	.rodata     start:0x80654350 end:0x80654360
 	.data       start:0x80705598 end:0x80705630
 	.bss        start:0x8072C220 end:0x8072C240
-	.sdata2     start:0x807E1F08 end:0x807E1F20
+	.sdata2     start:0x807E1F08 end:0x807E1F28
 
 JSystem/J2DGraph/J2DScreen.cpp:
 	.text       start:0x80515090 end:0x805150E0 align:16

@@ -154,12 +154,16 @@ namespace JGeometry {
 
         void absolute();
 
+#ifndef J2DPANE_NO_GEOMETRY_INLINES
         void set(const TBox< TVec2< T > >& rOther) {
             this->i.x = rOther.i.x;
             this->i.y = rOther.i.y;
             this->f.x = rOther.f.x;
             this->f.y = rOther.f.y;
         }
+#else
+        void set(const TBox< TVec2< T > >& rOther);
+#endif
 
         void set(const TVec2< T >& rMin, const TVec2< T >& rMax) {
             this->i = rMin;
@@ -195,6 +199,7 @@ namespace JGeometry {
         JGeometry::TVec3< T > _30;
     };
 
+#ifndef J2DPANE_NO_GEOMETRY_INLINES
     template < typename T >
     void TBox2< T >::operator=(const TBox2< T >& rOther) {
         const u32* s = (const u32*)&rOther;
@@ -209,6 +214,7 @@ namespace JGeometry {
     TBox2< T >::TBox2(T x0, T y0, T x1, T y1) {
         set(x0, y0, x1, y1);
     }
+#endif
 
     template < typename T >
     TBox2< T >::TBox2(const TBox2< T >& rOther) {
@@ -229,11 +235,13 @@ namespace JGeometry {
         }
     }
 
+#ifndef J2DPANE_NO_GEOMETRY_INLINES
     template < typename T >
     void TBox2< T >::set(T x0, T y0, T x1, T y1) {
         this->i.set(x0, y0);
         this->f.set(x1, y1);
     }
+#endif
 };  // namespace JGeometry
 
 typedef JGeometry::TBox2< f32 > TBox2f;
