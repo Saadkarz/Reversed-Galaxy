@@ -58,7 +58,13 @@ When a function is close (90–99%) and brute-force edits stall (stop after 5 fa
   - Check template specialization order and inline destructor depth.
   - Use explicit template specialization declarations or suppress generated weak functions if retail eliminated them.
   - Check `#include` order in the TU, which affects COMDAT weak function emission order.
-- **Diff Type E — Out-of-Line Template Specialization & `.text` Ordering:**
+- **Diff Type E — Falsely Merged Translation Units (MWCC Class/Vtable Splitting):**
+  - Whenever a NonMatching TU has high/100% `.text` parity on individual functions but fails section parity due to `.data` size/order shifts or mid-file `.text` padding, check for these 3 signatures:
+    1. **Mid-Slice 16-Byte `.text` Padding:** Inside one TU, MWCC functions are 4-byte aligned. If a class destructor/method ends at `0x...4`, `0x...8`, or `0x...C` and retail has 4, 8, or 12 bytes of zero-padding to reach a `0x10` boundary before the next class's constructor, retail compiled them as two separate TUs.
+    2. **Split `.data` Vtable / Nerve Grouping:** Within a single TU, MWCC emits all static data/Nerves first and defers all vtables to the end of `.data` in LIFO (reverse) order. If retail `.data` emits `[Class A statics + __vt__ClassA]` followed by `[Class B statics + __vt__ClassB]`, they are separate TUs.
+    3. **Missing 4-Byte Vtable Tail Padding (`0x2C + 0x2C = 0x58`):** Each TU's `.data` section is 8-byte aligned at its end. Merging two classes whose vtables have odd 4-byte word counts (e.g., 11 pointers = 44 / `0x2C` bytes) causes their 4-byte tail paddings to cancel out (`44 + 44 = 88`), shrinking `.data` by 8 bytes.
+  - **Fix:** Split the file into separate `.cpp` files in `src/`, `splits.txt`, and `configure.py` along the 16-byte `.text` and 8-byte `.data` boundaries.
+- **Diff Type F — Out-of-Line Template Specialization & `.text` Ordering:**
   - When MWCC emits a non-inlined template instantiation into `.text` between two member functions (e.g. `JASCalc::clamp<s16, s32>` or `JSUTreeIterator<T>::operator++`), do NOT declare the template function `inline` in the header. Declaring it `inline` in the header causes MWCC to either inline it or emit it into a weak COMDAT section, and defining an explicit specialization later triggers compiler error `(10333) object '...' redefined`.
   - Instead, declare the primary template prototype *without* `inline` in the header, and implement the explicit template specialization (e.g. `template <> s16 JASCalc::clamp<s16, s32>(s32 x) { ... }`) directly at the exact position in the `.cpp` file where the function was emitted in retail `.text`. This gives 100% deterministic control over function emission order.
 

@@ -33,6 +33,7 @@ Do not call a wall class N while class N-1 still diverges.
 | **control flow** | block, branch or return counts differ | a source construct: structural matcher work |
 | **register / schedule** | counts and branch sequence agree; operand order, spills or colouring differ | the source-shape checklist, then the permuter |
 | **masked / referent** | masked diff identical but score below 100 | referent identity: labelling work, not codegen |
+| **falsely merged TU (Diff Type E)** | high/100% function match but section shifts / mid-file 16B alignment | split TU along 16-byte .text / 8-byte .data boundaries in src/, splits.txt, configure.py |
 
 ### Inline / call set
 
@@ -84,6 +85,15 @@ Reached by elimination only.
 
 Unit-global effects exist: a flat probe sweep is evidence about the probe, not about the function. Probes are
 diagnostics: bank the result, then delete them.
+
+### Falsely merged translation units (Diff Type E)
+
+Whenever a NonMatching TU has high/100% .text parity on individual functions but fails section parity due to .data size/order shifts or mid-file .text padding, check for these 3 signatures:
+1. **Mid-Slice 16-Byte .text Padding:** Inside one TU, MWCC functions are 4-byte aligned. If a class destructor/method ends at 0x...4, 0x...8, or 0x...C and retail has 4, 8, or 12 bytes of zero-padding to reach a 0x10 boundary before the next class's constructor, retail compiled them as two separate TUs.
+2. **Split .data Vtable / Nerve Grouping:** Within a single TU, MWCC emits all static data/Nerves first and defers all vtables to the end of .data in LIFO (reverse) order. If retail .data emits `[Class A statics + __vt__ClassA]` followed by `[Class B statics + __vt__ClassB]`, they are separate TUs.
+3. **Missing 4-Byte Vtable Tail Padding (`0x2C + 0x2C = 0x58`):** Each TU's .data section is 8-byte aligned at its end. Merging two classes whose vtables have odd 4-byte word counts (e.g., 11 pointers = 44 / 0x2C bytes) causes their 4-byte tail paddings to cancel out (`44 + 44 = 88`), shrinking .data by 8 bytes.
+
+**Fix:** Split the file into separate .cpp files in `src/`, `splits.txt`, and `configure.py` along the 16-byte .text and 8-byte .data boundaries.
 
 ### Masked / referent
 
