@@ -2,7 +2,7 @@
 
 JUTDirectPrint* JUTDirectPrint::sDirectPrint;
 
-JUTDirectPrint::JUTDirectPrint() {
+inline JUTDirectPrint::JUTDirectPrint() {
     changeFrameBuffer(nullptr, 0, 0);
     setCharColor(0xff, 0xff, 0xff);
 }
@@ -134,27 +134,29 @@ void JUTDirectPrint::printSub(u16 position_x, u16 position_y, char const* format
         return;
     }
 
+    int p_x = position_x;
+    int p_y = position_y;
     int buffer_length = vsnprintf(buffer, ARRAY_SIZEU(buffer), format, args);
-    u16 x = position_x;
+    int x = p_x;
     if (buffer_length > 0) {
         if (clear) {
-            erase(position_x - 6, position_y - 3, (buffer_length + 2) * 6, 0xd);
+            erase(p_x - 6, p_y - 3, (buffer_length + 2) * 6, 0xd);
         }
 
         char* ptr = buffer;
         for (; 0 < buffer_length; buffer_length--, ptr++) {
             int codepoint = sAsciiTable[*ptr & 0x7f];
             if (codepoint == 0xfe) {
-                position_y += 7;
-                position_x = x;
+                p_x = x;
+                p_y += 7;
             } else if (codepoint == 0xfd) {
-                position_x = position_x + 0x30 - ((position_x - x + 0x2f) % 0x30);
+                p_x = (u16)(p_x + 0x30 - (((u16)p_x - (u16)x + 0x2f) % 0x30));
             } else {
                 if (codepoint != 0xff) {
-                    drawChar(position_x, position_y, codepoint);
+                    drawChar((u16)p_x, (u16)p_y, codepoint);
                 }
 
-                position_x += 6;
+                p_x += 6;
             }
         }
     }
