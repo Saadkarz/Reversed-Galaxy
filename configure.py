@@ -804,7 +804,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JAISeq.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISeqDataMgr.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISeqMgr.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JAISound.cpp"),
+            Object(Matching, "JSystem/JAudio2/JAISound.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundChild.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundHandles.cpp"),
             Object(Matching, "JSystem/JAudio2/JAISoundInfo.cpp"),

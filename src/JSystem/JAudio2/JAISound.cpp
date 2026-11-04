@@ -19,8 +19,10 @@ void JAISound::releaseHandle() {
 }
 
 void JAISound::attachHandle(JAISoundHandle* handle) {
-    if (handle->isSoundAttached()) {
-        handle->getSound()->stop();
+    JAISound* sound = handle->getSound();
+    if (sound != nullptr) {
+        sound->stop_JAISound_();
+        sound->releaseHandle();
     }
     if (isHandleAttached()) {
         releaseHandle();
@@ -79,21 +81,10 @@ void JAISound::start_JAISound_(JAISoundID id, const TVec3f* posPtr, JAIAudience*
     mPriority = 0;
 }
 
-bool JAISound::acceptsNewAudible() const {
-    return mAudible == nullptr && !isCalcedOnce();
-}
-
-void JAISound::newAudible(const TVec3f& pos, const TVec3f* param_1, u32 param_2, JAIAudience* audience) {
-    if (audience != nullptr) {
-        mAudience = audience;
-    }
-
-    mAudible = mAudience->newAudible(pos, mSoundID, param_1, param_2);
-}
-
 void JAISound::stop(u32 fadeTime) {
     if (fadeTime == 0) {
-        stop();
+        stop_JAISound_();
+        releaseHandle();
     } else {
         mFader.fadeOut(fadeTime);
         removeLifeTime_();
@@ -130,47 +121,10 @@ void JAISound::die_JAISound_() {
     die();
 }
 
-bool JAISound::calc_JAISound_() {
-    setCalcedOnce(true);
-    if (isStopping() && JAISound_tryDie_()) {
-        return false;
+void JAISound::increasePrepareCount_JAISound_() {
+    if ((++mPrepareCount & 0xFF) == 0) {
+        JASReport("It cost %d steps to prepare Sound(ID:%08x, Address%08x).\n", mPrepareCount, *(u32*)&mSoundID, this);
     }
-
-    bool playing = isPlaying();
-    if (playing) {
-        mCount++;
-    }
-
-    bool paused = mStatus.isPaused();
-    if (!paused) {
-        mFader.calc();
-    }
-
-    bool currentlyPlaying = playing && !paused;
-    if (currentlyPlaying) {
-        mParams.mMove.calc();
-        if (mAudible != nullptr) {
-            mAudible->calc();
-        }
-        if (hasLifeTime()) {
-            if (mLifeTime == 0) {
-                stop_JAISound_();
-            } else {
-                mLifeTime--;
-            }
-        }
-    }
-
-    if (mAudience != nullptr && mAudible != nullptr) {
-        mPriority = mAudience->calcPriority(mAudible);
-        if (mPriority == -1 && !comesBack()) {
-            stop_JAISound_();
-        }
-    } else {
-        mPriority = 0;
-    }
-
-    return currentlyPlaying;
 }
 
 void JAISound::initTrack_JAISound_(JASTrack* track) {
@@ -189,11 +143,5 @@ void JAISound::initTrack_JAISound_(JASTrack* track) {
 
     for (u32 i = 0; i < track->getChannelMgrCount(); i++) {
         track->assignExtBuffer(i, soundParams[i]);
-    }
-}
-
-void JAISound::increasePrepareCount_JAISound_() {
-    if ((++mPrepareCount & 0xFF) == 0) {
-        JASReport("It cost %d steps to prepare Sound(ID:%08x, Address%08x).\n", mPrepareCount, *(u32*)&mSoundID, this);
     }
 }

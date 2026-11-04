@@ -278,11 +278,10 @@ struct JAISoundFader {
     }
 
     void fadeOut(u32 maxSteps) {
-        if (maxSteps != 0) {
-            mTransition.set(0.0f, mValue, maxSteps);
-        } else {
-            forceOut();
-        }
+        f32 target = 0.0f;
+        mTransition.mRemainingSteps = maxSteps;
+        mTransition.mTargetValue = target;
+        mTransition.mStep = (target - mValue) / (f32)maxSteps;
     }
 
     void fadeIn(u32 maxSteps) {
