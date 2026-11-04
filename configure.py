@@ -1061,7 +1061,7 @@ config.libs = [
             Object(Matching, "Game/LiveActor/ShadowController.cpp"),
             Object(Matching, "Game/LiveActor/ShadowDrawer.cpp"),
             Object(Matching, "Game/LiveActor/ShadowSurfaceBox.cpp"),
-            Object(NonMatching, "Game/LiveActor/ShadowSurfaceCircle.cpp"),
+            Object(Matching, "Game/LiveActor/ShadowSurfaceCircle.cpp", mw_version="Wii/1.3"),
             Object(Matching, "Game/LiveActor/ShadowSurfaceDrawer.cpp"),
             Object(Matching, "Game/LiveActor/ShadowSurfaceOval.cpp"),
             Object(Matching, "Game/LiveActor/ShadowVolumeBox.cpp"),

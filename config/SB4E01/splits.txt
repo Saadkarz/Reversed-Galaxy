@@ -2222,7 +2222,8 @@ Game/LiveActor/ShadowDrawer.cpp:
 
 Game/LiveActor/ShadowSurfaceCircle.cpp:
 	.text       start:0x80240060 end:0x80240270
-	.data       start:0x80695A70 end:0x80695AA0
+	.data       start:0x80695A60 end:0x80695AA0
+	.sdata2     start:0x807DC530 end:0x807DC538
 
 Game/LiveActor/ShadowSurfaceDrawer.cpp:
 	.text       start:0x80240270 end:0x80240448 align:16
@@ -3980,6 +3981,7 @@ Game/Ride/TubeSlider.cpp:
 
 Game/Ride/TubeSliderCoinCreator.cpp:
 	.text       start:0x8044E620 end:0x8044EA40
+	.rodata     start:0x8064C058 end:0x8064C060
 	.data       start:0x806EF2D8 end:0x806EF390
 	.sdata2     start:0x807E1160 end:0x807E1180
 
