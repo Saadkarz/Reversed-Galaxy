@@ -75,6 +75,10 @@ void JPACalcAlphaAnm(JPAEmitterWorkData* work, JPABaseParticle* ptcl) {
     OSf32tou8(&alpha, &ptcl->mPrmColorAlphaAnm);
 }
 
+static void OSf32tou8(f32* f, u8* out) {
+    *out = __OSf32tou8(*f);
+}
+
 void JPACalcAlphaFlickAnm(JPAEmitterWorkData* work, JPABaseParticle* ptcl) {
     JPAExtraShape* esp = work->mpRes->getEsp();
     f32 alpha = 0.0f;
@@ -115,6 +119,3 @@ void JPAExtraShape::init() {
     }
 }
 
-static void OSf32tou8(f32* f, u8* out) {
-    *out = __OSf32tou8(*f);
-}
