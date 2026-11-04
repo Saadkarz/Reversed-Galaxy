@@ -4940,7 +4940,9 @@ JSystem/JKernel/JKRExpHeap.cpp:
 
 JSystem/JKernel/JKRSolidHeap.cpp:
 	.text       start:0x80503670 end:0x80503F00 align:16
-	.data       start:0x807045C8 end:0x80704628
+	.rodata     start:0x806542A8 end:0x806542B8
+	.data       start:0x80704458 end:0x80704628
+	.sdata2     start:0x807E1EA0 end:0x807E1EA8
 
 JSystem/JKernel/JKRUnitHeap.cpp:
 	.text       start:0x80503F00 end:0x80504B50 align:16

@@ -44,6 +44,27 @@ JKRSolidHeap::~JKRSolidHeap(void) {
     dispose();
 }
 
+s32 JKRSolidHeap::adjustSize(void) {
+    JKRHeap* parent = getParent();
+    if (parent) {
+        lock();
+        u32 newSize;
+        u32 actualSize = ALIGN_NEXT((u32)mSolidHead - (u32)mStart, 0x20);
+        u32 offset = (u8*)mStart - (u8*)this;
+        newSize = offset + actualSize;
+        if (parent->resize(this, newSize) != -1) {
+            mFreeSize = 0;
+            mSize = actualSize;
+            mEnd = mStart + actualSize;
+            mSolidHead = mEnd;
+            mSolidTail = mEnd;
+        }
+        unlock();
+        return newSize;
+    }
+    return -1;
+}
+
 void* JKRSolidHeap::do_alloc(u32 size, int alignment) {
     lock();
 
