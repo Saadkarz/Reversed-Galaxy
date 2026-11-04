@@ -6132,7 +6132,12 @@ JSystem/JAudio2/JAUSoundObject.cpp:
 	.data       start:0x8070C080 end:0x8070C0A8
 
 JSystem/JAudio2/JAUSoundTable.cpp:
-	.text       start:0x8059C390 end:0x8059C8F0 align:16
+	.text       start:0x8059C390 end:0x8059C640 align:16
+
+JSystem/JAudio2/JAUSoundNameTable.cpp:
+	.text       start:0x8059C640 end:0x8059C8F0 align:16
+	.data       start:0x8070C0A8 end:0x8070C0B8
+	.sdata      start:0x807D08F8 end:0x807D0900
 
 JSystem/JAudio2/JAUStdSoundInfo.cpp:
 	.text       start:0x8059C8F0 end:0x8059CDE0 align:16

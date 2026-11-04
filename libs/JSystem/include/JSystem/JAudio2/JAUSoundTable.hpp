@@ -53,45 +53,52 @@ struct JAUSoundTable_ {
         }
     }
 
-    Section* getSection(int index) const {
-        if (index < 0) {
-            return nullptr;
-        }
-        if ((u32)index >= mRoot->mSectionNumber) {
-            return nullptr;
-        }
-        u32 offset = mRoot->mSectionOffsets[index];
-        if (offset == 0) {
-            return nullptr;
-        }
-        return (Section*)((u8*)mData + offset);
-    }
-
-    Group* getGroup(const Section* section, int index) const {
-        if (index < 0) {
-            return nullptr;
-        }
-        if ((u32)index >= section->mNumGroups) {
-            return nullptr;
-        }
-        u32 offset = section->getGroupOffset(index);
-        if (offset == 0) {
-            return nullptr;
-        }
-        return (Group*)((u8*)mData + offset);
-    }
-
-    Item* getItem(const Group* group, int index) const {
-        u32 offset = group->getItemOffset(index);
-        if (offset == 0) {
-            return nullptr;
-        }
-        return (Item*)((u8*)mData + offset);
-    }
+    Section* getSection(int index) const;
+    Group* getGroup(const Section* section, int index) const;
+    Item* getItem(const Group* group, int index) const;
 
     /* 0x00 */ const void* mData;
     /* 0x04 */ Root* mRoot;
 };
+
+template < typename Root, typename Section, typename Group, typename Item >
+Section* JAUSoundTable_<Root, Section, Group, Item>::getSection(int index) const {
+    if (index < 0) {
+        return nullptr;
+    }
+    if ((u32)index >= mRoot->mSectionNumber) {
+        return nullptr;
+    }
+    u32 offset = mRoot->mSectionOffsets[index];
+    if (offset == 0) {
+        return nullptr;
+    }
+    return (Section*)((u8*)mData + offset);
+}
+
+template < typename Root, typename Section, typename Group, typename Item >
+Group* JAUSoundTable_<Root, Section, Group, Item>::getGroup(const Section* section, int index) const {
+    if (index < 0) {
+        return nullptr;
+    }
+    if ((u32)index >= section->mNumGroups) {
+        return nullptr;
+    }
+    u32 offset = section->getGroupOffset(index);
+    if (offset == 0) {
+        return nullptr;
+    }
+    return (Group*)((u8*)mData + offset);
+}
+
+template < typename Root, typename Section, typename Group, typename Item >
+Item* JAUSoundTable_<Root, Section, Group, Item>::getItem(const Group* group, int index) const {
+    u32 offset = group->getItemOffset(index);
+    if (offset == 0) {
+        return nullptr;
+    }
+    return (Item*)((u8*)mData + offset);
+}
 
 struct JAUSoundTableRoot {
     static inline u32 magicNumber() {
@@ -219,9 +226,7 @@ struct JAUSoundNameTable : public JASGlobalInstance< JAUSoundNameTable > {
     const char* getName(JAISoundID) const;
     const char* getGroupName(JAISoundID) const;
 
-    const char* getItem(const JAUSoundNameTableGroup* group, int index) const {
-        return (const char*)mTable.getItem(group, index);
-    }
+
 
     /* 0x00 */ JAUSoundTable_< JAUSoundNameTableRoot, JAUSoundNameTableSection, JAUSoundNameTableGroup, char > mTable;
 };
