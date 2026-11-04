@@ -5868,7 +5868,11 @@ JSystem/JAudio2/JASSeqCtrl.cpp:
 JSystem/JAudio2/JASSeqParser.cpp:
 	.text       start:0x80588430 end:0x8058A2F0 align:16
 	.ctors      start:0x80644B3C end:0x80644B40
-	.sbss       start:0x807D6480 end:0x807D6484
+	.rodata     start:0x806592C0 end:0x806592D0
+	.data       start:0x80708270 end:0x80709BA8
+	.sdata      start:0x807D08B8 end:0x807D08C0
+	.sbss       start:0x807D6480 end:0x807D6490
+	.sdata2     start:0x807E2418 end:0x807E2438
 
 JSystem/JAudio2/JASSeqReader.cpp:
 	.text       start:0x8058A2F0 end:0x8058A544 align:16

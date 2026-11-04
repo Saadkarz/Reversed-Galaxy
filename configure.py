@@ -772,7 +772,11 @@ config.libs = [
                 "JSystem/JAudio2/JASSeqCtrl.cpp",
                 extra_cflags=["-sdata 8", "-sdata2 8"],
             ),
-            Object(NonMatching, "JSystem/JAudio2/JASSeqParser.cpp"),
+            Object(
+                Matching,
+                "JSystem/JAudio2/JASSeqParser.cpp",
+                cflags=[*cflags_jsys_jaudio, "-func_align 16"],
+            ),
             Object(Matching, "JSystem/JAudio2/JASSeqReader.cpp"),
             Object(Matching, "JSystem/JAudio2/JASAramStream.cpp"),
             Object(Matching, "JSystem/JAudio2/JASBank.cpp"),

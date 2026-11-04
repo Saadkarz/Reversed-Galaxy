@@ -1,36 +1,85 @@
 import re
 import subprocess
 import json
+import os
 
-with open("configure.py", "r", encoding="utf-8") as f:
+with open("configure.py") as f:
     text = f.read()
 
-matches = re.findall(r'Object\(\s*NonMatching,\s*"([^"]+)"', text)
-print(f"Total NonMatching: {len(matches)}")
+matches = re.findall(r'Object\(\s*NonMatching\s*,\s*"([^"]+)"', text)
 
 results = []
-for unit in matches:
-    u = unit
-    for ext in ['.cpp', '.c', '.s']:
-        if u.endswith(ext):
-            u = u[:-len(ext)]
-    unit_name = 'main/' + u
-    res = subprocess.run(['build/tools/objdiff-cli.exe', 'diff', '-p', '.', '-u', unit_name, '-o', '-'], capture_output=True, text=True)
-    if not res.stdout:
+for rel_path in matches:
+    obj_name = rel_path.replace(".cpp", ".o").replace(".c", ".o")
+    tgt = f"build/SB4E01/obj/{obj_name}"
+    src = f"build/SB4E01/src/{obj_name}"
+    
+    if not os.path.exists(tgt) or not os.path.exists(src):
+        results.append({
+            'path': rel_path,
+            'matched_syms': 0,
+            'total_syms': 0,
+            'avg_pct': 0.0,
+            'sec_match': False,
+            'missing': True
+        })
         continue
+        
+    diff_cmd = ["build/tools/objdiff-cli.exe", "diff",
+                "-1", tgt,
+                "-2", src,
+                "-o", "-"]
     try:
+        res = subprocess.run(diff_cmd, capture_output=True, text=True, timeout=10)
         data = json.loads(res.stdout)
-        left = data.get('left', {})
-        syms = left.get('symbols', [])
-        if not syms:
-            continue
-        total = len(syms)
-        matched = sum(1 for s in syms if s.get('match_percent') is not None and s.get('match_percent') >= 100.0)
-        pct = (matched / total) * 100.0
-        results.append((unit, matched, total, pct))
     except Exception as e:
-        pass
+        results.append({
+            'path': rel_path,
+            'matched_syms': 0,
+            'total_syms': 0,
+            'avg_pct': 0.0,
+            'sec_match': False,
+            'missing': True
+        })
+        continue
+        
+    symbols = data.get('left', {}).get('symbols', [])
+    total_syms = 0
+    matched_syms = 0
+    total_match_pct = 0.0
+    for s in symbols:
+        pct = s.get('match_percent')
+        if pct is not None:
+            total_syms += 1
+            if pct == 100.0:
+                matched_syms += 1
+            total_match_pct += pct
+            
+    avg_pct = (total_match_pct / total_syms) if total_syms > 0 else 0.0
+    
+    sec_match = True
+    for sec in data.get('left', {}).get('sections', []):
+        pct = sec.get('match_percent')
+        if pct is not None and pct < 100.0:
+            sec_match = False
+            
+    results.append({
+        'path': rel_path,
+        'matched_syms': matched_syms,
+        'total_syms': total_syms,
+        'avg_pct': avg_pct,
+        'sec_match': sec_match,
+        'missing': False
+    })
 
-results.sort(key=lambda x: (x[3], x[1]), reverse=True)
-for r in results[:30]:
-    print(f"{r[0]:45} | {r[1]:3d}/{r[2]:3d} symbols ({r[3]:.1f}%)")
+results.sort(key=lambda r: (r['avg_pct'], r['matched_syms']), reverse=True)
+
+print(f"Total NonMatching: {len(results)}")
+print(f"{'Match %':>8} {'Matched/Total':>14} {'Sections':>10}  Path")
+print("-" * 70)
+for r in results:
+    if r['missing']:
+        print(f"   MISSING OBJ: {r['path']}")
+    else:
+        sec_str = "SECS_OK" if r['sec_match'] else "DIFF"
+        print(f"{r['avg_pct']:7.2f}% {r['matched_syms']:5d}/{r['total_syms']:<5d} {sec_str:>10}  {r['path']}")

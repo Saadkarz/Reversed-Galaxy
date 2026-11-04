@@ -105,6 +105,8 @@ JASSeqParser::Command JASSeqParser::sCmdInfo[0x60] = {{nullptr},
 
 JASSeqParser::Command JASSeqParser::sExtCmdInfo[0xff] = {{nullptr}, {&JASSeqParser::cmdDump}, {nullptr}, {nullptr}, {nullptr}, {nullptr}, {nullptr}};
 
+JASSeqParser::JASSeqParser() {}
+
 bool JASSeqParser::conditionCheck(JASTrack* track, BranchCondition cond) {
     u16 res = track->mRegisterParam.read(JASRegisterParam::REG_F);
     switch (cond) {
@@ -173,8 +175,8 @@ void JASSeqParser::writeReg(JASTrack* track, u32 reg, u32 value) {
             track->setPanPower(value / 32767.0f);
             break;
         case 0x2A:
-            track->mNoteOnPrio = JSULoByte(value);
             track->mReleasePrio = JSUHiByte(value);
+            track->mNoteOnPrio = JSULoByte(value);
             break;
         case 0x2B:
             track->setNoteOnPrio(value);
@@ -535,12 +537,12 @@ s32 JASSeqParser::cmdIntTimer(JASTrack* track, u32* args) {
     return 0;
 }
 
-u16 (*JASSeqParser::sCallbackFunc)(JASTrack*, u16);
+u16 (*JASSeqParser::sCallBackFunc)(JASTrack*, u16);
 
 s32 JASSeqParser::cmdSyncCPU(JASTrack* track, u32* args) {
     u16 value = -1;
-    if (sCallbackFunc != nullptr) {
-        value = sCallbackFunc(track, args[0]);
+    if (sCallBackFunc != nullptr) {
+        value = sCallBackFunc(track, args[0]);
     }
     track->writeReg(JASRegisterParam::REG_F, value);
     return 0;
@@ -734,18 +736,19 @@ s32 JASSeqParser::cmdDump(JASTrack* track, u32* args) {
 }
 
 s32 JASSeqParser::cmdPrintf(JASTrack* track, u32* args) {
+    JASSeqCtrl* seqCtrl = track->getSeqCtrl();
     char formatString[0x80];
     u32 values[4];
     u8 formatTypes[4];
     u32 numValues = 0, i;
     for (i = 0; i < sizeof(formatString); i++) {
-        formatString[i] = track->getSeqCtrl()->readByte();
+        formatString[i] = seqCtrl->readByte();
 
         if (formatString[i] == 0) {
             break;
         }
         if (formatString[i] == '\\') {
-            formatString[i] = track->getSeqCtrl()->readByte();
+            formatString[i] = seqCtrl->readByte();
             if (formatString[i] == 0) {
                 break;
             }
@@ -757,7 +760,7 @@ s32 JASSeqParser::cmdPrintf(JASTrack* track, u32* args) {
             }
         } else if (formatString[i] == '%') {
             i++;
-            formatString[i] = track->getSeqCtrl()->readByte();
+            formatString[i] = seqCtrl->readByte();
 
             if (formatString[i] == 0) {
                 break;
@@ -787,10 +790,10 @@ s32 JASSeqParser::cmdPrintf(JASTrack* track, u32* args) {
     }
 
     for (i = 0; i < numValues; i++) {
-        values[i] = track->getSeqCtrl()->readByte();
+        values[i] = seqCtrl->readByte();
         switch (formatTypes[i]) {
         case 2:
-            values[i] = (u32)track->getSeqCtrl()->getAddr(values[i]);
+            values[i] = (u32)seqCtrl->getAddr(values[i]);
             break;
         case 3:
         case 4:
@@ -848,11 +851,12 @@ s32 JASSeqParser::parseNoteOff(JASTrack* track, u8 noteId) {
 }
 
 s32 JASSeqParser::parseNoteOn(JASTrack* track, u8 pitch) {
-    u8 ctrlFlags = track->getSeqCtrl()->readByte();
+    JASSeqCtrl* seqCtrl = track->getSeqCtrl();
+    u8 ctrlFlags = seqCtrl->readByte();
     u8 noteId = ctrlFlags & 7;
-    u8 velocity = track->getSeqCtrl()->readByte();
+    u8 velocity = seqCtrl->readByte();
     if (noteId == 0) {
-        execNoteOnGate(track, pitch, velocity, track->getSeqCtrl()->readMidiValue(), ctrlFlags);
+        execNoteOnGate(track, pitch, velocity, seqCtrl->readMidiValue(), ctrlFlags);
     } else {
         execNoteOnMidi(track, noteId, pitch, velocity);
     }
@@ -873,7 +877,7 @@ s32 JASSeqParser::parseCommand(JASTrack* track, u8 cmdCode, u16 c) {
 
     for (int i = 0; i < cmd->numArgs; i++) {
         u32 arg = 0;
-        switch (readType & 3) {
+        switch ((int)(readType & 3)) {
         case 0:
             arg = track->getSeqCtrl()->readByte();
             break;

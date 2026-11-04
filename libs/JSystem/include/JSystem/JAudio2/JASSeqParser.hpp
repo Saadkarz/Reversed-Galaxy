@@ -11,7 +11,7 @@ public:
 
     enum BranchCondition { COND_ALWAYS = 0, COND_NULL, COND_NONNULL, COND_1, COND_NEGATIVE, COND_POSITIVE };
 
-    static Callback sCallbackFunc;
+    static Callback sCallBackFunc;
     struct Command {
         CommandFunc func;
         u16 numArgs;
@@ -21,9 +21,9 @@ public:
 
     static Command sExtCmdInfo[0xff];
 
-    JASSeqParser(){};
+    JASSeqParser();
 
-    virtual ~JASSeqParser(){};
+    virtual ~JASSeqParser() {}
     virtual s32 parse(JASTrack*);
     virtual bool execNoteOnMidi(JASTrack*, u32, u32, u32);
     virtual void execNoteOnGate(JASTrack*, u32, u32, u32, u32);
