@@ -30,11 +30,10 @@ typedef struct RFLiManager {
     s32 lastReason;                        // at 0x1B48
     s32 beforeCloseReason;                 // at 0x1B4C
     RFLiAccessInfo info[RFLiFileType_Max]; // at 0x1B50
-    RFLiCallback systemCb;                 // at 0x1F10
-    RFLCallback iconDrawCb;                // at 0x1F14
-    RFLCallback modelDrawCb;               // at 0x1F18
-    char UNK_0x1F1C[0x4];
-    u32 _1F20;
+    u8 pad_1F00[12];
+    RFLCallback modelDrawCb;               // at 0x1F0C
+    RFLCallback iconDrawCb;                // at 0x1F10
+    u8 pad_1F14[0x14];                     // at 0x1F14
 } RFLiManager;
 
 RFLErrcode RFLiBootLoadAsync(void);
