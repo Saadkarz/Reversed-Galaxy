@@ -69,7 +69,7 @@ namespace std {
     }
 
     template < class Func, class Type >
-    binder2nd< Func, typename Func::second_argument_type > bind2nd(const Func& rFunc, const Type& rArg) NO_INLINE {
+    binder2nd< Func, typename Func::second_argument_type > bind2nd(const Func& rFunc, const Type& rArg) {
         return binder2nd< Func, typename Func::second_argument_type >(rFunc, rArg);
     }
 

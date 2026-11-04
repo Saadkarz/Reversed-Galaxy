@@ -4,8 +4,23 @@
 #include "Game/Util.hpp"
 #include "Game/Util/JMapIdInfo.hpp"
 #include <cstdio>
+#include <algorithm>
+#include <functional.hpp>
 
-// nonmatching
+namespace {
+    struct MatchId : public std::binary_function<MsgSharedGroup*, const JMapIdInfo&, bool> {
+        inline bool operator()(const MsgSharedGroup* pGroup, const JMapIdInfo& rInfo) const {
+            return *pGroup->mIdInfo == rInfo;
+        }
+    };
+
+    struct MatchActor : public std::binary_function<MsgSharedGroup*, const LiveActor*, bool> {
+        inline bool operator()(const MsgSharedGroup* pGroup, const LiveActor* pActor) const {
+            return pGroup->hasActor(pActor);
+        }
+    };
+}
+
 MsgSharedGroup::MsgSharedGroup(const char* pName, s32 maxActor, const JMapInfoIter& rIter) : LiveActorGroup(pName, maxActor) {
     mIdInfo = nullptr;
     mMsg = -1;
@@ -14,7 +29,7 @@ MsgSharedGroup::MsgSharedGroup(const char* pName, s32 maxActor, const JMapInfoIt
     MR::copyString(mGroupName, pName, GROUP_NAME_LEN);
     setName(mGroupName);
 
-    mIdInfo = new JMapIdInfo(MR::createJMapIdInfoFromClippingGroupId(rIter));
+    mIdInfo = new JMapIdInfo(MR::createJMapIdInfoFromGroupId(rIter));
 }
 
 void MsgSharedGroup::init(const JMapInfoIter& rIter) {
@@ -80,8 +95,21 @@ MsgSharedGroup* LiveActorGroupArray::createGroup(const JMapInfoIter& rIter, cons
     return group;
 }
 
-// findGroup__19LiveActorGroupArrayCFRC12JMapInfoIter
-// findGroup__19LiveActorGroupArrayCFPC9LiveActor
+MsgSharedGroup* LiveActorGroupArray::findGroup(const JMapInfoIter& rIter) const {
+    MsgSharedGroup* const* it = std::find_if(&mGroups[0], &mGroups[mNumUsedGroups], std::bind2nd(MatchId(), MR::createJMapIdInfoFromGroupId(rIter)));
+    if (it != &mGroups[mNumUsedGroups]) {
+        return *it;
+    }
+    return nullptr;
+}
+
+MsgSharedGroup* LiveActorGroupArray::findGroup(const LiveActor* pActor) const {
+    MsgSharedGroup* const* it = std::find_if(&mGroups[0], &mGroups[mNumUsedGroups], std::bind2nd(MatchActor(), pActor));
+    if (it != &mGroups[mNumUsedGroups]) {
+        return *it;
+    }
+    return nullptr;
+}
 
 MsgSharedGroup::~MsgSharedGroup() {
 }

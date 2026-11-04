@@ -1052,7 +1052,7 @@ config.libs = [
             Object(Matching, "Game/LiveActor/LiveActor.cpp"),
             Object(Matching, "Game/LiveActor/LiveActorFlag.cpp"),
             Object(Matching, "Game/LiveActor/LiveActorGroup.cpp"),
-            Object(NonMatching, "Game/LiveActor/LiveActorGroupArray.cpp"),
+            Object(Matching, "Game/LiveActor/LiveActorGroupArray.cpp", extra_cflags=["-func_align 16"]),
             Object(Matching, "Game/LiveActor/LodCtrl.cpp"),
             Object(Matching, "Game/LiveActor/MaterialCtrl.cpp"),
             Object(Matching, "Game/LiveActor/MessageSensorHolder.cpp"),
