@@ -1,5 +1,4 @@
 #define J3D_TEV_STAGE_MUTABLE_DEFAULTS
-
 #include "JSystem/J3DGraphBase/J3DMaterial.hpp"
 #include "JSystem/J3DGraphBase/J3DSys.hpp"
 
@@ -37,7 +36,7 @@ J3DTexGenBlock* J3DMaterial::createTexGenBlock(u32 flags) {
 J3DTevBlock* J3DMaterial::createTevBlock(int tevStageNum) {
     J3DTevBlock* rv = NULL;
     if (tevStageNum <= 1) {
-        rv = new J3DTevBlock1();
+        rv = new J3DTevBlock1;
     } else if (tevStageNum == 2) {
         rv = new J3DTevBlock2();
     } else if (tevStageNum <= 4) {
@@ -233,23 +232,7 @@ void J3DMaterial::patch() {
     j3dSys.getMatPacket()->endPatch();
 }
 
-void J3DMaterial::diff(u32 diffFlags) {
-    if (j3dSys.getMatPacket()->isEnabled_Diff()) {
-        j3dSys.getMatPacket()->beginDiff();
 
-        mTevBlock->diff(diffFlags);
-        mIndBlock->diff(diffFlags);
-        mPEBlock->diff(diffFlags);
-        if (diffFlags & J3DDiffFlag_KonstColor) {
-            J3DGDSetGenMode_3Param(mTexGenBlock->getTexGenNum(), mTevBlock->getTevStageNum(), mIndBlock->getIndTexStageNum());
-            J3DGDSetNumTexGens(mTexGenBlock->getTexGenNum());
-        }
-        mTexGenBlock->diff(diffFlags);
-        mColorBlock->diff(diffFlags);
-
-        j3dSys.getMatPacket()->endDiff();
-    }
-}
 
 void J3DMaterial::calc(f32 const (*param_0)[4]) {
     if (j3dSys.checkFlag(0x40000000)) {

@@ -471,9 +471,9 @@ const J3DIndTexOrderInfo j3dDefaultIndTexOrderNull = {0xFF, 0xFF, 0x00, 0x00};
 
 const GXColor j3dDefaultTevKColor = {0xFF, 0xFF, 0xFF, 0xFF};
 
-J3DIndTexCoordScaleInfo j3dDefaultIndTexCoordScaleInfo = {};
+const J3DIndTexCoordScaleInfo j3dDefaultIndTexCoordScaleInfo = {};
 
-J3DTevSwapModeInfo j3dDefaultTevSwapMode = {
+const J3DTevSwapModeInfo j3dDefaultTevSwapMode = {
     0x00,
     0x00,
     0x00,

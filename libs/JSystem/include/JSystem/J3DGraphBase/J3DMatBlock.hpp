@@ -111,9 +111,7 @@ public:
     virtual void setColorChanNum(u8 const*) {
     }
 
-    virtual u8 getColorChanNum() const {
-        return 0;
-    }
+    virtual u8 getColorChanNum() const;
 
     virtual void setColorChan(u32, J3DColorChan const&) {
     }
@@ -137,9 +135,7 @@ public:
 
     virtual void setCullMode(u8);
 
-    virtual u8 getCullMode() const {
-        return 2;
-    }
+    virtual u8 getCullMode() const;
 
     virtual u32 getMatColorOffset() const {
         return 0;
@@ -155,8 +151,6 @@ public:
     virtual void setColorChanOffset(u32) {
     }
 
-    virtual ~J3DColorBlock() {
-    }
 };
 
 class J3DColorBlockLightOff : public J3DColorBlock {
@@ -431,16 +425,12 @@ public:
     virtual void setTexGenNum(u32) {
     }
 
-    virtual u32 getTexGenNum() const {
-        return 0;
-    }
+    virtual u32 getTexGenNum() const;
 
     virtual void setTexCoord(u32, J3DTexCoord const*) {
     }
 
-    virtual J3DTexCoord* getTexCoord(u32) {
-        return nullptr;
-    }
+    virtual J3DTexCoord* getTexCoord(u32);
 
     virtual void setTexMtx(u32, J3DTexMtx*) {
     }
@@ -464,8 +454,6 @@ public:
     virtual void setTexMtxOffset(u32) {
     }
 
-    virtual ~J3DTexGenBlock() {
-    }
 };
 
 class J3DTexGenBlockPatched : public J3DTexGenBlock {
@@ -608,8 +596,7 @@ public:
 
 class J3DTevBlock {
 public:
-    virtual void reset(J3DTevBlock*) {
-    }
+    virtual void reset(J3DTevBlock*);
 
     virtual void load() {
     }
@@ -712,9 +699,7 @@ public:
     virtual void setTevStageNum(u8) {
     }
 
-    virtual u8 getTevStageNum() const {
-        return 1;
-    }
+    virtual u8 getTevStageNum() const;
 
     virtual void setTevStage(u32, J3DTevStage const*) {
     }
@@ -767,8 +752,7 @@ public:
     virtual void setTevRegOffset(u32) {
     }
 
-    virtual ~J3DTevBlock() {
-    }
+    virtual ~J3DTevBlock();
 
 protected:
     void indexToPtr_private(u32);
@@ -830,8 +814,7 @@ public:
     }
 
     void initialize();
-    virtual void reset(J3DTevBlock*) {
-    }
+    virtual void reset(J3DTevBlock*);
 
     virtual void ptrToIndex() {
     }
@@ -1062,9 +1045,7 @@ public:
     virtual void setTevStageNum(u8 num) {
     }
 
-    virtual u8 getTevStageNum() const {
-        return 1;
-    }
+    virtual u8 getTevStageNum() const;
 
     virtual void setTevStage(u32 idx, J3DTevStage const* stage) {
         mTevStage[idx] = *stage;
@@ -1689,8 +1670,7 @@ struct J3DIndTexMtx : public J3DIndTexMtxInfo {
 
 class J3DIndBlock {
 public:
-    virtual void reset(J3DIndBlock*) {
-    }
+    virtual void reset(J3DIndBlock*);
 
     virtual void diff(u32) = 0;
     virtual void load() = 0;
@@ -1702,9 +1682,7 @@ public:
     virtual void setIndTexStageNum(u8) {
     }
 
-    virtual u8 getIndTexStageNum() const {
-        return 0;
-    }
+    virtual u8 getIndTexStageNum() const;
 
     virtual void setIndTexOrder(u32, J3DIndTexOrder) {
     }
@@ -1736,8 +1714,6 @@ public:
         return nullptr;
     }
 
-    virtual ~J3DIndBlock() {
-    }
 };
 
 class J3DIndBlockFull : public J3DIndBlock {
@@ -1817,8 +1793,7 @@ public:
     virtual void load() {
     }
 
-    virtual void reset(J3DIndBlock*) {
-    }
+    virtual void reset(J3DIndBlock*);
 
     virtual u32 getType() {
         return 'IBLN';
@@ -1914,8 +1889,6 @@ public:
     virtual void setFogOffset(u32) {
     }
 
-    virtual ~J3DPEBlock() {
-    }
 };
 
 struct J3DPEBlockNull : public J3DPEBlock {
