@@ -6,8 +6,10 @@
 namespace JGeometry {
     template < class T >
     struct TBox {
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         TBox() : i(), f() {
         }
+#endif
 
 
 
@@ -26,9 +28,11 @@ namespace JGeometry {
 
         bool isValid() const;
 
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         void addPos(f32 x, f32 y) {
             addPos(TVec2< f32 >(x, y));
         }
+#endif
 
         void addPos(const TVec2< f32 >& pos) {
             i.x += pos.x;
@@ -136,6 +140,7 @@ namespace JGeometry {
     template < typename T >
     struct TBox2 : public TBox< TVec2< T > > {
     public:
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         TBox2() {
         }
 
@@ -147,6 +152,7 @@ namespace JGeometry {
         }
 
         TBox2(T x0, T y0, T x1, T y1);
+#endif
 
         // void set<T>(const TBox2<T> &a1, const TBox2<T> &a2);
 
@@ -154,7 +160,7 @@ namespace JGeometry {
 
         void absolute();
 
-#ifndef J2DPANE_NO_GEOMETRY_INLINES
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         void set(const TBox< TVec2< T > >& rOther) {
             this->i.x = rOther.i.x;
             this->i.y = rOther.i.y;
@@ -199,7 +205,7 @@ namespace JGeometry {
         JGeometry::TVec3< T > _30;
     };
 
-#ifndef J2DPANE_NO_GEOMETRY_INLINES
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
     template < typename T >
     void TBox2< T >::operator=(const TBox2< T >& rOther) {
         const u32* s = (const u32*)&rOther;
@@ -214,7 +220,6 @@ namespace JGeometry {
     TBox2< T >::TBox2(T x0, T y0, T x1, T y1) {
         set(x0, y0, x1, y1);
     }
-#endif
 
     template < typename T >
     TBox2< T >::TBox2(const TBox2< T >& rOther) {
@@ -223,6 +228,7 @@ namespace JGeometry {
         this->f.x = rOther.f.x;
         this->f.y = rOther.f.y;
     }
+#endif
 
     template < typename T >
     void TBox2< T >::absolute() {
@@ -235,7 +241,7 @@ namespace JGeometry {
         }
     }
 
-#ifndef J2DPANE_NO_GEOMETRY_INLINES
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
     template < typename T >
     void TBox2< T >::set(T x0, T y0, T x1, T y1) {
         this->i.set(x0, y0);

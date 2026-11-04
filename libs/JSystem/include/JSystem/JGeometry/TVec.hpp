@@ -65,16 +65,18 @@ namespace JGeometry {
     struct TVec2 {
     public:
         /* Constructors */
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         inline TVec2() {
         }
+#endif
 
-#ifndef J2DPANE_NO_GEOMETRY_INLINES
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         template < typename A >
         TVec2(A _x, A _y) {
             x = _x;
             y = _y;
         }
-#else
+#elif !defined(J2DORTHO_NO_GEOMETRY_INLINES)
         template < typename A >
         TVec2(A _x, A _y);
 #endif
@@ -244,9 +246,11 @@ namespace JGeometry {
         T x, y;
     };
 
+#if !defined(J2DPANE_NO_GEOMETRY_INLINES) && !defined(J2DORTHO_NO_GEOMETRY_INLINES)
     template <>
     TVec2< f32 >::TVec2() {
     }
+#endif
 
     template < typename T >
     void TVec2< T >::setMax(const TVec2< T >& max) {

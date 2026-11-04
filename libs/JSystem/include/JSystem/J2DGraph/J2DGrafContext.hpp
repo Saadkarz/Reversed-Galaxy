@@ -21,12 +21,20 @@ class J2DGrafContext {
 public:
     J2DGrafContext(f32, f32, f32, f32);
 
+#ifndef J2DORTHO_GRAPH_FILE
     virtual ~J2DGrafContext() {}
+#else
+    __declspec(section ".unused") virtual ~J2DGrafContext() {}
+#endif
 
     virtual void place(const TBox2f&);
+#ifndef J2DORTHO_GRAPH_FILE
     virtual void place(f32 x, f32 y, f32 width, f32 height) {
         place(TBox2f(x, y, x + width, y + height));
     }
+#else
+    virtual void place(f32 x, f32 y, f32 width, f32 height);
+#endif
 
     virtual void setPort();
     virtual void setup2D();
@@ -38,9 +46,13 @@ public:
 
     void setColor(JUtility::TColor, JUtility::TColor, JUtility::TColor, JUtility::TColor);
     void fillBox(const TBox2f&);
+#ifndef J2DORTHO_GRAPH_FILE
     void fillBox(f32 x, f32 y, f32 width, f32 height) {
         fillBox(TBox2f(x, y, x + width, y + height));
     }
+#else
+    void fillBox(f32 x, f32 y, f32 width, f32 height);
+#endif
 
     /* 0x04 */ TBox2f mBounds;
     /* 0x14 */ TBox2f mScissorBounds;

@@ -564,7 +564,11 @@ config.libs = [
                 Matching,
                 "JSystem/J2DGraph/J2DGrafContext.cpp",
             ),
-            Object(NonMatching, "JSystem/J2DGraph/J2DOrthoGraph.cpp"),
+            Object(
+                Matching,
+                "JSystem/J2DGraph/J2DOrthoGraph.cpp",
+                extra_cflags=["-func_align 16"],
+            ),
             Object(Matching, "JSystem/J2DGraph/J2DMatBlock.cpp"),
             Object(Matching, "JSystem/J2DGraph/J2DPane.cpp"),
             Object(Matching, "JSystem/J2DGraph/J2DScreen.cpp"),
