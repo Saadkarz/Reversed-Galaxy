@@ -45,7 +45,7 @@ public:
     void removeDisposer(JKRDisposer* disposer);
     virtual u32 getHeapType() = 0;
     virtual bool check() = 0;
-    virtual bool dump_sort();
+    virtual bool dump_sort() { return true; }
     virtual bool dump() = 0;
     virtual void do_destroy() = 0;
     virtual void* do_alloc(u32, int) = 0;
@@ -58,8 +58,8 @@ public:
     virtual s32 do_getFreeSize() = 0;
     virtual void* do_getMaxFreeBlock() = 0;
     virtual s32 do_getTotalFreeSize() = 0;
-    virtual s32 do_changeGroupID(u8);
-    virtual u8 do_getCurrentGroupId();
+    virtual s32 do_changeGroupID(u8) { return 0; }
+    virtual u8 do_getCurrentGroupId() { return 0; }
     virtual void state_register(TState*, u32) const;
     virtual bool state_compare(const TState&, const TState&) const;
     virtual void state_dump(const TState&) const;
@@ -74,7 +74,9 @@ public:
 
     void freeAll();
     void freeTail();
+    void fillFreeArea();
     s32 resize(void*, u32);
+    s32 getSize(void*);
     s32 getFreeSize();
     void* getMaxFreeBlock();
 

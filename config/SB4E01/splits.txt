@@ -4926,8 +4926,8 @@ Game/NWC24/ReceiverTagMail.cpp:
 	.text       start:0x80500980 end:0x80500A10
 
 JSystem/JKernel/JKRHeap.cpp:
-	.text       start:0x80500F60 end:0x80501920 align:16
-	.data       start:0x80704000 end:0x80704060
+	.text       start:0x80500F60 end:0x805019F0 align:16
+	.data       start:0x80703FC8 end:0x80704060
 	.sdata      start:0x807D05B8 end:0x807D05C8
 	.sbss       start:0x807D6110 end:0x807D6138
 

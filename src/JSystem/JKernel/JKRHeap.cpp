@@ -108,6 +108,10 @@ void JKRHeap::destroy(JKRHeap* pHeap) {
     pHeap->do_destroy();
 }
 
+void JKRHeap::destroy() {
+    do_destroy();
+}
+
 void* JKRHeap::alloc(u32 size, int align, JKRHeap* pHeap) {
     if (pHeap != nullptr) {
         return pHeap->alloc(size, align);
@@ -154,8 +158,16 @@ void JKRHeap::freeTail() {
     do_freeTail();
 }
 
+void JKRHeap::fillFreeArea() {
+    do_fillFreeArea();
+}
+
 s32 JKRHeap::resize(void* pData, u32 size) {
     return do_resize(pData, size);
+}
+
+s32 JKRHeap::getSize(void* pData) {
+    return do_getSize(pData);
 }
 
 s32 JKRHeap::getFreeSize() {
@@ -299,10 +311,6 @@ void* operator new(u32 size) {
     return JKRHeap::alloc(size, 4, nullptr);
 }
 
-void* operator new(u32 size, int align) {
-    return JKRHeap::alloc(size, align, nullptr);
-}
-
 void* operator new(u32 size, JKRHeap* pHeap, int align) {
     return JKRHeap::alloc(size, align, pHeap);
 }
@@ -347,14 +355,20 @@ u32 JKRHeap::getAltAramStartAdr() {
     return ARALT_AramStartAdr;
 }
 
-s32 JKRHeap::do_changeGroupID(u8) {
-    return 0;
+extern "C" OSMutex lbl_8072BB98;
+
+extern "C" void fn_80501920() {
+    OSInitMutex(&lbl_8072BB98);
 }
 
-u8 JKRHeap::do_getCurrentGroupId() {
-    return 0;
+void JKRHeap::appendDisposer(JKRDisposer* pDisposer) {
+    OSLockMutex(&lbl_8072BB98);
+    mDisposerList.append(&pDisposer->mLink);
+    OSUnlockMutex(&lbl_8072BB98);
 }
 
-bool JKRHeap::dump_sort() {
-    return true;
+void JKRHeap::removeDisposer(JKRDisposer* pDisposer) {
+    OSLockMutex(&lbl_8072BB98);
+    mDisposerList.remove(&pDisposer->mLink);
+    OSUnlockMutex(&lbl_8072BB98);
 }
