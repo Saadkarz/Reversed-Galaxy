@@ -23,6 +23,13 @@ u32 JASAramStream::sChannelMax;
 bool UNK_BOOL_A;
 bool UNK_BOOL_B;
 
+static const JASOscillator::Point OSC_RELEASE_TABLE[2] __attribute__((aligned(8))) = {
+    {0x0000, 0x0002, 0x0000},
+    {0x000F, 0x0000, 0x0000},
+};
+
+static JASOscillator::Data const OSC_ENV = {0, 1.0f, nullptr, OSC_RELEASE_TABLE, 1.0f, 0.0f};
+
 void JASAramStream::initSystem(u32 block_size, u32 channel_max) {
     if (JASDriver::registerSubFrameCallback(dvdErrorCheck, nullptr)) {
         if (sLoadThread == nullptr) {
@@ -522,8 +529,8 @@ void JASAramStream::updateChannel(u32 i_callbackType, JASChannel* i_channel, JAS
                     }
                 } else {
                     if (_118 == 0 && !UNK_BOOL_A) {
-                        _0AE &= ~2;
-                        _0AE &= ~4;
+                        _0AE &= 0xFD;
+                        _0AE &= 0xFB;
                     }
                 }
 
@@ -642,13 +649,6 @@ s32 JASAramStream::channelProc() {
 
     return 0;
 }
-
-static JASOscillator::Point const OSC_RELEASE_TABLE[2] = {
-    {0x0000, 0x0002, 0x0000},
-    {0x000F, 0x0000, 0x0000},
-};
-
-static JASOscillator::Data const OSC_ENV = {0, 1.0f, nullptr, OSC_RELEASE_TABLE, 1.0f, 0.0f};
 
 void JASAramStream::channelStart() {
     u8 r31;

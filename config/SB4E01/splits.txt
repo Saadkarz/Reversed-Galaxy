@@ -5872,9 +5872,12 @@ JSystem/JAudio2/JASSeqReader.cpp:
 	.text       start:0x8058A2F0 end:0x8058A544 align:16
 
 JSystem/JAudio2/JASAramStream.cpp:
-	.text       start:0x8058A550 end:0x8058BB20 align:16
+	.text       start:0x8058A550 end:0x8058BB1C align:16
 	.ctors      start:0x80644B40 end:0x80644B44
-	.sbss       start:0x807D6490 end:0x807D64A0
+	.rodata     start:0x806592D0 end:0x80659300
+	.bss        start:0x8077BD40 end:0x8077BD50
+	.sbss       start:0x807D6490 end:0x807D64A8
+	.sdata2     start:0x807E2438 end:0x807E2450
 
 JSystem/JAudio2/JASBank.cpp:
 	.text       start:0x8058BB80 end:0x8058BCC0 align:16
