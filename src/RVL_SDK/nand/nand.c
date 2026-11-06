@@ -7,12 +7,18 @@ static BOOL nandInspectPermission(u8);
 static void nandSplitPerm(u8, u32 *, u32 *, u32 *);
 static void nandGetTypeCallback(ISFSError, void *);
 static void nandGetStatusCallback(ISFSError, void *);
+BOOL nandCheckPathName(const char *);
 
 ISFSError nandCreate(const char *path, const u8 perm, const u8 attr,
                      NANDCommandBlock *block, BOOL async_flag,
                      BOOL privilege_flag) {
   char absPath[64] = "";
   u32 owner = 0, group = 0, others = 0;
+
+  if (!nandCheckPathName(path)) {
+    return ISFS_ERROR_INVALID;
+  }
+
   nandGenerateAbsPath(absPath, path);
 
   if (!privilege_flag && nandIsPrivatePath(absPath)) {
@@ -188,6 +194,10 @@ ISFSError nandCreateDir(const char *path, const u8 perm, const u8 attr,
                         NANDCommandBlock *block, const BOOL async_flag,
                         const BOOL privilege_flag) {
   char absPath[64] = "";
+
+  if (!nandCheckPathName(path)) {
+    return ISFS_ERROR_INVALID;
+  }
 
   nandGenerateAbsPath(absPath, path);
   if (!privilege_flag && nandIsPrivatePath(absPath)) {
@@ -467,4 +477,54 @@ static BOOL nandInspectPermission(const u8 perm) {
   } else {
     return FALSE;
   }
+}
+
+static inline BOOL nandIsValidPathChar(char c) {
+  char valid[66] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_./";
+  u32 i;
+
+  for (i = 0; i < sizeof(valid); i++) {
+    if (c == valid[i]) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+BOOL nandCheckPathName(const char *path) {
+  u32 len = strlen(path);
+  u32 i;
+
+  if (len == 0) {
+    return FALSE;
+  }
+
+  if (nandIsRelativePath(path)) {
+    for (i = 0; i < len; i++, path++) {
+      if (!nandIsValidPathChar(*path)) {
+        return FALSE;
+      }
+    }
+  } else {
+    char name[16];
+    char absPath[64];
+    u32 nameLen;
+
+    strcpy(absPath, path);
+    if (absPath[len - 1] == '/' && len - 1 != 0) {
+      absPath[len - 1] = '\0';
+    }
+
+    nandGetRelativeName(name, absPath);
+    nameLen = strlen(name);
+
+    for (i = 0; i < nameLen; i++) {
+      if (!nandIsValidPathChar(name[i])) {
+        return FALSE;
+      }
+    }
+  }
+
+  return TRUE;
 }
