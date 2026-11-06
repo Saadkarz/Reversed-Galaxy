@@ -5338,7 +5338,7 @@ JSystem/JParticle/JPAResource.cpp:
 	.sdata2     start:0x807E2070 end:0x807E2080
 
 JSystem/JParticle/JPABaseShape.cpp:
-	.text       start:0x8053E7B0 end:0x8053F970 align:16
+	.text       start:0x8053D8B0 end:0x8053F970 align:16
 
 JSystem/JParticle/JPAExtraShape.cpp:
 	.text       start:0x8053F970 end:0x8053FFF0 align:16

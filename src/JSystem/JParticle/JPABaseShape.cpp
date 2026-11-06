@@ -344,7 +344,7 @@ void JPACalcTexIdxReverse(JPAEmitterWorkData* work, JPABaseParticle* param_1) {
     int div = tick / keyNum;
     int rem = tick % keyNum;
     u8 texIdx = rem + (div & 1) * (keyNum - rem * 2);
-    param_1->mTexAnmIdx = work->mpRes->getBsp()->getTexIdx(texIdx);
+    param_1->mTexAnmIdx = shape->getTexIdx(texIdx);
 }
 
 void JPACalcTexIdxMerge(JPAEmitterWorkData* work) {
@@ -356,7 +356,7 @@ void JPACalcTexIdxMerge(JPAEmitterWorkData* work, JPABaseParticle* param_1) {
     s32 maxFrm = shape->getTexAnmKeyNum();
     s32 tick = (s32)(maxFrm * param_1->mTime) + shape->getTexLoopOfst(param_1->mAnmRandom);
     u8 texIdx = tick % maxFrm;
-    param_1->mTexAnmIdx = work->mpRes->getBsp()->getTexIdx(texIdx);
+    param_1->mTexAnmIdx = shape->getTexIdx(texIdx);
 }
 
 void JPACalcTexIdxRandom(JPAEmitterWorkData* work) {
