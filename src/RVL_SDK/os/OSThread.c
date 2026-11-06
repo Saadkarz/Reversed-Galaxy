@@ -676,6 +676,23 @@ BOOL OSSetThreadPriority(OSThread* thread, OSPriority priority) {
     return TRUE;
 }
 
+// Dead-stripped from retail; only IdleThread's .bss reservation survives.
+typedef void (*OSIdleFunction)(void* param);
+
+OSThread* OSSetIdleFunction(OSIdleFunction idleFunction, void* param, void* stack, u32 stackSize) {
+    if (idleFunction) {
+        if (IdleThread.state == 0) {
+            OSCreateThread(&IdleThread, (void* (*)(void*))idleFunction, param, stack, stackSize, 31, 1);
+            OSResumeThread(&IdleThread);
+            return &IdleThread;
+        }
+    } else if (IdleThread.state != 0) {
+        OSCancelThread(&IdleThread);
+    }
+
+    return NULL;
+}
+
 OSPriority OSGetThreadPriority(OSThread* thread) {
     return thread->base;
 }
