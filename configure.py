@@ -1258,7 +1258,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/nwc24/NWC24Utils.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Manage.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24MsgObj.c"),
-            Object(NonMatching, "RVL_SDK/nwc24/NWC24MBoxCtrl.c"),
+            Object(Matching, "RVL_SDK/nwc24/NWC24MBoxCtrl.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Mime.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24Parser.c"),
             Object(Matching, "RVL_SDK/nwc24/NWC24MsgCommit.c"),

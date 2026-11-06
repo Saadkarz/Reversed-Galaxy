@@ -189,11 +189,14 @@ NWC24Err NWC24iMBoxOpenNewMsg(NWC24MsgBoxId id, NWC24File* pFile, u32* pMsgId) {
     pPath = NWC24WorkP->pathWork;
 
     result = MakeMailPath(id, *pMsgId, pPath, NWC24i_PATH_WORK_SIZE);
-    if (result != NWC24_OK) {
-        return result;
+    if (result == NWC24_OK) {
+        result = NWC24FOpen(pFile, pPath, NWC24_OPEN_VF_WBUFF);
     }
 
-    result = NWC24FOpen(pFile, pPath, NWC24_OPEN_VF_WBUFF);
+    if (result != NWC24_OK) {
+        UnmountVFMBox();
+    }
+
     return result;
 }
 
@@ -385,9 +388,6 @@ static NWC24Err GetMBoxFilePath(NWC24MsgBoxId id, char* pDst, s32 maxlen) {
 }
 
 static NWC24Err MakeMailPath(NWC24MsgBoxId id, u32 msgId, char* pDst, s32 maxlen) {
-    if (maxlen < NWC24i_KSTRLEN("*******.msg")) {
-        return NWC24_ERR_NOMEM;
-    }
 
     switch (id) {
     case NWC24_MSGBOX_SEND: {
@@ -697,16 +697,19 @@ static NWC24Err GetCachedMBCHeader(NWC24MsgBoxId id, NWC24iMBCHeader** ppHeader)
         result = LoadMBCHeader(*ppHeader, &file);
         closeResult = NWC24FClose(&file);
 
-        if (result == NWC24_OK && closeResult != NWC24_OK) {
-            result = closeResult;
-        }
+        result = result != NWC24_OK ? result : closeResult;
+    }
+
+    if (result != NWC24_OK) {
+        return result;
+    }
+
+    if ((*ppHeader)->freeChain & 31) {
+        return NWC24_ERR_BROKEN;
     }
 
     if ((*ppHeader)->version != MBOX_CTRL_VERSION) {
-        return NWC24_ERR_VER_MISMATCH;
-    }
-    if ((*ppHeader)->freeChain & 31) {
-        return NWC24_ERR_BROKEN;
+        result = NWC24_ERR_VER_MISMATCH;
     }
 
     return result;
