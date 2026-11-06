@@ -1,5 +1,3 @@
-#define JPA_LIST_DEFER_INLINE
-#define JPA_FIELD_BLOCK_DEFER_INLINE
 #include "JSystem/JParticle/JPAResource.hpp"
 #include "JSystem/JKernel/JKRHeap.hpp"
 #include "JSystem/JParticle/JPABaseShape.hpp"
@@ -1052,9 +1050,3 @@ void JPAResource::calcWorkData_d(JPAEmitterWorkData* work) {
     PSMTXConcat(work->mpEmtr->mGlobalRot, mtx, work->mGlobalRot);
     PSMTXMultVecSR(work->mGlobalRot, &work->mpEmtr->mLocalDir, &work->mGlobalEmtrDir);
 }
-
-#include "JSystem/JParticle/JPAFieldBlockInline.hpp"
-#include "JSystem/JParticle/JPAListInline.hpp"
-
-template JPANode< JPABaseParticle >* JPAList< JPABaseParticle >::erase(JPANode< JPABaseParticle >*);
-template void JPAList< JPABaseParticle >::push_front(JPANode< JPABaseParticle >*);

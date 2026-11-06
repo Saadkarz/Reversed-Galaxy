@@ -922,7 +922,7 @@ config.libs = [
         "JParticle",
         [
             Object(Matching, "JSystem/JParticle/JPAResourceManager.cpp"),
-            Object(NonMatching, "JSystem/JParticle/JPAResource.cpp"),
+            Object(Matching, "JSystem/JParticle/JPAResource.cpp"),
             Object(
                 NonMatching,
                 "JSystem/JParticle/JPABaseShape.cpp",

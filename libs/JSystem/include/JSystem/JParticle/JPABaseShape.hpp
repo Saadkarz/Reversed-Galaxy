@@ -149,7 +149,7 @@ public:
     BOOL isEnvAnm() const {
         return mpData->mClrFlg & 0x08;
     }
-    inline u32 getClrAnmType() const {
+    inline s32 getClrAnmType() const {
         return (mpData->mClrFlg >> 4) & 0x07;
     }
     s16 getClrAnmMaxFrm() const {
@@ -171,7 +171,7 @@ public:
     BOOL isTexAnm() const {
         return mpData->mTexFlg & 0x01;
     }
-    u32 getTexAnmType() const {
+    s32 getTexAnmType() const {
         return (mpData->mTexFlg >> 2) & 0x07;
     }
     u32 getTexIdx() const {
