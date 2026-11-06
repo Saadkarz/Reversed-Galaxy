@@ -70,7 +70,7 @@ namespace nw4r {
 
             const ut::Rect GetLayoutRect() const;
 
-            static Pane* BuildPaneObj(s32, const void*, const ResBlockSet&);
+            static Pane* BuildPaneObj(s32, const void*, const ResBlockSet&) NO_INLINE;
 
             GroupContainer* GetGroupContainer() const {
                 return mpGroupContainer;
