@@ -1411,7 +1411,7 @@ config.libs = [
                 extra_cflags=["-func_align 16"],
             ),
             Object(Matching, "RVL_SDK/os/OSReboot.c"),
-            Object(NonMatching, "RVL_SDK/os/OSReset.c"),
+            Object(Matching, "RVL_SDK/os/OSReset.c"),
             Object(Matching, "RVL_SDK/os/OSRtc.c"),
             Object(Matching, "RVL_SDK/os/OSSync.c"),
             Object(Matching, "RVL_SDK/os/OSThread.c"),
