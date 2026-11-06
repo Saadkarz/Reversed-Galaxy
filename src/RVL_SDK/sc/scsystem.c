@@ -2,7 +2,7 @@
 #include <mem.h>
 #include "revolution/sc.h"
 
-const char* __SCVersion = "<< RVL_SDK - SC \trelease build: Feb 22 2008 06:21:38 (0x4199_60831) >>";
+const char* __SCVersion = "<< RVL_SDK - SC \trelease build: Dec 11 2009 15:59:09 (0x4302_145) >>";
 
 static void __SCFlushSyncCallback(u32 result);
 
@@ -11,7 +11,7 @@ typedef struct {
     SCItemID id;
 } NameAndID;
 
-static NameAndID NameAndIDTbl[36] = {
+static NameAndID NameAndIDTbl[38] = {
     "IPL.CB",   SC_ITEM_ID_IPL_COUNTER_BIAS,
     "IPL.AR",   SC_ITEM_ID_IPL_ASPECT_RATIO,
     "IPL.ARN",  SC_ITEM_ID_IPL_AUTORUN_MODE,
@@ -48,6 +48,8 @@ static NameAndID NameAndIDTbl[36] = {
     "BT.BAR",   SC_ITEM_ID_BT_SENSOR_BAR_POSITION,
     "DVD.CNF",  SC_ITEM_ID_DVD_CONFIG,
     "WWW.RST",  SC_ITEM_ID_WWW_RESTRICTION,
+    "MPLS.MOVIE", SC_ITEM_ID_MPLS_MOVIE,
+    "IPL.TID",  SC_ITEM_ID_IPL_TID,
 };
 
 static const char ConfDirName[] = "/shared2/sys";
@@ -327,7 +329,7 @@ u32 ParseConfBuf(u8* bufp, u32 bufSize) {
 
     bufTop = bufp;
     bufEndp = bufp + bufSize - 4;
-    ItemIDMaxPlus1 = 36;
+    ItemIDMaxPlus1 = 38;
 
     if (memcmp(bufp, "SCv0", 4) || memcmp(bufEndp, "SCed", 4)) {
         goto error;
@@ -370,7 +372,7 @@ u32 ParseConfBuf(u8* bufp, u32 bufSize) {
         goto error;
     }
 
-    runtimeRefp = (u16*)(bufEndp - 2 * (35));
+    runtimeRefp = (u16*)(bufEndp - 2 * (38));
 
     if ((u8*)(bufTop + itemOffset) > (u8*)runtimeRefp) {
         goto error;
@@ -689,7 +691,7 @@ static BOOL SCFindIntegerItem(void* data, SCItemID id, SCType type) {
     return result;
 }
 
-BOOL SCReplaceIntegerItem(const void* data, SCItemID id, SCType type) NO_INLINE {
+BOOL SCReplaceIntegerItem(const void* data, SCItemID id, SCType type) {
     SCItem item;
     BOOL result = FALSE;
     BOOL enabled = OSDisableInterrupts();
@@ -715,11 +717,11 @@ finish:
     return result;
 }
 
-BOOL SCFindU8Item(u8* data, SCItemID id) {
+BOOL SCFindS8Item(s8* data, SCItemID id) {
     return SCFindIntegerItem(data, id, 0x60);
 }
 
-BOOL SCFindS8Item(s8* data, SCItemID id) {
+BOOL SCFindU8Item(u8* data, SCItemID id) {
     return SCFindIntegerItem(data, id, 0x60);
 }
 
