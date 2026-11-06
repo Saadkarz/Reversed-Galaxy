@@ -334,6 +334,8 @@ void RFLLoadVertexSetting(const RFLDrawCoreSetting* setting) {
     GXSetVtxAttrFmt(0, GX_VA_NRM, 0, 3, 14);
     GXSetVtxAttrFmt(0, GX_VA_TEX0, 1, 3, 13);
     GXSetNumTexGens(setting->txcGenNum);
+    GXSetTexCoordScaleManually(setting->txcID, GX_FALSE, 1, 1);
+    GXSetTexCoordCylWrap(setting->txcID, GX_FALSE, GX_FALSE);
 }
 
 void RFLLoadMaterialSetting(const RFLDrawCoreSetting* setting) {
