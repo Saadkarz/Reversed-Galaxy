@@ -26,12 +26,8 @@ public:
     }
 
     f32 get_rndm_zh() {
-        union {
-            u32 u;
-            f32 f;
-        } a;
-        a.u = ((get_rndm_u() >> 9) | 0x3f800000);
-        return a.f - 1.0f - 0.5f;
+        f32 f = get_rndm_f();
+        return f - 0.5f;
     }
 
     s16 get_rndm_ss() {

@@ -9,10 +9,10 @@ JPAParticleCallBack::~JPAParticleCallBack() {
 }
 
 void JPABaseParticle::init_p(JPAEmitterWorkData* pWork) {
-    JPABaseEmitter* emtr = pWork->mpEmtr;
     JPAExtraShape* esp = pWork->mpRes->mpExtraShape;
     JPABaseShape* bsp = pWork->mpRes->mpBaseShape;
     JPADynamicsBlock* dyn = pWork->mpRes->mpDynamicsBlock;
+    JPABaseEmitter* emtr = pWork->mpEmtr;
 
     mAge = -1;
     mLifeTime = (1.0f - dyn->getLifetimeRndm() * emtr->get_r_f()) * emtr->mLifeTime;

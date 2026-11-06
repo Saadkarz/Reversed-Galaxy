@@ -258,7 +258,12 @@ public:
     }
     f32 get_r_zp();
     f32 get_r_zh() NO_INLINE {
-        return mRndm.get_rndm_zh();
+        union {
+            u32 u;
+            f32 f;
+        } a;
+        a.u = ((mRndm.get_rndm_u() >> 9) | 0x3f800000);
+        return a.f - 1.0f - 0.5f;
     }
     s16 get_r_ss();
 
