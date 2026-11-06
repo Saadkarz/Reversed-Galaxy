@@ -6,7 +6,7 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-657_%2F_703_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-658_%2F_703_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Code Matched](https://img.shields.io/badge/Code_Matched-19.75%25_(21.63%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
@@ -33,7 +33,7 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`657` Matching Translation Units Milestone)
+## 📊 Current Progress (`658` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
@@ -41,7 +41,7 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 * **Total Code Matched:** `1,238,952 / 6,273,488 bytes` (**19.75% Exact Matched** | **21.63% Fuzzy**)
 * **Total Functions Matched:** `7,590 / 50,906 functions`
 * **Total Data Matched:** `494,157 / 1,702,497 bytes` (**29.03%**)
-* **Cleanly Linked `.o` Units (`Matching`):** **`657` Translation Units** (out of `703` currently configured split files)
+* **Cleanly Linked `.o` Units (`Matching`):** **`658` Translation Units** (out of `703` currently configured split files)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)
 
@@ -54,8 +54,8 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `256` | `267` | `█████████░ 95.88%` | 🚀 Promoted `RVL_SDK/nwc24/NWC24MBoxCtrl.c` |
 | **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `155` | `166` | `█████████░ 93.37%` | 🚀 Promoted `JSystem/J3DGraphAnimator/J3DMtxBuffer.cpp` |
 | **NintendoWare (`nw4r`)** | `20` | `28` | `███████░░░ 71.43%` | 🚀 Promoted `nw4r/lyt/lyt_picture.cpp` |
-| **RVLFaceLib** *(Mii Library)* | `10` | `13` | `███████░░░ 76.92%` | 🚀 Promoted `RVLFaceLib/RFL_System.c` |
-| **TOTAL CONFIGURED** | **`657`** | **`703`** | **`█████████░ 93.46%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **RVLFaceLib** *(Mii Library)* | `11` | `13` | `████████░░ 84.62%` | 🚀 Promoted `RVLFaceLib/RFL_Icon.c` |
+| **TOTAL CONFIGURED** | **`658`** | **`703`** | **`█████████░ 93.60%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 

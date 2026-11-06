@@ -5505,6 +5505,7 @@ RVLFaceLib/RFL_Icon.c:
 	extabindex  start:0x80006CD8 end:0x80006CFC
 	.text       start:0x80558C50 end:0x805591C0 align:16
 	.rodata     start:0x806548B0 end:0x806548F0
+	.sdata2     start:0x807E2378 end:0x807E23B8
 
 RVLFaceLib/RFL_HiddenDatabase.c:
 	extab       start:0x80006908 end:0x80006910

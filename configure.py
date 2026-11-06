@@ -1005,7 +1005,7 @@ config.libs = [
             Object(Matching, "RVLFaceLib/RFL_NANDAccess.c"),
             Object(NonMatching, "RVLFaceLib/RFL_Model.c"),
             Object(Matching, "RVLFaceLib/RFL_MakeTex.c"),
-            Object(NonMatching, "RVLFaceLib/RFL_Icon.c"),
+            Object(Matching, "RVLFaceLib/RFL_Icon.c"),
             Object(Matching, "RVLFaceLib/RFL_HiddenDatabase.c"),
             Object(Matching, "RVLFaceLib/RFL_Database.c"),
             Object(Matching, "RVLFaceLib/RFL_Controller.c"),
