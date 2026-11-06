@@ -5285,8 +5285,10 @@ JSystem/J3DGraphAnimator/J3DCluster.cpp:
 	.text       start:0x8052FBF0 end:0x80530610 align:16
 
 JSystem/J3DGraphAnimator/J3DJoint.cpp:
-	.text       start:0x80530820 end:0x80530F20 align:16
+	.text       start:0x80530610 end:0x80530F20 align:16
+	.rodata     start:0x80654578 end:0x80654590
 	.sbss       start:0x807D6310 end:0x807D6320
+	.sdata2     start:0x807E2028 end:0x807E2030
 
 JSystem/J3DGraphAnimator/J3DMaterialAttach.cpp:
 	.text       start:0x80530F20 end:0x80531910 align:16

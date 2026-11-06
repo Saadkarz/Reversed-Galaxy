@@ -22,7 +22,13 @@ J3DMtxBuffer* J3DMtxCalc::mMtxBuffer;
 
 J3DJoint* J3DMtxCalc::mJoint;
 
-inline s32 checkScaleOne(const Vec&);
+inline s32 checkScaleOne(const Vec& param_0) {
+    if (param_0.x == 1.0f && param_0.y == 1.0f && param_0.z == 1.0f) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 void J3DMtxCalcCalcTransformBasic::calcTransform(J3DTransformInfo const& transInfo) {
     J3DMtxBuffer* mtxBuf = J3DMtxCalc::getMtxBuffer();
@@ -145,8 +151,16 @@ J3DJoint::J3DJoint() {
     mMax = init;
 }
 
+namespace {
+    // Inlined copy of J3DMaterial::getMaterialAnm(); the accessor itself stays
+    // out-of-line in J3DMaterialAttach.cpp, where retail callers branch to it.
+    inline J3DMaterialAnm* getValidMaterialAnm(J3DMaterial* pMaterial) {
+        return (uintptr_t)pMaterial->mMaterialAnm < 0xC0000000 ? pMaterial->mMaterialAnm : NULL;
+    }
+}  // namespace
+
 void J3DJoint::entryIn() {
-    MtxPtr anmMtx = j3dSys.getModel()->getAnmMtx(mJntNo);
+    MtxPtr anmMtx = j3dSys.getModel()->getMtxBuffer()->getAnmMtx(mJntNo);
     j3dSys.getDrawBuffer(0)->setZMtx(anmMtx);
     j3dSys.getDrawBuffer(1)->setZMtx(anmMtx);
     for (J3DMaterial* mesh = mMesh; mesh != NULL;) {
@@ -156,14 +170,14 @@ void J3DJoint::entryIn() {
             J3DMatPacket* matPacket = j3dSys.getModel()->getMatPacket(mesh->getIndex());
             J3DShapePacket* shapePacket = j3dSys.getModel()->getShapePacket(mesh->getShape()->getIndex());
             if (!matPacket->isLocked()) {
-                if (mesh->getMaterialAnm()) {
-                    J3DMaterialAnm* piVar8 = mesh->getMaterialAnm();
+                if (getValidMaterialAnm(mesh)) {
+                    J3DMaterialAnm* piVar8 = getValidMaterialAnm(mesh);
                     piVar8->calc(mesh);
                 }
                 mesh->calc(anmMtx);
             }
             mesh->setCurrentMtx();
-            matPacket->setMaterialAnmID(mesh->getMaterialAnm());
+            matPacket->setMaterialAnmID(getValidMaterialAnm(mesh));
             matPacket->setShapePacket(shapePacket);
             J3DDrawBuffer* drawBuffer = j3dSys.getDrawBuffer(mesh->isDrawModeOpaTexEdge());
             if (matPacket->entry(drawBuffer)) {
@@ -215,13 +229,5 @@ void J3DJoint::recursiveCalc() {
     }
     if (mYounger != NULL) {
         mYounger->recursiveCalc();
-    }
-}
-
-inline s32 checkScaleOne(const Vec& param_0) {
-    if (param_0.x == 1.0f && param_0.y == 1.0f && param_0.z == 1.0f) {
-        return true;
-    } else {
-        return false;
     }
 }
