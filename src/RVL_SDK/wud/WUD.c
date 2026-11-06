@@ -2047,7 +2047,7 @@ void WUDiInitSub() {
 void WUDiEnableStack(void) {
     WUDCB* p = &_wcb;
 
-    BTA_HhEnable(BTA_SEC_AUTHENTICATE, WUDHidHostCallback);
+    BTA_HhEnable(BTA_SEC_AUTHENTICATE, WUDiHidHostEventCallback);
 
     p->stackState = WUD_STATE_STACK_GET_STORED_LINK_KEY;
 

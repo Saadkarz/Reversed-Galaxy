@@ -4,7 +4,7 @@
 #include "revolution/wud.h"
 #include <cstring>
 
-#define DEBUGPrint WUD_DEBUGPrint
+#define DEBUGPrint(...) ((void)0)
 
 // TODO(kiwi) Is this from BTA?
 #define WUD_HH_CUSTOM_EVT 15
@@ -21,7 +21,7 @@ typedef struct WUD_HH_EVT15 {
     } devices[];           // at 0x6
 } WUD_HH_EVT15;
 
-void WUDHidHostCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
+void WUDiHidHostEventCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
     WUDCB* p = &_wcb;
     WUDDevInfo* pInfo;
     tBTA_HH_CONN* pConn;
