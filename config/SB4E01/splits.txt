@@ -6260,6 +6260,7 @@ nw4r/lyt/lyt_picture.cpp:
 	.ctors      start:0x80644B7C end:0x80644B80
 	.data       start:0x8070C468 end:0x8070C4E0
 	.sbss       start:0x807D65F8 end:0x807D6600
+	.sdata2     start:0x807E2648 end:0x807E2650
 
 nw4r/lyt/lyt_textBox.cpp:
 	.text       start:0x805A97B0 end:0x805AB060 align:16
