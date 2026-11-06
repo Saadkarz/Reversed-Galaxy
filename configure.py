@@ -1378,10 +1378,11 @@ config.libs = [
             Object(Matching, "RVL_SDK/os/OSArena.c"),
             Object(Matching, "RVL_SDK/os/OSAudioSystem.c"),
             Object(
-                NonMatching,
+                Matching,
                 "RVL_SDK/os/OSCache.c",
                 mw_version="GC/3.0a5.2",
                 cflags=cflags_sdk_gc,
+                extra_cflags=["-func_align 16"],
             ),
             Object(Matching, "RVL_SDK/os/OSContext.c"),
             Object(Matching, "RVL_SDK/os/OSError.c"),

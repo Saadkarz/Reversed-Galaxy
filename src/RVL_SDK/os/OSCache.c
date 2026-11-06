@@ -3,7 +3,6 @@
 #include "revolution/os.h"
 
 //needs to be a char[] to prevent something from showing up in .sdata
-static char error[] = ">>> L2 INVALIDATE : SHOULD NEVER HAPPEN\n";
 
 asm void DCEnable(void) {
     nofralloc
@@ -161,79 +160,8 @@ asm void ICEnable(void) {
     blr
 }
 
-static asm void __LCEnable(void) {
-    nofralloc
-    mfmsr r5
-    ori r5, r5, 0x1000
-    mtmsr r5
-
-    lis r3, -0x8000
-    li r4, 0x400
-    mtctr r4
-
-    loop_1:
-        dcbt 0, r3
-        dcbst 0, r3
-        addi r3, r3, 0x20
-        bdnz loop_1
-
-    mfspr r4, 0x398
-    oris r4, r4, 0x100F
-    mtspr 0x398, r4
-
-    /* this is used to seperate the dcbz_l from mtspr HID2 */
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    lis r3, -0x2000
-    ori r3, r3, 2
-    mtspr DBAT3L, r3
-    ori r3, r3, 0x1FE
-    mtspr DBAT3U, r3
-    isync
-
-    lis r3, -0x2000
-    li r6, 0x200
-    mtctr r6
-    li r6, 0
-
-    loop_2:
-        dcbz_l r6, r3
-        addi r3, r3, 0x20
-        bdnz+ loop_2
-
-    // seperate the previous dcbz_l from the next icache load
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    blr
-}
-
-void LCEnable(void) {
-    BOOL lvl;
-    lvl = OSDisableInterrupts();
-    __LCEnable();
-    OSRestoreInterrupts(lvl);
-}
+// __LCEnable / LCEnable, LCStoreBlocks / LCStoreData and LCQueueWait are not present in
+// the SMG2 DOL (unreferenced and dead-stripped by the retail link), so they are omitted.
 
 asm void LCDisable(void) {
     lis r3, -0x2000
@@ -248,55 +176,6 @@ asm void LCDisable(void) {
     mfspr r4, 0x398
     rlwinm r4, r4, 0, 4, 2
     mtspr 0x398, r4
-    blr
-}
-
-asm void LCStoreBlocks(register void *pDest, register void *pSrc, register u32 num) {
-    nofralloc
-    /* set the upper bits of the DMA length (num) */
-    rlwinm r6, num, 30, 27, 31
-    /* set the destination address in the locked cache (DMA_U) */
-    rlwinm pDest, pDest, 0, 3, 31
-    or r6, r6, pDest
-    mtspr DMA_U, r6
-    /* set the lower bits of the DMA length */
-    rlwinm r6, num, 2, 28, 29
-    /* now we set the source address inside of the locked cache (DMA_U) */
-    or r6, r6, pSrc
-    ori r6, r6, 2
-    mtspr DMA_L, r6
-    blr
-}
-
-u32 LCStoreData(void *pDest, void *pSrc, u32 num) {
-    u32 block_count = (num + 31) / 32;
-    u32 v1 = (block_count + LC_MAX_DMA_BLOCKS - 1) / LC_MAX_DMA_BLOCKS;
-
-    while (block_count > 0) {
-        if (block_count < LC_MAX_DMA_BLOCKS) {
-            LCStoreBlocks(pDest, pSrc, block_count);
-            block_count = 0;
-        }
-        else {
-            LCStoreBlocks(pDest, pSrc, 0);
-            block_count -= LC_MAX_DMA_BLOCKS;
-            pDest = (void*)((u32)pDest + 0x1000);
-            pSrc = (void*)((u32)pSrc + 0x1000);
-        }
-    }
-
-    return v1;
-}
-
-asm void LCQueueWait(register u32 length) {
-    nofralloc
-
-    loop:
-        mfspr r4, 0x398
-        rlwinm r4, r4, 8, 28, 31
-        cmpw r4, length
-        bgt loop
-
     blr
 }
 
@@ -332,9 +211,7 @@ void L2GlobalInvalidate(void) {
     while (PPCMfl2cr() & 1);
     PPCMtl2cr(PPCMfl2cr() & ~0x200000);
 
-    while (PPCMfl2cr() & 1) {
-        DBPrintf(error);
-    }
+    while (PPCMfl2cr() & 1);
 }
 
 // I don't know what OSError is used for here
@@ -374,21 +251,17 @@ void DMAErrorHandler(OSError, OSContext *pContext, ...) {
 void __OSCacheInit(void) {
     if (!(PPCMfhid0() & 0x8000)) {
         ICEnable();
-        DBPrintf("L1 i-caches initialized\n");
     }
 
     if (!(PPCMfhid0() & 0x4000)) {
         DCEnable();
-        DBPrintf("L1 d-caches initialized\n");
     }
 
     if (!(PPCMfl2cr() & 0x80000000)) {
         // these two functions are inlined
         L2Init();
         L2Enable();
-        DBPrintf("L2 cache initialized\n");
     }
 
     OSSetErrorHandler(1, DMAErrorHandler);
-    DBPrintf("Locked cache machine check handler installed\n");
 }
