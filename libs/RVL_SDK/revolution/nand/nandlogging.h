@@ -7,9 +7,9 @@
 extern "C" {
 #endif
 
-typedef void (*NANDLoggingCallback)(BOOL);
+typedef void (*NANDLoggingCallback)(BOOL, s32);
 
-BOOL NANDLoggingAddMessageAsync(NANDLoggingCallback, const char *, ...);
+BOOL NANDLoggingAddMessageAsync(NANDLoggingCallback, s32, const char *, ...);
 
 #ifdef __cplusplus
 }

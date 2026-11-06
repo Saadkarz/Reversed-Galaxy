@@ -229,7 +229,7 @@ s32 nandConvertErrorCode(const ISFSError err) {
             if (err == ISFS_ERROR_ECC_CRIT || err == ISFS_ERROR_HMAC || err == ISFS_ERROR_UNKNOWN || err == IOS_ERROR_UNKNOWN || err == IOS_ERROR_ECC_CRIT) {
                 char buf[128] __attribute__ ((aligned(64)));
                 sprintf(buf, "ISFS error code: %d", err);
-                NANDLoggingAddMessageAsync(0, buf);
+                NANDLoggingAddMessageAsync(0, err, buf);
             }
 
             nandReportErrorCode(err);
@@ -241,7 +241,7 @@ s32 nandConvertErrorCode(const ISFSError err) {
     {
         char buf[128] __attribute__ ((aligned(64)));
         sprintf(buf, "ISFS unexpected error code: %d", err);
-        NANDLoggingAddMessageAsync(0, buf);
+        NANDLoggingAddMessageAsync(0, err, buf);
     }
 
     nandReportErrorCode(err);

@@ -6752,7 +6752,7 @@ RVL_SDK/nand/NANDLogging.c:
 	.sbss       start:0x807D6A48 end:0x807D6A50
 
 RVL_SDK/nand/NANDErrorMessage.c:
-	.text       start:0x805E0AF0 end:0x805E0DF0
+	.text       start:0x805E0AF0 end:0x805E0DF0 align:16
 	.rodata     start:0x8065AEF8 end:0x8065B110
 	.data       start:0x8071DF08 end:0x8071FB38
 	.sbss       start:0x807D6A50 end:0x807D6A58

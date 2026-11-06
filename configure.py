@@ -1593,7 +1593,7 @@ config.libs = [
                 cflags=cflags_sdk_gc,
             ),
             Object(Matching, "RVL_SDK/nand/NANDCheck.c"),
-            Object(NonMatching, "RVL_SDK/nand/NANDLogging.c"),
+            Object(Matching, "RVL_SDK/nand/NANDLogging.c"),
             Object(Matching, "RVL_SDK/nand/NANDErrorMessage.c"),
         ],
     ),
