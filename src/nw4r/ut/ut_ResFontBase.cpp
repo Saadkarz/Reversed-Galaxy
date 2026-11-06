@@ -128,7 +128,7 @@ namespace nw4r {
                 }
 
                 mLastGlyphIndex = 0xFFFF;
-                return 0xFFFF;
+                return mLastGlyphIndex;
             }
 
             u16 ResFontBase::FindGlyphIndex(const FontCodeMap* pMap, u16 ch) const {
