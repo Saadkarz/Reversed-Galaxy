@@ -2,6 +2,7 @@
 #include "revolution/os.h"
 
 extern OSErrorHandler __OSErrorTable[];
+extern void __OSCancelInternalAlarms(void* userData);
 
 static void DefaultSwitchThreadCallback(OSThread*, OSThread*);
 static void OSClearStack(u8);
@@ -458,6 +459,8 @@ void OSExitThread(void* val) {
 void OSCancelThread(OSThread* thread) {
     BOOL enabled = OSDisableInterrupts();
 
+    __OSCancelInternalAlarms(thread);
+
     switch (thread->state) {
     case OS_THREAD_STATE_READY:
         if (!IsSuspended(thread->suspend)) {
@@ -657,7 +660,7 @@ static void OSClearStack(u8 val) {
 BOOL OSSetThreadPriority(OSThread* thread, OSPriority priority) {
     BOOL enabled;
 
-    if (priority < 0 || priority > 31) {
+    if (!(0 <= priority && priority <= 31)) {
         return FALSE;
     }
 
@@ -678,7 +681,9 @@ OSPriority OSGetThreadPriority(OSThread* thread) {
 }
 
 static void SleepAlarmHandler(OSAlarm* alarm, OSContext* context) {
-    OSResumeThread((OSThread*)OSGetAlarmUserData(alarm));
+    if (__OSIsThreadActive((OSThread*)OSGetAlarmUserData(alarm))) {
+        OSResumeThread((OSThread*)OSGetAlarmUserData(alarm));
+    }
 }
 
 void OSSleepTicks(OSTime tick) {
@@ -696,7 +701,6 @@ void OSSleepTicks(OSTime tick) {
 
     OSCreateAlarm(&sleepAlarm);
     OSSetAlarmTag(&sleepAlarm, (u32)current);
-    OSSetAlarmUserData(&sleepAlarm, (void*)current);
     OSSetAlarm(&sleepAlarm, tick, SleepAlarmHandler);
     OSSuspendThread(current);
     OSCancelAlarm(&sleepAlarm);
