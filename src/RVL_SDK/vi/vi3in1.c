@@ -39,7 +39,7 @@ static VIGammaObj gammaSet[] = {
     0x1000,0x1980,0x2F80,0x4FC0,0x7A00,0xADC0,0xEB00,
     0x1000,0x1000,0x1000,0x1000,0x1000,0x1000,
     0x10,0x20,0x40,0x60,0x80,0xA0,0xEB,
-    0x1000,0x2000,0x4000,0x6000,0x8000,0xA000,0xEB00,
+    0x1000,0x2000,0x4000,0x6000,0x0000,0x0000,0xEB00,
     0x14EC,0x11C2,0x1078,0x0FB6,0x0F2F,0x0EB6,
     0x0010,0x001D,0x0036,0x0058,0x0082,0x00B3,0x00EB,
     0x1000,0x2100,0x3CC0,0x5FC0,0x8900,0xB780,0xEB00,
@@ -511,7 +511,7 @@ VIMacroVisionObj VIZeroACPType = {
 extern s32 __VISendI2CData(u8, u8 *, s32);
 extern void WaitMicroTime(s32);
 
-void __VISetYUVSEL(VIBool outsel) NO_INLINE {
+void __VISetYUVSEL(VIBool outsel) {
     u8 buffer[2];
     u32 tv;
 
@@ -738,6 +738,10 @@ void __VISetGammaImm(VIGammaObj *gamma) {
     WaitMicroTime(2);
 }
 
+void __VISetGamma1_0(void) {
+    __VISetGammaImm(&gammaSet[VI_GM_1_0]);
+}
+
 static VIGamma __gamma;
 void __VISetGamma(void) {
     __VISetGammaImm(&gammaSet[__gamma]);
@@ -854,6 +858,8 @@ void __VISetRGBModeImm(void) {
     __VISetVideoMode(VI_VMODE_RGB, VI_DISABLE);
 }
 
+static u32 Vdac_Flag_Init;
+
 void __VISetRevolutionModeSimple(void) {
     u32 dtv;
     
@@ -874,4 +880,5 @@ void __VISetRevolutionModeSimple(void) {
     __VISetRGBOverDrive();
     __VISetTrapFilterImm(VI_DISABLE);
     __VISetGammaImm(&gammaSet[VI_GM_1_0]);
+    Vdac_Flag_Init = 0;
 }
