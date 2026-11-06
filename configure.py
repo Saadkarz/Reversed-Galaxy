@@ -1434,12 +1434,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/os/OSCrc.c"),
             Object(Matching, "RVL_SDK/os/OSLaunch.c"),
             Object(Matching, "RVL_SDK/os/__ppc_eabi_init.c"),
-            Object(
-                NonMatching,
-                "RVL_SDK/os/init/__start.c",
-                mw_version="GC/3.0a3",
-                cflags=cflags_sdk_gc,
-            ),
+            Object(Matching, "RVL_SDK/os/init/__start.c"),
             Object(
                 Matching,
                 "RVL_SDK/os/init/__ppc_eabi_init.cpp",

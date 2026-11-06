@@ -34,12 +34,12 @@ static u8 __get_debug_bba(void) {
 __declspec(weak) asm void __start(void) {
     nofralloc
     bl __init_registers
+    bl __init_data
     bl __init_hardware
     li r0, 0xFFFF
     stwu r1, -8(r1)
     stw r0, 4(r1)
     stw r0, 0(r1)
-    bl __init_data
 
     li r0, 0
     lis r6, 0x80000044@ha
@@ -126,7 +126,6 @@ no_args:
     li r15, 0
 
 end_args:
-    bl DBInit
     bl OSInit
 
     lis r4, 0x800030E6@ha
@@ -154,6 +153,29 @@ skip_init:
     mr r4, r15
     bl main
     b exit
+}
+
+// Flushes a freshly cleared .bss range out of the data cache and invalidates the instruction cache.
+asm static void __my_flush_cache(register void* addr, register u32 size) {
+    nofralloc
+    cmplwi  size, 0
+    blelr
+    clrlwi  r5, addr, 27
+    add     size, size, r5
+    addi    size, size, 0x1f
+    srwi    size, size, 5
+    mtctr   size
+flush_loop:
+    dcbf    0, addr
+    addi    addr, addr, 0x20
+    bdnz    flush_loop
+    mfspr   r6, HID0
+    ori     r7, r6, 0x8
+    mtspr   HID0, r7
+    isync
+    sync
+    mtspr   HID0, r6
+    blr
 }
 
 asm static void __init_registers(void) {
@@ -206,6 +228,7 @@ static void __copy_rom_section(void *pDest, const void *pSrc, u32 sectionSize) {
 static void __init_bss_section(void *pDest, u32 size) {
     if (size != 0) {
         memset(pDest, 0, size);
+        __my_flush_cache(pDest, size);
     }
 }
 
