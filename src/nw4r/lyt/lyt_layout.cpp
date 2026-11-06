@@ -3,10 +3,29 @@
 #include "nw4r/lyt/group.h"
 #include "nw4r/lyt/layout.h"
 #include "nw4r/lyt/pane.h"
+#include "nw4r/lyt/picture.h"
+#include "nw4r/lyt/textBox.h"
+#include "nw4r/lyt/window.h"
+#include "nw4r/lyt/bounding.h"
 #include "nw4r/lyt/resources.h"
 #include "nw4r/lyt/util.h"
 #include "nw4r/ut/Rect.h"
 #include "revolution/mem/allocator.h"
+
+namespace {
+    void SetTagProcessorImpl(nw4r::lyt::Pane* pPane, nw4r::ut::TagProcessorBase< wchar_t >* pTagProcessor) {
+        using namespace nw4r;
+        using namespace nw4r::lyt;
+
+        if (TextBox* pTextBox = ut::DynamicCast< TextBox* >(pPane)) {
+            pTextBox->SetTagProcessor(pTagProcessor);
+        }
+
+        for (PaneList::Iterator it = pPane->GetChildList().GetBeginIter(); it != pPane->GetChildList().GetEndIter(); ++it) {
+            SetTagProcessorImpl(&*it, pTagProcessor);
+        }
+    }
+};  // namespace
 
 namespace nw4r {
     namespace lyt {
@@ -293,7 +312,25 @@ namespace nw4r {
         }
 
         // have to do more headers to decomp these two
-        // nw4r::lyt::Layout::SetTagProcessor
-        // nw4r::lyt::Layout::BuildPaneObj
+        void Layout::SetTagProcessor(ut::TagProcessorBase< wchar_t >* pTagProcessor) {
+            SetTagProcessorImpl(mpRootPane, pTagProcessor);
+        }
+
+        Pane* Layout::BuildPaneObj(s32 kind, const void* dataPtr, const ResBlockSet& resBlockSet) {
+            switch (kind) {
+            case 'pan1':
+                return NewObj< Pane >(static_cast< const res::Pane* >(dataPtr));
+            case 'pic1':
+                return NewObj< Picture >(static_cast< const res::Picture* >(dataPtr), resBlockSet);
+            case 'txt1':
+                return NewObj< TextBox >(static_cast< const res::TextBox* >(dataPtr), resBlockSet);
+            case 'wnd1':
+                return NewObj< Window >(static_cast< const res::Window* >(dataPtr), resBlockSet);
+            case 'bnd1':
+                return NewObj< Bounding >(static_cast< const res::Bounding* >(dataPtr), resBlockSet);
+            default:
+                return nullptr;
+            }
+        }
     };  // namespace lyt
 };  // namespace nw4r
