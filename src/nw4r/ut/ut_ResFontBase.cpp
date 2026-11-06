@@ -3,7 +3,7 @@
 namespace nw4r {
     namespace ut {
         namespace detail {
-            ResFontBase::ResFontBase() : mResource(nullptr), mFontInfo(nullptr) {
+            ResFontBase::ResFontBase() : mResource(nullptr), mFontInfo(nullptr), mLastCharCode(0), mLastGlyphIndex(0xFFFF) {
             }
 
             ResFontBase::~ResFontBase() {
@@ -114,12 +114,20 @@ namespace nw4r {
             }
 
             u16 ResFontBase::FindGlyphIndex(u16 ch) const {
+                if (ch == mLastCharCode) {
+                    return mLastGlyphIndex;
+                }
+
+                mLastCharCode = ch;
+
                 for (const FontCodeMap* pIt = mFontInfo->pMap; pIt != NULL; pIt = pIt->pNext) {
                     if (pIt->ccodeBegin <= ch && ch <= pIt->ccodeEnd) {
-                        return FindGlyphIndex(pIt, ch);
+                        mLastGlyphIndex = FindGlyphIndex(pIt, ch);
+                        return mLastGlyphIndex;
                     }
                 }
 
+                mLastGlyphIndex = 0xFFFF;
                 return 0xFFFF;
             }
 
