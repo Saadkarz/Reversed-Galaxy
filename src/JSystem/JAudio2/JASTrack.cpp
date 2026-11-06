@@ -287,7 +287,7 @@ void JASTrack::connectBus(int idx, int bus) {
 
 void JASTrack::setLatestKey(u8 key) {
     mPitch = key;
-    mPitch += getTransposeTotal();
+    mPitch += (u8)getTransposeTotal();
 }
 
 bool JASTrack::noteOn(u32 channelNum, u32 pitch, u32 velocity) {
@@ -358,8 +358,8 @@ bool JASTrack::gateOn(u32 transposedPitch, u32 velocity, f32 seqTime, u32 flags)
         }
     }
 
-    mPitch = transposedPitch;
     mReadyToPlay = flags & 2;
+    mPitch = transposedPitch;
     return true;
 }
 
@@ -543,8 +543,8 @@ void JASTrack::setOscTable(u32 a, const JASOscillator::Point* point) {
 
 void JASTrack::setOscAdsr(s16 attack, s16 delay, s16 sustain, s16 release, u16 e) {
     memcpy(mOscParam, &sEnvOsc, 0x18);
-    mOscPoint[0]._2 = attack;
     mOscParam[0].mTable = mOscPoint;
+    mOscPoint[0]._2 = attack;
     mOscPoint[1]._2 = delay;
     mOscPoint[2]._2 = sustain;
     mOscPoint[2]._4 = release;
