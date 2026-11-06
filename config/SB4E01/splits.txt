@@ -5464,7 +5464,10 @@ RVLFaceLib/RFL_System.c:
 	extab       start:0x80006720 end:0x80006740
 	extabindex  start:0x80006A20 end:0x80006A50
 	.text       start:0x805511E0 end:0x80551C10 align:16
+	.rodata     start:0x80654640 end:0x80654650
 	.data       start:0x80707610 end:0x80707658
+	.sdata      start:0x807D06F8 end:0x807D0700
+	.sbss       start:0x807D6388 end:0x807D6398
 
 RVLFaceLib/RFL_NANDLoader.c:
 	extab       start:0x80006740 end:0x800067C0
@@ -5484,9 +5487,9 @@ RVLFaceLib/RFL_NANDAccess.c:
 	.sbss2      start:0x807E3168 end:0x807E3170
 
 RVLFaceLib/RFL_Model.c:
-	extab       start:0x80006838 end:0x800068A0
-	extabindex  start:0x80006BC4 end:0x80006C60
-	.text       start:0x805544F0 end:0x80556430 align:16
+	extab       start:0x80006838 end:0x800068B0
+	extabindex  start:0x80006BC4 end:0x80006C78
+	.text       start:0x805544F0 end:0x805564B0 align:16
 	.rodata     start:0x806546E0 end:0x806547F0
 	.sdata2     start:0x807E2278 end:0x807E22B8
 

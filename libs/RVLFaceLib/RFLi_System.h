@@ -33,7 +33,8 @@ typedef struct RFLiManager {
     u8 pad_1F00[12];
     RFLCallback modelDrawCb;               // at 0x1F0C
     RFLCallback iconDrawCb;                // at 0x1F10
-    u8 pad_1F14[0x14];                     // at 0x1F14
+    RFLiCoordinateData coordinate;         // at 0x1F14
+    u8 pad_1F24[0x4];                      // at 0x1F24
 } RFLiManager;
 
 RFLErrcode RFLiBootLoadAsync(void);

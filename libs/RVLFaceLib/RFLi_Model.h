@@ -18,15 +18,6 @@ extern "C" {
 #define VTX_NRM_SIZE (VTX_COORD_SIZE * VTX_COORDS_IN_NRM)
 #define VTX_TXC_SIZE (VTX_COORD_SIZE * VTX_COORDS_IN_TXC)
 
-typedef struct RFLiCoordinateData {
-    u8 uOff;   // at 0x0
-    u8 fOff;   // at 0x1
-    u8 rOff;   // at 0x2
-    BOOL uRev; // at 0x4
-    BOOL fRev; // at 0x8
-    BOOL rRev; // at 0xC
-} RFLiCoordinateData;
-
 typedef struct RFLiCharModelRes {
     u8 noseDl[0xC0];     // at 0x0
     u8 capDl[0x560];     // at 0xC0
@@ -133,15 +124,8 @@ typedef struct RFLiCharModel {
     GXTexObj* maskTexObj[RFLExp_Max]; // at 0x6C
 } RFLiCharModel;
 
-extern RFLiCoordinateData coordinateData;
-
-inline void RFLiSetCoordinateData(const RFLiCoordinateData* data) {
-    coordinateData = *data;
-}
-
-inline RFLiCoordinateData* RFLiGetCoordinateData(void) {
-    return &coordinateData;
-}
+void RFLiSetCoordinateData(const RFLiCoordinateData* data);
+RFLiCoordinateData* RFLiGetCoordinateData(void);
 
 u32 RFLiGetExpressionNum(u32 exprFlags);
 void RFLiInitCharModel(RFLCharModel* model, RFLiCharInfo* info, void* work,

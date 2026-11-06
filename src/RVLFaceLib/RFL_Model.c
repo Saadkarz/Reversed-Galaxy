@@ -13,7 +13,6 @@
 #define NUM_VTX_TXC(size) ((size) / VTX_TXC_SIZE)
 #define SIZE_VTX_TXC(count) ((count) * VTX_TXC_SIZE)
 
-RFLiCoordinateData coordinateData = {1, 2, 0, FALSE, FALSE, FALSE};
 
 const RFLDrawCoreSetting cDefaultDrawCoreSetting2Tev = {1, GX_TEXCOORD0, GX_TEXMAP0, 2, GX_TEV_SWAP0, GX_KCOLOR0, GX_TEVPREV, GX_PNMTX0, FALSE};
 
@@ -112,32 +111,32 @@ static void RFLSetCoordinate(RFLCoordinateType u, RFLCoordinateType f) {
     r = ur.c;
 
     if (u & RFLCoordinateType_X) {
-        coordinateData.uOff = 0;  // U -> X
+        RFLiGetCoordinateData()->uOff = 0;  // U -> X
     } else if (u & RFLCoordinateType_Y) {
-        coordinateData.uOff = 1;  // U -> Y
+        RFLiGetCoordinateData()->uOff = 1;  // U -> Y
     } else {
-        coordinateData.uOff = 2;  // U -> Z
+        RFLiGetCoordinateData()->uOff = 2;  // U -> Z
     }
 
     if (f & RFLCoordinateType_X) {
-        coordinateData.fOff = 0;  // F -> X
+        RFLiGetCoordinateData()->fOff = 0;  // F -> X
     } else if (f & RFLCoordinateType_Y) {
-        coordinateData.fOff = 1;  // F -> Y
+        RFLiGetCoordinateData()->fOff = 1;  // F -> Y
     } else {
-        coordinateData.fOff = 2;  // F -> Z
+        RFLiGetCoordinateData()->fOff = 2;  // F -> Z
     }
 
     if (r & RFLCoordinateType_X) {
-        coordinateData.rOff = 0;  // R -> X
+        RFLiGetCoordinateData()->rOff = 0;  // R -> X
     } else if (r & RFLCoordinateType_Y) {
-        coordinateData.rOff = 1;  // R -> Y
+        RFLiGetCoordinateData()->rOff = 1;  // R -> Y
     } else {
-        coordinateData.rOff = 2;  // R -> Z
+        RFLiGetCoordinateData()->rOff = 2;  // R -> Z
     }
 
-    coordinateData.uRev = (u & RFLCoordinateType_RevMask) != 0;
-    coordinateData.fRev = (f & RFLCoordinateType_RevMask) != 0;
-    coordinateData.rRev = (r & RFLCoordinateType_RevMask) != 0;
+    RFLiGetCoordinateData()->uRev = (u & RFLCoordinateType_RevMask) != 0;
+    RFLiGetCoordinateData()->fRev = (f & RFLCoordinateType_RevMask) != 0;
+    RFLiGetCoordinateData()->rRev = (r & RFLCoordinateType_RevMask) != 0;
 }
 
 static u32 RFLiGetExpressionNum(u32 exprFlags) {
@@ -969,9 +968,9 @@ void RFLiInitTexRes(GXTexObj* texObj, RFLiPartsShpTex part, u16 file, void* buff
 }
 
 static void RFLiTransformCoordinate(s16* to, const s16* from) {
-    to[coordinateData.rOff] = coordinateData.rRev ? -from[0] : from[0];
-    to[coordinateData.uOff] = coordinateData.uRev ? -from[1] : from[1];
-    to[coordinateData.fOff] = coordinateData.fRev ? -from[2] : from[2];
+    to[RFLiGetCoordinateData()->rOff] = RFLiGetCoordinateData()->rRev ? -from[0] : from[0];
+    to[RFLiGetCoordinateData()->uOff] = RFLiGetCoordinateData()->uRev ? -from[1] : from[1];
+    to[RFLiGetCoordinateData()->fOff] = RFLiGetCoordinateData()->fRev ? -from[2] : from[2];
 }
 
 static void RFLDrawShape(const RFLCharModel* model) {
@@ -1053,4 +1052,12 @@ static void RFLDrawShape(const RFLCharModel* model) {
 
 void RFLSetModelDrawDoneCallback(RFLCallback cb) {
     RFLiGetManager()->modelDrawCb = cb;
+}
+
+void RFLiSetCoordinateData(const RFLiCoordinateData* data) {
+    RFLiGetManager()->coordinate = *data;
+}
+
+RFLiCoordinateData* RFLiGetCoordinateData(void) {
+    return &RFLiGetManager()->coordinate;
 }

@@ -1000,7 +1000,7 @@ config.libs = [
     RFLib(
         "RVLFaceLib",
         [
-            Object(NonMatching, "RVLFaceLib/RFL_System.c"),
+            Object(Matching, "RVLFaceLib/RFL_System.c"),
             Object(Matching, "RVLFaceLib/RFL_NANDLoader.c"),
             Object(Matching, "RVLFaceLib/RFL_NANDAccess.c"),
             Object(NonMatching, "RVLFaceLib/RFL_Model.c"),

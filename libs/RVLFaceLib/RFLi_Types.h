@@ -2,6 +2,16 @@
 #define RVL_FACE_LIBRARY_INTERNAL_TYPES_H
 #include "RFL_Types.h"
 #include <revolution/types.h>
+
+typedef struct RFLiCoordinateData {
+    u8 uOff;   // at 0x0
+    u8 fOff;   // at 0x1
+    u8 rOff;   // at 0x2
+    BOOL uRev; // at 0x4
+    BOOL fRev; // at 0x8
+    BOOL rRev; // at 0xC
+} RFLiCoordinateData;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
