@@ -5530,7 +5530,7 @@ RVLFaceLib/RFL_DefaultDatabase.c:
 RVLFaceLib/RFL_DataUtility.c:
 	extab       start:0x800069A0 end:0x800069C8
 	extabindex  start:0x80006DE0 end:0x80006E1C
-	.text       start:0x8055A680 end:0x8055AEF0 align:16
+	.text       start:0x8055A680 end:0x8055AF00 align:16
 	.rodata     start:0x80654AB0 end:0x80654AC0
 
 RVLFaceLib/RFL_Format.c:

@@ -29,6 +29,8 @@ typedef struct RFLAdditionalInfo {
     GXColor skinColor; // at 0x38
 } RFLAdditionalInfo;
 
+RFLErrcode RFLiGetAdditionalInfo(RFLAdditionalInfo* info, RFLDataSource source,
+                                 struct RFLMiddleDB* db, u16 index, BOOL replaceCtrlChars);
 RFLErrcode RFLGetAdditionalInfo(RFLAdditionalInfo* info, RFLDataSource source,
                                 struct RFLMiddleDB* db, u16 index);
 

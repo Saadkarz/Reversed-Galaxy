@@ -173,6 +173,70 @@ BOOL RFLiIsValidOnNAND(const RFLiCharInfo* info) {
     return !RFLiIsTemporaryID(&info->createID);
 }
 
+static BOOL RFLiCheckBirthday(u8 month, u8 day) {
+    // (One-indexed)
+    static const u8 scDayMax[12 + 1] = {0,  31, 29, 31, 30, 31, 30,
+                                        31, 31, 30, 31, 30, 31};
+
+    if (month == 0 && day != 0) {
+        return FALSE;
+    }
+
+    if (month != 0 && day == 0) {
+        return FALSE;
+    }
+
+    if (month > 12 || day > 31) {
+        return FALSE;
+    }
+
+    return day <= scDayMax[month];
+}
+
+static void copyChar2Additional_(RFLAdditionalInfo* dst,
+                                 const RFLiCharInfo* src) {
+    u8 height;
+    u8 build;
+
+    memcpy(dst->name, src->personal.name, sizeof(wchar_t) * RFL_NAME_LEN);
+    dst->name[RFL_NAME_LEN] = '\0';
+
+    memcpy(dst->creator, src->personal.creator,
+           sizeof(wchar_t) * RFL_CREATOR_LEN);
+    dst->creator[RFL_CREATOR_LEN] = '\0';
+
+    dst->sex = src->personal.sex;
+
+    if (RFLiCheckBirthday(src->personal.bmonth, src->personal.bday)) {
+        dst->bmonth = src->personal.bmonth;
+        dst->bday = src->personal.bday;
+    } else {
+        dst->bmonth = 0;
+        dst->bday = 0;
+    }
+
+    dst->color = src->personal.color;
+    dst->favorite = src->personal.favorite;
+
+    height = src->body.height;
+    build = src->body.build;
+
+    // @bug Max height is 128, not 127
+    if (height > RFLi_MAX_BODY_HEIGHT - 1) {
+        height = RFLi_MAX_BODY_HEIGHT - 1;
+    }
+    // @bug Max build is 128, not 127
+    if (build > RFLi_MAX_BODY_BUILD - 1) {
+        build = RFLi_MAX_BODY_BUILD - 1;
+    }
+
+    dst->height = height;
+    dst->build = build;
+    memcpy(&dst->createID, &src->createID, sizeof(RFLCreateID));
+    dst->reserved = 0;
+    dst->skinColor = RFLiGetFacelineColor(src);
+}
+
 RFLErrcode RFLiPickupCharInfo(RFLiCharInfo* info, RFLDataSource source,
                               RFLMiddleDB* db, u16 index) {
     RFLErrcode err;
@@ -220,80 +284,33 @@ RFLErrcode RFLiPickupCharInfo(RFLiCharInfo* info, RFLDataSource source,
     return err;
 }
 
-static void copyChar2Additional_(RFLAdditionalInfo* dst,
-                                 const RFLiCharInfo* src) {
-    u8 height;
-    u8 build;
-
-    memcpy(dst->name, src->personal.name, sizeof(wchar_t) * RFL_NAME_LEN);
-    dst->name[RFL_NAME_LEN] = '\0';
-
-    memcpy(dst->creator, src->personal.creator,
-           sizeof(wchar_t) * RFL_CREATOR_LEN);
-    // @bug Copy paste error
-    dst->name[RFL_CREATOR_LEN] = '\0';
-
-    dst->sex = src->personal.sex;
-
-    if (RFLiCheckBirthday(src->personal.bmonth, src->personal.bday)) {
-        dst->bmonth = src->personal.bmonth;
-        dst->bday = src->personal.bday;
-    } else {
-        dst->bmonth = 0;
-        dst->bday = 0;
-    }
-
-    dst->color = src->personal.color;
-    dst->favorite = src->personal.favorite;
-
-    height = src->body.height;
-    build = src->body.build;
-
-    // @bug Max height is 128, not 127
-    if (height > RFLi_MAX_BODY_HEIGHT - 1) {
-        height = RFLi_MAX_BODY_HEIGHT - 1;
-    }
-    // @bug Max build is 128, not 127
-    if (build > RFLi_MAX_BODY_BUILD - 1) {
-        build = RFLi_MAX_BODY_BUILD - 1;
-    }
-
-    dst->height = height;
-    dst->build = build;
-    memcpy(&dst->createID, &src->createID, sizeof(RFLCreateID));
-    dst->reserved = 0;
-    dst->skinColor = RFLiGetFacelineColor(src);
-}
-
-RFLErrcode RFLGetAdditionalInfo(RFLAdditionalInfo* addi, RFLDataSource source,
-                                RFLMiddleDB* db, u16 index) {
+RFLErrcode RFLiGetAdditionalInfo(RFLAdditionalInfo* addi, RFLDataSource source,
+                                 RFLMiddleDB* db, u16 index, BOOL replaceCtrlChars) {
     RFLiCharInfo info;
     RFLErrcode err;
+    int i;
 
     err = RFLiPickupCharInfo(&info, source, db, index);
     if (err == RFLErrcode_Success) {
         copyChar2Additional_(addi, &info);
     }
 
+    if (replaceCtrlChars) {
+        for (i = 0; i < RFL_NAME_LEN; i++) {
+            if ((addi->name[i] != 0 && addi->name[i] < 0x20) || addi->name[i] == 0x7F) {
+                addi->name[i] = '?';
+            }
+
+            if ((addi->creator[i] != 0 && addi->creator[i] < 0x20) || addi->creator[i] == 0x7F) {
+                addi->creator[i] = '?';
+            }
+        }
+    }
+
     return err;
 }
 
-static BOOL RFLiCheckBirthday(u8 month, u8 day) {
-    // (One-indexed)
-    static const u8 scDayMax[12 + 1] = {0,  31, 29, 31, 30, 31, 30,
-                                        31, 31, 30, 31, 30, 31};
-
-    if (month == 0 && day != 0) {
-        return FALSE;
-    }
-
-    if (month != 0 && day == 0) {
-        return FALSE;
-    }
-
-    if (month > 12 || day > 31) {
-        return FALSE;
-    }
-
-    return day <= scDayMax[month];
+RFLErrcode RFLGetAdditionalInfo(RFLAdditionalInfo* addi, RFLDataSource source,
+                                RFLMiddleDB* db, u16 index) {
+    return RFLiGetAdditionalInfo(addi, source, db, index, TRUE);
 }
