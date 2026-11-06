@@ -7,7 +7,7 @@
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Matching Units](https://img.shields.io/badge/Linked_Units-629_%2F_703_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Code Matched](https://img.shields.io/badge/Code_Matched-19.37%25_(21.31%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Code Matched](https://img.shields.io/badge/Code_Matched-19.51%25_(21.45%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
 
@@ -38,9 +38,9 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
 ### 🌐 Global Binary Metrics
-* **Total Code Matched:** `1,215,184 / 6,273,500 bytes` (**19.37% Exact Matched** | **21.31% Fuzzy**)
-* **Total Functions Matched:** `7,441 / 50,907 functions`
-* **Total Data Matched:** `493,681 / 1,702,501 bytes` (**29.00%**)
+* **Total Code Matched:** `1,224,056 / 6,273,488 bytes` (**19.51% Exact Matched** | **21.45% Fuzzy**)
+* **Total Functions Matched:** `7,496 / 50,906 functions`
+* **Total Data Matched:** `493,773 / 1,702,501 bytes` (**29.00%**)
 * **Cleanly Linked `.o` Units (`Matching`):** **`629` Translation Units** (out of `703` currently configured split files)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)

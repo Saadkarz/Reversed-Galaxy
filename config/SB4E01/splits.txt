@@ -5271,7 +5271,7 @@ JSystem/J3DGraphAnimator/J3DModel.cpp:
 	.sdata2     start:0x807E1FE0 end:0x807E1FE8
 
 JSystem/J3DGraphAnimator/J3DAnimation.cpp:
-	.text       start:0x8052D590 end:0x8052EE90 align:16
+	.text       start:0x8052B980 end:0x8052EE90 align:16
 	.data       start:0x807068E8 end:0x80706A08
 
 JSystem/J3DGraphAnimator/J3DMaterialAnm.cpp:
@@ -5295,7 +5295,7 @@ JSystem/J3DGraphAnimator/J3DMaterialAttach.cpp:
 	.data       start:0x80706A18 end:0x80706A28
 
 JSystem/J3DGraphLoader/J3DMaterialFactory.cpp:
-	.text       start:0x80531910 end:0x80534550 align:16
+	.text       start:0x80531910 end:0x80534790 align:16
 	.data       start:0x80706A28 end:0x80706C78
 
 JSystem/J3DGraphLoader/J3DMaterialFactory_v21.cpp:
@@ -5859,7 +5859,8 @@ JSystem/JAudio2/JASCmdStack.cpp:
 	.bss        start:0x8077B8AC end:0x8077B8D0
 
 JSystem/JAudio2/JASTrack.cpp:
-	.text       start:0x80585200 end:0x805877D0 align:16
+	.text       start:0x80585200 end:0x80587C40 align:16
+	.ctors      start:0x80644B34 end:0x80644B38
 	.rodata     start:0x80659280 end:0x806592B0
 	.data       start:0x807081F8 end:0x80708220
 
@@ -6029,7 +6030,7 @@ JSystem/JAudio2/JAIAudience.cpp:
 	.text       start:0x80593510 end:0x80593550 align:16
 
 JSystem/JAudio2/JAISe.cpp:
-	.text       start:0x80593690 end:0x80593E00 align:16
+	.text       start:0x80593550 end:0x80593E00 align:16
 	.data       start:0x8070BD00 end:0x8070BD58
 
 JSystem/JAudio2/JAISeMgr.cpp:
