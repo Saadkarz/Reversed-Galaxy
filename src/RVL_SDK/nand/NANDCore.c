@@ -130,7 +130,7 @@ void nandConvertPath(char* abspath, const char* wd, const char* relpath) {
     }
 }
 
-inline BOOL nandIsRelativePath(const char* path) {
+BOOL nandIsRelativePath(const char* path) {
     if (path[0] == '/') {
         return FALSE;
     }
@@ -166,8 +166,19 @@ BOOL nandIsInitialized(void) {
     }
 }
 
-void nandReportErrorCode(const ISFSError err) NO_INLINE {
-    return;
+extern void __NANDPrintErrorMessage(s32 err);
+extern void NANDSetAutoErrorMessaging(BOOL enable);
+
+static void nandLoggingCallback(BOOL result, s32 err) {
+    if (err == -117 || err == -9) {
+        __NANDPrintErrorMessage(err);
+    }
+}
+
+static inline void nandReportErrorCode(const ISFSError err) {
+    if (err == -23 && err == -100) {
+        // debug-only report, stripped in release builds
+    }
 }
 
 s32 nandConvertErrorCode(const ISFSError err) {
@@ -229,10 +240,14 @@ s32 nandConvertErrorCode(const ISFSError err) {
             if (err == ISFS_ERROR_ECC_CRIT || err == ISFS_ERROR_HMAC || err == ISFS_ERROR_UNKNOWN || err == IOS_ERROR_UNKNOWN || err == IOS_ERROR_ECC_CRIT) {
                 char buf[128] __attribute__ ((aligned(64)));
                 sprintf(buf, "ISFS error code: %d", err);
-                NANDLoggingAddMessageAsync(0, err, buf);
+                NANDLoggingAddMessageAsync(nandLoggingCallback, err, buf);
             }
 
             nandReportErrorCode(err);
+            if (err == -108 || err == -107 || err == -103 || err == -118 || err == -8 || err == -22) {
+                __NANDPrintErrorMessage(err);
+            }
+
             return ERRMAP[i + 1];
         }
     }
@@ -241,7 +256,7 @@ s32 nandConvertErrorCode(const ISFSError err) {
     {
         char buf[128] __attribute__ ((aligned(64)));
         sprintf(buf, "ISFS unexpected error code: %d", err);
-        NANDLoggingAddMessageAsync(0, err, buf);
+        NANDLoggingAddMessageAsync(nandLoggingCallback, err, buf);
     }
 
     nandReportErrorCode(err);
@@ -330,6 +345,7 @@ s32 NANDInit(void) {
             enabled = OSDisableInterrupts();
             s_libState = STATE_INITIALIZED;
             OSRestoreInterrupts(enabled);
+            NANDSetAutoErrorMessaging(TRUE);
             OSRegisterVersion(__NANDVersion);
             return 0;
         }
