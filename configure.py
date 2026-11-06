@@ -1389,7 +1389,7 @@ config.libs = [
             Object(
                 NonMatching,
                 "RVL_SDK/os/OSExec.c",
-                extra_cflags=["-opt nolifetimes,noloop"],
+                extra_cflags=["-opt nolifetimes,noloop", "-func_align 16"],
             ),
             Object(Matching, "RVL_SDK/os/OSFatal.c"),
             Object(Matching, "RVL_SDK/os/OSFont.c"),
