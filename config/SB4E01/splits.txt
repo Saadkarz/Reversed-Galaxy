@@ -5266,8 +5266,9 @@ JSystem/J3DGraphAnimator/J3DMtxBuffer.cpp:
 	.text       start:0x80529BE0 end:0x8052A970 align:16
 
 JSystem/J3DGraphAnimator/J3DModel.cpp:
-	.text       start:0x8052A970 end:0x8052B940 align:16
+	.text       start:0x8052A970 end:0x8052B980 align:16
 	.data       start:0x807068B8 end:0x807068E8
+	.sdata2     start:0x807E1FE0 end:0x807E1FE8
 
 JSystem/J3DGraphAnimator/J3DAnimation.cpp:
 	.text       start:0x8052D590 end:0x8052EE90 align:16

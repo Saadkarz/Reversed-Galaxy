@@ -604,7 +604,7 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphAnimator/J3DModel.cpp",
                 extra_cflags=["-ipa file", "-sym on"],
             ),

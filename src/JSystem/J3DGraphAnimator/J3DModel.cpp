@@ -183,6 +183,14 @@ void J3DModel::makeDL() {
     }
 }
 
+namespace {
+    // Inlined copy of J3DMaterial::getMaterialAnm(); the accessor itself stays
+    // out-of-line in J3DMaterialAttach.cpp, where retail callers branch to it.
+    inline J3DMaterialAnm* getValidMaterialAnm(J3DMaterial* pMaterial) {
+        return (uintptr_t)pMaterial->mMaterialAnm < 0xC0000000 ? pMaterial->mMaterialAnm : NULL;
+    }
+}  // namespace
+
 void J3DModel::calcMaterial() {
     j3dSys.setModel(this);
 
@@ -206,11 +214,11 @@ void J3DModel::calcMaterial() {
         j3dSys.setMatPacket(&mMatPacket[i]);
 
         J3DMaterial* material = mModelData->getMaterialNodePointer(i);
-        if (material->getMaterialAnm() != NULL) {
-            material->getMaterialAnm()->calc(material);
+        if (getValidMaterialAnm(material) != NULL) {
+            getValidMaterialAnm(material)->calc(material);
         }
 
-        material->calc(getAnmMtx(material->getJoint()->getJntNo()));
+        material->calc(mMtxBuffer->getAnmMtx(material->getJoint()->getJntNo()));
     }
 }
 
@@ -221,7 +229,7 @@ void J3DModel::calcDiffTexMtx() {
     for (u16 i = 0; i < matNum; i++) {
         j3dSys.setMatPacket(&mMatPacket[i]);
         J3DMaterial* materialNode = mModelData->getMaterialNodePointer(i);
-        materialNode->calcDiffTexMtx(getAnmMtx(materialNode->getJoint()->getJntNo()));
+        materialNode->calcDiffTexMtx(mMtxBuffer->getAnmMtx(materialNode->getJoint()->getJntNo()));
     }
 
     u16 shapeNum = getModelData()->getShapeNum();
@@ -370,6 +378,10 @@ void J3DModel::viewCalc() {
     prepareShapePackets();
 }
 
+Mtx33* J3DModel::getNrmMtxPtr() {
+    return mMtxBuffer->getNrmMtxPtr();
+}
+
 void J3DModel::calcBumpMtx() {
     if (getModelData()->checkBumpFlag()) {
         u32 bumpMtxIdx = 0;
@@ -384,6 +396,10 @@ void J3DModel::calcBumpMtx() {
             }
         }
     }
+}
+
+Mtx33* J3DModel::getBumpMtxPtr(int idx) {
+    return mMtxBuffer->getBumpMtxPtr(idx);
 }
 
 void J3DModel::calcBBoardMtx() {
@@ -406,14 +422,6 @@ void J3DModel::prepareShapePackets() {
             shapePacket->setBaseMtxPtr((Mtx*)j3dSys.getViewMtx());
         }
     }
-}
-
-Mtx33* J3DModel::getNrmMtxPtr() {
-    return mMtxBuffer->getNrmMtxPtr();
-}
-
-Mtx33* J3DModel::getBumpMtxPtr(int idx) {
-    return mMtxBuffer->getBumpMtxPtr(idx);
 }
 
 inline void J3DModel::calcNrmMtx() {
