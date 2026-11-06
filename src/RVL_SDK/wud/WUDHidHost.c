@@ -21,52 +21,42 @@ typedef struct WUD_HH_EVT15 {
     } devices[];           // at 0x6
 } WUD_HH_EVT15;
 
+WUDDevInfo* WUDiGetDiscoverDevice(void);
+void WUDiSetDevAddrForHandle(u8 handle, BD_ADDR_PTR addr);
+BD_ADDR_PTR WUDiGetDevAddrForHandle(u8 handle);
+void WUDiSetQueueSizeForHandle(u8 handle, u16 size);
+void WUDiSetNotAckNumForHandle(u8 handle, u16 num);
+BOOL WUDIsLinkedWBC(void);
+
 void WUDiHidHostEventCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
     WUDCB* p = &_wcb;
     WUDDevInfo* pInfo;
-    tBTA_HH_CONN* pConn;
-    tBTA_HH_CBDATA* pCbData;
     WUD_HH_EVT15* pEvt15;
     int i;
 
     switch (event) {
     case BTA_HH_ENABLE_EVT: {
-        DEBUGPrint("BTA_HH_ENABLE_EVT\n");
-
         p->hhFlags |= 1;
         break;
     }
 
-    case BTA_HH_DISABLE_EVT: {
-        DEBUGPrint("BTA_HH_DISABLE_EVT\n");
-        break;
-    }
-
     case BTA_HH_OPEN_EVT: {
-        pConn = &pData->conn;
-
-        DEBUGPrint("BTA_HH_OPEN_EVT\n");
-
-        DEBUGPrint("handle: %d, addr: %02x:%02x:%02x:%02x:%02x:%02x\n", pConn->handle, pConn->bda[0], pConn->bda[1], pConn->bda[2], pConn->bda[3],
-                   pConn->bda[4], pConn->bda[5]);
+        tBTA_HH_CONN* pConn = &pData->conn;
 
         if (pConn->status == BTA_HH_OK) {
-            pInfo = &_work;
+            pInfo = WUDiGetDiscoverDevice();
 
-            if (WUD_BDCMP(pInfo->devAddr, pConn->bda) != 0) {
+            if (memcmp(pInfo->devAddr, pConn->bda, 6) != 0) {
                 pInfo = WUDiGetDevInfo(pConn->bda);
             }
 
             switch (pInfo->status) {
-            case 12: {
+            case 12:
                 p->syncState = WUD_STATE_SYNC_REGISTER_DEVICE;
                 break;
-            }
-
-            case 2: {
+            case 2:
                 p->syncState = WUD_STATE_SYNC_COMPLETE;
                 break;
-            }
             }
 
             pInfo->status = 8;
@@ -75,16 +65,16 @@ void WUDiHidHostEventCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
 
             pInfo = WUDiGetDevInfo(pConn->bda);
             if (pInfo == NULL) {
-                pInfo = &_work;
+                pInfo = WUDiGetDiscoverDevice();
             }
 
-            _dev_handle_to_bda[pConn->handle] = pInfo->devAddr;
-            _dev_handle_queue_size[pConn->handle] = 0;
-            _dev_handle_notack_num[pConn->handle] = 0;
+            WUDiSetDevAddrForHandle(pConn->handle, pInfo->devAddr);
+            WUDiSetQueueSizeForHandle(pConn->handle, 0);
+            WUDiSetNotAckNumForHandle(pConn->handle, 0);
 
             if (pInfo->sync_type == 3 || pInfo->sync_type == 1) {
                 WUDiMoveTopSmpDevInfoPtr(pInfo);
-            } else {
+            } else if (!WUDIsLinkedWBC() || (WUDIsLinkedWBC() && memcmp(pInfo, "Nintendo RVL-CNT", 16) == 0)) {
                 WUDiMoveTopStdDevInfoPtr(pInfo);
             }
 
@@ -93,60 +83,51 @@ void WUDiHidHostEventCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
             if (p->hidConnCB != NULL) {
                 p->hidConnCB(pInfo, TRUE);
             }
-        } else {
-            DEBUGPrint("error code: %d\n", pConn->status);
+        } else if (p->syncState != 0) {
+            pInfo = WUDiGetDiscoverDevice();
 
-            if (p->syncState != 0) {
-                if (!memcmp(pConn->bda, _work.devAddr, 6)) {
-                    if (_work.status == 2) {
-                        if (WUDiGetDevInfo(pConn->bda) && pConn->status == 12) {
-                            WUDiRemoveDevice(pConn->bda);
-                            p->linkedNum--;
-                        }
-
-                        p->syncState = 255;
-                    }
-                }
-            } else {
+            if (memcmp(pConn->bda, pInfo->devAddr, 6) == 0 && pInfo->status == 2) {
                 if (WUDiGetDevInfo(pConn->bda) && pConn->status == 12) {
-                    pInfo = WUDiGetDevInfo(pConn->bda);
-                    if (pInfo != NULL) {
-                        if (pInfo->sync_type == 3 || pInfo->sync_type == 1) {
-                            WUDiMoveBottomSmpDevInfoPtr(pInfo);
-                        } else {
-                            WUDiMoveBottomStdDevInfoPtr(pInfo);
-                        }
-                    }
-
                     WUDiRemoveDevice(pConn->bda);
                     p->linkedNum--;
                 }
+
+                p->syncState = 255;
             }
+        } else if (WUDiGetDevInfo(pConn->bda) && pConn->status == 12) {
+            WUDDevInfo* pDev = WUDiGetDevInfo(pConn->bda);
+
+            if (pDev != NULL) {
+                if (pDev->sync_type == 3 || pDev->sync_type == 1) {
+                    WUDiMoveBottomSmpDevInfoPtr(pDev);
+                } else {
+                    WUDiMoveBottomStdDevInfoPtr(pDev);
+                }
+            }
+
+            WUDiRemoveDevice(pConn->bda);
+            p->linkedNum--;
         }
+        break;
     }
 
-    break;
     case BTA_HH_CLOSE_EVT: {
-        pCbData = &pData->dev_status;
-
-        DEBUGPrint("BTA_HH_CLOSE_EVT\n");
+        tBTA_HH_CBDATA* pCbData = &pData->dev_status;
 
         p->connectedNum--;
 
-        DEBUGPrint("device handle : %d   status = %d\n", pCbData->handle, pCbData->status);
-
-        pInfo = WUDiGetDevInfo(_dev_handle_to_bda[pCbData->handle]);
+        pInfo = WUDiGetDevInfo(WUDiGetDevAddrForHandle(pCbData->handle));
         if (pInfo != NULL) {
             if (pInfo->sync_type == 3 || pInfo->sync_type == 1) {
                 WUDiMoveTopOfDisconnectedSmpDevice(pInfo);
-            } else {
+            } else if (!WUDIsLinkedWBC() || (WUDIsLinkedWBC() && memcmp(pInfo, "Nintendo RVL-CNT", 16) == 0)) {
                 WUDiMoveTopOfDisconnectedStdDevice(pInfo);
             }
         }
 
-        _dev_handle_to_bda[pCbData->handle] = NULL;
-        _dev_handle_queue_size[pCbData->handle] = 0;
-        _dev_handle_notack_num[pCbData->handle] = 0;
+        WUDiSetDevAddrForHandle(pCbData->handle, NULL);
+        WUDiSetQueueSizeForHandle(pCbData->handle, 0);
+        WUDiSetNotAckNumForHandle(pCbData->handle, 0);
 
         if (p->hidConnCB != NULL) {
             p->hidConnCB(pInfo, FALSE);
@@ -154,74 +135,14 @@ void WUDiHidHostEventCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
         break;
     }
 
-    case BTA_HH_SET_RPT_EVT: {
-        DEBUGPrint("BTA_HH_SET_RPT_EVT\n");
-        break;
-    }
-    case BTA_HH_GET_RPT_EVT: {
-        DEBUGPrint("BTA_HH_GET_RPT_EVT\n");
-        break;
-    }
-
-    case BTA_HH_SET_PROTO_EVT: {
-        DEBUGPrint("BTA_HH_SET_PROTO_EVT\n");
-        break;
-    }
-    case BTA_HH_GET_PROTO_EVT: {
-        DEBUGPrint("BTA_HH_GET_PROTO_EVT\n");
-        break;
-    }
-
-    case BTA_HH_SET_IDLE_EVT: {
-        DEBUGPrint("BTA_HH_SET_IDLE_EVT\n");
-        break;
-    }
-    case BTA_HH_GET_IDLE_EVT: {
-        DEBUGPrint("BTA_HH_GET_IDLE_EVT\n");
-        break;
-    }
-
-    case BTA_HH_GET_DSCP_EVT: {
-        DEBUGPrint("BTA_HH_GET_DCSP_EVT\n");
-        break;
-    }
-
     case BTA_HH_ADD_DEV_EVT: {
-        pConn = &pData->dev_info;
-
-        DEBUGPrint("BTA_HH_ADD_DEV_EVT\n");
-
-        // clang-format off
-        DEBUGPrint("result: %d, handle: %d, addr: %02x:%02x:%02x:%02x:%02x:%02x\n",
-                   pConn->status, pConn->handle,
-                   pConn->bda[0], pConn->bda[1], pConn->bda[2],
-                   pConn->bda[3], pConn->bda[4], pConn->bda[5]);
-        // clang-format on
+        tBTA_HH_CONN* pConn = &pData->dev_info;
 
         pInfo = WUDiGetDevInfo(pConn->bda);
         pInfo->devHandle = pConn->handle;
-        _dev_handle_to_bda[pConn->handle] = pInfo->devAddr;
-        _dev_handle_queue_size[pConn->handle] = 0;
-        _dev_handle_notack_num[pConn->handle] = 0;
-        break;
-    }
-
-    case BTA_HH_RMV_DEV_EVT: {
-        pConn = &pData->dev_info;
-
-        DEBUGPrint("BTA_HH_RMV_DEV_EVT\n");
-
-        // clang-format off
-        DEBUGPrint("result: %d, handle: %d, addr: %02x:%02x:%02x:%02x:%02x:%02x\n",
-            pConn->status, pConn->handle,
-            pConn->bda[0], pConn->bda[1], pConn->bda[2],
-            pConn->bda[3], pConn->bda[4], pConn->bda[5]);
-        // clang-format on
-        break;
-    }
-
-    case BTA_HH_VC_UNPLUG_EVT: {
-        DEBUGPrint("BTA_HH_VS_UNPLUG_EVT\n");
+        WUDiSetDevAddrForHandle(pConn->handle, pInfo->devAddr);
+        WUDiSetQueueSizeForHandle(pConn->handle, 0);
+        WUDiSetNotAckNumForHandle(pConn->handle, 0);
         break;
     }
 
@@ -238,12 +159,10 @@ void WUDiHidHostEventCallback(tBTA_HH_EVT event, tBTA_HH* pData) {
 
         for (i = 0; i < pEvt15->linkedNum; i++) {
             if (pEvt15->devices[i].handle < WUD_MAX_DEV_ENTRY) {
-                _dev_handle_queue_size[pEvt15->devices[i].handle] = pEvt15->devices[i].queueSize;
-
-                _dev_handle_notack_num[pEvt15->devices[i].handle] = pEvt15->devices[i].notAckNum;
+                WUDiSetQueueSizeForHandle(pEvt15->devices[i].handle, pEvt15->devices[i].queueSize);
+                WUDiSetNotAckNumForHandle(pEvt15->devices[i].handle, pEvt15->devices[i].notAckNum);
             }
         }
-
         break;
     }
     }

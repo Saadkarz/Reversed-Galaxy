@@ -1638,7 +1638,7 @@ config.libs = [
         "wud",
         [
             Object(NonMatching, "RVL_SDK/wud/WUD.c"),
-            Object(NonMatching, "RVL_SDK/wud/WUDHidHost.c"),
+            Object(Matching, "RVL_SDK/wud/WUDHidHost.c"),
         ],
     ),
     RVLLib(
