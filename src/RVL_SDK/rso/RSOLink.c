@@ -7,7 +7,8 @@ struct RSORel {
     u32 addend;
 };
 
-#define RSO_STATIC_LIST ((RSOObjectList*)0x80003168)
+static RSOObjectList RSOStaticList;
+#define RSO_STATIC_LIST (&RSOStaticList)
 
 void RSONotifyModuleLoaded(RSOObjectHeader*) NO_INLINE {
     return;
@@ -641,9 +642,16 @@ int cnvJumpCode(const RSOObjectHeader* rso, RSOImportTable* impTab, int impIndex
             if (x != 0 && x != y) {
                 i_sw = 1;
                 x = (u32)i_buff - (u32)p;
-                *p = (*p & 0xFC000003) | (x & 0x03FFFFFC);
-                DCFlushRange(p, 0x20);
-                ICInvalidateRange(p, 0x20);
+
+                // the jump stub must be reachable with a relative branch (+/-32 MB)
+                if (x < 0x01FFFFFF || x > 0xFE000001) {
+                    *p = (*p & 0xFC000003) | (x & 0x03FFFFFC);
+                    DCFlushRange(p, 0x20);
+                    ICInvalidateRange(p, 0x20);
+                } else {
+                    i_sw = -1;
+                    break;
+                }
             }
         }
 
@@ -692,6 +700,7 @@ int RSOLinkJump(RSOObjectHeader* i_rsoImp, const RSOObjectHeader* i_rsoExp, void
     RSOImportTable* impTab;
     int a_idx;
     u32* a_buff;
+    int rv;
 
     imp = &i_rsoImp->mImpHeader;
     count = 0;
@@ -708,8 +717,12 @@ int RSOLinkJump(RSOObjectHeader* i_rsoImp, const RSOObjectHeader* i_rsoExp, void
 
             if (a_idx >= 0) {
                 a_buff = (u32*)i_buff + a_idx * (RSO_FAR_JUMP_SIZE / 4);
-                if (cnvJumpCode(i_rsoImp, impTab, i, (u32)RSOGetExportSymbolAddr(i_rsoExp, a_idx), a_buff) != 0) {
+                rv = cnvJumpCode(i_rsoImp, impTab, i, (u32)RSOGetExportSymbolAddr(i_rsoExp, a_idx), a_buff);
+                if (rv == 1) {
                     count++;
+                } else if (rv == -1) {
+                    count = -1;
+                    break;
                 }
             }
         }

@@ -1236,7 +1236,7 @@ config.libs = [
     RVLLib(
         "rso",
         [
-            Object(NonMatching, "RVL_SDK/rso/RSOLink.c"),
+            Object(Matching, "RVL_SDK/rso/RSOLink.c"),
         ],
     ),
     RVLLibGC(
