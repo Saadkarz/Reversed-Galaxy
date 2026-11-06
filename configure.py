@@ -1532,7 +1532,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/dvd/dvdidutils.c"),
             Object(Matching, "RVL_SDK/dvd/dvdFatal.c"),
             Object(Matching, "RVL_SDK/dvd/dvdDeviceError.c"),
-            Object(NonMatching, "RVL_SDK/dvd/dvd_broadway.c"),
+            Object(Matching, "RVL_SDK/dvd/dvd_broadway.c"),
         ],
     ),
     RVLLibGC(
