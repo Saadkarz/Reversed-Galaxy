@@ -212,6 +212,18 @@ namespace nw4r {
                 u8 padding[2];
             };
 
+            struct ExtUserData {
+                const char* GetName() const {
+                    return nameStrOffset ? reinterpret_cast< const char* >(this) + nameStrOffset : 0;
+                }
+
+                detail::ResU32 nameStrOffset;
+                detail::ResU32 dataOffset;
+                detail::ResU16 num;
+                u8 type;
+                u8 padding;
+            };
+
             struct Group {
                 DataBlockHeader blockHeader;
                 char name[16];

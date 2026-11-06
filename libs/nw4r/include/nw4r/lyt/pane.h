@@ -130,6 +130,16 @@ namespace nw4r {
                 mpExtUserDataList = pBlock;
             }
 
+            const res::ExtUserData* GetExtUserData() const {
+                if (!mpExtUserDataList) {
+                    return 0;
+                }
+
+                return detail::ConvertOffsToPtr< res::ExtUserData >(mpExtUserDataList, sizeof(*mpExtUserDataList));
+            }
+
+            const res::ExtUserData* FindExtUserDataByName(const char* name);
+
             Pane* mpParent;
             PaneList mChildList;
             AnimationList mAnimList;
