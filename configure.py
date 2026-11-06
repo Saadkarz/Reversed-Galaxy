@@ -1244,7 +1244,7 @@ config.libs = [
         [
             Object(Matching, "RVL_SDK/net/nettime.c"),
             Object(Matching, "RVL_SDK/net/NETVersion.c"),
-            Object(NonMatching, "RVL_SDK/net/netmemcpy.c"),
+            Object(Matching, "RVL_SDK/net/netmemcpy.c"),
             Object(Matching, "RVL_SDK/net/netmemset.c"),
         ],
         "GC/3.0a5.2",

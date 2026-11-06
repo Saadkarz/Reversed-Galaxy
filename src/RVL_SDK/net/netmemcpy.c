@@ -247,6 +247,7 @@ static inline void NETMemCpy_SimpleRev(void* dst, const void* src, unsigned long
 void* NETMemCpy(void* dst, const void* src, unsigned long size) {
     unsigned long headSize;
     unsigned long accBlkSize;
+    void* ret = dst;
 
     if (dst == src) {
         return dst;
@@ -254,26 +255,26 @@ void* NETMemCpy(void* dst, const void* src, unsigned long size) {
 
     if ((unsigned char*)dst > (const unsigned char*)src && (unsigned char*)dst < (const unsigned char*)src + size) {
         NETMemCpy_SimpleRev(dst, src, size);
-        return dst;
-    }
+    } else {
+        if (((unsigned char*)dst <= (const unsigned char*)src - 0x20 || (unsigned char*)dst >= (const unsigned char*)src) && size >= 0x40) {
+            headSize = (unsigned long)dst & 0x1F;
+            if (headSize != 0) {
+                headSize = 0x20 - headSize;
+                NETMemCpy_SimpleFwd(dst, src, headSize);
+                dst = (unsigned char*)dst + headSize;
+                src = (const unsigned char*)src + headSize;
+                size -= headSize;
+            }
 
-    if (((unsigned char*)dst <= (const unsigned char*)src - 0x20 || (unsigned char*)dst >= (const unsigned char*)src) && size >= 0x40) {
-        headSize = (unsigned long)dst & 0x1F;
-        if (headSize != 0) {
-            headSize = 0x20 - headSize;
-            NETMemCpy_SimpleFwd(dst, src, headSize);
-            dst = (unsigned char*)dst + headSize;
-            src = (const unsigned char*)src + headSize;
-            size -= headSize;
+            accBlkSize = size & ~0x1F;
+            NETMemCpy_DstSize32Aligned(dst, src, accBlkSize);
+            dst = (unsigned char*)dst + accBlkSize;
+            src = (const unsigned char*)src + accBlkSize;
+            size -= accBlkSize;
         }
 
-        accBlkSize = size & ~0x1F;
-        NETMemCpy_DstSize32Aligned(dst, src, accBlkSize);
-        dst = (unsigned char*)dst + accBlkSize;
-        src = (const unsigned char*)src + accBlkSize;
-        size -= accBlkSize;
+        NETMemCpy_SimpleFwd(dst, src, size);
     }
 
-    NETMemCpy_SimpleFwd(dst, src, size);
-    return dst;
+    return ret;
 }
