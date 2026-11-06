@@ -25,6 +25,10 @@ void cbForNandWrite(s32 result, NANDCommandBlock* block) {
 
 void cbForNandSeek(s32 result, NANDCommandBlock* block) {
     if (result == sizeof(DVDErrorInfo) * (1 + NextOffset)) {
+        if (NextOffset == 0) {
+            __ErrorInfo.nextOffset = (NextOffset + 1) % 7;
+        }
+
         DCFlushRange((void*)&__ErrorInfo, sizeof(__ErrorInfo));
 
         if (NANDWriteAsync(&NandInfo, (void*)&__ErrorInfo, sizeof(__ErrorInfo), cbForNandWrite, &NandCb) != 0) {
@@ -167,6 +171,23 @@ void cbForNandCreateDir(s32 result, NANDCommandBlock* block) {
     }
 }
 
+extern BOOL DVDLowPrepareControlRegister(DVDLowCallback);
+
+void cbForPrepareControlRegister(u32 intType) {
+    if (intType == 1) {
+        __ErrorInfo.controlReg = DVDLowGetControlRegister();
+    }
+    else {
+        __ErrorInfo.controlReg = 0xFFFFFFFF;
+    }
+
+    if (NANDPrivateCreateDirAsync("/shared2/test2", 0x3F, 0, cbForNandCreateDir, &NandCb) != 0) {
+        if (Callback) {
+            Callback(2, NULL);
+        }
+    }
+}
+
 void cbForPrepareStatusRegister(u32 intType) {
     if (intType == 1) {
         __ErrorInfo.status = DVDLowGetStatusRegister();
@@ -175,7 +196,7 @@ void cbForPrepareStatusRegister(u32 intType) {
         __ErrorInfo.status = 0xFFFFFFFF;
     }
 
-    if (NANDPrivateCreateDirAsync("/shared2/test2", 0x3F, 0, cbForNandCreateDir, &NandCb) != 0) {
+    if (DVDLowPrepareControlRegister(cbForPrepareControlRegister) == FALSE) {
         if (Callback) {
             Callback(2, NULL);
         }
