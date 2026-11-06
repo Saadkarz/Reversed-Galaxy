@@ -279,7 +279,7 @@ namespace MR {
                 }
             }
 
-            if (MR::isDataEnable(info, "Binder\0")) {
+            if (MR::isDataEnable(info, "Binder")) {
                 const char* binder = nullptr;
                 const JMapInfoIter iter = MR::getCsvDataStrByElement(&binder, info, "InitFunction", "Binder", "Data");
                 f32 param00 = 0.0f;
@@ -489,7 +489,7 @@ namespace MR {
             TPos3f mtx;
             mtx.identity();
             MR::makeMtxRotate(mtx, rotation);
-            pFront->set< f32 >(mtx[0][2], mtx[1][2], mtx[2][2]);
+            mtx.getZDir(*pFront);
         }
     }
 
