@@ -1525,7 +1525,7 @@ config.libs = [
                 mw_version="GC/3.0a3",
                 cflags=cflags_sdk_gc,
             ),
-            Object(NonMatching, "RVL_SDK/dvd/dvd.c"),
+            Object(Matching, "RVL_SDK/dvd/dvd.c"),
             Object(Matching, "RVL_SDK/dvd/dvdqueue.c"),
             Object(NonMatching, "RVL_SDK/dvd/dvderror.c"),
             Object(Matching, "RVL_SDK/dvd/dvdidutils.c"),

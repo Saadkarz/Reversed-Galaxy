@@ -12,7 +12,7 @@ static DVDDiskID CurrDiskID __attribute__((aligned(32)));
 
 static DVDDiskID* IDShouldBe;
 static OSBootInfo* bootInfo;
-const char* __DVDVersion = "<< RVL_SDK - DVD \trelease build: Feb 22 2008 06:17:35 (0x4199_60831) >>";
+const char* __DVDVersion = "<< RVL_SDK - DVD \trelease build: Dec 11 2009 15:55:57 (0x4302_145) >>";
 static BOOL autoInvalidation = TRUE;
 
 static DVDCommandBlock DummyCommandBlock;
@@ -28,7 +28,7 @@ static volatile BOOL Canceling = FALSE;
 static volatile u32 ResumeFromHere = 0;
 static volatile s32 NumInternalRetry = 0;
 static BOOL FirstTimeInBootrom = FALSE;
-static BOOL Breaking = FALSE;
+static volatile BOOL Breaking = FALSE;
 static volatile BOOL WaitingForCoverOpen = FALSE;
 static volatile BOOL WaitingForCoverClose = FALSE;
 static BOOL MotorStopped = FALSE;
@@ -42,9 +42,9 @@ static DVDPartitionInfo* BootGameInfo = NULL;
 static DVDPartitionInfo* PartInfo = NULL;
 static DVDGameTOC* GameToc = NULL;
 static u32 __DVDNumTmdBytes __attribute__((aligned(32))) = 0;
-static volatile s64 LastResetEnd = 0;
+static volatile OSTime LastResetEnd = 0;
 static u32 MotorState = 0;
-static BOOL ResetRequired = FALSE;
+static volatile BOOL ResetRequired = FALSE;
 static u32 LastError = 0;
 static u32 CancelLastError = 0;
 static DVDCBCallback CancelCallback = NULL;
@@ -204,7 +204,7 @@ static void stateReadingFST(void) {
     LastState = (stateFunc)stateReadingFST;
 
     if (!(bootInfo->FSTMaxLength >= BB2.FSTLength)) {
-        OSPanic(__FILE__, 0x43B, "DVDChangeDisk(): FST in the new disc is too big.   ");
+        OSPanic(__FILE__, 0x445, "DVDChangeDisk(): FST in the new disc is too big.   ");
     }
 
     DVDLowClearCoverInterrupt(NULL);
@@ -1091,13 +1091,13 @@ static void CoverAlarmHandler(OSAlarm* alarm, OSContext* context) {
 static void stateReady(void) {
     DVDCommandBlock* finished;
 
-    if (!__DVDCheckWaitingQueue()) {
+    if (PauseFlag) {
+        PausingFlag = TRUE;
         executing = NULL;
         return;
     }
 
-    if (PauseFlag) {
-        PausingFlag = TRUE;
+    if (!__DVDCheckWaitingQueue()) {
         executing = NULL;
         return;
     }
