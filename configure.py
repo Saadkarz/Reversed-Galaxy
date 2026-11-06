@@ -1387,7 +1387,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/os/OSContext.c"),
             Object(Matching, "RVL_SDK/os/OSError.c"),
             Object(
-                NonMatching,
+                Matching,
                 "RVL_SDK/os/OSExec.c",
                 extra_cflags=["-opt nolifetimes,noloop", "-func_align 16"],
             ),

@@ -3,6 +3,7 @@
 #include "revolution/dvd.h"
 #include "revolution/os.h"
 #include "revolution/os/OSExecParams.h"
+#include "revolution/nand.h"
 #include "revolution/os/OSTIme.h"
 #include "revolution/types.h"
 #include <wstring.h>
@@ -417,6 +418,9 @@ void __OSLaunchNextFirmware(void) {
     CheckDVDLowIntType();
 }
 
+#define OS_APP_TYPE_DVD 0x80
+#define OS_APP_TYPE_NAND 0x81
+
 #define TITLE_ID ((((u64)1) << 32) | (2))
 
 void __OSLaunchMenu(void) {
@@ -455,6 +459,34 @@ void __OSLaunchMenu(void) {
 
     while (1) {
     }
+}
+
+// Dead-stripped from retail; only its string data survives in the DOL.
+void __OSBootDol(u32 doloffset, u32 restartCode, char* const argv[]);
+
+void OSLaunchDisk(const DVDDiskID* diskID, char* const argv[]) {
+    char* args[2];
+
+    if (OSGetAppType() == OS_APP_TYPE_DVD) {
+        OSReport("OSLaunchDisk(): You can't call this API from DVD application.  \n");
+        return;
+    }
+
+    if (!Prepared) {
+        OSHalt("OSLaunchDisk(): You must call DVDPrepareDisk before launching disc.\n");
+    }
+
+    if (memcmp(diskID, &id, sizeof(DVDDiskID)) != 0) {
+        OSHalt("OSLaunchDisk(): Specified id is different from one specified to DVDPrepareDisk.\n");
+    }
+
+    if (argv == NULL) {
+        args[0] = "0000000000000000";
+        args[1] = NULL;
+        argv = args;
+    }
+
+    __OSBootDol(0, 0x80000000, argv);
 }
 
 typedef struct {
@@ -690,4 +722,57 @@ void __OSBootDol(u32 doloffset, u32 restartCode, char* const argv[]) {
     }
 
     __OSBootDolSimple(0xffffffff, restartCode, saveStart, saveEnd, FALSE, argvlen, argvToPass);
+}
+
+// Dead-stripped from retail; only its string data survives in the DOL.
+void OSExecv(const char* dolfile, char* const argv[]) {
+    DVDFileInfo fileInfo;
+    s32 entrynum = DVDConvertPathToEntrynum(dolfile);
+
+    if (entrynum < 0 || !DVDFastOpen(entrynum, &fileInfo)) {
+        OSReport("Warning: OSExec(): The specified file doesn't exist. \n");
+        return;
+    }
+
+    __OSBootDol(fileInfo.startAddr, 0x80000000, argv);
+}
+
+// Dead-stripped from retail; only its string data survives in the DOL.
+void OSLaunchPartition(u64 titleId) {
+    char path[64];
+    u32 blocks;
+    u32 inodes;
+    u32 answer;
+    s32 rc;
+
+    if (OSGetAppType() == OS_APP_TYPE_NAND) {
+        OSReport("OSLaunchPartition(): You can't call this API from NAND application.  \n");
+        return;
+    }
+
+    if ((u32)(titleId >> 32) != 0x00010000) {
+        OSReport("OSLaunchPartition(): Specified title ID is not DISC application.  \n");
+        return;
+    }
+
+    sprintf(path, "/title/%08x/%08x", (u32)(titleId >> 32), (u32)titleId);
+
+    if (NANDSecretGetUsage(path, &blocks, &inodes) != NAND_RESULT_OK) {
+        OSReport("\nOSLaunchPartition(): Failed to get free i-nodes number\n");
+        return;
+    }
+
+    rc = NANDCheck(blocks, inodes, &answer);
+    if (rc == NAND_RESULT_OK) {
+        if (answer != 0) {
+            OSReport("\nOSLaunchPartition(): There are not enough i-nodes to launch next partition\n");
+            return;
+        }
+    } else {
+        OSReport("\nOSLaunchPartition(): Failed to get nand status\n");
+        return;
+    }
+
+    __OSNextPartitionType = (u32)titleId;
+    __OSLaunchNextFirmware();
 }
