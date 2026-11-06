@@ -55,7 +55,7 @@ static __OSExceptionHandler* OSExceptionTable;
 static void OSExceptionInit(void);
 void OSDefaultExceptionHandler( __OSException exception, OSContext* context );
 
-static const char* __OSVersion = "<< RVL_SDK - OS \trelease build: Jan 30 2008 01:38:43 (0x4199_60831) >>";
+static const char* __OSVersion = "<< RVL_SDK - OS \trelease build: Dec 11 2009 15:58:32 (0x4302_145) >>";
 
 asm void __OSFPRInit(void) {
     nofralloc
@@ -331,7 +331,7 @@ static void ClearMEM2Arena(void) NO_INLINE {
     }
 }
 
-void InquiryCallback(s32 res, DVDCommandBlock *block) {
+static void InquiryCallback(s32 res, DVDCommandBlock *block) {
     switch (block->state) {
         case 0:
             __OSDeviceCode = (u16)(0x8000 | DriveInfo.deviceCode);
@@ -348,7 +348,7 @@ static void CheckTargets(void) {
             break;
         case 0x81:
             OSReport("OS ERROR: boot program is not for RVL target. Please use correct boot program.\n");
-            OSPanic(__FILE__, 0x47E, "Failed to run app");
+            OSPanic(__FILE__, 0x488, "Failed to run app");
             break;
         default:
             break;
@@ -359,10 +359,29 @@ static void CheckTargets(void) {
             break;
         case 0x81:
             OSReport("OS ERROR: apploader[D].img is not for RVL target. Please use correct apploader[D].img.\n");
-            OSPanic(__FILE__, 0x490, "Failed to run app");
+            OSPanic(__FILE__, 0x49A, "Failed to run app");
             break;
         default:
             break;
+    }
+}
+
+static void CheckFirmware(void) {
+    OSIOSRev rev;
+    u32 iosVer = *(u32*)OSPhysicalToUncached(0x3140);
+    u32 required = *(u32*)OSPhysicalToCached(0x3188);
+
+    __OSGetIOSRev(&rev);
+
+    if (rev.major != (required >> 16) || (rev.major == (required >> 16) && (iosVer & 0x00FFFFFF) < required)) {
+        GXColor bg = {0, 0, 255, 0};
+        GXColor fg = {255, 255, 255, 0};
+
+        OSReport("OS ERROR: This firmware is an improper version for this SDK. Please use a correct Firmware.\n");
+        OSFatal(fg, bg,
+                "\n\nERROR #002\nAn error has occurred.\nPress the Eject Button, remove the\nGame Disc, and turn off the power to \nthe "
+                "console. \nPlease read the Wii Operations Manual \nfor further instructions.\n");
+        OSPanic(__FILE__, 0x4DB, "Failed to run app");
     }
 }
 
@@ -382,7 +401,7 @@ static void ReportOSInfo(void) {
     void* MEM2Lo;
 
     OSReport("\nRevolution OS\n");
-    OSReport("Kernel built : %s %s\n", "Jan 30 2008", "01:38:43");
+    OSReport("Kernel built : %s %s\n", "Dec 11 2009", "15:58:32");
     OSReport("Console Type : " );
 
     consoleType = OSGetConsoleType();
@@ -462,6 +481,7 @@ static void ReportOSInfo(void) {
 void OSInit(void) {
     void* bi2StartAddr;
     void* arenaAddr;
+    void* arenaLo = (void*)OSRoundUp32B(__ArenaLo);
 
     if (AreWeInitialized != FALSE) {
         return;
@@ -508,9 +528,9 @@ void OSInit(void) {
     arenaAddr = (void*)*(u32*)OSPhysicalToCached(0x310C);
 
     if (arenaAddr == NULL) {
-        if (OSIsMEM1Region((void*)__ArenaLo)) {
+        if (OSIsMEM1Region(arenaLo)) {
             void* tmp = BootInfo->arenaLo;
-            arenaAddr = tmp == NULL ? (void*)__ArenaLo : tmp;
+            arenaAddr = tmp == NULL ? arenaLo : tmp;
         
             if (!BootInfo->arenaLo&& (BI2DebugFlag && (*(BI2DebugFlag) < 2))) {
                 arenaAddr = (void*)OSRoundUp32B(_stack_addr);
@@ -527,7 +547,7 @@ void OSInit(void) {
 
     if (arenaAddr == NULL) {
         void* tmp = BootInfo->arenaHi;
-        arenaAddr = tmp == NULL ? (void*)__ArenaHi : tmp;
+        arenaAddr = tmp == NULL ? (void*)0x81700000 : tmp;
     }
 
     OSSetMEM1ArenaHi(arenaAddr);
@@ -535,8 +555,8 @@ void OSInit(void) {
     arenaAddr = (void*)*(u32*)OSPhysicalToCached(0x3124);
 
     if (arenaAddr != 0) {
-        if (OSIsMEM2Region((void*)__ArenaLo)) {
-            arenaAddr = (void*)__ArenaLo;
+        if (OSIsMEM2Region(arenaLo)) {
+            arenaAddr = arenaLo;
 
             if ((BI2DebugFlag && (*(BI2DebugFlag) < 2))) {
                 arenaAddr = (void*)OSRoundUp32B(_stack_addr);
@@ -607,6 +627,7 @@ void OSInit(void) {
 
     if (!__OSInIPL) {
         CheckTargets();
+        CheckFirmware();
         DVDInit();
 
         if (__OSIsGcam) {
@@ -666,7 +687,6 @@ static void OSExceptionInit(void) {
     destAddr = (void*)OSPhysicalToCached(0x60);
 
     if (*(u32*)destAddr == 0) {
-        DBPrintf("Installing OSDBIntegrator\n");
         memcpy(destAddr, (void*)__OSDBINTSTART, (u32)__OSDBINTEND - (u32)__OSDBINTSTART);
         DCFlushRangeNoSync(destAddr, (u32)__OSDBINTEND - (u32)__OSDBINTSTART);
         __sync();
@@ -674,22 +694,17 @@ static void OSExceptionInit(void) {
     }
 
     for (exception = 0; exception < 15; exception++) {
-        if (BI2DebugFlag && (*BI2DebugFlag >= 2) && __DBIsExceptionMarked(exception)) {
-            DBPrintf(">>> OSINIT: exception %d commandeered by TRK\n", exception);
+        if (BI2DebugFlag && (*BI2DebugFlag >= 2)) {
             continue;
         }
 
         *opCodeAddr = oldOpCode | exception;
 
-        if (__DBIsExceptionMarked(exception)) {
-            DBPrintf(">>> OSINIT: exception %d vectored to debugger\n", exception);
-            memcpy((void*)__DBVECTOR, (void*)__OSDBINTEND, (u32)__OSDBJUMPEND - (u32)__OSDBINTEND);
-        }
-        else {
+        {
             u32* ops = (u32*)__DBVECTOR;
-            int cb;
+            u32 cb;
 
-            for (cb = 0; cb < (u32)__OSDBJUMPEND - (u32)__OSDBINTEND; cb += 4) {
+            for (cb = 0; cb < (u32)__OSDBJUMPEND - (u32)__OSDBJUMPSTART; cb += 4) {
                 // set op to NOP
                 *ops++ = 0x60000000;
             }
@@ -709,7 +724,6 @@ static void OSExceptionInit(void) {
     }
 
     *opCodeAddr = oldOpCode;
-    DBPrintf("Exceptions initialized...\n");
 }
 
 static asm void __OSDBIntegrator(void) {
@@ -732,7 +746,7 @@ entry __OSDBINTEND
 static asm void __OSDBJump(void) {
     nofralloc
 entry __OSDBJUMPSTART
-    bla __OSDBJUMPDEST
+    bla 0x60
 entry __OSDBJUMPEND
 }
 
