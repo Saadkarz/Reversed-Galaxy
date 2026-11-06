@@ -1617,7 +1617,7 @@ config.libs = [
                 cflags=cflags_sdk_gc,
                 extra_cflags=["-func_align 16"],
             ),
-            Object(NonMatching, "RVL_SDK/ipc/ipcclt.c"),
+            Object(Matching, "RVL_SDK/ipc/ipcclt.c"),
             Object(Matching, "RVL_SDK/ipc/memory.c"),
             Object(NonMatching, "RVL_SDK/ipc/ipcProfile.c"),
         ],
