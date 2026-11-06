@@ -337,6 +337,74 @@ out:
     return rv;
 }
 
+static IOSError __LongBlkMsgInt(IOSFd fd, u32 ep, u32 buflen, char* buf, USBCallbackFunc cb, void* cbArg, u8 async) {
+    IOSError rv = IOS_ERROR_OK;
+    IOSIoVector* vector = IOSAlloc(0x60);
+    u8* sep = IOSAlloc(0x20);
+    u32* sbuflen = IOSAlloc(0x20);
+
+    if (NULL == vector || NULL == sep || NULL == sbuflen) {
+        USB_ERR("__LongBlkMsgInt: Not enough memory\n");
+        rv = IOS_ERROR_FAIL_ALLOC;
+        goto clean;
+    }
+
+    *sep = (u8)ep;
+    *sbuflen = buflen;
+
+    vector[0].base = sep;
+    vector[0].length = sizeof(u8);
+    vector[1].base = (u8*)sbuflen;
+    vector[1].length = sizeof(u32);
+    vector[2].base = (u8*)buf;
+    vector[2].length = buflen;
+
+    DCFlushRange(sep, 0x20);
+    DCFlushRange(sbuflen, 0x20);
+    DCFlushRange(vector, 0x60);
+
+    if (0 == async) {
+        rv = IOS_Ioctlv(fd, 10, 2, 1, vector);
+        USB_LOG("Long bulk ioctl returned: %d\n", rv);
+        goto clean;
+    } else {
+        iusb_ctxt* req = IOSAlloc(0x80);
+        if (NULL == req) {
+            USB_ERR("LongBlkMsgInt (async): Not enough memory\n");
+            rv = IOS_ERROR_FAIL_ALLOC;
+            goto clean;
+        }
+        memset(req, 0, sizeof(iusb_ctxt));
+        req->cb = cb;
+        req->cbArg = cbArg;
+        USB_LOG("longblkmsg: cb = 0x%x cbArg = 0x%x\n", req->cb, req->cbArg);
+        req->nclean = 3;
+        req->clean[0] = sep;
+        req->clean[1] = sbuflen;
+        req->clean[2] = vector;
+        ((IntBlkCtrlReq*)req->u.reqBuf)->data = buf;
+        ((IntBlkCtrlReq*)req->u.reqBuf)->wLength = (u16)buflen;
+
+        rv = IOS_IoctlvAsync(fd, 10, 2, 1, vector, _intrBlkCtrlIsoCb, req);
+        if (rv < 0) {
+            if (rv == IOS_ERROR_FAIL_ALLOC) {
+                OSReport("%s: IoctlvAsync returned error %d\n", __FUNCTION__, rv);
+            }
+            IOSFree(req);
+            goto clean;
+        }
+        goto out;
+    }
+
+clean:
+    IOSFree(sep);
+    IOSFree(sbuflen);
+    IOSFree(vector);
+
+out:
+    return rv;
+}
+
 static IOSError __IntrBlkMsgInt(IOSFd fd, u32 ep, u32 buflen, char* buf, u8 typ, USBCallbackFunc cb, void* cbArg, u8 async) {
     IOSError rv = IOS_ERROR_OK;
     IOSIoVector* vector = IOSAlloc(0x60);
@@ -387,6 +455,9 @@ static IOSError __IntrBlkMsgInt(IOSFd fd, u32 ep, u32 buflen, char* buf, u8 typ,
 
         rv = IOS_IoctlvAsync(fd, typ, 2, 1, vector, _intrBlkCtrlIsoCb, req);
         if (rv < 0) {
+            if (rv == IOS_ERROR_FAIL_ALLOC) {
+                OSReport("%s: IoctlvAsync returned error %d\n", __FUNCTION__, rv);
+            }
             IOSFree(req);
             goto clean;
         }
@@ -429,17 +500,51 @@ IOSError IUSB_WriteIntrMsgAsync(IOSFd fd, u32 ep, u32 buflen, char* buf, USBCall
     return __IntrBlkMsgInt(fd, ep, buflen, buf, 2, cb, cbArg, 1);
 }
 
+IOSError IUSB_ReadBlkMsg(IOSFd fd, u32 ep, u32 buflen, char* buf) {
+    IOSError rv;
+    DCInvalidateRange(buf, buflen);
+    if (buflen <= 0xFFFF) {
+        USB_LOG("calling short blk transfer fn: buflen = %u limit = %u\n", buflen, 0xFFFF);
+        rv = __IntrBlkMsgInt(fd, ep, buflen, buf, 1, NULL, NULL, 0);
+    } else {
+        USB_LOG("calling long blk transfer fn: buflen = %u limit = %u\n", buflen, 0xFFFF);
+        rv = __LongBlkMsgInt(fd, ep, buflen, buf, NULL, NULL, 0);
+    }
+    return rv;
+}
+
 IOSError IUSB_ReadBlkMsgAsync(IOSFd fd, u32 ep, u32 buflen, char* buf, USBCallbackFunc cb, void* cbArg) {
     IOSError rv;
     DCInvalidateRange(buf, buflen);
-    rv = __IntrBlkMsgInt(fd, ep, buflen, buf, 1, cb, cbArg, 1);
+    if (buflen <= 0xFFFF) {
+        rv = __IntrBlkMsgInt(fd, ep, buflen, buf, 1, cb, cbArg, 1);
+    } else {
+        rv = __LongBlkMsgInt(fd, ep, buflen, buf, cb, cbArg, 1);
+    }
+    return rv;
+}
+
+IOSError IUSB_WriteBlkMsg(IOSFd fd, u32 ep, u32 buflen, char* buf) {
+    IOSError rv;
+    DCFlushRange((void*)buf, buflen);
+    if (buflen <= 0xFFFF) {
+        USB_LOG("calling short blk transfer fn: buflen = %u limit = %u\n", buflen, 0xFFFF);
+        rv = __IntrBlkMsgInt(fd, ep, buflen, buf, 1, NULL, NULL, 0);
+    } else {
+        USB_LOG("calling long blk transfer fn: buflen = %u limit = %u\n", buflen, 0xFFFF);
+        rv = __LongBlkMsgInt(fd, ep, buflen, buf, NULL, NULL, 0);
+    }
     return rv;
 }
 
 IOSError IUSB_WriteBlkMsgAsync(IOSFd fd, u32 ep, u32 buflen, char* buf, USBCallbackFunc cb, void* cbArg) {
     IOSError rv;
     DCFlushRange((void*)buf, buflen);
-    rv = __IntrBlkMsgInt(fd, ep, buflen, buf, 1, cb, cbArg, 1);
+    if (buflen <= 0xFFFF) {
+        rv = __IntrBlkMsgInt(fd, ep, buflen, buf, 1, cb, cbArg, 1);
+    } else {
+        rv = __LongBlkMsgInt(fd, ep, buflen, buf, cb, cbArg, 1);
+    }
     return rv;
 }
 
@@ -627,8 +732,6 @@ out:
 IOSError IUSB_GetAsciiStr(IOSFd fd, u8 ep, u16 index, u16 langId, char* buf, u16 buflen) {
     IOSError rv = IOS_ERROR_OK;
     s8 len;
-
-    USB_LOG("GetStr\n");
 
     DCInvalidateRange(buf, (u32)buflen);
     rv = __CtrlMsgInt(fd, 0x80, 0x06, (u16)((0x03 << 8) + index), langId, buflen, buf, NULL, NULL, 0);
@@ -1058,5 +1161,32 @@ IOSError IUSB_DeviceClassInsertionNotifyAsync(const char* path, u8 devClass, USB
     IOS_Close(fd);
 
 done:
+    return rv;
+}
+
+// Dead-stripped from retail; only its string data survives in the DOL.
+IOSError IUSB_RegisterInsertionNotifyWithIdAsync(const char* path, u16 vid, u16 pid, USBCallbackFunc cb, void* cbArg) {
+    IOSError rv;
+    IOSFd fd;
+    iusb_ctxt* req = IOSAlloc(ROUNDUP(sizeof(*req)));
+
+    if (NULL == req) {
+        OSReport("%s: Not enough memory\n", __FUNCTION__);
+        return IOS_ERROR_FAIL_ALLOC;
+    }
+
+    if ((fd = IOS_Open(path, 0)) < 0) {
+        OSReport("Failed to open %s: %d\n", path, fd);
+        IOSFree(req);
+        return fd;
+    }
+
+    memset(req, 0, sizeof(iusb_ctxt));
+    req->cb = cb;
+    req->cbArg = cbArg;
+
+    rv = IUSB_DeviceInsertionNotifyAsync(path, vid, pid, cb, cbArg);
+    IOS_Close(fd);
+    IOSFree(req);
     return rv;
 }

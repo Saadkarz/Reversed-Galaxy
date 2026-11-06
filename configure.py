@@ -1660,7 +1660,7 @@ config.libs = [
     RVLLib(
         "usb",
         [
-            Object(NonMatching, "RVL_SDK/usb/usb.c"),
+            Object(Matching, "RVL_SDK/usb/usb.c"),
         ],
     ),
     RVLLibGC(
