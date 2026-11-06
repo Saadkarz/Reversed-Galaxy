@@ -244,7 +244,7 @@ namespace nw4r {
             mpFileResAry = nullptr;
 
             if (pBlock->fileNum > 0) {
-                mpFileResAry = static_cast< void** >(Layout::AllocMemory(sizeof(void*) * pBlock->fileNum));
+                mpFileResAry = Layout::NewArray< void* >(pBlock->fileNum);
                 if (mpFileResAry != nullptr) {
                     const u32* fileNameOffs = detail::ConvertOffsToPtr< u32 >(mpRes, sizeof(*mpRes));
                     for (int i = 0; i < mpRes->fileNum; i++) {
@@ -254,18 +254,13 @@ namespace nw4r {
                 }
             }
 
-            mAnimLinkAry = static_cast< AnimationLink* >(Layout::AllocMemory(sizeof(AnimationLink) * animNum));
+            mAnimLinkAry = Layout::NewArray< AnimationLink >(animNum);
             if (mAnimLinkAry != nullptr) {
                 mAnimLinkNum = animNum;
-                memset(mAnimLinkAry, 0, animNum * sizeof(AnimationLink));
-
-                for (u16 i = 0; i < animNum; i++) {
-                    new (&mAnimLinkAry[i]) AnimationLink();
-                }
             }
         }
 
-        void AnimTransformBasic::Bind(Pane* pPane, bool recursive, bool enable) {
+        void AnimTransformBasic::Bind(Pane* pPane, bool recursive, bool bDisable) {
             AnimationLink* pCrAnimLink = 0;
 
             const u32* const animContOffsets = detail::ConvertOffsToPtr< u32 >(mpRes, mpRes->animContOffsetsOffset);
@@ -274,7 +269,7 @@ namespace nw4r {
                 if (animCont.type == ANIMCONTENTTYPE_PANE) {
                     if (Pane* const pFindPane = pPane->FindPaneByName(animCont.name, recursive)) {
                         if (!IsBindAnimation(pFindPane, this)) {
-                            pCrAnimLink = Bind(pFindPane, pCrAnimLink, i, enable);
+                            pCrAnimLink = Bind(pFindPane, pCrAnimLink, i, bDisable);
                             if (!pCrAnimLink) {
                                 break;
                             }
@@ -283,7 +278,7 @@ namespace nw4r {
                 } else {
                     if (Material* const pFindMat = pPane->FindMaterialByName(animCont.name, recursive)) {
                         if (!IsBindAnimation(pFindMat, this)) {
-                            pCrAnimLink = Bind(pFindMat, pCrAnimLink, i, enable);
+                            pCrAnimLink = Bind(pFindMat, pCrAnimLink, i, bDisable);
                             if (!pCrAnimLink) {
                                 break;
                             }
@@ -293,7 +288,7 @@ namespace nw4r {
             }
         }
 
-        void AnimTransformBasic::Bind(Material* pMaterial, bool enable) {
+        void AnimTransformBasic::Bind(Material* pMaterial, bool bDisable) {
             AnimationLink* pCrAnimLink = 0;
 
             const u32* const animContOffsets = detail::ConvertOffsToPtr< u32 >(mpRes, mpRes->animContOffsetsOffset);
@@ -302,7 +297,7 @@ namespace nw4r {
                 if (animCont.type == ANIMCONTENTTYPE_MATERIAL) {
                     if (detail::EqualsMaterialName(pMaterial->GetName(), animCont.name)) {
                         if (!IsBindAnimation(pMaterial, this)) {
-                            pCrAnimLink = Bind(pMaterial, pCrAnimLink, i, enable);
+                            pCrAnimLink = Bind(pMaterial, pCrAnimLink, i, bDisable);
                             if (!pCrAnimLink) {
                                 break;
                             }
@@ -313,14 +308,13 @@ namespace nw4r {
         }
 
         template < typename T >
-        AnimationLink* AnimTransformBasic::Bind(T* pTarget, AnimationLink* pAnimLink, u16 idx, bool enable) {
+        AnimationLink* AnimTransformBasic::Bind(T* pTarget, AnimationLink* pAnimLink, u16 idx, bool bDisable) {
             pAnimLink = FindUnbindLink(pAnimLink);
             if (!pAnimLink) {
                 return 0;
             }
 
-            pAnimLink->Set(this, idx);
-            pAnimLink->SetEnable(enable);
+            pAnimLink->Set(this, idx, bDisable);
             pTarget->AddAnimationLink(pAnimLink);
 
             return ++pAnimLink;
@@ -419,6 +413,10 @@ namespace nw4r {
                     mpTagBlock = reinterpret_cast< const res::AnimationTagBlock* >(pDataBlockHead);
                     break;
 
+                case res::DATABLOCKKIND_PANEANIMSHARE:
+                    mpShareBlock = reinterpret_cast< const res::AnimationShareBlock* >(pDataBlockHead);
+                    break;
+
                 case res::DATABLOCKKIND_PANEANIMINFO:
                     mpResBlock = reinterpret_cast< const res::AnimationBlock* >(pDataBlockHead);
                     break;
@@ -432,6 +430,7 @@ namespace nw4r {
             mpFileHeader = 0;
             mpResBlock = 0;
             mpTagBlock = 0;
+            mpShareBlock = 0;
         }
 
         namespace detail {

@@ -76,8 +76,20 @@ namespace nw4r {
             bool EqualsMaterialName(const char*, const char*);
             bool TestFileHeader(const res::BinaryFileHeader&, u32);
 
+            inline bool IsSupportedMinorVersion(u8 minor) {
+                switch (minor) {
+                case 8:
+                case 9:
+                case 10:
+                    return true;
+                default:
+                    return false;
+                }
+            }
+
             inline bool TestFileVersion(const res::BinaryFileHeader& fileHeader) {
-                return (ut::BitExtract(fileHeader.version, 8, 8) == 0 && ut::BitExtract(fileHeader.version, 0, 8) >= 9);
+                const u8 minor = ut::BitExtract(fileHeader.version, 0, 8);
+                return ut::BitExtract(fileHeader.version, 8, 8) == 0 && IsSupportedMinorVersion(minor);
             }
 
             inline s32 GetSignatureInt(const char sig[4]) {

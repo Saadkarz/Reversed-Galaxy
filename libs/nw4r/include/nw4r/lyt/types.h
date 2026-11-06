@@ -600,17 +600,18 @@ namespace nw4r {
 
         class AnimationLink {
         public:
-            AnimationLink() : mbDisable(false) {
+            AnimationLink() {
                 Reset();
             }
 
             void Reset() {
-                Set(nullptr, 0);
+                Set(nullptr, 0, false);
             }
 
-            void Set(AnimTransform* pTrans, u16 idx) {
+            void Set(AnimTransform* pTrans, u16 idx, bool bDisable) {
                 mAnimTrans = pTrans;
                 mIdx = idx;
+                mbDisable = bDisable;
             }
 
             bool IsEnable() const {

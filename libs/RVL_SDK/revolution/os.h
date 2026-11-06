@@ -145,7 +145,7 @@ inline s16 __OSf32tos16(__REGISTER f32 inF) {
     return out;
 }
 
-inline void OSf32tos16(f32* f, s16* out) {
+inline void OSf32tos16(f32* f, volatile s16* out) {
     *out = __OSf32tos16(*f);
 }
 
@@ -168,7 +168,7 @@ inline u8 __OSf32tou8(__REGISTER f32 inF) {
 #ifdef OS_F32_TO_U8_DEFER_INLINE
 static void OSf32tou8(f32* f, u8* out);
 #else
-inline void OSf32tou8(f32* f, u8* out) {
+inline void OSf32tou8(f32* f, volatile u8* out) {
     *out = __OSf32tou8(*f);
 }
 #endif
