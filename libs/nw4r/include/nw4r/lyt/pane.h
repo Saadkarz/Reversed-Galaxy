@@ -86,6 +86,10 @@ namespace nw4r {
                 return detail::TestBit(mFlag, 2);
             }
 
+            const char* GetName() const {
+                return mName;
+            }
+
             Pane* GetParent() const {
                 return mpParent;
             }

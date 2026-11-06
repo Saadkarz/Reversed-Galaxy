@@ -22,6 +22,18 @@ namespace nw4r {
                 return (-tolerance < c && c < tolerance);
             }
 
+            inline u16 FindAnimContent(const res::AnimationBlock* pAnimBlock, const char* animContName, u8 animContType) {
+                const u32* const animContOffsets = detail::ConvertOffsToPtr< u32 >(pAnimBlock, pAnimBlock->animContOffsetsOffset);
+                for (u16 i = 0; i < pAnimBlock->animContNum; ++i) {
+                    const res::AnimationContent* const pAnimCont = detail::ConvertOffsToPtr< res::AnimationContent >(pAnimBlock, animContOffsets[i]);
+                    if (pAnimCont->type == animContType && detail::EqualsMaterialName(pAnimCont->name, animContName)) {
+                        return i;
+                    }
+                }
+
+                return 0xFFFF;
+            }
+
             u16 GetStepCurveValue(f32 frame, const res::StepKey* keyArray, u32 keySize) {
                 if (keySize == 1 || frame <= keyArray[0].frame) {
                     return keyArray[0].value;
@@ -431,6 +443,141 @@ namespace nw4r {
             mpResBlock = 0;
             mpTagBlock = 0;
             mpShareBlock = 0;
+        }
+
+        u16 AnimResource::GetGroupNum() const {
+            if (!mpTagBlock) {
+                return 0;
+            }
+
+            return mpTagBlock->groupNum;
+        }
+
+        const AnimationGroupRef* AnimResource::GetGroupArray() const {
+            if (!mpTagBlock) {
+                return 0;
+            }
+
+            return detail::ConvertOffsToPtr< AnimationGroupRef >(mpTagBlock, mpTagBlock->groupsOffset);
+        }
+
+        bool AnimResource::IsDescendingBind() const {
+            if (!mpTagBlock) {
+                return false;
+            }
+
+            return detail::TestBit< u8 >(mpTagBlock->flag, 0);
+        }
+
+        u16 AnimResource::GetAnimationShareInfoNum() const {
+            if (!mpShareBlock) {
+                return 0;
+            }
+
+            return mpShareBlock->shareNum;
+        }
+
+        const AnimationShareInfo* AnimResource::GetAnimationShareInfoArray() const {
+            if (!mpShareBlock) {
+                return 0;
+            }
+
+            return detail::ConvertOffsToPtr< AnimationShareInfo >(mpShareBlock, mpShareBlock->animShareInfoOffset);
+        }
+
+        u16 AnimResource::CalcAnimationNum(Pane* pPane, bool bRecursive) const {
+            u16 linkNum = 0;
+
+            const u32* const animContOffsets = detail::ConvertOffsToPtr< u32 >(mpResBlock, mpResBlock->animContOffsetsOffset);
+            for (u16 i = 0; i < mpResBlock->animContNum; ++i) {
+                const res::AnimationContent& animCont = *detail::ConvertOffsToPtr< res::AnimationContent >(mpResBlock, animContOffsets[i]);
+                if (animCont.type == ANIMCONTENTTYPE_PANE) {
+                    if (Pane* const pFindPane = pPane->FindPaneByName(animCont.name, bRecursive)) {
+                        ++linkNum;
+                    }
+                } else {
+                    if (Material* const pFindMat = pPane->FindMaterialByName(animCont.name, bRecursive)) {
+                        ++linkNum;
+                    }
+                }
+            }
+
+            return linkNum;
+        }
+
+        u16 AnimResource::CalcAnimationNum(Group* pGroup, bool bRecursive) const {
+            u16 linkNum = 0;
+
+            PaneLinkList& paneList = pGroup->GetPaneList();
+            for (PaneLinkList::Iterator it = paneList.GetBeginIter(); it != paneList.GetEndIter(); ++it) {
+                linkNum += CalcAnimationNum(it->mTarget, bRecursive);
+            }
+
+            return linkNum;
+        }
+
+        namespace detail {
+            void AnimPaneTree::Init() {
+                mLinkNum = 0;
+                mAnimPaneIdx = 0;
+                mAnimMatCnt = 0;
+
+                for (u32 i = 0; i < MATERIAL_NUM_MAX; ++i) {
+                    mAnimMatIdxs[i] = 0;
+                }
+            }
+
+            void AnimPaneTree::Set(Pane* pTargetPane, const AnimResource& animRes) {
+                u16 linkNum = 0;
+                const res::AnimationBlock* const pAnimBlock = animRes.GetResourceBlock();
+
+                const u16 animPaneIdx = FindAnimContent(pAnimBlock, pTargetPane->GetName(), ANIMCONTENTTYPE_PANE);
+                if (animPaneIdx != 0xFFFF) {
+                    ++linkNum;
+                }
+
+                const u8 animMatCnt = pTargetPane->GetMaterialNum();
+                u16 animMatIdxs[MATERIAL_NUM_MAX];
+                for (u8 i = 0; i < animMatCnt; ++i) {
+                    animMatIdxs[i] = FindAnimContent(pAnimBlock, pTargetPane->GetMaterial(i)->GetName(), ANIMCONTENTTYPE_MATERIAL);
+                    if (animMatIdxs[i] != 0xFFFF) {
+                        ++linkNum;
+                    }
+                }
+
+                if (linkNum == 0) {
+                    return;
+                }
+
+                mAnimRes = animRes;
+                mAnimPaneIdx = animPaneIdx;
+                mAnimMatCnt = animMatCnt;
+                for (u8 i = 0; i < animMatCnt; ++i) {
+                    mAnimMatIdxs[i] = animMatIdxs[i];
+                }
+
+                mLinkNum = linkNum;
+            }
+
+            AnimTransform* AnimPaneTree::Bind(Layout* pLayout, Pane* pTargetPane, ResourceAccessor* pResAccessor) const {
+                AnimTransformBasic* const pAnimTrans = static_cast< AnimTransformBasic* >(pLayout->CreateAnimTransform());
+                pAnimTrans->SetResource(mAnimRes.GetResourceBlock(), pResAccessor, mLinkNum);
+
+                AnimationLink* pCrAnimLink = 0;
+                if (mAnimPaneIdx != 0xFFFF) {
+                    pCrAnimLink = pAnimTrans->Bind(pTargetPane, pCrAnimLink, mAnimPaneIdx, true);
+                }
+
+                const u8 animMatCnt = ut::Min(mAnimMatCnt, pTargetPane->GetMaterialNum());
+                for (u8 i = 0; i < animMatCnt; ++i) {
+                    if (mAnimMatIdxs[i] != 0xFFFF) {
+                        Material* const pMaterial = pTargetPane->GetMaterial(i);
+                        pCrAnimLink = pAnimTrans->Bind(pMaterial, pCrAnimLink, mAnimMatIdxs[i], true);
+                    }
+                }
+
+                return pAnimTrans;
+            }
         }
 
         namespace detail {

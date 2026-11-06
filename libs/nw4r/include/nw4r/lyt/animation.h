@@ -98,6 +98,8 @@ namespace nw4r {
         namespace detail {
             class AnimPaneTree {
             public:
+                enum { MATERIAL_NUM_MAX = 9 };
+
                 AnimPaneTree() {
                     Init();
                 }
@@ -119,7 +121,7 @@ namespace nw4r {
                 AnimResource mAnimRes;
                 u16 mAnimPaneIdx;
                 u16 mLinkNum;
-                u16 mAnimMatIdxs[9];
+                u16 mAnimMatIdxs[MATERIAL_NUM_MAX];
                 u8 mAnimMatCnt;
             };
 
