@@ -5958,8 +5958,10 @@ JSystem/JAudio2/JASWaveArcLoader.cpp:
 JSystem/JAudio2/JASChannel.cpp:
 	.text       start:0x8058EFE0 end:0x805903F0 align:16
 	.ctors      start:0x80644B48 end:0x80644B4C
-	.bss        start:0x8077BD78 end:0x8077BE18
+	.rodata     start:0x80659370 end:0x80659388
+	.bss        start:0x8077BD78 end:0x8077BE28
 	.sbss       start:0x807D64D0 end:0x807D64D8
+	.sdata2     start:0x807E2498 end:0x807E24D0
 
 JSystem/JAudio2/JASLfo.cpp:
 	.text       start:0x805903F0 end:0x8059055C align:16

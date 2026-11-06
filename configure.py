@@ -791,7 +791,7 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JASWSParser.cpp"),
             Object(Matching, "JSystem/JAudio2/JASBNKParser.cpp"),
             Object(Matching, "JSystem/JAudio2/JASWaveArcLoader.cpp"),
-            Object(NonMatching, "JSystem/JAudio2/JASChannel.cpp"),
+            Object(Matching, "JSystem/JAudio2/JASChannel.cpp", cflags=[*cflags_jsys, "-ipa file"]),
             Object(Matching, "JSystem/JAudio2/JASLfo.cpp"),
             Object(Matching, "JSystem/JAudio2/JASOscillator.cpp"),
             Object(Matching, "JSystem/JAudio2/JASAiCtrl.cpp"),

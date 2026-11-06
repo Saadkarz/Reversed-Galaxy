@@ -200,7 +200,7 @@ public:
     /* 0xD0 */ f32 mKeySweepTarget;
     /* 0xD4 */ u32 mKeySweepCount;
     /* 0xD8 */ u32 mSkipSamples;
-    /* 0xDC */ u32 mChannelType;
+    /* 0xDC */ s32 mChannelType;
     /* 0xE0 */ JASWaveInfo mWaveInfo;
     union {
         /* 0x104 */ int mWavePtr;
