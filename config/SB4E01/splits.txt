@@ -6466,7 +6466,7 @@ RVL_SDK/os/OSPlayTime.c:
 	.sdata2     start:0x807E2738 end:0x807E2748
 
 RVL_SDK/os/OSCrc.c:
-	.text       start:0x805BFF30 end:0x805C0070
+	.text       start:0x805BFF30 end:0x805C0070 align:16
 	.rodata     start:0x8065ACC0 end:0x8065AD00
 
 RVL_SDK/os/OSLaunch.c:

@@ -1430,12 +1430,7 @@ config.libs = [
             Object(Matching, "RVL_SDK/os/OSStateFlags.c"),
             Object(Matching, "RVL_SDK/os/OSNet.c"),
             Object(Matching, "RVL_SDK/os/OSNandbootInfo.c"),
-            Object(
-                NonMatching,
-                "RVL_SDK/os/OSPlayTime.c",
-                mw_version="GC/3.0a5.2",
-                cflags=cflags_sdk_gc,
-            ),
+            Object(Matching, "RVL_SDK/os/OSPlayTime.c"),
             Object(Matching, "RVL_SDK/os/OSCrc.c"),
             Object(Matching, "RVL_SDK/os/OSLaunch.c"),
             Object(Matching, "RVL_SDK/os/__ppc_eabi_init.c"),
