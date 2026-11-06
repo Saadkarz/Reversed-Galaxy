@@ -1,5 +1,6 @@
 #include "JSystem/JAudio2/JASTrack.hpp"
 #include "JSystem/JAudio2/JASAiCtrl.hpp"
+#include "JSystem/JAudio2/JASBank.hpp"
 #include "JSystem/JAudio2/JASBankTable.hpp"
 #include "JSystem/JAudio2/JASCriticalSection.hpp"
 #include "JSystem/JAudio2/JASDSPInterface.hpp"
@@ -288,6 +289,35 @@ void JASTrack::connectBus(int idx, int bus) {
 void JASTrack::setLatestKey(u8 key) {
     mPitch = key;
     mPitch += (u8)getTransposeTotal();
+}
+
+JASChannel* JASTrack::channelStart(JASTrack::TChannelMgr* pChannelMgr, u32 pitch, u32 velocity, u32 updateTimer) {
+    JASBank* bank = nullptr;
+    if (mBankTable != nullptr) {
+        bank = mBankTable->getBank(mBankNumber);
+    }
+
+    JASChannel* channel = JASBank::noteOn(bank, mProgNumber, pitch, velocity, mNoteOnPrio | mReleasePrio << 8, channelUpdateCallback, pChannelMgr);
+    if (channel == nullptr) {
+        return nullptr;
+    }
+
+    channel->setUpdateTimer(updateTimer);
+    channel->setSkipSamples(mSkipSample);
+    channel->setVibrateDelay(mVibDelay);
+    channel->setTremoloDelay(mTremDelay);
+    channel->setParams(pChannelMgr->mParams);
+
+    for (u32 i = 0; i < 6; i++) {
+        channel->setMixConfig(i, mMixConfig[i]);
+    }
+
+    overwriteOsc(channel);
+    if (mDirectRelease != 0) {
+        channel->setDirectRelease(mDirectRelease);
+    }
+
+    return channel;
 }
 
 bool JASTrack::noteOn(u32 channelNum, u32 pitch, u32 velocity) {

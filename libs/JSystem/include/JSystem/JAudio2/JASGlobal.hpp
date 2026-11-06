@@ -13,7 +13,11 @@ public:
         }
     }
 
-    ~JASGlobalInstance();
+    ~JASGlobalInstance() {
+        if (sInstance == (T*)this) {
+            sInstance = nullptr;
+        }
+    }
 
     static T* getInstance() {
         return sInstance;
@@ -22,10 +26,3 @@ public:
 
 template < typename T >
 T* JASGlobalInstance< T >::sInstance;
-
-template < typename T >
-JASGlobalInstance< T >::~JASGlobalInstance() {
-    if (sInstance == (T*)this) {
-        sInstance = nullptr;
-    }
-}

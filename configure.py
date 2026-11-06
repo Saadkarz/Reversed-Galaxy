@@ -761,9 +761,9 @@ config.libs = [
             Object(Matching, "JSystem/JAudio2/JASReport.cpp"),
             Object(Matching, "JSystem/JAudio2/JASCmdStack.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JAudio2/JASTrack.cpp",
-                cflags=[*cflags_jsys_jaudio, "-inline off"],
+                cflags=[*cflags_jsys, "-ipa file", "-inline off"],
             ),
             Object(Matching, "JSystem/JAudio2/JASTrackPort.cpp"),
             Object(Matching, "JSystem/JAudio2/JASRegisterParam.cpp"),

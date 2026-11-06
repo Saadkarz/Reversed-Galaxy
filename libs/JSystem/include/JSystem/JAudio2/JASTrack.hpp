@@ -12,6 +12,7 @@
 
 class JASSoundParams;
 class JASChannel;
+class JASBankList;
 class JASDefaultBankTable;
 
 namespace JASDsp {
@@ -358,7 +359,7 @@ struct JASTrack : public JASPoolAllocObject_MultiThreaded< JASTrack > {
     /* 0x170 */ TChannelMgr* mChannelMgrs[CHANNEL_MGR_MAX];
     /* 0x180 */ TChannelMgr mDefaultChannelMgr;
     /* 0x1D0 */ u32 mChannelMgrCount;
-    /* 0x1D4 */ const JASDefaultBankTable* mBankTable;
+    /* 0x1D4 */ const JASBankList* mBankTable;
     /* 0x1D8 */ f32 mPlaytime;
     /* 0x1DC */ f32 mSampleInterval;
     /* 0x1E0 */ f32 mVibDepth;

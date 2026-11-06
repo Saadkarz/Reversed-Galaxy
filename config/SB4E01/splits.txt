@@ -5859,10 +5859,12 @@ JSystem/JAudio2/JASCmdStack.cpp:
 	.bss        start:0x8077B8AC end:0x8077B8D0
 
 JSystem/JAudio2/JASTrack.cpp:
-	.text       start:0x80585200 end:0x80587C40 align:16
+	.text       start:0x80585200 end:0x80587CA0 align:16
 	.ctors      start:0x80644B34 end:0x80644B38
-	.rodata     start:0x80659280 end:0x806592B0
+	.rodata     start:0x80659268 end:0x806592C0
 	.data       start:0x807081F8 end:0x80708220
+	.bss        start:0x8077B8D0 end:0x8077BD40
+	.sdata2     start:0x807E23F0 end:0x807E2418
 
 JSystem/JAudio2/JASTrackPort.cpp:
 	.text       start:0x80587CA0 end:0x80587DD0 align:16
