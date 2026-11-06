@@ -6293,6 +6293,9 @@ nw4r/lyt/lyt_resourceAccessor.cpp:
 
 nw4r/lyt/lyt_common.cpp:
 	.text       start:0x805B1EC0 end:0x805B2A20 align:16
+	.bss        start:0x8077E498 end:0x8077E4C0
+	.sbss       start:0x807D6618 end:0x807D6620
+	.sdata2     start:0x807E26E0 end:0x807E26E8
 
 RVL_SDK/base/PPCArch.c:
 	.text       start:0x805B2A90 end:0x805B2CB0
@@ -6301,7 +6304,7 @@ RVL_SDK/base/PPCArch.c:
 RVL_SDK/os/OS.c:
 	.text       start:0x805B2CB0 end:0x805B4190
 	.data       start:0x8070C7A0 end:0x8070CBB0
-	.bss        start:0x8077E4C0 end:0x8077E530
+	.bss        start:0x8077E4C0 end:0x8077E530 align:32
 	.sdata      start:0x807D0928 end:0x807D0958
 	.sbss       start:0x807D6620 end:0x807D6668
 

@@ -28,7 +28,7 @@ namespace nw4r {
 
             void TexCoordAry::Free() {
                 if (mData != nullptr) {
-                    Layout::FreeMemory(mData);
+                    Layout::DeletePrimArray(mData);
                     mData = nullptr;
                     mCap = 0;
                     mNum = 0;
@@ -38,9 +38,8 @@ namespace nw4r {
             void TexCoordAry::Reserve(u8 num) {
                 if (mCap < num) {
                     Free();
-                    const u32 coordNum = num;
-                    math::VEC2* const ary = static_cast< math::VEC2* >(Layout::AllocMemory(coordNum * 4 * sizeof(math::VEC2)));
-                    mData = reinterpret_cast< TexCoordQuad >(ary);
+                    void* p = Layout::AllocMemory(num * 4 * sizeof(math::VEC2));
+                    mData = p ? (TexCoordQuad)p : 0;
                     if (mData != nullptr) {
                         mCap = num;
                     }
@@ -94,7 +93,7 @@ namespace nw4r {
                 return ret;
             }
 
-            void MultipleAlpha(ut::Color* dst, const ut::Color* src, u8 a) {
+            inline void MultipleAlpha(ut::Color* dst, const ut::Color* src, u8 a) {
                 for (s32 i = 0; i < 4; i++) {
                     dst[i] = MultipleAlpha(src[i], a);
                 }
@@ -143,7 +142,7 @@ namespace nw4r {
                     GXTexCoord2f32(texCoords[i][1].x, texCoords[i][1].y);
                 }
 
-                GXPosition2f32(basePt.x + size.width, basePt.y + size.height);
+                GXPosition2f32(basePt.x + size.width, basePt.y - size.height);
 
                 if (vtxColors) {
                     GXColor1u32(vtxColors[3]);
@@ -153,7 +152,7 @@ namespace nw4r {
                     GXTexCoord2f32(texCoords[i][3].x, texCoords[i][3].y);
                 }
 
-                GXPosition2f32(basePt.x, basePt.y + size.height);
+                GXPosition2f32(basePt.x, basePt.y - size.height);
 
                 if (vtxColors) {
                     GXColor1u32(vtxColors[2]);

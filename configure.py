@@ -1833,7 +1833,7 @@ config.libs = [
             Object(Matching, "nw4r/lyt/lyt_drawInfo.cpp"),
             Object(NonMatching, "nw4r/lyt/lyt_animation.cpp"),
             Object(Matching, "nw4r/lyt/lyt_resourceAccessor.cpp"),
-            Object(NonMatching, "nw4r/lyt/lyt_common.cpp"),
+            Object(Matching, "nw4r/lyt/lyt_common.cpp"),
         ],
     ),
     MSLLib(
