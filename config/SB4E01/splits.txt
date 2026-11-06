@@ -6032,6 +6032,7 @@ JSystem/JAudio2/JAIAudience.cpp:
 JSystem/JAudio2/JAISe.cpp:
 	.text       start:0x80593550 end:0x80593E00 align:16
 	.data       start:0x8070BD00 end:0x8070BD58
+	.sdata2     start:0x807E2528 end:0x807E2538
 
 JSystem/JAudio2/JAISeMgr.cpp:
 	.text       start:0x80593E00 end:0x80594E50 align:16

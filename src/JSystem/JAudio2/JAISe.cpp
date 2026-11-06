@@ -8,6 +8,8 @@ JAISe::JAISe(JAISeMgr* SeMgr, JAISoundStrategyMgr< JAISe >* soundStrategyMgr, u3
     inner_.mProperPriority = priority;
 }
 
+JAISe::TInner::~TInner() {}
+
 void JAISe::mixOut_(const JASSoundParams& params) {
     inner_.track.setTempoRate(inner_.mTempoMgr.getTempo());
     JASSoundParams mixParams;
@@ -76,7 +78,7 @@ void JAISe::JAISeCategoryMgr_mixOut_(bool param_0, const JASSoundParams& params,
                     }
                     break;
                 case JASTrack::STATUS_RUN:
-                    inner_.track.pause(isPaused() || activity.isPaused());
+                    inner_.track.pause(mStatus.isPaused() || activity.isPaused());
                     inner_.track.mute(isMute() || activity.isMute());
                 }
             } else {
@@ -117,8 +119,8 @@ void JAISe::JAISeCategoryMgr_calc_() {
 
 bool JAISe::JAISound_tryDie_() {
     switch (inner_.track.getStatus()) {
-    case JASTrack::STATUS_FREE:
     case JASTrack::STATUS_STOPPED:
+    case JASTrack::STATUS_FREE:
         if (inner_.mSoundStrategy != nullptr) {
             inner_.mSoundStrategyMgr->deleteStrategy(inner_.mSoundStrategy);
             inner_.mSoundStrategy = nullptr;
