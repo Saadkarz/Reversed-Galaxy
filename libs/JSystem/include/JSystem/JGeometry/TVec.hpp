@@ -859,7 +859,7 @@ namespace JGeometry {
         f32 squared(const TVec3& rB) const;
 #endif
 
-        bool isZero() const {
+        bool isZero() const NO_INLINE {
             return squared() <= JGeometry::TUtil< f32 >::epsilon();
         }
 

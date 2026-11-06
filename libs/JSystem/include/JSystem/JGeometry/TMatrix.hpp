@@ -381,7 +381,7 @@ namespace JGeometry {
             rDest.set< f32 >(rot.x * (180.0f / PI), rot.y * (180.0f / PI), rot.z * (180.0f / PI));
         }
 
-        void getEuler(TVec3f& rDest) const {
+        void getEuler(TVec3f& rDest) const NO_INLINE {
             getEulerXYZ(rDest);
         }
 
@@ -771,7 +771,7 @@ namespace JGeometry {
             this->mMtx[2][3] = a4.z;
         }
 
-        void makeRotate(const TVec3f& rVec, f32 angle) {
+        void makeRotate(const TVec3f& rVec, f32 angle) NO_INLINE {
             zeroTrans();
             TRotation3< T >::setRotate(rVec, angle);
         }

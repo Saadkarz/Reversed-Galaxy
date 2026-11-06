@@ -56,4 +56,42 @@ namespace MR {
     void orderRotateMtx(s16, const TVec3f&, MtxPtr);
     void inverseConcatMtx(MtxPtr, MtxPtr, TMtx34f*);
     void turnMtxToLocalDirDegree(TPos3f*, const TVec3f&, const TVec3f&, f32);
+    void makeMtxRotateY(MtxPtr, f32);
+    void makeMtxTransRotateY(MtxPtr, f32, f32, f32, f32);
+    void rotateMtxLocalX(MtxPtr, f32);
+    void rotateMtxLocalY(MtxPtr, f32);
+    void rotateMtxLocalZ(MtxPtr, f32);
+    void rotateMtxLocalXDegree(MtxPtr, f32);
+    void rotateMtxLocalYDegree(MtxPtr, f32);
+    void rotateMtxLocalZDegree(MtxPtr, f32);
+    void scaleMtxToLocalMtx(MtxPtr, MtxPtr, MtxPtr, const TVec3f&);
+    void scaleMtxToLocalMtx(MtxPtr, MtxPtr, const TVec3f&);
+    void scaleMtxToDir(TPos3f*, const TVec3f&, const TVec3f&);
+    void makeMtxTRS(MtxPtr, f32, f32, f32, f32, f32, f32, f32, f32, f32);
+    void makeMtxTRS(MtxPtr, const TVec3f&, const TVec3f&, const TVec3f&);
+    void setMtxAxisXYZ(MtxPtr, const TVec3f&, const TVec3f&, const TVec3f&);
+    void blendMtxRotate(MtxPtr, MtxPtr, f32, MtxPtr);
+    void blendMtxRotateSlerp(MtxPtr, MtxPtr, f32, MtxPtr);
+    void blendMtx(MtxPtr, MtxPtr, f32, MtxPtr);
+    void makeMtxWithoutScale(TPos3f*, const TPos3f&);
+    void makeRTFromMtxPtr(TVec3f*, TVec3f*, MtxPtr, bool);
+    void orthogonalize(TPos3f*);
+    void turnMtxToXDirRate(TPos3f*, const TVec3f&, f32);
+    void turnMtxToXDirDegree(TPos3f*, const TVec3f&, f32);
+    void turnMtxToYDirRate(TPos3f*, const TVec3f&, f32);
+    void turnMtxToYDirDegree(TPos3f*, const TVec3f&, f32);
+    void makeMtxMoment(TPos3f*, const TVec3f&);
+    bool isSameMtx(MtxPtr, MtxPtr);
+    bool isRotAxisY(MtxPtr, MtxPtr);
+    void calcMtxRotAxis(TVec3f*, MtxPtr, MtxPtr);
+    MtxPtr tmpMtxTrans(const TVec3f&);
+    void makeSRTFromMtxPtr(TVec3f*, TVec3f*, TVec3f*, MtxPtr, bool);
+    // Non-official symbols.
+    void concatMtxKeepTrans(MtxPtr, MtxPtr, MtxPtr);
+    void separateScaleMtx(MtxPtr, MtxPtr, MtxPtr);
+
+    // Non-official symbol.
+    inline void multMtx(Mtx pOut, const Mtx pA, const Mtx pB) {
+        PSMTXConcat(pB, pA, pOut);
+    }
 };  // namespace MR
