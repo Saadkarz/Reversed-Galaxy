@@ -2,7 +2,12 @@
 #include "revolution/os.h"
 #include "revolution/vf/vf_struct.h"
 
-static OSMutex l_Mutex;
+extern s32 VFSysGetFileSizeByFd(u32* o_size_p, void* i_file_p);
+extern s32 VFSysGetDriveFreeSize(s32 i_handle_idx, u32* o_ecl, u32* o_spc, u32* o_bps);
+
+s8* VF_path2handleidx(long* o_handle_idx_p, const char* i_path_p);
+
+static OSMutex l_Mutex ATTRIBUTE_ALIGN(16);
 static s32 l_InitedMutex;
 static s32 l_vf_init;
 
@@ -31,40 +36,34 @@ static void _VFUnlockMutex() {
     }
 }
 
-s32 VFIsAvailable() {
-    return l_vf_init != 0;
-}
-
 void VFInitEx(void* i_heap_start_address_p, u32 i_size) {
     _VFInitMutex();
     _VFLockMutex();
 
     if (l_vf_init == 0) {
-        l_vf_init = 1;
         VFSysInit(i_heap_start_address_p, i_size);
         VFipdm_init_diskmanager(0, 0);
         VFipf2_init_prfile2(0, 0);
         dHash_InitHashTable();
         VFSysSetTimeStampCallback(0);
+        l_vf_init = 1;
     }
 
     _VFUnlockMutex();
 }
 
-static char l_vf_drive_work[0x68000] ATTRIBUTE_ALIGN(32);
-
-void VFInit(void) {
-    VFInitEx(l_vf_drive_work, sizeof(l_vf_drive_work));
+s32 VFIsAvailable() {
+    return l_vf_init != 0;
 }
 
 static s32 VFAttachDriveNANDFlash(const s8* i_drive) {
     s32 err = VF_ERR_0xB004;
-    s32 idx = -1;
+    s32 idx;
 
     _VFLockMutex();
     if (dHash_GetArg(i_drive) == -1) {
         err = VFSysSetDeviceNANDFlash(&idx, 0, 0);
-        if (err == 0) {
+        if (err == 0 && idx != -1) {
             dHash_SetArg(i_drive, idx & 0xFF);
         }
     }
@@ -187,51 +186,10 @@ s32 VFUnmountDrive(const char* i_drive) {
     return err;
 }
 
-s8* VF_path2handleidx(long* o_handle_idx_p, const char* i_path_p) {
-    s8 drive[8];
-    const s8* str_p;
-    s32 idx;
-    const s8* ret_p;
-
-    *o_handle_idx_p = -1;
-    str_p = (const s8*)i_path_p;
-    idx = 0;
-    ret_p = (const s8*)i_path_p;
-
-    VFipf_memset(drive, 0, 8);
-
-    while (*str_p != '\0') {
-        if (*str_p == '\\' || *str_p == '/') {
-            break;
-        }
-
-        if (*str_p == ':') {
-            *o_handle_idx_p = dHash_GetArg(drive);
-            if (*o_handle_idx_p == -1 || idx > 7) {
-                ret_p = 0;
-            } else {
-                ret_p = str_p + 1;
-            }
-            break;
-        }
-
-        if (idx < 7) {
-            drive[idx] = *str_p;
-        }
-
-        str_p++;
-        idx++;
-    }
-
-    return (s8*)ret_p;
-}
-
 void* VFOpenFile(const char* i_path_p, const char* i_mode, u32 i_attr) {
     s32 handle_idx;
     const s8* path_p;
-    void* pFile;
-
-    handle_idx = -1;
+    void* pFile = NULL;
 
     _VFLockMutex();
 
@@ -239,14 +197,9 @@ void* VFOpenFile(const char* i_path_p, const char* i_mode, u32 i_attr) {
 
     if (path_p == 0) {
         VFSysSetLastError(VF_ERR_DRIVE_NOT_FOUND);
-        _VFUnlockMutex();
-        return 0;
-    }
-
-    if (handle_idx != -1) {
-        pFile = (VFFile)VFSysOpenFile(handle_idx, (const s8*)path_p, (const s8*)i_mode);
     } else {
-        pFile = (VFFile)VFSysOpenFile_current((const s8*)path_p, (const s8*)i_mode);
+        pFile = handle_idx != -1 ? (VFFile)VFSysOpenFile(handle_idx, (const s8*)path_p, (const s8*)i_mode)
+                                 : (VFFile)VFSysOpenFile_current((const s8*)path_p, (const s8*)i_mode);
     }
 
     _VFUnlockMutex();
@@ -299,23 +252,14 @@ s32 VFDeleteFile(const char* i_path_p) {
     const s8* path_p;
     s32 Err;
 
-    handle_idx = -1;
-
     _VFLockMutex();
 
     path_p = VF_path2handleidx(&handle_idx, i_path_p);
 
     if (path_p == 0) {
         Err = VF_ERR_DRIVE_NOT_FOUND;
-        VFSysSetLastError(Err);
-        _VFUnlockMutex();
-        return VF_ERR_DRIVE_NOT_FOUND;
-    }
-
-    if (handle_idx != -1) {
-        Err = VFSysDeleteFile(handle_idx, path_p);
     } else {
-        Err = VFSysDeleteFile_current(path_p);
+        Err = handle_idx != -1 ? VFSysDeleteFile(handle_idx, path_p) : VFSysDeleteFile_current(path_p);
     }
 
     VFSysSetLastError(Err);
@@ -324,58 +268,51 @@ s32 VFDeleteFile(const char* i_path_p) {
 }
 
 s32 VFGetFileSizeByFd(void* i_file_p) {
-    s32 size;
+    u32 size;
     s32 Err;
 
-    size = -1;
+    _VFLockMutex();
     Err = VFSysGetFileSizeByFd(&size, i_file_p);
     if (Err != 0) {
         VFSysSetLastError(Err);
     }
+    _VFUnlockMutex();
 
-    return size;
-}
-
-s32 VFGetLastError() {
-    return VFSysGetLastError();
-}
-
-s32 VFGetLastDeviceError(const char* i_drive) {
-    s32 err;
-    s32 handle_idx;
-
-    _VFLockMutex();
-
-    if (i_drive != 0) {
-        handle_idx = dHash_GetArg((const s8*)i_drive);
-        err = VFSysGetLastDeviceError(handle_idx);
-    } else {
-        err = VFSysGetLastDeviceError_current();
+    if (Err != 0) {
+        return -1;
     }
 
-    VFSysSetLastError(err);
-
-    _VFUnlockMutex();
-    return err;
+    {
+        s32 ret = 0x7FFFFFFF;
+        if (size <= 0x7FFFFFFF) {
+            ret = size;
+        }
+        return ret;
+    }
 }
 
 s32 VFGetDriveFreeSize(const char* i_drive) {
-    s32 size;
-    s32 handle_idx;
+    s32 Err;
+    u32 ecl, spc, bps;
+    u64 size;
 
     _VFLockMutex();
 
     if (i_drive != 0) {
-        handle_idx = dHash_GetArg((const s8*)i_drive);
-        size = VFSysGetDriveFreeSize(handle_idx);
+        Err = VFSysGetDriveFreeSize(dHash_GetArg((const s8*)i_drive), &ecl, &spc, &bps);
     } else {
-        VFSysSetLastError(-1);
-        size = -1;
+        Err = -1;
     }
 
     _VFUnlockMutex();
 
-    return size;
+    if (Err != 0) {
+        VFSysSetLastError(Err);
+        return -1;
+    }
+
+    size = (u64)ecl * spc * bps;
+    return size > 0x7FFFFFFF ? 0x7FFFFFFF : (s32)size;
 }
 
 s32 VFSetSyncMode(const char* i_drive, u32 i_mode) {
@@ -395,4 +332,69 @@ s32 VFSetSyncMode(const char* i_drive, u32 i_mode) {
     _VFUnlockMutex();
 
     return Err;
+}
+
+s32 VFGetLastError() {
+    s32 err;
+
+    _VFLockMutex();
+    err = VFSysGetLastError();
+    _VFUnlockMutex();
+    return err;
+}
+
+s32 VFGetLastDeviceError(const char* i_drive) {
+    s32 err;
+    s32 handle_idx;
+
+    _VFLockMutex();
+
+    if (i_drive != 0) {
+        handle_idx = dHash_GetArg((const s8*)i_drive);
+        err = VFSysGetLastDeviceError(handle_idx);
+    } else {
+        err = VFSysGetLastDeviceError_current();
+    }
+
+    _VFUnlockMutex();
+    return err;
+}
+
+s8* VF_path2handleidx(long* o_handle_idx_p, const char* i_path_p) {
+    s8 drive[8];
+    const s8* str_p;
+    s32 idx;
+    const s8* ret_p;
+
+    *o_handle_idx_p = -1;
+    str_p = (const s8*)i_path_p;
+    idx = 0;
+    ret_p = (const s8*)i_path_p;
+
+    VFipf_memset(drive, 0, 8);
+
+    while (*str_p != '\0') {
+        if (*str_p == '\\' || *str_p == '/') {
+            break;
+        }
+
+        if (*str_p == ':') {
+            *o_handle_idx_p = dHash_GetArg(drive);
+            if (*o_handle_idx_p == -1 || idx > 7) {
+                ret_p = 0;
+            } else {
+                ret_p = str_p + 1;
+            }
+            break;
+        }
+
+        if (idx < 7) {
+            drive[idx] = *str_p;
+        }
+
+        str_p++;
+        idx++;
+    }
+
+    return (s8*)ret_p;
 }

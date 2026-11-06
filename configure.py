@@ -1343,12 +1343,7 @@ config.libs = [
                 extra_cflags=["-func_align 16"],
             ),
             Object(Matching, "RVL_SDK/vf/pf_system.c"),
-            Object(
-                NonMatching,
-                "RVL_SDK/vf/d_vf.c",
-                mw_version="GC/3.0a3",
-                cflags=cflags_sdk_gc,
-                ),
+            Object(Matching, "RVL_SDK/vf/d_vf.c"),
             Object(Matching, "RVL_SDK/vf/d_vf_sys.c"),
             Object(Matching, "RVL_SDK/vf/d_hash.c"),
             Object(Matching, "RVL_SDK/vf/d_time.c"),
