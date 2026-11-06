@@ -6,7 +6,7 @@
 #include <revolution/types.h>
 
 struct PlayResultRecord {
-    inline PlayResultRecord() : _0(0), _4(0) {}
+    PlayResultRecord();
     inline PlayResultRecord(s32 a, u8 b) : _0(a), _4(b) {}
 
     /* 0x0 */ s32 _0;
@@ -66,7 +66,7 @@ public:
     /* 0x60 */ bool _60;
     /* 0x61 */ bool _61;
     /* 0x62 */ bool _62;
-    /* 0x64 */ s32 _64;
+    /* 0x64 */ u32 _64;
     /* 0x68 */ bool _68;
     /* 0x6C */ JMapIdInfo* mStartIdInfo;
     /* 0x70 */ s32 _70;

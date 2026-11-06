@@ -1142,7 +1142,7 @@ config.libs = [
             Object(Matching, "Game/System/NerveExecutor.cpp"),
             Object(Matching, "Game/System/OSThreadWrapper.cpp"),
             Object(Matching, "Game/System/PauseButtonCheckerInGame.cpp"),
-            Object(NonMatching, "Game/System/PlayResultInStageHolder.cpp"),
+            Object(Matching, "Game/System/PlayResultInStageHolder.cpp"),
             Object(Matching, "Game/System/RenderMode.cpp"),
             Object(Matching, "Game/System/ResourceHolder.cpp"),
             Object(

@@ -4746,6 +4746,11 @@ Game/System/PauseButtonCheckerInGame.cpp:
 
 Game/System/PlayResultInStageHolder.cpp:
 	.text       start:0x804C8BF0 end:0x804C9500
+	.data       start:0x806FC0A8 end:0x806FC10C
+
+Game/System/PlayResultMarioFaceShipHolder.cpp:
+	.text       start:0x804C9500 end:0x804C9810 align:16
+	.data       start:0x806FC10C end:0x806FC1B0
 
 Game/System/RenderMode.cpp:
 	.text       start:0x804C9810 end:0x804C995C align:16

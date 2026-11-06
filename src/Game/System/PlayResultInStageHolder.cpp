@@ -46,6 +46,9 @@ PlayResultInStageHolder::PlayResultInStageHolder()
     mList2.mCapacity = 64;
 }
 
+PlayResultRecord::PlayResultRecord() : _0(0), _4(0) {
+}
+
 PlayResultRecordList::PlayResultRecordList()
     : mRecords(nullptr), mCapacity(0), mCount(0) {
 }
@@ -100,98 +103,25 @@ const char* PlayResultInStageHolder::getStageName() const {
     return mStageName;
 }
 
-extern "C" {
-    bool hasPowerStar__16GameDataFunctionFPCcl(const char*, s32);
-    void makeGalaxyStatusAccessor__2MRFPCc(const char*);
-    bool isGreenStar__20GalaxyStatusAccessorCFl(void*, s32);
-    bool isPowerStarBronze__2MRFPCcl(const char*, s32);
-    s32 fn_804D3D10__16GameDataFunctionFPCcl(const char*, s32);
-    void _savegpr_27();
-    void _restgpr_27();
-}
+void PlayResultInStageHolder::fn_804C8ED0() {
+    s32 starNum = mClearedPowerStarNum;
+    const char* pStageName = getStageName();
 
-asm void PlayResultInStageHolder::fn_804C8ED0() {
-    nofralloc
-    stwu r1, -0x30(r1)
-    mflr r0
-    stw r0, 0x34(r1)
-    addi r11, r1, 0x30
-    bl _savegpr_27
-    lwz r28, 0x48(r3)
-    li r30, 1
-    stb r30, 0x42(r3)
-    addi r29, r3, 0x12
-    mr r27, r3
-    mr r4, r28
-    mr r3, r29
-    bl hasPowerStar__16GameDataFunctionFPCcl
-    cntlzw r0, r3
-    srwi. r0, r0, 5
-    stb r0, 0x43(r27)
-    beq loc_else
-    lbz r0, 0x88(r27)
-    li r30, 0
-    cmpwi r0, 0
-    bne loc_set_44_1
-    mr r3, r29
-    bl makeGalaxyStatusAccessor__2MRFPCc
-    stw r3, 0x8(r1)
-    mr r4, r28
-    addi r3, r1, 0x8
-    bl isGreenStar__20GalaxyStatusAccessorCFl
-    cmpwi r3, 0
-    bne loc_set_44_1
-    li r30, 1
-loc_set_44_1:
-    stb r30, 0x44(r27)
-    b loc_after_44
-loc_else:
-    lbz r0, 0x88(r27)
-    li r31, 0
-    cmpwi r0, 0
-    bne loc_set_44_2
-    mr r3, r29
-    mr r4, r28
-    bl isPowerStarBronze__2MRFPCcl
-    cmpwi r3, 0
-    beq loc_set_44_2
-    mr r31, r30
-loc_set_44_2:
-    stb r31, 0x44(r27)
-loc_after_44:
-    lwz r4, 0x64(r27)
-    cmpwi r4, 0
-    beq loc_zero_64
-    lis r3, 0x3
-    addi r0, r3, 0x4bc0
-    cmplw r4, r0
-    bge loc_zero_64
-    lbz r0, 0x88(r27)
-    cmpwi r0, 0
-    bne loc_zero_64
-    mr r3, r29
-    mr r4, r28
-    bl fn_804D3D10__16GameDataFunctionFPCcl
-    cmpwi r3, 0
-    li r4, 0
-    beq loc_set_68
-    lwz r0, 0x64(r27)
-    cmplw r0, r3
-    bge loc_set_68
-    li r4, 1
-loc_set_68:
-    stb r4, 0x68(r27)
-    b loc_exit
-loc_zero_64:
-    li r0, 0
-    stw r0, 0x64(r27)
-loc_exit:
-    addi r11, r1, 0x30
-    bl _restgpr_27
-    lwz r0, 0x34(r1)
-    mtlr r0
-    addi r1, r1, 0x30
-    blr
+    _42 = true;
+    _43 = !GameDataFunction::hasPowerStar(pStageName, starNum);
+
+    if (_43) {
+        _44 = !_88 && !MR::makeGalaxyStatusAccessor(pStageName).isGreenStar(starNum);
+    } else {
+        _44 = !_88 && MR::isPowerStarBronze(pStageName, starNum);
+    }
+
+    if (_64 != 0 && _64 < 216000 && !_88) {
+        u32 bestTime = GameDataFunction::fn_804D3D10(pStageName, starNum);
+        _68 = bestTime != 0 && _64 < bestTime;
+    } else {
+        _64 = 0;
+    }
 }
 
 void PlayResultInStageHolder::setClearedPowerStarNum(s32 num) {
