@@ -155,13 +155,15 @@ static void* AllocUsedBlockFromFreeBlock_(MEMiExpHeapHead* pEHHead, MEMiExpHeapM
 
     pMBHeadFreePrev = RemoveMBlock_(&pEHHead->mbFreeList, pMBHeadFree);
 
-    if (GetOffsetFromPtr(freeRgnT.start, freeRgnT.end) < sizeof(MEMiExpHeapMBlockHead) + 4) {
+    if (GetOffsetFromPtr(freeRgnT.start, freeRgnT.end) < sizeof(MEMiExpHeapMBlockHead) + 4 ||
+        (direction == 0 && !pEHHead->feature.fields.useMarginOfAlign)) {
         freeRgnT.end = freeRgnT.start;
     } else {
         pMBHeadFreePrev = InsertMBlock_(&pEHHead->mbFreeList, InitFreeMBlock_(&freeRgnT), pMBHeadFreePrev);
     }
 
-    if (GetOffsetFromPtr(freeRgnB.start, freeRgnB.end) < sizeof(MEMiExpHeapMBlockHead) + 4) {
+    if (GetOffsetFromPtr(freeRgnB.start, freeRgnB.end) < sizeof(MEMiExpHeapMBlockHead) + 4 ||
+        (direction == 1 && !pEHHead->feature.fields.useMarginOfAlign)) {
         freeRgnB.start = freeRgnB.end;
     } else {
         (void)InsertMBlock_(&pEHHead->mbFreeList, InitFreeMBlock_(&freeRgnB), pMBHeadFreePrev);
@@ -341,22 +343,22 @@ static inline MEMiExpHeapHead* GetExpHeapHeadPtrFromHandle_(MEMHeapHandle heap) 
 }
 
 void MEMFreeToExpHeap(MEMHeapHandle heap, void* memBlock) {
-    MEMiHeapHead* pHeapHd = heap;
-    MEMiExpHeapHead* pExpHeapHd;
-    MEMiExpHeapMBlockHead* pMBHead;
-    MemRegion region;
-
     if (memBlock == NULL) {
         return;
     }
 
-    pExpHeapHd = GetExpHeapHeadPtrFromHandle_(pHeapHd);
-    pMBHead = GetMBlockHeadPtr_(memBlock);
-
     LockHeap(heap);
-    GetRegionOfMBlock_(&region, pMBHead);
-    (void)RemoveMBlock_(&pExpHeapHd->mbUsedList, pMBHead);
-    (void)RecycleRegion_(pExpHeapHd, &region);
+
+    {
+        MEMiExpHeapHead* pExpHeapHd = GetExpHeapHeadPtrFromHandle_(heap);
+        MEMiExpHeapMBlockHead* pMBHead = GetMBlockHeadPtr_(memBlock);
+        MemRegion region;
+
+        GetRegionOfMBlock_(&region, pMBHead);
+        (void)RemoveMBlock_(&pExpHeapHd->mbUsedList, pMBHead);
+        (void)RecycleRegion_(pExpHeapHd, &region);
+    }
+
     UnlockHeap(heap);
 }
 
@@ -388,4 +390,17 @@ u32 MEMGetAllocatableSizeForExpHeapEx(MEMHeapHandle heap, int alignment) {
 
         return maxSize;
     }
+}
+
+u16 MEMSetGroupIDForExpHeap(MEMHeapHandle heap, u16 groupID) {
+    MEMiExpHeapHead* pEHHead = GetExpHeapHeadPtrFromHandle_(heap);
+    u16 oldGroupID;
+    BOOL enabled;
+
+    enabled = OSDisableInterrupts();
+    oldGroupID = pEHHead->groupID;
+    pEHHead->groupID = groupID;
+    OSRestoreInterrupts(enabled);
+
+    return oldGroupID;
 }
