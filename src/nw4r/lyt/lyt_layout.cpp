@@ -318,16 +318,26 @@ namespace nw4r {
 
         Pane* Layout::BuildPaneObj(s32 kind, const void* dataPtr, const ResBlockSet& resBlockSet) {
             switch (kind) {
-            case 'pan1':
-                return NewObj< Pane >(static_cast< const res::Pane* >(dataPtr));
-            case 'pic1':
-                return NewObj< Picture >(static_cast< const res::Picture* >(dataPtr), resBlockSet);
-            case 'txt1':
-                return NewObj< TextBox >(static_cast< const res::TextBox* >(dataPtr), resBlockSet);
-            case 'wnd1':
-                return NewObj< Window >(static_cast< const res::Window* >(dataPtr), resBlockSet);
-            case 'bnd1':
-                return NewObj< Bounding >(static_cast< const res::Bounding* >(dataPtr), resBlockSet);
+            case 'pan1': {
+                const res::Pane* pResPane = static_cast< const res::Pane* >(dataPtr);
+                return NewObj< Pane >(pResPane);
+            }
+            case 'pic1': {
+                const res::Picture* pResPic = static_cast< const res::Picture* >(dataPtr);
+                return NewObj< Picture >(pResPic, resBlockSet);
+            }
+            case 'txt1': {
+                const res::TextBox* pBlock = static_cast< const res::TextBox* >(dataPtr);
+                return NewObj< TextBox >(pBlock, resBlockSet);
+            }
+            case 'wnd1': {
+                const res::Window* pBlock = static_cast< const res::Window* >(dataPtr);
+                return NewObj< Window >(pBlock, resBlockSet);
+            }
+            case 'bnd1': {
+                const res::Bounding* pResBounding = static_cast< const res::Bounding* >(dataPtr);
+                return NewObj< Bounding >(pResBounding, resBlockSet);
+            }
             default:
                 return nullptr;
             }
