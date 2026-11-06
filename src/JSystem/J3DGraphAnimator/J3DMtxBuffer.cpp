@@ -177,131 +177,154 @@ s32 J3DMtxBuffer::createBumpMtxArray(J3DModelData* i_modelData, u32 mtxNum) {
 
 static f32 J3DUnit01[] = {0.0f, 1.0f};
 
-void J3DMtxBuffer::calcWeightEnvelopeMtx() {
-    __REGISTER MtxPtr weightAnmMtx;
-    __REGISTER MtxPtr worldMtx;
-    __REGISTER MtxPtr invMtx;
-    __REGISTER f32 weight;
-    int idx;
-    int j;
-    int mixNum;
-    int i;
-    int max;
-    u16* indices;
-    __REGISTER f32* weights;
-    u8* pScale;
-
-    __REGISTER f32 var_f1;
-    __REGISTER f32 var_f2;
-    __REGISTER f32 var_f3;
-    __REGISTER f32 var_f4;
-    __REGISTER f32 var_f5;
-    __REGISTER f32 var_f6;
-    __REGISTER f32 var_f7;
-    __REGISTER f32 var_f8;
-    __REGISTER f32 var_f9;
-    __REGISTER f32 var_f9b;
-    __REGISTER f32 var_f10;
-    __REGISTER f32 var_f11;
-    __REGISTER f32 var_f12;
-    __REGISTER f32 var_f13;
-    __REGISTER f32 var_f31;
-    __REGISTER f32 var_f30;
-    __REGISTER f32 var_f29;
-    __REGISTER f32 var_f28;
-    __REGISTER f32 var_f27;
-    __REGISTER f32 var_f26;
-    __REGISTER f32 var_f25;
-    __REGISTER f32 var_f24;
-    __REGISTER f32* var_r7 = J3DUnit01;
-
-    i = -1;
-    max = mJointTree->getWEvlpMtxNum();
-    indices = mJointTree->getWEvlpMixMtxIndex() - 1;
-    weights = mJointTree->getWEvlpMixWeight() - 1;
-
-    asm {
-        psq_l var_f24, 0(var_r7), 0, 0
-        ps_merge00 var_f11, var_f24, var_f24
-        ps_merge00 var_f13, var_f24, var_f24
-        ps_merge00 var_f30, var_f24, var_f24
-    }
-
-    while (++i < max) {
-        pScale = &mpEvlpScaleFlagArr[i];
-        *pScale = 1;
-        weightAnmMtx = mpWeightEvlpMtx[i];
-
-        asm {
-            ps_merge00 var_f10, var_f24, var_f24
-            ps_merge00 var_f12, var_f24, var_f24
-            ps_merge00 var_f31, var_f24, var_f24
-        }
-
-        j = 0;
-        mixNum = mJointTree->getWEvlpMixMtxNum(i);
-        do {
-            idx = *++indices;
-            invMtx = mJointTree->getInvJointMtx((u16)idx);
-            worldMtx = mpAnmMtx[idx];
-
-            asm {
-                lfsu weight, 0x4(weights)
-                psq_l var_f2, 0x0(invMtx), 0, 0
-                psq_l var_f1, 0x0(worldMtx), 0, 0
-                psq_l var_f3, 0x10(worldMtx), 0, 0
-                ps_muls0 var_f29, var_f2, var_f1
-                psq_l var_f8, 0x10(invMtx), 0, 0
-                ps_muls0 var_f27, var_f2, var_f3
-                psq_l var_f5, 0x20(worldMtx), 0, 0
-                psq_l var_f7, 0x8(invMtx), 0, 0
-                ps_muls0 var_f25, var_f2, var_f5
-                ps_madds1 var_f29, var_f8, var_f1, var_f29
-                psq_l var_f9, 0x20(invMtx), 0, 0
-                psq_l var_f2, 0x8(worldMtx), 0, 0
-                ps_madds1 var_f27, var_f8, var_f3, var_f27
-                psq_l var_f4, 0x18(worldMtx), 0, 0
-                ps_madds0 var_f29, var_f9, var_f2, var_f29
-                ps_madds1 var_f25, var_f8, var_f5, var_f25
-                psq_l var_f6, 0x28(worldMtx), 0, 0
-                ps_madds0 var_f27, var_f9, var_f4, var_f27
-                psq_l var_f8, 0x18(invMtx), 0, 0
-                ps_muls0 var_f28, var_f7, var_f1
-                ps_muls0 var_f26, var_f7, var_f3
-                ps_madds0 var_f25, var_f9, var_f6, var_f25
-                psq_l var_f9b, 0x28(invMtx), 0, 0
-                ps_madds0 var_f10, var_f29, weight, var_f10
-                ps_muls0 var_f7, var_f7, var_f5
-                ps_madds1 var_f28, var_f8, var_f1, var_f28
-                ps_madds1 var_f26, var_f8, var_f3, var_f26
-                psq_st var_f10, 0x0(weightAnmMtx), 0, 0
-                ps_madds0 var_f12, var_f27, weight, var_f12
-                ps_madds1 var_f7, var_f8, var_f5, var_f7
-                ps_madds0 var_f28, var_f9b, var_f2, var_f28
-                ps_madds0 var_f26, var_f9b, var_f4, var_f26
-                psq_st var_f12, 0x10(weightAnmMtx), 0, 0
-                ps_madds0 var_f31, var_f25, weight, var_f31
-                ps_madds0 var_f7, var_f9b, var_f6, var_f7
-                ps_madd var_f28, var_f24, var_f2, var_f28
-                psq_st var_f31, 0x20(weightAnmMtx), 0, 0
-                ps_madd var_f26, var_f24, var_f4, var_f26
-                ps_madd var_f7, var_f24, var_f6, var_f7
-                ps_madds0 var_f11, var_f28, weight, var_f11
-                ps_madds0 var_f13, var_f26, weight, var_f13
-                ps_madds0 var_f30, var_f7, weight, var_f30
-            }
-
-            *pScale &= mpScaleFlagArr[idx];
-        } while (++j < mixNum);
-        asm {
-            psq_st var_f11, 8(weightAnmMtx), 0, 0
-            ps_merge00 var_f11, var_f24, var_f24
-            psq_st var_f13, 24(weightAnmMtx), 0, 0
-            ps_merge00 var_f13, var_f24, var_f24
-            psq_st var_f30, 40(weightAnmMtx), 0, 0
-            ps_merge00 var_f30, var_f24, var_f24
-        }
-    }
+asm void J3DMtxBuffer::calcWeightEnvelopeMtx() {
+    nofralloc
+    stwu r1, -0xb0(r1)
+    lis r5, J3DUnit01@ha
+    addi r5, r5, J3DUnit01@l
+    li r4, -0x1
+    stfd f31, 0xa0(r1)
+    li r8, 0x1
+    psq_st f31, 0xa8(r1), 0, 0
+    stfd f30, 0x90(r1)
+    psq_st f30, 0x98(r1), 0, 0
+    stfd f29, 0x80(r1)
+    psq_st f29, 0x88(r1), 0, 0
+    stfd f28, 0x70(r1)
+    psq_st f28, 0x78(r1), 0, 0
+    stfd f27, 0x60(r1)
+    psq_st f27, 0x68(r1), 0, 0
+    stfd f26, 0x50(r1)
+    psq_st f26, 0x58(r1), 0, 0
+    stfd f25, 0x40(r1)
+    psq_st f25, 0x48(r1), 0, 0
+    stfd f24, 0x30(r1)
+    psq_st f24, 0x38(r1), 0, 0
+    stfd f23, 0x20(r1)
+    psq_st f23, 0x28(r1), 0, 0
+    stw r31, 0x1c(r1)
+    stw r30, 0x18(r1)
+    stw r29, 0x14(r1)
+    stw r28, 0x10(r1)
+    psq_l f23, 0x0(r5), 0, 0
+    li r5, -0x30
+    lwz r9, 0x0(r3)
+    ps_merge00 f11, f23, f23
+    lwz r6, 0x24(r9)
+    ps_merge00 f13, f23, f23
+    lwz r7, 0x28(r9)
+    ps_merge00 f30, f23, f23
+    lhz r10, 0x1e(r9)
+    subi r29, r6, 0x2
+    subi r28, r7, 0x4
+    b L_8052A32C
+L_8052A1FC:
+    lwz r9, 0x8(r3)
+    ps_merge00 f10, f23, f23
+    ps_merge00 f12, f23, f23
+    clrlwi r0, r4, 16
+    stbx r8, r9, r4
+    ps_merge00 f31, f23, f23
+    li r30, 0x0
+    lwz r7, 0x0(r3)
+    lwz r6, 0x10(r3)
+    lwz r7, 0x20(r7)
+    add r12, r6, r5
+    lbzx r11, r7, r0
+L_8052A22C:
+    lhzu r31, 0x2(r29)
+    addi r30, r30, 0x1
+    lwz r7, 0x0(r3)
+    cmpw r30, r11
+    mulli r6, r31, 0x30
+    lwz r0, 0xc(r3)
+    lwz r7, 0x2c(r7)
+    lfsu f0, 0x4(r28)
+    add r7, r7, r6
+    add r6, r0, r6
+    psq_l f2, 0x0(r7), 0, 0
+    psq_l f1, 0x0(r6), 0, 0
+    psq_l f3, 0x10(r6), 0, 0
+    ps_muls0 f29, f2, f1
+    psq_l f8, 0x10(r7), 0, 0
+    ps_muls0 f27, f2, f3
+    psq_l f5, 0x20(r6), 0, 0
+    psq_l f7, 0x8(r7), 0, 0
+    ps_muls0 f25, f2, f5
+    ps_madds1 f29, f8, f1, f29
+    psq_l f9, 0x20(r7), 0, 0
+    psq_l f2, 0x8(r6), 0, 0
+    ps_madds1 f27, f8, f3, f27
+    psq_l f4, 0x18(r6), 0, 0
+    ps_madds0 f29, f9, f2, f29
+    ps_madds1 f25, f8, f5, f25
+    psq_l f6, 0x28(r6), 0, 0
+    ps_madds0 f27, f9, f4, f27
+    psq_l f8, 0x18(r7), 0, 0
+    ps_muls0 f28, f7, f1
+    ps_muls0 f26, f7, f3
+    ps_muls0 f24, f7, f5
+    psq_l f7, 0x28(r7), 0, 0
+    ps_madds0 f10, f29, f0, f10
+    ps_madds0 f25, f9, f6, f25
+    ps_madds1 f28, f8, f1, f28
+    psq_st f10, 0x0(r12), 0, 0
+    ps_madds0 f12, f27, f0, f12
+    ps_madds1 f26, f8, f3, f26
+    ps_madds1 f24, f8, f5, f24
+    psq_st f12, 0x10(r12), 0, 0
+    ps_madds0 f31, f25, f0, f31
+    ps_madds0 f28, f7, f2, f28
+    psq_st f31, 0x20(r12), 0, 0
+    ps_madds0 f26, f7, f4, f26
+    ps_madds0 f24, f7, f6, f24
+    ps_madd f28, f23, f2, f28
+    lwz r6, 0x4(r3)
+    ps_madd f26, f23, f4, f26
+    lbzx r7, r9, r4
+    ps_madd f24, f23, f6, f24
+    lbzx r0, r6, r31
+    ps_madds0 f11, f28, f0, f11
+    and r0, r7, r0
+    ps_madds0 f13, f26, f0, f13
+    ps_madds0 f30, f24, f0, f30
+    stbx r0, r9, r4
+    blt L_8052A22C
+    psq_st f11, 0x8(r12), 0, 0
+    ps_merge00 f11, f23, f23
+    psq_st f13, 0x18(r12), 0, 0
+    ps_merge00 f13, f23, f23
+    psq_st f30, 0x28(r12), 0, 0
+    ps_merge00 f30, f23, f23
+L_8052A32C:
+    addi r4, r4, 0x1
+    addi r5, r5, 0x30
+    cmpw r4, r10
+    blt L_8052A1FC
+    psq_l f31, 0xa8(r1), 0, 0
+    lfd f31, 0xa0(r1)
+    psq_l f30, 0x98(r1), 0, 0
+    lfd f30, 0x90(r1)
+    psq_l f29, 0x88(r1), 0, 0
+    lfd f29, 0x80(r1)
+    psq_l f28, 0x78(r1), 0, 0
+    lfd f28, 0x70(r1)
+    psq_l f27, 0x68(r1), 0, 0
+    lfd f27, 0x60(r1)
+    psq_l f26, 0x58(r1), 0, 0
+    lfd f26, 0x50(r1)
+    psq_l f25, 0x48(r1), 0, 0
+    lfd f25, 0x40(r1)
+    psq_l f24, 0x38(r1), 0, 0
+    lfd f24, 0x30(r1)
+    psq_l f23, 0x28(r1), 0, 0
+    lfd f23, 0x20(r1)
+    lwz r31, 0x1c(r1)
+    lwz r30, 0x18(r1)
+    lwz r29, 0x14(r1)
+    lwz r28, 0x10(r1)
+    addi r1, r1, 0xb0
+    blr
 }
 
 void J3DMtxBuffer::calcDrawMtx(u32 mdlFlag, Vec const& param_1, Mtx const& param_2) {

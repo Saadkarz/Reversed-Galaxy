@@ -5,7 +5,7 @@
 - **Compiler:** Metrowerks CodeWarrior for Wii (`mwcc` / `mwcceppc.exe`)
 - **Parity Requirement:** Strict 100% bit-for-bit parity (`main.dol: OK (0 byte diffs)`) against retail SHA-1 `7d79810889824edd01c4ff02624713060a69818c`.
 - **Target:** 550+ Matching Translation Units (TUs) towards 100% decompilation.
-- **Standing Verification & Push Mandate:** Maintain bit-for-bit DOL parity at all times. When you finish work or hit a milestone, always commit and push to `github/main`.
+- **Standing Verification & Push Policy:** Maintain bit-for-bit DOL parity at all times. Commit every promotion locally (with `README.md` updated in the same commit), but only `git push github main` at milestones (e.g. 633 / 90%, 640, 650) or when explicitly asked.
 - **Standing Mandatory README.md Sync:** NEVER run `git commit` or `git push` without first updating `README.md` with the latest Matching TU count (e.g., `550 / 701 (78.46%)`), module breakdown table, and milestone progress. Every push to `github/main` must include `README.md` in the staged files.
 
 ---
@@ -77,10 +77,11 @@ When a function is close (90–99%) and brute-force edits stall (stop after 5 fa
   5. Run `python configure.py`.
   6. **Single Full Verification Step:** Run `ninja build/SB4E01/ok` and `python tools/compare_dol.py`. Verify `main.dol: OK (0 byte diffs)`.
   7. **Mandatory README.md Sync:** Update `README.md` with the new matching TU count (e.g. `551 / 701 (78.60%)`), updated shields, and subsystem breakdown table.
-  8. Stage, commit, and push immediately:
+  8. Stage and commit locally (push only at milestones):
      ```powershell
      git add config/SB4E01/splits.txt config/SB4E01/symbols.txt configure.py README.md src/<path>/<unit>.cpp libs/...
-     git commit -m "Promote <unit> (<Count> / 701)"
+     git commit -m "Promote <unit> (<Count> / 703)"
+     # at a milestone (633, 640, 650, ...):
      git push github main
      ```
 
@@ -88,7 +89,7 @@ When a function is close (90–99%) and brute-force edits stall (stop after 5 fa
 
 ## 3. Strict Anti-Fakematch Rules (`decomp-code-rules`)
 - **STRICT BAN on Inline Assembly (`asm`), `#ifdef __MWERKS__` Assembly Workarounds & `#pragma schedule off`:**
-  - Inline `asm { ... }` blocks and assembly function bodies are **STRICTLY BANNED** in C/C++ functions (unless the function is an authentic OS hardware intrinsic such as `OSDisableInterrupts` or `__lhbrx`).
+  - Inline `asm { ... }` blocks and assembly function bodies are **STRICTLY BANNED** for faking normal C/C++ functions. They are **allowed** only where Nintendo genuinely hand-wrote the routine in assembly in retail SDKs/middleware: OS hardware intrinsics (`OSDisableInterrupts`, `__lhbrx`), `PSMTX*`/`PSVEC*`, `JMath` paired-single routines, and similar (e.g. `J3DMtxBuffer::calcWeightEnvelopeMtx`).
   - `#ifdef __MWERKS__` assembly blocks inserted to bypass register swaps, latency gaps, or scheduling differences with a C++ fallback are **STRICTLY BANNED**.
   - `#pragma schedule off` / `#pragma schedule on` used to artificially alter instruction scheduling are **STRICTLY BANNED**.
   - Every function must compile from 100% authentic, pure C/C++ source code under `mwcc`. Register allocation and scheduling parity must be achieved naturally via proper types, variables, scopes, inlined helpers, or compiler flags.

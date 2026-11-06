@@ -599,9 +599,9 @@ config.libs = [
                 extra_cflags=["-ipa file", "-sym on"],
             ),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/J3DGraphAnimator/J3DMtxBuffer.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file"],
             ),
             Object(
                 Matching,
