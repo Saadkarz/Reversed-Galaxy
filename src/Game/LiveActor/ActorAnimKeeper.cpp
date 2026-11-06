@@ -9,6 +9,12 @@ namespace {
     const char* sFileName = "ActorAnimCtrl";
 }
 
+ActorAnimDataInfo::ActorAnimDataInfo() : mName(nullptr), mStartFrame(0.0f), mIsKeepAnim(false) {
+}
+
+ActorAnimKeeperInfo::ActorAnimKeeperInfo() : mName(nullptr) {
+}
+
 ActorAnimKeeper* ActorAnimKeeper::tryCreate(LiveActor* pActor) {
     const ResourceHolder* pResourceHolder = MR::getResourceHolder(pActor);
 
@@ -132,9 +138,8 @@ bool ActorAnimKeeper::isExistAnim(const char* pName) {
 }
 
 bool ActorAnimKeeper::isAnyAnimPlaying(const char* pName) {
-    const ActorAnimKeeperInfo* currentInfo = mCurrentInfo;
-    if (currentInfo) {
-        if (!MR::isEqualStringCase(currentInfo->mName, pName)) {
+    if (mCurrentInfo) {
+        if (!MR::isEqualStringCase(mCurrentInfo->mName, pName)) {
             return false;
         }
 
