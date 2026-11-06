@@ -6,8 +6,8 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-623_%2F_703_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Code Matched](https://img.shields.io/badge/Code_Matched-19.29%25_(21.27%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-624_%2F_703_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Code Matched](https://img.shields.io/badge/Code_Matched-19.30%25_(21.28%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
 
@@ -33,15 +33,15 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`623` Matching Translation Units Milestone)
+## 📊 Current Progress (`624` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
 ### 🌐 Global Binary Metrics
-* **Total Code Matched:** `1,209,912 / 6,273,500 bytes` (**19.29% Exact Matched** | **21.27% Fuzzy**)
-* **Total Functions Matched:** `7,412 / 50,907 functions`
-* **Total Data Matched:** `492,149 / 1,702,505 bytes` (**28.91%**)
-* **Cleanly Linked `.o` Units (`Matching`):** **`623` Translation Units** (out of `703` currently configured split files)
+* **Total Code Matched:** `1,210,480 / 6,273,500 bytes` (**19.30% Exact Matched** | **21.28% Fuzzy**)
+* **Total Functions Matched:** `7,416 / 50,907 functions`
+* **Total Data Matched:** `493,597 / 1,702,505 bytes` (**28.99%**)
+* **Cleanly Linked `.o` Units (`Matching`):** **`624` Translation Units** (out of `703` currently configured split files)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)
 
@@ -52,10 +52,10 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | **Runtime.PPCEABI.H** | `7` | `7` | `██████████ 100.00%` | ✅ **Complete** |
 | **Game Code** *(SMG2 Gameplay & Engine)* | `114` | `131` | `████████░░ 87.02%` | 🚀 Promoted `Game/LiveActor/ShadowSurfaceCircle.cpp` |
 | **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `235` | `267` | `████████░░ 88.01%` | 🚀 Promoted `RVL_SDK/dvd/dvd.c` |
-| **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `148` | `166` | `████████░░ 89.16%` | 🚀 Promoted `JSystem/JAudio2/JASChannel.cpp` |
+| **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `149` | `166` | `████████░░ 89.76%` | 🚀 Promoted `JSystem/JUtility/JUTException.cpp` |
 | **NintendoWare (`nw4r`)** | `18` | `28` | `██████░░░░ 64.29%` | 🚀 Promoted `nw4r/ut/ut_TagProcessorBase.cpp` |
 | **RVLFaceLib** *(Mii Library)* | `8` | `13` | `██████░░░░ 61.54%` | 🚀 Promoted `RVLFaceLib/RFL_NANDAccess.c` |
-| **TOTAL CONFIGURED** | **`623`** | **`703`** | **`████████░░ 88.62%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **TOTAL CONFIGURED** | **`624`** | **`703`** | **`████████░░ 88.76%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 

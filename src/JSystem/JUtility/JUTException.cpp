@@ -434,7 +434,7 @@ void JUTException::showGPRMap(OSContext* context) {
     for (int i = 0; i < 31; i++) {
         u32 address = context->gpr[i];
 
-        if (address >= 0x80000000 && address <= 0x83000000 - 1) {
+        if (address >= 0x80000000 && 0x83000000 - 1 >= address) {
             found_address_register = true;
 
             sConsole->print_f("R%02d: %08XH", i, address);
@@ -458,7 +458,7 @@ void JUTException::showSRR0Map(OSContext* context) {
 
     sConsole->print("-------------------------------- SRR0MAP\n");
     u32 address = context->srr0;
-    if (address >= 0x80000000 && address <= 0x83000000 - 1) {
+    if (address >= 0x80000000 && 0x83000000 - 1 >= address) {
         sConsole->print_f("SRR0: %08XH", address);
         if (showMapInfo_subroutine(address, true) == false) {
             sConsole->print("  no information\n");

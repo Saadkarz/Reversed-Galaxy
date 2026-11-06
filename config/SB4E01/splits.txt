@@ -5096,11 +5096,13 @@ JSystem/JUtility/JUTFont.cpp:
 	.text       start:0x8050F1C0 end:0x8050F340 align:16
 
 JSystem/JUtility/JUTException.cpp:
-	.text       start:0x8050F340 end:0x80510C20 align:16
+	.text       start:0x8050F340 end:0x80510CB0 align:16
 	.ctors      start:0x80644B18 end:0x80644B1C
-	.data       start:0x80705250 end:0x80705260
-	.bss        start:0x8072BE08 end:0x8072BE18
+	.data       start:0x80704CA8 end:0x80705260
+	.bss        start:0x8072BDC8 end:0x8072C0E0
+	.sdata      start:0x807D05E0 end:0x807D05F8
 	.sbss       start:0x807D6250 end:0x807D6278
+	.sdata2     start:0x807E1EB8 end:0x807E1EC8
 
 JSystem/JUtility/JUTDirectPrint.cpp:
 	.text       start:0x80510CB0 end:0x805113C0 align:16

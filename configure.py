@@ -985,9 +985,9 @@ config.libs = [
             Object(Matching, "JSystem/JUtility/JUTNameTab.cpp"),
             Object(Matching, "JSystem/JUtility/JUTFont.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JUtility/JUTException.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file"],
             ),
             Object(Matching, "JSystem/JUtility/JUTDirectPrint.cpp"),
             Object(Matching, "JSystem/JUtility/JUTAssert.cpp"),
