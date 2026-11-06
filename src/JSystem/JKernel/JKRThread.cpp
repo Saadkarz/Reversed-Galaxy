@@ -84,8 +84,8 @@ JKRThread* JKRThreadSwitch::enter(JKRThread* pThread, int a2) {
     JKRThread::TLoad* inf = &pThread->mLoadInfo;
 
     inf->clear();
-    inf->_10 = a2;
     inf->_0 = 1;
+    inf->_10 = a2;
 
     return pThread;
 }
@@ -95,8 +95,8 @@ JUtility::TColor& JUtility::TColor::operator=(const TColor& rColor) {
     return *this;
 }
 
-void setThreadColor(JUtility::TColor& rDestination, u8 r, u8 g, u8 b, u8 a) {
-    rDestination = JUtility::TColor(r, g, b, a);
+JUtility::TColor::TColor(u8 r, u8 g, u8 b, u8 a) {
+    set(r, g, b, a);
 }
 
 JSUList< JKRThread > JKRThread::sThreadList = JSUList< JKRThread >(false);
@@ -106,9 +106,3 @@ u8 JKRTask::sEndMesgQueue[32];
 JKRThreadSwitch* JKRThreadSwitch::sManager;
 u32 JKRThreadSwitch::sTotalCount;
 
-void JKRThread_FORCE_MATCH(JUtility::TColor* pColor, u8 r, u8 g, u8 b, u8 a) {
-    *pColor = JUtility::TColor(r, g, b, a);
-    *pColor = JUtility::TColor(r, g, b, a);
-    *pColor = JUtility::TColor(r, g, b, a);
-    *pColor = JUtility::TColor(r, g, b, a);
-}

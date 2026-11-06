@@ -4955,10 +4955,10 @@ JSystem/JKernel/JKRDisposer.cpp:
 	.data       start:0x807046E0 end:0x807046F0
 
 JSystem/JKernel/JKRThread.cpp:
-	.text       start:0x80504C40 end:0x80505160 align:16
+	.text       start:0x80504C40 end:0x80505280 align:16
 	.ctors      start:0x80644AF8 end:0x80644AFC
 	.data       start:0x807046F0 end:0x80704700
-	.bss        start:0x8072BBBC end:0x8072BC08
+	.bss        start:0x8072BBB0 end:0x8072BC08
 	.sbss       start:0x807D6150 end:0x807D6158
 
 JSystem/JKernel/JKRAram.cpp:

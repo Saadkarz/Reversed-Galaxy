@@ -860,9 +860,9 @@ config.libs = [
             Object(Matching, "JSystem/JKernel/JKRUnitHeap.cpp"),
             Object(Matching, "JSystem/JKernel/JKRDisposer.cpp"),
             Object(
-                NonMatching,
+                Matching,
                 "JSystem/JKernel/JKRThread.cpp",
-                extra_cflags=["-ipa file", "-sym on"],
+                extra_cflags=["-ipa file"],
             ),
             Object(
                 Matching,
