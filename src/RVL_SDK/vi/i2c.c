@@ -3,13 +3,16 @@
 static volatile u32 __i2c_ident_flag  = 1;
 static volatile u32 __i2c_ident_first = 0;
 
+// I2C bit-banging timing uses the fixed 243 MHz bus clock, not the boot-time __OSBusClock value.
+#define I2CTicksToMicroseconds(ticks) (((ticks)*8) / ((243000000u / 4) / 125000))
+
 #define busRd32(addr) (*(volatile u32 *)(addr))
 #define busWrt32(addr, val) (*(volatile u32 *)(addr)) = (val)
 
 void WaitMicroTime(s32 usec) {
     OSTime t = __OSGetSystemTime();
 
-    while (OSTicksToMicroseconds(__OSGetSystemTime() - t) < usec);
+    while (I2CTicksToMicroseconds(__OSGetSystemTime() - t) < usec);
 }
 
 static void VICheckI2C(void) {
