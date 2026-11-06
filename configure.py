@@ -1505,12 +1505,7 @@ config.libs = [
     RVLLib(
         "dvd",
         [
-            Object(
-                NonMatching,
-                "RVL_SDK/dvd/dvdfs.c",
-                mw_version="GC/3.0a3",
-                cflags=cflags_sdk_gc,
-            ),
+            Object(Matching, "RVL_SDK/dvd/dvdfs.c"),
             Object(Matching, "RVL_SDK/dvd/dvd.c"),
             Object(Matching, "RVL_SDK/dvd/dvdqueue.c"),
             Object(Matching, "RVL_SDK/dvd/dvderror.c"),
