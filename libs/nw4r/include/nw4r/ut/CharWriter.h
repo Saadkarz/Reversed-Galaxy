@@ -98,41 +98,7 @@ namespace nw4r {
                 UpdateVertexColor();
             }
 
-            inline void SetupGX() {
-                ResetTextureCache();
-
-                if ((mColorMapping.min != 0x00000000UL) || (mColorMapping.max != 0xFFFFFFFFUL)) {
-                    SetupGXWithColorMapping(mColorMapping.min, mColorMapping.max);
-                } else {
-                    if (mFont) {
-                        GXTexFmt format = mFont->GetTextureFormat();
-
-                        switch (format) {
-                        case GX_TF_I4:
-                        case GX_TF_I8:
-                            SetupGXForI();
-                            break;
-
-                        case GX_TF_IA4:
-                        case GX_TF_IA8:
-                            SetupGXDefault();
-                            break;
-
-                        case GX_TF_RGB565:
-                        case GX_TF_RGB5A3:
-                        case GX_TF_RGBA8:
-                            SetupGXForRGBA();
-                            break;
-
-                        default:
-                            SetupGXDefault();
-                            break;
-                        }
-                    } else {
-                        SetupGXDefault();
-                    }
-                }
-            }
+            void SetupGX();
             void SetupGXForI();
             void SetupGXDefault();
             void SetupGXForRGBA();
