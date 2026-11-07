@@ -6,7 +6,7 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-664_%2F_703_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-666_%2F_704_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Code Matched](https://img.shields.io/badge/Code_Matched-19.75%25_(21.63%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
@@ -33,7 +33,7 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`664` Matching Translation Units Milestone)
+## 📊 Current Progress (`666` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
@@ -41,7 +41,7 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 * **Total Code Matched:** `1,238,952 / 6,273,488 bytes` (**19.75% Exact Matched** | **21.63% Fuzzy**)
 * **Total Functions Matched:** `7,590 / 50,906 functions`
 * **Total Data Matched:** `494,157 / 1,702,497 bytes` (**29.03%**)
-* **Cleanly Linked `.o` Units (`Matching`):** **`664` Translation Units** (out of `703` currently configured split files)
+* **Cleanly Linked `.o` Units (`Matching`):** **`666` Translation Units** (out of `704` currently configured split files)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)
 
@@ -53,9 +53,9 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | **Game Code** *(SMG2 Gameplay & Engine)* | `117` | `131` | `████████░░ 89.31%` | 🚀 Promoted `Game/System/PlayResultInStageHolder.cpp` |
 | **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `259` | `267` | `█████████░ 97.00%` | 🚀 Promoted `RVL_SDK/nand/nand.c` |
 | **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `155` | `166` | `█████████░ 93.37%` | 🚀 Promoted `JSystem/J3DGraphAnimator/J3DMtxBuffer.cpp` |
-| **NintendoWare (`nw4r`)** | `22` | `28` | `███████░░░ 78.57%` | 🚀 Promoted `nw4r/lyt/lyt_window.cpp` |
+| **NintendoWare (`nw4r`)** | `24` | `29` | `████████░░ 82.76%` | 🚀 Promoted `nw4r/ut/ut_ResFontBase.cpp` (+ new `ut_RomFont.cpp` split) |
 | **RVLFaceLib** *(Mii Library)* | `11` | `13` | `████████░░ 84.62%` | 🚀 Promoted `RVLFaceLib/RFL_Icon.c` |
-| **TOTAL CONFIGURED** | **`664`** | **`703`** | **`█████████░ 94.45%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **TOTAL CONFIGURED** | **`666`** | **`704`** | **`█████████░ 94.60%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 
