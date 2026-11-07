@@ -42,6 +42,8 @@ class NameObjExecuteHolder : public NameObj {
 public:
     NameObjExecuteHolder(int);
 
+    virtual ~NameObjExecuteHolder();
+
     void registerActor(NameObj*, int, int, int, int);
     void initConnectting();
     void connectToScene(NameObj*);

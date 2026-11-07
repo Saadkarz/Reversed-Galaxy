@@ -8,6 +8,7 @@
 #define SceneObj_ShadowVolumeDrawInit 0x4E
 #define SceneObj_ShadowSurfaceDrawInit 0x4F
 #define SceneObj_BaseMatrixFollowTargetHolder 0x3C
+#define SceneObj_NameObjExecuteHolder 0x63
 #define SceneObj_ChangeObjHolder 0x85
 
 class NameObj;

@@ -3376,11 +3376,11 @@ Game/NameObj/NameObjCategoryList.cpp:
 	.data       start:0x806B3448 end:0x806B3460
 
 Game/NameObj/NameObjExecuteHolder.cpp:
-	.text       start:0x8033A780 end:0x8033B190
-	.data       start:0x806B3478 end:0x806B34A8
+	.text       start:0x8033A1F0 end:0x8033B190
+	.data       start:0x806B3460 end:0x806B34A8
 
 Game/NameObj/NameObjFactory.cpp:
-	.text       start:0x8033B190 end:0x803431F0
+	.text       start:0x8033B190 end:0x803431F0 align:16
 	.data       start:0x806B34A8 end:0x806B79A0
 
 Game/NameObj/NameObjFinder.cpp:

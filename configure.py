@@ -1108,6 +1108,7 @@ config.libs = [
             Object(Matching, "Game/NameObj/NameObj.cpp"),
             Object(Matching, "Game/NameObj/NameObjAdaptor.cpp"),
             Object(NonMatching, "Game/NameObj/NameObjCategoryList.cpp"),
+            Object(Matching, "Game/NameObj/NameObjExecuteHolder.cpp"),
             Object(Matching, "Game/NameObj/NameObjGroup.cpp"),
             Object(Matching, "Game/NameObj/NameObjHolder.cpp"),
             Object(Matching, "Game/NameObj/NameObjRegister.cpp"),
