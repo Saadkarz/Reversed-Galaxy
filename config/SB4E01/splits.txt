@@ -152,9 +152,10 @@ Game/Util/MtxUtil.cpp:
 
 Game/Util/MultiEventCamera.cpp:
 	.text       start:0x80047510 end:0x80047A50
+	.data       start:0x8065E9D8 end:0x8065E9F0
 
 Game/Util/NerveUtil.cpp:
-	.text       start:0x80047A50 end:0x80048580
+	.text       start:0x80047A50 end:0x80048580 align:16
 	.rodata     start:0x80645260 end:0x80645268
 	.sdata2     start:0x807D7068 end:0x807D7070
 
@@ -228,12 +229,14 @@ Game/Util/CollisionPartsFilter.cpp:
 
 Game/Util/DirectDrawUtil.cpp:
 	.text       start:0x80065A30 end:0x80065DF0
+	.sbss       start:0x807D0DE8 end:0x807D0DF8
 
 Game/Util/FixedPosition.cpp:
-	.text       start:0x80065EF0 end:0x80066230
+	.text       start:0x80065EF0 end:0x80066230 align:16
 
 Game/Util/IKJoint.cpp:
 	.text       start:0x80066E70 end:0x80067310
+	.sdata2     start:0x807D7238 end:0x807D7260
 
 Game/Util/JMapIdInfo.cpp:
 	.text       start:0x800674B0 end:0x80067604 align:16
@@ -560,7 +563,7 @@ Game/AudioLib/OverwriteJAudio.cpp:
 	.bss        start:0x807288E0 end:0x807288F0
 
 Game/AudioLib/CSSoundNameConverter.cpp:
-	.text       start:0x80089240 end:0x80089470
+	.text       start:0x80089240 end:0x80089470 align:16
 
 Game/Util/Color8.cpp:
 	.text       start:0x8008B150 end:0x8008B184 align:16
@@ -712,9 +715,10 @@ Game/Boss/DinoPackunTail.cpp:
 Game/Boss/DinoPackunTailNode.cpp:
 	.text       start:0x800B53E0 end:0x800B5A30
 	.data       start:0x80670AC4 end:0x80670B48
+	.sdata2     start:0x807D7F68 end:0x807D7F98
 
 Game/Boss/DinoPackunTailPart.cpp:
-	.text       start:0x800B5A60 end:0x800B5FB0
+	.text       start:0x800B5A60 end:0x800B5FB0 align:16
 	.ctors      start:0x80643E34 end:0x80643E38
 	.data       start:0x80670B68 end:0x80670C10
 
@@ -1261,10 +1265,12 @@ Game/Camera/CameraShakeTask.cpp:
 
 Game/Camera/CameraShaker.cpp:
 	.text       start:0x80129B20 end:0x8012A390 align:16
+	.rodata     start:0x80647C68 end:0x80647C98
 	.data       start:0x8067E068 end:0x8067E098
+	.sdata2     start:0x807D9458 end:0x807D9468
 
 Game/Camera/CameraSlide.cpp:
-	.text       start:0x8012A390 end:0x8012A800
+	.text       start:0x8012A390 end:0x8012A800 align:16
 	.data       start:0x8067E098 end:0x8067E100
 	.sdata2     start:0x807D9468 end:0x807D9488
 
@@ -1282,9 +1288,10 @@ Game/Camera/CameraSubjective.cpp:
 Game/Camera/CameraTalk.cpp:
 	.text       start:0x8012B9B0 end:0x8012C170
 	.data       start:0x8067E238 end:0x8067E2A0
+	.sdata2     start:0x807D9510 end:0x807D9548
 
 Game/Camera/CameraTargetArg.cpp:
-	.text       start:0x8012C170 end:0x8012C240
+	.text       start:0x8012C170 end:0x8012C240 align:16
 
 Game/Camera/CameraTargetHolder.cpp:
 	.text       start:0x8012C240 end:0x8012C460
@@ -1313,9 +1320,10 @@ Game/Camera/CameraTowerBase.cpp:
 Game/Camera/CameraTowerPos.cpp:
 	.text       start:0x8012E280 end:0x8012EB60
 	.data       start:0x8067E638 end:0x8067E6B0
+	.sdata2     start:0x807D95D0 end:0x807D9600
 
 Game/Camera/CameraTripodPlanet.cpp:
-	.text       start:0x8012EB60 end:0x8012F080
+	.text       start:0x8012EB60 end:0x8012F080 align:16
 	.data       start:0x8067E6B0 end:0x8067E718
 
 Game/Camera/CameraTrundle.cpp:
@@ -2007,9 +2015,10 @@ Game/Gravity/CubeGravity.cpp:
 Game/Gravity/DiskGravity.cpp:
 	.text       start:0x802241A0 end:0x80224810
 	.data       start:0x806943E8 end:0x806943F8
+	.sdata2     start:0x807DC278 end:0x807DC2A0
 
 Game/Gravity/DiskTorusGravity.cpp:
-	.text       start:0x80224810 end:0x80224930
+	.text       start:0x80224810 end:0x80224930 align:16
 	.data       start:0x806943F8 end:0x80694408
 	.sdata2     start:0x807DC2A0 end:0x807DC2AC
 
@@ -3151,9 +3160,10 @@ Game/MapObj/SpiderThreadHangInfo.cpp:
 
 Game/MapObj/SpiderThreadMainPoint.cpp:
 	.text       start:0x80307550 end:0x80307930
+	.sdata2     start:0x807DE780 end:0x807DE798
 
 Game/MapObj/SpiderThreadPart.cpp:
-	.text       start:0x80307930 end:0x80309440
+	.text       start:0x80307930 end:0x80309440 align:16
 	.ctors      start:0x806445D4 end:0x806445D8
 
 Game/MapObj/SpiderThreadPoint.cpp:
@@ -3997,9 +4007,10 @@ Game/Ride/SwingRope.cpp:
 Game/Ride/SwingRopePoint.cpp:
 	.text       start:0x80443F20 end:0x804440A0
 	.data       start:0x806EE4C8 end:0x806EE4D8
+	.sdata2     start:0x807E0F14 end:0x807E0F18
 
 Game/Ride/Tamakoro.cpp:
-	.text       start:0x804442D0 end:0x80447DB0
+	.text       start:0x804442D0 end:0x80447DB0 align:16
 	.ctors      start:0x80644850 end:0x80644854
 
 Game/Ride/TamakoroTutorial.cpp:
@@ -4785,7 +4796,7 @@ Game/System/NANDManager.cpp:
 	.text       start:0x804C4620 end:0x804C4820
 
 Game/System/NANDManagerThread.cpp:
-	.text       start:0x804C4820 end:0x804C4BB0
+	.text       start:0x804C4820 end:0x804C4BB0 align:16
 	.data       start:0x806FBE70 end:0x806FBE80
 
 Game/System/NerveExecutor.cpp:
@@ -4899,9 +4910,10 @@ Game/System/WPadStick.cpp:
 Game/System/ConfigDataHolder.cpp:
 	.text       start:0x804D1150 end:0x804D1390
 	.data       start:0x806FF288 end:0x806FF2A8
+	.sdata      start:0x807D04A8 end:0x807D04AC
 
 Game/System/ConfigDataMii.cpp:
-	.text       start:0x804D1390 end:0x804D1710
+	.text       start:0x804D1390 end:0x804D1710 align:16
 	.data       start:0x806FF2A8 end:0x806FF2C8
 
 Game/System/ConfigDataMisc.cpp:

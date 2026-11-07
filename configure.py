@@ -1213,6 +1213,7 @@ config.libs = [
     GameLib(
         "Camera",
         [
+            Object(Matching, "Game/Camera/CameraShaker.cpp"),
             Object(Matching, "Game/Camera/CameraShakeTask.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorTrundle.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorSpiral.cpp"),
