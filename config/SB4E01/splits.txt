@@ -6139,8 +6139,8 @@ JSystem/JAudio2/JAUInitializer.cpp:
 	.sdata2     start:0x807E2590 end:0x807E2598
 
 JSystem/JAudio2/JAUSectionHeap.cpp:
-	.text       start:0x80598E20 end:0x8059A990 align:16
-	.data       start:0x8070BF90 end:0x8070BFF8
+	.text       start:0x80598E20 end:0x8059AAC0 align:16
+	.data       start:0x8070BF80 end:0x8070BFF8
 	.sbss       start:0x807D6568 end:0x807D6570
 
 JSystem/JAudio2/JAUSeqCollection.cpp:
