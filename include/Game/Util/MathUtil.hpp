@@ -468,16 +468,12 @@ namespace MR {
     /// @brief Computes the cosine of a number, in radians.
     /// @param x The number of radians to evaluate.
     /// @return The ratio of the length of the adjacent to that of the hypotenuse.
-    inline f32 cos(f32 x) {
-        return JMACosRadian(x);
-    }
+    f32 cos(f32 x);
 
     /// @brief Computes the sine of a number, in radians.
     /// @param x The number of radians to evaluate.
     /// @return The ratio of the length of the opposite to that of the hypotenuse.
-    inline f32 sin(f32 x) {
-        return JMASinRadian(x);
-    }
+    f32 sin(f32 x);
 
     /// @brief Computes the tangent of a number, in radians.
     /// @param x The number of radians to evaluate.
