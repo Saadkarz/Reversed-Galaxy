@@ -1121,6 +1121,7 @@ config.libs = [
             Object(Matching, "Game/Ride/TubeSliderCrystal.cpp"),
             Object(NonMatching, "Game/Ride/TubeSliderDamageObjCreator.cpp"),
             Object(Matching, "Game/Ride/TubeSliderFunction.cpp"),
+            Object(Matching, "Game/Ride/TubeSliderJumpStep.cpp"),
         ],
     ),
     GameLib(
