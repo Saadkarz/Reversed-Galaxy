@@ -1966,6 +1966,9 @@ Game/Enemy/WalkerStateParam.cpp:
 	.text       start:0x80219FA0 end:0x80219FE0 align:16
 	.sdata2     start:0x807DC060 end:0x807DC080
 
+Game/Enemy/WalkerStateStaggerParam.cpp:
+	.text       start:0x80219FE0 end:0x8021A100 align:16
+
 Game/Enemy/WalkerStateStagger.cpp:
 	.text       start:0x8021A100 end:0x8021A8F0 align:16
 	.ctors      start:0x8064426C end:0x80644270
@@ -3045,7 +3048,7 @@ Game/MapObj/PowerStarAppearPoint.cpp:
 	.data       start:0x806A87D0 end:0x806A8840
 
 Game/MapObj/PowerStarHolder.cpp:
-	.text       start:0x802E1A90 end:0x802E1E10
+	.text       start:0x802E1A90 end:0x802E1E10 align:16
 	.data       start:0x806A8840 end:0x806A8870
 
 Game/MapObj/PressureBase.cpp:

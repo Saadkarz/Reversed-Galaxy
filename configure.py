@@ -1282,6 +1282,12 @@ config.libs = [
             Object(Matching, "Game/Screen/WipeHolderBase.cpp"),
         ],
     ),
+    GameLib(
+        "Enemy",
+        [
+            Object(Matching, "Game/Enemy/WalkerStateParam.cpp"),
+        ],
+    ),
     RVLLib(
         "gd",
         [
