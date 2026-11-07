@@ -1300,9 +1300,10 @@ Game/Camera/CameraTargetHolder.cpp:
 Game/Camera/CameraTargetMtx.cpp:
 	.text       start:0x8012C570 end:0x8012C710
 	.data       start:0x8067E2D8 end:0x8067E378
+	.sdata2     start:0x807D9554 end:0x807D9558
 
 Game/Camera/CameraTargetObj.cpp:
-	.text       start:0x8012C820 end:0x8012CF60
+	.text       start:0x8012C820 end:0x8012CF60 align:16
 	.ctors      start:0x80644018 end:0x8064401C
 	.data       start:0x8067E378 end:0x8067E558
 	.bss        start:0x80728E80 end:0x80728E90
@@ -4401,10 +4402,13 @@ Game/Screen/MarioMeter.cpp:
 
 Game/Screen/MarioSubMeter.cpp:
 	.text       start:0x80481700 end:0x804819C0
-	.data       start:0x806F55D8 end:0x806F5608
+	.data       start:0x806F55A0 end:0x806F5608
+
+Game/Screen/MessageEditorMessageTag.cpp:
+	.text       start:0x804819C0 end:0x80481B10 align:16
 
 Game/Screen/MeterLayout.cpp:
-	.text       start:0x80481B10 end:0x80482E30
+	.text       start:0x80481B10 end:0x80482E30 align:16
 	.ctors      start:0x80644918 end:0x8064491C
 	.data       start:0x806F5728 end:0x806F5820
 	.sbss       start:0x807D5680 end:0x807D56B0

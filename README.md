@@ -6,7 +6,7 @@
 
 [![Target Binary](https://img.shields.io/badge/Target-SB4E01_(USA_Rev_0)-blue?style=for-the-badge&logo=nintendo)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Build Verification](https://img.shields.io/badge/DOL_Verification-100%25_Bit--Exact_(0_Diffs)-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
-[![Matching Units](https://img.shields.io/badge/Linked_Units-703_%2F_739_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
+[![Matching Units](https://img.shields.io/badge/Linked_Units-704_%2F_740_Matched-brightgreen?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 [![Code Matched](https://img.shields.io/badge/Code_Matched-19.75%25_(21.63%25_Fuzzy)-purple?style=for-the-badge)](https://github.com/Saadkarz/Reversed-Galaxy)
 
 ---
@@ -33,7 +33,7 @@ Using **Matching Decompilation**, every function is written in C/C++ and compile
 
 ---
 
-## 📊 Current Progress (`703` Matching Translation Units Milestone)
+## 📊 Current Progress (`704` Matching Translation Units Milestone)
 
 Every linked translation unit listed below compiles from C/C++ and links into `main.dol` with **0 byte differences across all 11 DOL sections** (`Text 0–1`, `Data 0–7`, and `BSS`).
 
@@ -41,7 +41,7 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 * **Total Code Matched:** `1,238,952 / 6,273,488 bytes` (**19.75% Exact Matched** | **21.63% Fuzzy**)
 * **Total Functions Matched:** `7,590 / 50,906 functions`
 * **Total Data Matched:** `494,157 / 1,702,497 bytes` (**29.03%**)
-* **Cleanly Linked `.o` Units (`Matching`):** **`703` Translation Units** (out of `739` currently configured split files)
+* **Cleanly Linked `.o` Units (`Matching`):** **`704` Translation Units** (out of `740` currently configured split files)
 
 ### 📦 Subsystem Breakdown (Configured Library Units)
 
@@ -50,12 +50,12 @@ Every linked translation unit listed below compiles from C/C++ and links into `m
 | **MSL_C** *(Standard C/C++ Runtime)* | `65` | `65` | `██████████ 100.00%` | ✅ **Complete** |
 | **MetroTRK** *(Debugger Kernel)* | `26` | `26` | `██████████ 100.00%` | ✅ **Complete** |
 | **Runtime.PPCEABI.H** | `7` | `7` | `██████████ 100.00%` | ✅ **Complete** |
-| **Game Code** *(SMG2 Gameplay & Engine)* | `152` | `166` | `█████████░ 91.57%` | 🚀 Ported 32 units from Petari (incl. SMG2 WalkerStateParam field) |
+| **Game Code** *(SMG2 Gameplay & Engine)* | `153` | `167` | `█████████░ 91.62%` | 🚀 Ported 33 units from Petari (incl. SMG2 MarioSubMeter / SubMeterLayout layout) |
 | **RVL_SDK** *(Wii OS, GX, VF, BTE)* | `259` | `267` | `█████████░ 97.00%` | 🚀 Promoted `RVL_SDK/nand/nand.c` |
 | **JSystem** *(JAudio2, JKernel, JGadget, J3D)* | `156` | `166` | `█████████░ 93.98%` | 🚀 Promoted `JSystem/JParticle/JPAParticle.cpp` |
 | **NintendoWare (`nw4r`)** | `25` | `29` | `████████░░ 86.21%` | 🚀 Promoted `nw4r/lyt/lyt_pane.cpp` |
 | **RVLFaceLib** *(Mii Library)* | `11` | `13` | `████████░░ 84.62%` | 🚀 Promoted `RVLFaceLib/RFL_Icon.c` |
-| **TOTAL CONFIGURED** | **`703`** | **`739`** | **`█████████░ 95.13%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
+| **TOTAL CONFIGURED** | **`704`** | **`740`** | **`█████████░ 95.14%`** | **100% Bit-Exact `main.dol: OK` (0 byte diffs)** |
 
 ---
 

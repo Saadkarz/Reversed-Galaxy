@@ -1279,6 +1279,7 @@ config.libs = [
     GameLib(
         "Screen",
         [
+            Object(Matching, "Game/Screen/MarioSubMeter.cpp"),
             Object(Matching, "Game/Screen/WipeHolderBase.cpp"),
         ],
     ),
