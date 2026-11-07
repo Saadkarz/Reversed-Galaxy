@@ -1212,6 +1212,7 @@ config.libs = [
     GameLib(
         "Camera",
         [
+            Object(Matching, "Game/Camera/CamTranslatorTrundle.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorSpiral.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorFix.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorFollow.cpp"),
@@ -1231,6 +1232,44 @@ config.libs = [
             Object(Matching, "Game/Animation/BtkPlayer.cpp"),
             Object(Matching, "Game/Animation/BrkPlayer.cpp"),
             Object(Matching, "Game/Animation/BpkPlayer.cpp"),
+        ],
+    ),
+    GameLib(
+        "AreaObj",
+        [
+            Object(Matching, "Game/AreaObj/AreaObjFollower.cpp"),
+        ],
+    ),
+    GameLib(
+        "Speaker",
+        [
+            Object(Matching, "Game/Speaker/SpkWave.cpp"),
+            Object(Matching, "Game/Speaker/SpkTable.cpp"),
+            Object(Matching, "Game/Speaker/SpkData.cpp"),
+        ],
+    ),
+    GameLib(
+        "RhythmLib",
+        [
+            Object(Matching, "Game/RhythmLib/AudMeHandles.cpp"),
+        ],
+    ),
+    GameLib(
+        "MapObj",
+        [
+            Object(Matching, "Game/MapObj/SpiderThreadRadialLine.cpp"),
+        ],
+    ),
+    GameLib(
+        "AudioLib",
+        [
+            Object(Matching, "Game/AudioLib/AudFader.cpp"),
+        ],
+    ),
+    GameLib(
+        "Demo",
+        [
+            Object(Matching, "Game/Demo/DemoCastSubGroup.cpp"),
         ],
     ),
     RVLLib(

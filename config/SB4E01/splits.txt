@@ -301,9 +301,10 @@ Game/Animation/BvaPlayer.cpp:
 Game/Animation/LayoutAnmPlayer.cpp:
 	.text       start:0x8006A040 end:0x8006A190
 	.data       start:0x80669EF8 end:0x80669F10
+	.sdata2     start:0x807D72A0 end:0x807D72A8
 
 Game/Animation/MaterialAnmBuffer.cpp:
-	.text       start:0x8006A190 end:0x8006AC50
+	.text       start:0x8006A190 end:0x8006AC50 align:16
 
 Game/Animation/XanimeCore.cpp:
 	.text       start:0x8006AEC0 end:0x8006CF60
@@ -332,7 +333,7 @@ Game/AreaObj/AreaObjFollower.cpp:
 	.data       start:0x8066A7B0 end:0x8066A7C0
 
 Game/AreaObj/AudioEffectArea.cpp:
-	.text       start:0x80071790 end:0x80071930
+	.text       start:0x80071790 end:0x80071930 align:16
 	.data       start:0x8066A7C0 end:0x8066A7F8
 
 Game/AreaObj/BgmChangeArea.cpp:
@@ -345,7 +346,7 @@ Game/AreaObj/ImageEffectArea.cpp:
 	.text       start:0x80072120 end:0x80072180
 
 Game/AreaObj/BloomArea.cpp:
-	.text       start:0x80072180 end:0x800721F0
+	.text       start:0x80072180 end:0x800721F0 align:16
 	.data       start:0x8066A890 end:0x8066A8D0
 
 Game/AreaObj/CancelBeeMorphArea.cpp:
@@ -506,9 +507,14 @@ Game/AudioLib/AudEffector.cpp:
 
 Game/AudioLib/AudFader.cpp:
 	.text       start:0x80084520 end:0x80084600
+	.rodata     start:0x80646CB0 end:0x80646CB8
+	.sdata2     start:0x807D7588 end:0x807D7590
+
+Game/AudioLib/AudLimitedSoundInfo.cpp:
+	.text       start:0x80084600 end:0x800846B0 align:16
 
 Game/AudioLib/AudMeNameConverter.cpp:
-	.text       start:0x800846B0 end:0x800848E0
+	.text       start:0x800846B0 end:0x800848E0 align:16
 	.ctors      start:0x80643D4C end:0x80643D50
 
 Game/AudioLib/AudMicWrap.cpp:
@@ -750,7 +756,7 @@ Game/Boss/DodoryuHill.cpp:
 	.data       start:0x80672CC8 end:0x80672D40
 
 Game/Boss/DodoryuStateLv1.cpp:
-	.text       start:0x800C0730 end:0x800C1AE0
+	.text       start:0x800C0730 end:0x800C1AE0 align:16
 	.ctors      start:0x80643E5C end:0x80643E60
 	.data       start:0x80672F38 end:0x80673058
 
@@ -994,9 +1000,10 @@ Game/Camera/CamTranslatorRailWatch.cpp:
 Game/Camera/CamTranslatorSlide.cpp:
 	.text       start:0x8010D8E0 end:0x8010DB20 align:16
 	.data       start:0x8067BDB8 end:0x8067BDC8
+	.sdata2     start:0x807D8DA8 end:0x807D8DB8
 
 Game/Camera/CamTranslatorSpiral.cpp:
-	.text       start:0x8010DBE0 end:0x8010DC50
+	.text       start:0x8010DBE0 end:0x8010DC50 align:16
 	.data       start:0x8067BDD8 end:0x8067BDE8
 
 Game/Camera/CamTranslatorTalk.cpp:
@@ -1006,21 +1013,24 @@ Game/Camera/CamTranslatorTalk.cpp:
 Game/Camera/CamTranslatorTower.cpp:
 	.text       start:0x8010DC80 end:0x8010DD30 align:16
 	.data       start:0x8067BDF8 end:0x8067BE08
+	.sdata2     start:0x807D8DC0 end:0x807D8DD0
 
 Game/Camera/CamTranslatorTowerPos.cpp:
-	.text       start:0x8010DD30 end:0x8010DE00
+	.text       start:0x8010DD30 end:0x8010DE00 align:16
 	.data       start:0x8067BE08 end:0x8067BE18
+	.sdata2     start:0x807D8DD0 end:0x807D8DE0
 
 Game/Camera/CamTranslatorTripodPlanet.cpp:
-	.text       start:0x8010DE00 end:0x8010DEE0
+	.text       start:0x8010DE00 end:0x8010DEE0 align:16
 	.data       start:0x8067BE18 end:0x8067BE28
 
 Game/Camera/CamTranslatorTrundle.cpp:
 	.text       start:0x8010DEE0 end:0x8010DFD0
 	.data       start:0x8067BE28 end:0x8067BE38
+	.sdata2     start:0x807D8DF0 end:0x807D8DF8
 
 Game/Camera/CamTranslatorTwistedPassage.cpp:
-	.text       start:0x8010DFD0 end:0x8010E040
+	.text       start:0x8010DFD0 end:0x8010E040 align:16
 	.data       start:0x8067BE38 end:0x8067BE48
 
 Game/Camera/CamTranslatorWaterFollow.cpp:
@@ -1128,9 +1138,10 @@ Game/Camera/CameraFrontAndBack.cpp:
 Game/Camera/CameraGround.cpp:
 	.text       start:0x80119D70 end:0x8011A110
 	.data       start:0x8067C858 end:0x8067C8C0
+	.sdata2     start:0x807D90C8 end:0x807D90E0
 
 Game/Camera/CameraHeightArrange.cpp:
-	.text       start:0x8011A110 end:0x8011B3A0
+	.text       start:0x8011A110 end:0x8011B3A0 align:16
 	.data       start:0x8067C8D4 end:0x8067C900
 
 Game/Camera/CameraHolder.cpp:
@@ -1158,7 +1169,7 @@ Game/Camera/CameraMan.cpp:
 	.data       start:0x8067D400 end:0x8067D468
 
 Game/Camera/CameraManEvent.cpp:
-	.text       start:0x8011EBB0 end:0x8011FEC0
+	.text       start:0x8011EBB0 end:0x8011FEC0 align:16
 	.data       start:0x8067D478 end:0x8067D4E0
 
 Game/Camera/CameraManGame.cpp:
@@ -1174,7 +1185,7 @@ Game/Camera/CameraManSubjective.cpp:
 	.data       start:0x8067D6D4 end:0x8067D738
 
 Game/Camera/CameraMedianPlanet.cpp:
-	.text       start:0x80122610 end:0x801233A0
+	.text       start:0x80122610 end:0x801233A0 align:16
 	.data       start:0x8067D738 end:0x8067D7A0
 
 Game/Camera/CameraMedianTower.cpp:
@@ -1211,7 +1222,7 @@ Game/Camera/CameraParamString.cpp:
 	.text       start:0x80126E00 end:0x80126EA0
 
 Game/Camera/CameraRaceFollow.cpp:
-	.text       start:0x80126FD0 end:0x801275E0
+	.text       start:0x80126FD0 end:0x801275E0 align:16
 	.data       start:0x8067DDF8 end:0x8067DE60
 
 Game/Camera/CameraRailDemo.cpp:
@@ -1353,7 +1364,7 @@ Game/Demo/DemoCastSubGroup.cpp:
 	.data       start:0x8067EDA8 end:0x8067EDE0
 
 Game/Demo/DemoCtrlBase.cpp:
-	.text       start:0x80135BF0 end:0x80135E80
+	.text       start:0x80135BF0 end:0x80135E80 align:16
 
 Game/Demo/DemoDirector.cpp:
 	.text       start:0x80135E80 end:0x80136520
@@ -1423,7 +1434,7 @@ Game/Effect/AutoEffectGroup.cpp:
 	.text       start:0x80148160 end:0x80148240
 
 Game/Effect/AutoEffectGroupHolder.cpp:
-	.text       start:0x80148460 end:0x801485A0
+	.text       start:0x80148460 end:0x801485A0 align:16
 
 Game/Effect/AutoEffectInfo.cpp:
 	.text       start:0x80148710 end:0x80148C80
@@ -1465,7 +1476,7 @@ Game/Effect/ParticleEmitter.cpp:
 	.text       start:0x8014DFC0 end:0x8014E080
 
 Game/Effect/ParticleEmitterHolder.cpp:
-	.text       start:0x8014E2C0 end:0x8014E560
+	.text       start:0x8014E2C0 end:0x8014E560 align:16
 
 Game/Effect/ParticleResourceHolder.cpp:
 	.text       start:0x8014E560 end:0x8014E820
@@ -1928,9 +1939,10 @@ Game/Enemy/WalkerStateFindPlayer.cpp:
 
 Game/Enemy/WalkerStateFunction.cpp:
 	.text       start:0x80219F20 end:0x80219FA0
+	.sdata2     start:0x807DC058 end:0x807DC060
 
 Game/Enemy/WalkerStateParam.cpp:
-	.text       start:0x80219FA0 end:0x80219FE0
+	.text       start:0x80219FA0 end:0x80219FE0 align:16
 	.sdata2     start:0x807DC060 end:0x807DC080
 
 Game/Enemy/WalkerStateStagger.cpp:
@@ -2017,7 +2029,7 @@ Game/Gravity/PointGravity.cpp:
 	.data       start:0x80694680 end:0x80694690
 
 Game/Gravity/SegmentGravity.cpp:
-	.text       start:0x80227990 end:0x80228090
+	.text       start:0x80227990 end:0x80228090 align:16
 	.data       start:0x80694690 end:0x806946A0
 
 Game/Gravity/WireGravity.cpp:
@@ -2393,7 +2405,7 @@ Game/Map/GroupSwitchWatcher.cpp:
 	.data       start:0x80697AA8 end:0x80697B18
 
 Game/Map/Halo.cpp:
-	.text       start:0x80255EB0 end:0x80256710
+	.text       start:0x80255EB0 end:0x80256710 align:16
 	.ctors      start:0x806442B4 end:0x806442B8
 	.data       start:0x80697B6C end:0x80697CD8
 	.sbss       start:0x807D3600 end:0x807D3610
@@ -3137,7 +3149,7 @@ Game/MapObj/SpiderThreadRadialLine.cpp:
 	.text       start:0x80309900 end:0x803099C0
 
 Game/MapObj/SpiderThreadWindCtrl.cpp:
-	.text       start:0x803099C0 end:0x80309A70
+	.text       start:0x803099C0 end:0x80309A70 align:16
 
 Game/MapObj/SpinDriver.cpp:
 	.text       start:0x8030B880 end:0x8030DBE0
@@ -3641,7 +3653,7 @@ Game/Player/GroupChecker.cpp:
 	.data       start:0x806C093C end:0x806C0998
 
 Game/Player/J3DModelX.cpp:
-	.text       start:0x80384600 end:0x803861E0
+	.text       start:0x80384600 end:0x803861E0 align:16
 	.data       start:0x806C13E0 end:0x806C1408
 
 Game/Player/JetTurtleShadow.cpp:
@@ -3844,9 +3856,10 @@ Game/RhythmLib/AudMeTrack.cpp:
 
 Game/RhythmLib/AudMeChannelMgr.cpp:
 	.text       start:0x80425B00 end:0x80425C60
+	.sdata2     start:0x807E0888 end:0x807E0898
 
 Game/RhythmLib/AudMeSeqCtrl.cpp:
-	.text       start:0x80425CA0 end:0x80425EA0
+	.text       start:0x80425CA0 end:0x80425EA0 align:16
 	.ctors      start:0x806447FC end:0x80644800
 	.data       start:0x806EB640 end:0x806EB650
 	.sbss       start:0x807D4FE8 end:0x807D4FF0
@@ -3865,7 +3878,7 @@ Game/RhythmLib/AudMeTrackCallback.cpp:
 	.bss        start:0x8072B500 end:0x8072B600
 
 Game/RhythmLib/AudMePlayer.cpp:
-	.text       start:0x80427FE0 end:0x80428080
+	.text       start:0x80427FE0 end:0x80428080 align:16
 	.ctors      start:0x80644808 end:0x8064480C
 	.sbss       start:0x807D4FF0 end:0x807D4FF8
 
@@ -3877,7 +3890,7 @@ Game/RhythmLib/AudMeHandles.cpp:
 	.text       start:0x804285B0 end:0x80428650
 
 Game/RhythmLib/AudMeObject.cpp:
-	.text       start:0x80428770 end:0x804289F0
+	.text       start:0x80428770 end:0x804289F0 align:16
 	.data       start:0x806EC050 end:0x806EC070
 
 Game/RhythmLib/AudChordInfo.cpp:
@@ -3940,15 +3953,16 @@ Game/Ride/SledRopePoint.cpp:
 	.data       start:0x806EE1E0 end:0x806EE1F0
 
 Game/Ride/SphereAccelSensorController.cpp:
-	.text       start:0x80440710 end:0x80440B90
+	.text       start:0x80440710 end:0x80440B90 align:16
 	.data       start:0x806EE1F0 end:0x806EE218
 
 Game/Ride/SphereController.cpp:
 	.text       start:0x80440B90 end:0x80440C20
 	.data       start:0x806EE218 end:0x806EE238
+	.sdata2     start:0x807E0E60 end:0x807E0E68
 
 Game/Ride/SpherePadController.cpp:
-	.text       start:0x80440C20 end:0x80440D10
+	.text       start:0x80440C20 end:0x80440D10 align:16
 	.data       start:0x806EE238 end:0x806EE260
 
 Game/Ride/SwingRope.cpp:
@@ -4119,7 +4133,7 @@ Game/Screen/ImageEffectBase.cpp:
 	.text       start:0x8045F8F0 end:0x8045F950
 
 Game/Screen/BloomEffect.cpp:
-	.text       start:0x8045F950 end:0x80460980
+	.text       start:0x8045F950 end:0x80460980 align:16
 	.rodata     start:0x8064C8D0 end:0x8064C918
 	.data       start:0x806F1988 end:0x806F19C8
 
@@ -4595,13 +4609,16 @@ Game/Speaker/SpkWave.cpp:
 	.text       start:0x804AC4F0 end:0x804AC660
 
 Game/Speaker/SpkTable.cpp:
-	.text       start:0x804AC660 end:0x804AC6F0
+	.text       start:0x804AC660 end:0x804AC6F0 align:16
 
 Game/Speaker/SpkData.cpp:
-	.text       start:0x804AC6F0 end:0x804AC7F0
+	.text       start:0x804AC6F0 end:0x804AC7F0 align:16
+
+Game/Speaker/SpkSoundHandle.cpp:
+	.text       start:0x804AC7F0 end:0x804ACAD0 align:16
 
 Game/Speaker/SpkSound.cpp:
-	.text       start:0x804ACAD0 end:0x804AD660
+	.text       start:0x804ACAD0 end:0x804AD660 align:16
 	.ctors      start:0x806449F0 end:0x806449F4
 
 Game/System/ArchiveHolder.cpp:
@@ -4924,7 +4941,7 @@ Game/System/StarPieceAlmsStorage.cpp:
 	.text       start:0x804DE340 end:0x804DE350
 
 Game/System/SysConfigFile.cpp:
-	.text       start:0x804DEF40 end:0x804DEFE0
+	.text       start:0x804DEF40 end:0x804DEFE0 align:16
 	.data       start:0x807008B4 end:0x807008F0
 
 Game/System/UserFile.cpp:
