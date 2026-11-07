@@ -1245,6 +1245,7 @@ config.libs = [
     GameLib(
         "AreaObj",
         [
+            Object(Matching, "Game/AreaObj/MessageArea.cpp"),
             Object(Matching, "Game/AreaObj/AreaObjFollower.cpp"),
         ],
     ),

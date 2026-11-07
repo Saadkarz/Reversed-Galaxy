@@ -9,15 +9,14 @@ class StageSwitchCtrl;
 
 class AreaObj : public NameObj {
 public:
+    AreaObj(const char*);
     AreaObj(int, const char*);
 
     virtual void init(const JMapInfoIter&);
 
     virtual bool isInVolume(const TVec3f&) const;
-
-    virtual const char* getManagerName() const {
-        return mName;
-    }
+    virtual s32 getAreaPriority() const;
+    virtual const char* getManagerName() const;
 
     void onSwitchA();
     void offSwitchA();
@@ -53,20 +52,21 @@ public:
         return static_cast< T* >(mForm);
     }
 
-    /* 0x0C */ AreaForm* mForm;
-    /* 0x10 */ int mFormType;
-    /* 0x14 */ bool mIsValid;
-    /* 0x15 */ bool _15;
-    /* 0x16 */ bool mIsAwake;
-    /* 0x18 */ s32 mObjArg0;
-    /* 0x1C */ s32 mObjArg1;
-    /* 0x20 */ s32 mObjArg2;
-    /* 0x24 */ s32 mObjArg3;
-    /* 0x28 */ s32 mObjArg4;
-    /* 0x2C */ s32 mObjArg5;
-    /* 0x30 */ s32 mObjArg6;
-    /* 0x34 */ s32 mObjArg7;
-    /* 0x38 */ StageSwitchCtrl* mSwitchCtrl;
+    /* 0x14 */ AreaForm* mForm;
+    /* 0x18 */ int mFormType;
+    /* 0x1C */ bool mIsValid;
+    /* 0x1D */ bool _15;
+    /* 0x1E */ bool mIsAwake;
+    /* 0x20 */ s32 mObjArg0;
+    /* 0x24 */ s32 mObjArg1;
+    /* 0x28 */ s32 mObjArg2;
+    /* 0x2C */ s32 mObjArg3;
+    /* 0x30 */ s32 mObjArg4;
+    /* 0x34 */ s32 mObjArg5;
+    /* 0x38 */ s32 mObjArg6;
+    /* 0x3C */ s32 mObjArg7;
+    /* 0x40 */ s32 _40;
+    /* 0x44 */ StageSwitchCtrl* mSwitchCtrl;
 };
 
 class AreaObjMgr : public NameObj {

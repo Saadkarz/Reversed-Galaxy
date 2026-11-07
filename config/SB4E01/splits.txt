@@ -400,7 +400,7 @@ Game/AreaObj/MessageArea.cpp:
 	.data       start:0x8066AD10 end:0x8066AD48
 
 Game/AreaObj/MorphSwitchArea.cpp:
-	.text       start:0x80075480 end:0x80075670
+	.text       start:0x80075480 end:0x80075670 align:16
 
 Game/AreaObj/PostFogArea.cpp:
 	.text       start:0x80075670 end:0x80075890
