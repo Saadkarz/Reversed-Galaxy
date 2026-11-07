@@ -1,6 +1,10 @@
 #include "Game/Ride/TubeSliderFunction.hpp"
 #include "Game/Ride/TubeSlider.hpp"
 #include "Game/Ride/TubeSliderCoinCreator.hpp"
+#include "Game/Ride/TubeSliderDamageObjCreator.hpp"
+#include "Game/Ride/TubeSliderEnemy.hpp"
+#include "Game/Ride/TubeSliderObjCreator.hpp"
+#include "Game/Enemy/HanachanRunaway.hpp"
 #include "Game/Util/ActorInitUtil.hpp"
 #include "Game/Util/JMapUtil.hpp"
 #include "Game/Util/MathUtil.hpp"
@@ -9,7 +13,6 @@
 #include "Game/Util/StringUtil.hpp"
 
 namespace TubeSliderFunction {
-    // TODO: Needs class definitions
     void initChildObjs(TubeSlider* pSlider, const JMapInfoIter& rIter) {
         s32 childNum = MR::getChildObjNum(rIter);
         for (s32 i = 0; i < childNum; i++) {
@@ -23,13 +26,16 @@ namespace TubeSliderFunction {
                 MR::initChildObj(new TubeSliderCoinCreator(pSlider, true), rIter, i);
                 continue;
             } else if (MR::isEqualString(pName, "TubeSliderDamageObj")) {
+                MR::initChildObj(new TubeSliderDamageObjCreator(pSlider), rIter, i);
                 continue;
             } else if (MR::isEqualString(pName, "TubeSliderEnemy")) {
+                MR::initChildObj(new TubeSliderEnemy(pSlider), rIter, i);
                 continue;
             } else if (MR::isEqualString(pName, "TubeSliderHana")) {
+                MR::initChildObj(new HanachanRunaway(pSlider), rIter, i);
                 continue;
             } else {
-                // TubeSliderObjCreator
+                MR::initChildObj(new TubeSliderObjCreator(pSlider, pName), rIter, i);
             }
         }
     }
@@ -53,15 +59,16 @@ namespace TubeSliderFunction {
         nextPointDist = 0.0f;
         MR::calcDistanceToCurrentAndNextRailPoint(pSlider, &currentPointDist, &nextPointDist);
 
-        f32 f0 = nextPointDist;
-        f32 f3 = 1.0f;
-        if (currentPointDist + nextPointDist < 1.0f) {
-            f0 = 0.0f;
+        f32 totalDist = currentPointDist + nextPointDist;
+        f32 currentRate = 1.0f;
+        f32 nextRate;
+        if (totalDist < 1.0f) {
+            nextRate = 0.0f;
         } else {
-            f3 = currentPointDist / (currentPointDist + nextPointDist);
-            f0 = nextPointDist / (currentPointDist + nextPointDist);
+            currentRate = currentPointDist / totalDist;
+            nextRate = nextPointDist / totalDist;
         }
-        return (A * f0) + (B * f3);
+        return (A * nextRate) + (B * currentRate);
     }
     void updateTubeSliderInfo(TubeSlider* pSlider, bool doFullUpdate) {
         f32 nextArg0, currentArg0;
@@ -198,10 +205,9 @@ namespace TubeSliderFunction {
         return false;
     }
     bool isUnknown2(const TubeSlider* pSlider) {
-        const f32 range = 5.0f;
         if (!((isUnknown1(pSlider->getPlayerTheta(), pSlider->mInfo.mPrimaryFloorAngle, pSlider->mInfo.mPrimaryFloorWidth)) &&
-              (isUnknown1(pSlider->getPlayerTheta() - range, pSlider->mInfo.mPrimaryFloorAngle, pSlider->mInfo.mPrimaryFloorWidth)) &&
-              (isUnknown1(pSlider->getPlayerTheta() + range, pSlider->mInfo.mPrimaryFloorAngle, pSlider->mInfo.mPrimaryFloorWidth))))
+              (isUnknown1(pSlider->getPlayerTheta() - 5.0f, pSlider->mInfo.mPrimaryFloorAngle, pSlider->mInfo.mPrimaryFloorWidth)) &&
+              (isUnknown1(pSlider->getPlayerTheta() + 5.0f, pSlider->mInfo.mPrimaryFloorAngle, pSlider->mInfo.mPrimaryFloorWidth))))
             return false;
         return true;
     }

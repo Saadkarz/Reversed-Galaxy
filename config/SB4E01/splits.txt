@@ -4000,7 +4000,14 @@ Game/Ride/TubeSliderDamageObjCreator.cpp:
 	.sdata2     start:0x807E1188 end:0x807E11C0
 
 Game/Ride/TubeSliderFunction.cpp:
-	.text       start:0x8044FF90 end:0x80450D60
+	.text       start:0x8044FF90 end:0x80450D60 align:16
+	.rodata     start:0x8064C070 end:0x8064C078
+	.data       start:0x806EF730 end:0x806EF798
+	.sdata2     start:0x807E11F0 end:0x807E1210
+
+Game/Ride/TubeSliderJumpStep.cpp:
+	.text       start:0x80450D60 end:0x80451390 align:16
+	.ctors      start:0x8064486C end:0x80644870
 
 Game/Scene/GameScene.cpp:
 	.text       start:0x80451390 end:0x80452A70
