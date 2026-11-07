@@ -96,6 +96,11 @@ When a function is close (90–99%) and brute-force edits stall (stop after 5 fa
 - **NO Raw Pointer Offset Casts:** BANNED: `*(f32*)((u8*)this + 0x54)` or `((s32*)this)[12]`. All members must have typed representations in class/struct headers.
 - **NO Fake Local Buffers:** BANNED: defining dummy arrays to artificially shift the stack frame. Reconstruct authentic variable types and scopes.
 - **NO Hardcoded Symbol Addresses:** Always reference global objects through proper `extern` declarations, header includes, or accessor methods.
+- **Dead-stripped `.sdata2` order seeds (narrow exception):** MWCC pools float literals at code generation, so retail `.sdata2` order can come from a function the linker later dead-stripped. A seed function is allowed ONLY when all of these hold:
+  - 100% of the surviving `.text` functions in the TU already match retail, and the only remaining diff is `.sdata2` (or `.rodata`) constant order.
+  - For SDK/middleware TUs (`nw4r`, JSystem, RVL_SDK), first look for the real unused method (e.g. from `doldecomp/ogws` or other NW4R/JSystem decomps) and use it if found.
+  - Otherwise add one minimal, non-static function, placed where its constants must be created and commented `// Dead-stripped function required to seed retail .sdata2 float literal order`.
+  - `mwldeppc` must strip it completely: the fresh link must give `main.dol: OK (0 byte diffs)`.
 - **Authentic Galaxy Idioms:**
   - Use `NERVE(ClassNameNerveName)` and `INIT_NERVE(ClassNameNerveName)` for actor state machines.
   - Use `MR::` utility functions (`MR::isNear`, `MR::isDead`, `MR::calcDistance`, etc.) rather than reimplementing engine routines.

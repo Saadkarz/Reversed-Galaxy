@@ -39,6 +39,12 @@ namespace TubeSliderFunction {
             }
         }
     }
+    // Dead-stripped function required to seed retail .sdata2 float literal order
+    // (1.0f, 0.0f, 0.5f ahead of initDefaultPosOnTube); mwldeppc strips it from main.dol.
+    f32 sdata2OrderSeed(f32 x) {
+        return x < 0.5f ? 1.0f : 0.0f;
+    }
+
     void initDefaultPosOnTube(LiveActor* pActor, const JMapInfoIter& rIter, f32* railcoord, f32* floorangle, TVec3f* vec, f32 flt,
                               TubeSlider* pSlider) {
         MR::initDefaultPos(pActor, rIter);
