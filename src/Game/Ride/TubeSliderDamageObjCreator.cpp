@@ -12,7 +12,9 @@
 #include "Game/Util/JMapUtil.hpp"
 #include "Game/Util/LiveActorUtil.hpp"
 #include "Game/Util/MathUtil.hpp"
+#include "Game/Util/PlayerUtil.hpp"
 #include "Game/Util/RailUtil.hpp"
+#include "Game/Util/SoundUtil.hpp"
 #include "Game/Util/SupportPlayUtil.hpp"
 
 namespace {
@@ -107,10 +109,31 @@ bool TubeSliderDamageObj::receiveMsgPlayerAttack(u32 msg, HitSensor* pSender, Hi
 }
 
 void TubeSliderDamageObj::control() {
-    // TODO: All of this :(
+    f32 micDistance = MR::getMicDistance(this);
+    f32 playerDistance = MR::calcDistanceToPlayer(this);
 
-    // MR::getMicDistance???
-    MR::startActionSound(this, "MarioPassLv", -1, -1, -1);  // incorrect statement. only here to make the string spawn in
+    if (playerDistance <= 450.0f && !_A0) {
+        _A0 = true;
+    }
+
+    if (playerDistance <= 1000.0f && _A0) {
+        const f32 scale = 1000.0f;
+        s32 pitch = -100 + scale * (50.0f / (50.0f + (micDistance - _A4)));
+        if (pitch < 50) {
+            pitch = 50;
+        } else if (pitch > 1000) {
+            pitch = 1000;
+        }
+
+        f32 maxVolume = 50 + scale * (100.0f * (2.3f / micDistance));
+        TVec3f relVel(*MR::getPlayerVelocity());
+        relVel -= mVelocity;
+        MR::startActionSound(this, "MarioPassLv", MR::getLinerValueFromMinMax(PSVECMag(&relVel), 27.0f, 34.0f, 0.0f, maxVolume), pitch, -1);
+    } else if (_A0) {
+        _A0 = false;
+    }
+
+    _A4 = micDistance;
 }
 
 TubeSliderDamageObjCreator::TubeSliderDamageObjCreator(TubeSlider* pSlider) : LiveActor("ダメージオブジェ生成（チューブスライダー用）") {
