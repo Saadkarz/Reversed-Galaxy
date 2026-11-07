@@ -5395,6 +5395,8 @@ JSystem/JParticle/JPAEmitter.cpp:
 
 JSystem/JParticle/JPAParticle.cpp:
 	.text       start:0x80542BE0 end:0x80543B10 align:16
+	.rodata     start:0x806545F0 end:0x80654600
+	.sdata2     start:0x807E20E0 end:0x807E20F0
 
 JSystem/JParticle/JPAMath.cpp:
 	.text       start:0x80543B10 end:0x80544010 align:16

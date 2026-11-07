@@ -943,7 +943,11 @@ config.libs = [
             Object(Matching, "JSystem/JParticle/JPAResourceLoader.cpp"),
             Object(Matching, "JSystem/JParticle/JPAEmitterManager.cpp"),
             Object(Matching, "JSystem/JParticle/JPAEmitter.cpp"),
-            Object(NonMatching, "JSystem/JParticle/JPAParticle.cpp"),
+            Object(
+                Matching,
+                "JSystem/JParticle/JPAParticle.cpp",
+                mw_version="Wii/1.3",
+            ),
             Object(
                 Matching,
                 "JSystem/JParticle/JPAMath.cpp",
