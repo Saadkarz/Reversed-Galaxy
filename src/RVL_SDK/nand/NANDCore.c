@@ -6,7 +6,7 @@
 #include <cstring>
 #include <wstring.h>
 
-const char* __NANDVersion = "<< RVL_SDK - NAND \trelease build: Dec 11 2007 01:35:48 (0x4199_60831) >>";
+const char* __NANDVersion = "<< RVL_SDK - NAND \trelease build: Dec 11 2009 15:59:08 (0x4302_145) >>";
 enum LibState {
     STATE_NOT_INITIALIZED, 
     STATE_WORKING, 
@@ -176,8 +176,9 @@ static void nandLoggingCallback(BOOL result, s32 err) {
 }
 
 static inline void nandReportErrorCode(const ISFSError err) {
-    if (err == -23 && err == -100) {
-        // debug-only report, stripped in release builds
+    if (err < -23 && err >= -100) {
+        // the debug report is compiled out in release builds; only the range test remains
+        (void)err;
     }
 }
 
