@@ -772,9 +772,10 @@ Game/Boss/DodoryuStateWait.cpp:
 
 Game/Boss/DodoryuUtil.cpp:
 	.text       start:0x800C5060 end:0x800C51D0
+	.sdata2     start:0x807D8158 end:0x807D815C
 
 Game/Boss/OtaKing.cpp:
-	.text       start:0x800ED900 end:0x800F1390
+	.text       start:0x800ED900 end:0x800F1390 align:16
 	.ctors      start:0x80643F60 end:0x80643F64
 	.data       start:0x80678868 end:0x80678A08
 
@@ -1227,10 +1228,12 @@ Game/Camera/CameraRaceFollow.cpp:
 
 Game/Camera/CameraRailDemo.cpp:
 	.text       start:0x801275E0 end:0x80127AE0
+	.rodata     start:0x80647C38 end:0x80647C40
 	.data       start:0x8067DE60 end:0x8067DEC8
+	.sdata2     start:0x807D93C0 end:0x807D93D0
 
 Game/Camera/CameraRailFollow.cpp:
-	.text       start:0x80127AE0 end:0x80128080
+	.text       start:0x80127AE0 end:0x80128080 align:16
 	.data       start:0x8067DEC8 end:0x8067DF30
 
 Game/Camera/CameraRailHolder.cpp:
@@ -1244,25 +1247,32 @@ Game/Camera/CameraRailWatch.cpp:
 Game/Camera/CameraRegisterHolder.cpp:
 	.text       start:0x80128B60 end:0x80128F00
 	.data       start:0x8067E004 end:0x8067E030
+	.sdata      start:0x807CF6C8 end:0x807CF6D8
+	.sdata2     start:0x807D9408 end:0x807D9410
 
 Game/Camera/CameraRotChecker.cpp:
-	.text       start:0x80128F00 end:0x80129070
+	.text       start:0x80128F00 end:0x80129070 align:16
 	.ctors      start:0x80644014 end:0x80644018
 	.sbss       start:0x807D1D78 end:0x807D1D80
 
 Game/Camera/CameraShakeTask.cpp:
 	.text       start:0x80129870 end:0x80129B20
+	.sdata2     start:0x807D9450 end:0x807D9458
 
 Game/Camera/CameraShaker.cpp:
-	.text       start:0x80129B20 end:0x8012A390
+	.text       start:0x80129B20 end:0x8012A390 align:16
 	.data       start:0x8067E068 end:0x8067E098
 
 Game/Camera/CameraSlide.cpp:
 	.text       start:0x8012A390 end:0x8012A800
 	.data       start:0x8067E098 end:0x8067E100
+	.sdata2     start:0x807D9468 end:0x807D9488
+
+Game/Camera/CameraSphereTrundle.cpp:
+	.text       start:0x8012A800 end:0x8012AD60 align:16
 
 Game/Camera/CameraSpiral.cpp:
-	.text       start:0x8012AD60 end:0x8012B380
+	.text       start:0x8012AD60 end:0x8012B380 align:16
 	.data       start:0x8067E168 end:0x8067E1D0
 
 Game/Camera/CameraSubjective.cpp:
@@ -1311,9 +1321,10 @@ Game/Camera/CameraTripodPlanet.cpp:
 Game/Camera/CameraTrundle.cpp:
 	.text       start:0x8012F080 end:0x8012F460
 	.data       start:0x8067E718 end:0x8067E780
+	.sdata2     start:0x807D9618 end:0x807D9630
 
 Game/Camera/CameraTwistedPassage.cpp:
-	.text       start:0x8012F460 end:0x8012FB00
+	.text       start:0x8012F460 end:0x8012FB00 align:16
 	.data       start:0x8067E780 end:0x8067E7E8
 
 Game/Camera/CameraViewInterpolator.cpp:
@@ -1437,7 +1448,7 @@ Game/Effect/AutoEffectGroupHolder.cpp:
 	.text       start:0x80148460 end:0x801485A0 align:16
 
 Game/Effect/AutoEffectInfo.cpp:
-	.text       start:0x80148710 end:0x80148C80
+	.text       start:0x80148710 end:0x80148C80 align:16
 	.rodata     start:0x80647DF0 end:0x80647E40
 
 Game/Effect/EffectObjR500F50.cpp:
@@ -1517,11 +1528,13 @@ Game/Enemy/AnimScaleController.cpp:
 Game/Enemy/AnimStampController.cpp:
 	.text       start:0x801508C0 end:0x80150C20
 	.ctors      start:0x8064406C end:0x80644070
+	.rodata     start:0x80647F98 end:0x80647FA0
 	.data       start:0x806822CC end:0x806822F8
 	.sbss       start:0x807D1F48 end:0x807D1F50
+	.sdata2     start:0x807D99E8 end:0x807D9A00
 
 Game/Enemy/Balloonfish.cpp:
-	.text       start:0x801560F0 end:0x80156C00
+	.text       start:0x801560F0 end:0x80156C00 align:16
 	.ctors      start:0x80644088 end:0x8064408C
 	.data       start:0x80682AF0 end:0x80682BA0
 	.sbss       start:0x807D1FC8 end:0x807D1FD0
@@ -1998,9 +2011,10 @@ Game/Gravity/DiskGravity.cpp:
 Game/Gravity/DiskTorusGravity.cpp:
 	.text       start:0x80224810 end:0x80224930
 	.data       start:0x806943F8 end:0x80694408
+	.sdata2     start:0x807DC2A0 end:0x807DC2AC
 
 Game/Gravity/GlobalGravityObj.cpp:
-	.text       start:0x80224CB0 end:0x80225790
+	.text       start:0x80224CB0 end:0x80225790 align:16
 	.data       start:0x80694408 end:0x80694478
 
 Game/Gravity/GravityFollower.cpp:
@@ -3151,8 +3165,12 @@ Game/MapObj/SpiderThreadRadialLine.cpp:
 Game/MapObj/SpiderThreadWindCtrl.cpp:
 	.text       start:0x803099C0 end:0x80309A70 align:16
 
+Game/MapObj/SpinCloudBlock.cpp:
+	.text       start:0x80309A70 end:0x8030B880 align:16
+	.ctors      start:0x806445D8 end:0x806445E0
+
 Game/MapObj/SpinDriver.cpp:
-	.text       start:0x8030B880 end:0x8030DBE0
+	.text       start:0x8030B880 end:0x8030DBE0 align:16
 	.ctors      start:0x806445E0 end:0x806445E4
 	.data       start:0x806AE640 end:0x806AE730
 
@@ -3847,9 +3865,10 @@ Game/RhythmLib/AudRhythmSeqParser.cpp:
 
 Game/RhythmLib/AudBgmTempoAdjuster.cpp:
 	.text       start:0x804238D0 end:0x80423C60
+	.rodata     start:0x8064BF48 end:0x8064BF50
 
 Game/RhythmLib/AudMeTrack.cpp:
-	.text       start:0x80423C60 end:0x80425A80
+	.text       start:0x80423C60 end:0x80425A80 align:16
 	.ctors      start:0x806447F8 end:0x806447FC
 	.rodata     start:0x8064BF68 end:0x8064BF98
 	.bss        start:0x8072B490 end:0x8072B4A0
@@ -3865,10 +3884,10 @@ Game/RhythmLib/AudMeSeqCtrl.cpp:
 	.sbss       start:0x807D4FE8 end:0x807D4FF0
 
 Game/RhythmLib/AudMeSeqReader.cpp:
-	.text       start:0x80425EB0 end:0x80426030
+	.text       start:0x80425EB0 end:0x80426030 align:16
 
 Game/RhythmLib/AudMeSeqParser.cpp:
-	.text       start:0x80426030 end:0x80427110
+	.text       start:0x80426030 end:0x80427110 align:16
 	.ctors      start:0x80644800 end:0x80644804
 	.data       start:0x806EB650 end:0x806EC050
 
@@ -3893,8 +3912,11 @@ Game/RhythmLib/AudMeObject.cpp:
 	.text       start:0x80428770 end:0x804289F0 align:16
 	.data       start:0x806EC050 end:0x806EC070
 
+Game/RhythmLib/AudScaleData.cpp:
+	.text       start:0x804289F0 end:0x80428BD0 align:16
+
 Game/RhythmLib/AudChordInfo.cpp:
-	.text       start:0x80428BD0 end:0x8042A100
+	.text       start:0x80428BD0 end:0x8042A100 align:16
 
 Game/RhythmLib/AudRhythmHolder.cpp:
 	.text       start:0x8042A100 end:0x8042A680
@@ -3964,9 +3986,10 @@ Game/Ride/SphereController.cpp:
 Game/Ride/SpherePadController.cpp:
 	.text       start:0x80440C20 end:0x80440D10 align:16
 	.data       start:0x806EE238 end:0x806EE260
+	.sdata2     start:0x807E0E68 end:0x807E0E70
 
 Game/Ride/SwingRope.cpp:
-	.text       start:0x804410B0 end:0x80443BB0
+	.text       start:0x804410B0 end:0x80443BB0 align:16
 	.ctors      start:0x8064484C end:0x80644850
 	.data       start:0x806EE398 end:0x806EE4C8
 	.sbss       start:0x807D5198 end:0x807D51C0
@@ -4575,7 +4598,7 @@ Game/Screen/WipeHolderBase.cpp:
 	.data       start:0x806F98B8 end:0x806F9918
 
 Game/Screen/WipeKoopa.cpp:
-	.text       start:0x804A71D0 end:0x804A75E0
+	.text       start:0x804A71D0 end:0x804A75E0 align:16
 	.ctors      start:0x806449C0 end:0x806449C4
 	.data       start:0x806F9934 end:0x806F9990
 

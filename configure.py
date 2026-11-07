@@ -1132,6 +1132,7 @@ config.libs = [
     GameLib(
         "System",
         [
+            Object(Matching, "Game/System/NANDManagerThread.cpp"),
             Object(Matching, "Game/System/ArchiveHolder.cpp"),
             Object(Matching, "Game/System/DrawSyncManager.cpp"),
             Object(Matching, "Game/System/FileHolder.cpp"),
@@ -1212,6 +1213,7 @@ config.libs = [
     GameLib(
         "Camera",
         [
+            Object(Matching, "Game/Camera/CameraShakeTask.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorTrundle.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorSpiral.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorFix.cpp"),
@@ -1257,6 +1259,7 @@ config.libs = [
     GameLib(
         "MapObj",
         [
+            Object(Matching, "Game/MapObj/SpiderThreadWindCtrl.cpp"),
             Object(Matching, "Game/MapObj/SpiderThreadRadialLine.cpp"),
         ],
     ),
@@ -1270,6 +1273,12 @@ config.libs = [
         "Demo",
         [
             Object(Matching, "Game/Demo/DemoCastSubGroup.cpp"),
+        ],
+    ),
+    GameLib(
+        "Screen",
+        [
+            Object(Matching, "Game/Screen/WipeHolderBase.cpp"),
         ],
     ),
     RVLLib(
