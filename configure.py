@@ -1088,6 +1088,8 @@ config.libs = [
     GameLib(
         "Map",
         [
+            Object(Matching, "Game/Map/ActorAppearSwitchListener.cpp"),
+            Object(Matching, "Game/Map/GroundChecker.cpp"),
             Object(Matching, "Game/Map/BezierRail.cpp"),
             Object(Matching, "Game/Map/CollisionCode.cpp"),
             Object(Matching, "Game/Map/RailGraph.cpp"),
@@ -1104,6 +1106,7 @@ config.libs = [
     GameLib(
         "NameObj",
         [
+            Object(Matching, "Game/NameObj/NameObjFinder.cpp"),
             Object(Matching, "Game/NameObj/MovementOnOffGroupHolder.cpp"),
             Object(Matching, "Game/NameObj/NameObj.cpp"),
             Object(Matching, "Game/NameObj/NameObjAdaptor.cpp"),
@@ -1204,6 +1207,30 @@ config.libs = [
             Object(Matching, "Game/Util/TriangleFilter.cpp"),
             Object(Matching, "Game/Util/TriggerChecker.cpp"),
             Object(Matching, "Game/Util/ValueControl.cpp"),
+        ],
+    ),
+    GameLib(
+        "Camera",
+        [
+            Object(Matching, "Game/Camera/CamTranslatorSpiral.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorFix.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorFollow.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorDead.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorDPD.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorBlackHole.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorTalk.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorRailDemo.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorGround.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorRailWatch.cpp"),
+        ],
+    ),
+    GameLib(
+        "Animation",
+        [
+            Object(Matching, "Game/Animation/BtpPlayer.cpp"),
+            Object(Matching, "Game/Animation/BtkPlayer.cpp"),
+            Object(Matching, "Game/Animation/BrkPlayer.cpp"),
+            Object(Matching, "Game/Animation/BpkPlayer.cpp"),
         ],
     ),
     RVLLib(

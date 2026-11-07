@@ -283,19 +283,19 @@ Game/Animation/BpkPlayer.cpp:
 	.data       start:0x80669E88 end:0x80669EA0
 
 Game/Animation/BrkPlayer.cpp:
-	.text       start:0x80069DD0 end:0x80069E30
+	.text       start:0x80069DD0 end:0x80069E30 align:16
 	.data       start:0x80669EA0 end:0x80669EB8
 
 Game/Animation/BtkPlayer.cpp:
-	.text       start:0x80069E30 end:0x80069E90
+	.text       start:0x80069E30 end:0x80069E90 align:16
 	.data       start:0x80669EB8 end:0x80669ED0
 
 Game/Animation/BtpPlayer.cpp:
-	.text       start:0x80069E90 end:0x80069EF0
+	.text       start:0x80069E90 end:0x80069EF0 align:16
 	.data       start:0x80669ED0 end:0x80669EE8
 
 Game/Animation/BvaPlayer.cpp:
-	.text       start:0x80069EF0 end:0x8006A040
+	.text       start:0x80069EF0 end:0x8006A040 align:16
 	.data       start:0x80669EE8 end:0x80669EF8
 
 Game/Animation/LayoutAnmPlayer.cpp:
@@ -880,13 +880,14 @@ Game/Camera/CamTranslatorAnim.cpp:
 Game/Camera/CamTranslatorBehind.cpp:
 	.text       start:0x8010C8F0 end:0x8010C960
 	.data       start:0x8067BBE8 end:0x8067BBF8
+	.sdata2     start:0x807D8D20 end:0x807D8D28
 
 Game/Camera/CamTranslatorBlackHole.cpp:
-	.text       start:0x8010C960 end:0x8010C9E0
+	.text       start:0x8010C960 end:0x8010C9E0 align:16
 	.data       start:0x8067BBF8 end:0x8067BC08
 
 Game/Camera/CamTranslatorCharmedFix.cpp:
-	.text       start:0x8010C9E0 end:0x8010CAA0
+	.text       start:0x8010C9E0 end:0x8010CAA0 align:16
 	.data       start:0x8067BC08 end:0x8067BC18
 
 Game/Camera/CamTranslatorCharmedVecReg.cpp:
@@ -906,15 +907,16 @@ Game/Camera/CamTranslatorDPD.cpp:
 	.data       start:0x8067BC48 end:0x8067BC58
 
 Game/Camera/CamTranslatorDead.cpp:
-	.text       start:0x8010CD60 end:0x8010CDC0
+	.text       start:0x8010CD60 end:0x8010CDC0 align:16
 	.data       start:0x8067BC58 end:0x8067BC68
 
 Game/Camera/CamTranslatorFix.cpp:
-	.text       start:0x8010CDC0 end:0x8010CE60
+	.text       start:0x8010CDC0 end:0x8010CE60 align:16
 	.data       start:0x8067BC68 end:0x8067BC78
+	.sdata2     start:0x807D8D50 end:0x807D8D58
 
 Game/Camera/CamTranslatorFixedPoint.cpp:
-	.text       start:0x8010CE60 end:0x8010CE90
+	.text       start:0x8010CE60 end:0x8010CE90 align:16
 	.data       start:0x8067BC78 end:0x8067BC88
 
 Game/Camera/CamTranslatorFixedThere.cpp:
@@ -926,7 +928,7 @@ Game/Camera/CamTranslatorFollow.cpp:
 	.data       start:0x8067BC98 end:0x8067BCA8
 
 Game/Camera/CamTranslatorFooFighter.cpp:
-	.text       start:0x8010CF30 end:0x8010CF90
+	.text       start:0x8010CF30 end:0x8010CF90 align:16
 	.data       start:0x8067BCA8 end:0x8067BCB8
 
 Game/Camera/CamTranslatorFooFighterPlanet.cpp:
@@ -942,7 +944,7 @@ Game/Camera/CamTranslatorGround.cpp:
 	.data       start:0x8067BCE8 end:0x8067BCF8
 
 Game/Camera/CamTranslatorInnerCylinder.cpp:
-	.text       start:0x8010D180 end:0x8010D280
+	.text       start:0x8010D180 end:0x8010D280 align:16
 	.data       start:0x8067BCF8 end:0x8067BD08
 
 Game/Camera/CamTranslatorInwardSphere.cpp:
@@ -982,7 +984,7 @@ Game/Camera/CamTranslatorRailDemo.cpp:
 	.data       start:0x8067BD88 end:0x8067BD98
 
 Game/Camera/CamTranslatorRailFollow.cpp:
-	.text       start:0x8010D800 end:0x8010D870
+	.text       start:0x8010D800 end:0x8010D870 align:16
 	.data       start:0x8067BD98 end:0x8067BDA8
 
 Game/Camera/CamTranslatorRailWatch.cpp:
@@ -990,7 +992,7 @@ Game/Camera/CamTranslatorRailWatch.cpp:
 	.data       start:0x8067BDA8 end:0x8067BDB8
 
 Game/Camera/CamTranslatorSlide.cpp:
-	.text       start:0x8010D8E0 end:0x8010DB20
+	.text       start:0x8010D8E0 end:0x8010DB20 align:16
 	.data       start:0x8067BDB8 end:0x8067BDC8
 
 Game/Camera/CamTranslatorSpiral.cpp:
@@ -998,11 +1000,11 @@ Game/Camera/CamTranslatorSpiral.cpp:
 	.data       start:0x8067BDD8 end:0x8067BDE8
 
 Game/Camera/CamTranslatorTalk.cpp:
-	.text       start:0x8010DC50 end:0x8010DC80
+	.text       start:0x8010DC50 end:0x8010DC80 align:16
 	.data       start:0x8067BDE8 end:0x8067BDF8
 
 Game/Camera/CamTranslatorTower.cpp:
-	.text       start:0x8010DC80 end:0x8010DD30
+	.text       start:0x8010DC80 end:0x8010DD30 align:16
 	.data       start:0x8067BDF8 end:0x8067BE08
 
 Game/Camera/CamTranslatorTowerPos.cpp:
@@ -1929,9 +1931,10 @@ Game/Enemy/WalkerStateFunction.cpp:
 
 Game/Enemy/WalkerStateParam.cpp:
 	.text       start:0x80219FA0 end:0x80219FE0
+	.sdata2     start:0x807DC060 end:0x807DC080
 
 Game/Enemy/WalkerStateStagger.cpp:
-	.text       start:0x8021A100 end:0x8021A8F0
+	.text       start:0x8021A100 end:0x8021A8F0 align:16
 	.ctors      start:0x8064426C end:0x80644270
 	.data       start:0x80693A38 end:0x80693A78
 	.bss        start:0x80729560 end:0x80729590
@@ -2302,7 +2305,7 @@ Game/Map/ActorAppearSwitchListener.cpp:
 	.data       start:0x806960C8 end:0x806960E0
 
 Game/Map/Air.cpp:
-	.text       start:0x80244260 end:0x80244F10
+	.text       start:0x80244260 end:0x80244F10 align:16
 	.ctors      start:0x80644294 end:0x80644298
 	.sbss       start:0x807D34C0 end:0x807D34C8
 
@@ -2383,9 +2386,10 @@ Game/Map/Flag.cpp:
 Game/Map/GroundChecker.cpp:
 	.text       start:0x802559E0 end:0x80255B10
 	.data       start:0x80697A38 end:0x80697AA8
+	.sdata2     start:0x807DC838 end:0x807DC840
 
 Game/Map/GroupSwitchWatcher.cpp:
-	.text       start:0x80255B10 end:0x80255D60
+	.text       start:0x80255B10 end:0x80255D60 align:16
 	.data       start:0x80697AA8 end:0x80697B18
 
 Game/Map/Halo.cpp:
@@ -3256,7 +3260,7 @@ Game/MapObj/YellowChip.cpp:
 	.data       start:0x806B2070 end:0x806B20E0
 
 Game/MapObj/MapParts.cpp:
-	.text       start:0x8032F950 end:0x8032F960
+	.text       start:0x8032F950 end:0x8032F960 align:16
 
 Game/MapObj/GeneralMapParts.cpp:
 	.text       start:0x8032FA10 end:0x8032FD70
@@ -3543,9 +3547,11 @@ Game/NPC/TrickRabbit.cpp:
 
 Game/NPC/TrickRabbitUtil.cpp:
 	.text       start:0x80371E80 end:0x80371F20
+	.data       start:0x806BF688 end:0x806BF6A8
+	.sdata2     start:0x807DF730 end:0x807DF740
 
 Game/NPC/CometEventExecutorTimeLimit.cpp:
-	.text       start:0x80371F20 end:0x803722E0
+	.text       start:0x80371F20 end:0x803722E0 align:16
 	.ctors      start:0x80644794 end:0x80644798
 	.data       start:0x806BF6C0 end:0x806BF798
 	.sbss       start:0x807D4D48 end:0x807D4D50
@@ -4163,7 +4169,7 @@ Game/Screen/CopyFilterNegater.cpp:
 	.text       start:0x804651D0 end:0x80465290
 
 Game/Screen/CounterLayoutAppearer.cpp:
-	.text       start:0x804653E0 end:0x80465710
+	.text       start:0x804653E0 end:0x80465710 align:16
 	.ctors      start:0x806448B0 end:0x806448B4
 	.data       start:0x806F21A4 end:0x806F21F0
 	.sbss       start:0x807D5498 end:0x807D54A8
@@ -4310,7 +4316,7 @@ Game/Screen/LayoutActorFlag.cpp:
 	.text       start:0x8047A840 end:0x8047A860
 
 Game/Screen/LayoutCoreUtil.cpp:
-	.text       start:0x8047A9B0 end:0x8047B270
+	.text       start:0x8047A9B0 end:0x8047B270 align:16
 
 Game/Screen/LayoutGroupCtrl.cpp:
 	.text       start:0x8047B4E0 end:0x8047B820
