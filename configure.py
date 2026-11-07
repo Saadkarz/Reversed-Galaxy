@@ -1213,6 +1213,10 @@ config.libs = [
     GameLib(
         "Camera",
         [
+            Object(Matching, "Game/Camera/CameraRegisterHolder.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorTowerPos.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorTower.cpp"),
+            Object(Matching, "Game/Camera/CamTranslatorBehind.cpp"),
             Object(Matching, "Game/Camera/CameraShaker.cpp"),
             Object(Matching, "Game/Camera/CameraShakeTask.cpp"),
             Object(Matching, "Game/Camera/CamTranslatorTrundle.cpp"),
@@ -1260,6 +1264,7 @@ config.libs = [
     GameLib(
         "MapObj",
         [
+            Object(Matching, "Game/MapObj/YellowChip.cpp"),
             Object(Matching, "Game/MapObj/PowerStarAppearPoint.cpp"),
             Object(Matching, "Game/MapObj/SpiderThreadWindCtrl.cpp"),
             Object(Matching, "Game/MapObj/SpiderThreadRadialLine.cpp"),

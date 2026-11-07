@@ -1250,7 +1250,7 @@ Game/Camera/CameraRailWatch.cpp:
 
 Game/Camera/CameraRegisterHolder.cpp:
 	.text       start:0x80128B60 end:0x80128F00
-	.data       start:0x8067E004 end:0x8067E030
+	.data       start:0x8067DFD0 end:0x8067E030
 	.sdata      start:0x807CF6C8 end:0x807CF6D8
 	.sdata2     start:0x807D9408 end:0x807D9410
 
@@ -3301,7 +3301,11 @@ Game/MapObj/WoodBox.cpp:
 
 Game/MapObj/YellowChip.cpp:
 	.text       start:0x8032DA60 end:0x8032DB10
-	.data       start:0x806B2070 end:0x806B20E0
+	.data       start:0x806B2060 end:0x806B20E0
+
+Game/MapObj/YoshiBlockCollision.cpp:
+	.text       start:0x8032DB10 end:0x8032F950 align:16
+	.ctors      start:0x80644660 end:0x80644670
 
 Game/MapObj/MapParts.cpp:
 	.text       start:0x8032F950 end:0x8032F960 align:16
