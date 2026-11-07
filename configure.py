@@ -1183,6 +1183,7 @@ config.libs = [
     GameLib(
         "Util",
         [
+            Object(Matching, "Game/Util/MultiEventCamera.cpp"),
             Object(Matching, "Game/Util/ActionSoundUtil.cpp"),
             Object(NonMatching, "Game/Util/ActorInitUtil.cpp"),
             Object(NonMatching, "Game/Util/ActorSensorUtil.cpp"),
