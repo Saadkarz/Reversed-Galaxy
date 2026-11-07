@@ -27,6 +27,24 @@ namespace nw4r {
             }
         }  // namespace detail
 
+        Pane::Pane() : mChildList(), mAnimList(), mSize() {
+            Init();
+
+            mBasePosition = 4;
+            memset(mName, 0, sizeof(mName));
+            memset(mUserData, 0, sizeof(mUserData));
+
+            mTranslate = math::VEC3(0.0f, 0.0f, 0.0f);
+            mRotate = math::VEC3(0.0f, 0.0f, 0.0f);
+            mScale = math::VEC2(1.0f, 1.0f);
+            mSize = Size();
+
+            mAlpha = 255;
+            mGlbAlpha = 255;
+            mFlag = 0;
+            SetVisible(true);
+        }
+
         Pane::Pane(const res::Pane* pRes) {
             Init();
 
@@ -90,6 +108,22 @@ namespace nw4r {
         void Pane::RemoveChild(Pane* pChild) {
             mChildList.Erase(pChild);
             pChild->mpParent = nullptr;
+        }
+
+        ut::Rect Pane::GetPaneRect() const {
+            ut::Rect ret;
+            math::VEC2 basePt = GetVtxPos();
+
+            ret.left = basePt.x;
+            ret.top = basePt.y;
+            ret.right = ret.left + mSize.width;
+            ret.bottom = ret.top - mSize.height;
+
+            return ret;
+        }
+
+        ut::Rect Pane::GetPaneRect(const DrawInfo&) const {
+            return GetPaneRect();
         }
 
         const ut::Color Pane::GetVtxColor(u32 idx) const {

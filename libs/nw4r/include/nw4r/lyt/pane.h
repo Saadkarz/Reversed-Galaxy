@@ -5,6 +5,7 @@
 #include "nw4r/math/types.h"
 #include "nw4r/ut/Color.h"
 #include "nw4r/ut/LinkList.h"
+#include "nw4r/ut/Rect.h"
 #include "nw4r/ut/RuntimeTypeInfo.h"
 #include <cstddef>
 
@@ -97,6 +98,8 @@ namespace nw4r {
             void InsertChild(PaneList::Iterator, Pane*);
             void RemoveChild(Pane*);
             void AppendChild(Pane*);
+            ut::Rect GetPaneRect() const;
+            ut::Rect GetPaneRect(const DrawInfo&) const;
             void AddAnimationLink(AnimationLink*);
             const math::VEC2 GetVtxPos() const;
             void CalculateMtxChild(const DrawInfo& rInfo);
