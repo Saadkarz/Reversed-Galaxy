@@ -77,10 +77,10 @@ typedef struct {
 static void uusb_ReleaseCmdBufferPool(void);
 static void uusb_ReleaseAclBufferPool(void);
 static void uusb_CloseDeviceCB(long result, void* p_data);
-static void uusb_ReadIntrDataCB(long result, void* p_data);
+void uusb_ReadIntrDataCB(long result, void* p_data);
 static void uusb_ReadBulkDataCB(long result, void* p_data);
 static void uusb_issue_bulk_read(void);
-void uusb_issue_intr_read(void) NO_INLINE;
+void uusb_issue_intr_read(void);
 static void uusb_WriteCtrlDataCB(long result, void* p_data);
 static void uusb_WriteBulkDataCB(long result, void* p_data);
 static long uusb_get_devId(int vid, int pid);
@@ -189,7 +189,7 @@ static void uusb_CloseDeviceCB(long result, void* p_data) {
         (*usb.cback)(4, result);
 }
 
-static void uusb_ReadIntrDataCB(long result, void* p_data) {
+void uusb_ReadIntrDataCB(long result, void* p_data) {
     unk4_t sp14 = 0;
     UINT32 len;
     void* p_buffer = NULL;

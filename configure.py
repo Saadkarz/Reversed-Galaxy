@@ -1682,7 +1682,7 @@ config.libs = [
                 mw_version="Wii/1.0",
                 cflags=cflags_sdk_ipa,
             ),
-            Object(NonMatching, "RVL_SDK/bte/uusb_ppc.c", mw_version="GC/3.0a5.2"),
+            Object(NonMatching, "RVL_SDK/bte/uusb_ppc.c"),
             Object(Matching, "RVL_SDK/bte/bta_dm_cfg.c"),
             Object(Matching, "RVL_SDK/bte/bta_hh_cfg.c"),
             Object(Matching, "RVL_SDK/bte/bta_sys_cfg.c"),
