@@ -1,0 +1,13 @@
+#include "Game/Map/OceanSpherePoint.hpp"
+#include "Game/Util/MathUtil.hpp"
+
+void OceanSpherePoint::updatePos(f32 radius, f32 wave1Time, f32 wave2Time) {
+    const f32 height = calcHeight(wave1Time, wave2Time, mWave1Pos, mWave2Pos);
+    mPos.set(mNormal);
+    mPos.scale(height + radius);
+    mPos.add(*mCenter);
+}
+
+f32 OceanSpherePoint::calcHeight(f32 wave1Time, f32 wave2Time, f32 wave1Pos, f32 wave2Pos) const {
+    return MR::sin(wave1Time + (0.8f * wave1Pos)) * 10.0f + MR::sin(wave2Time + wave2Pos) * 5.0f;
+}

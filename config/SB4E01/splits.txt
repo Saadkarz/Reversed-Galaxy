@@ -2476,9 +2476,14 @@ Game/Map/OceanSphere.cpp:
 
 Game/Map/OceanSpherePoint.cpp:
 	.text       start:0x8025F430 end:0x8025F540
+	.sdata2     start:0x807DC908 end:0x807DC918
+
+Game/Map/OmoteuLandSky.cpp:
+	.text       start:0x8025F540 end:0x8025FA40 align:16
+	.ctors      start:0x806442BC end:0x806442C0
 
 Game/Map/PlanetMap.cpp:
-	.text       start:0x8025FA40 end:0x80260930
+	.text       start:0x8025FA40 end:0x80260930 align:16
 
 Game/Map/PlanetMapCreator.cpp:
 	.text       start:0x80260CF0 end:0x80261CA0
@@ -3913,6 +3918,9 @@ Game/RhythmLib/AudMeTrackCallback.cpp:
 	.text       start:0x80427220 end:0x80427270
 	.ctors      start:0x80644804 end:0x80644808
 	.bss        start:0x8072B500 end:0x8072B600
+
+Game/RhythmLib/AudCallback.cpp:
+	.text       start:0x80427270 end:0x80427FE0 align:16
 
 Game/RhythmLib/AudMePlayer.cpp:
 	.text       start:0x80427FE0 end:0x80428080 align:16

@@ -1088,6 +1088,7 @@ config.libs = [
     GameLib(
         "Map",
         [
+            Object(Matching, "Game/Map/OceanSpherePoint.cpp"),
             Object(Matching, "Game/Map/ActorAppearSwitchListener.cpp"),
             Object(Matching, "Game/Map/GroundChecker.cpp"),
             Object(Matching, "Game/Map/BezierRail.cpp"),
@@ -1132,6 +1133,7 @@ config.libs = [
     GameLib(
         "System",
         [
+            Object(Matching, "Game/System/NANDManager.cpp"),
             Object(Matching, "Game/System/NANDManagerThread.cpp"),
             Object(Matching, "Game/System/ArchiveHolder.cpp"),
             Object(Matching, "Game/System/DrawSyncManager.cpp"),
@@ -1260,6 +1262,7 @@ config.libs = [
     GameLib(
         "RhythmLib",
         [
+            Object(Matching, "Game/RhythmLib/AudMeTrackCallback.cpp"),
             Object(Matching, "Game/RhythmLib/AudMeHandles.cpp"),
         ],
     ),
