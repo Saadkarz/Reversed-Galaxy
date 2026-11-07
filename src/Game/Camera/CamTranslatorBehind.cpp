@@ -2,6 +2,8 @@
 #include "Game/Camera/CameraParamChunk.hpp"
 #include "Game/Util/MathUtil.hpp"
 
+// Dead-stripped function required to seed retail .sdata2 float literal order;
+// mwldeppc strips it from main.dol.
 void CamTranslatorBehind_FORCE_MATCH_SDATA2() {
     (void)MR::pi();
 }
