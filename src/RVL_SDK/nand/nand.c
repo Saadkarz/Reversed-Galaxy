@@ -479,7 +479,7 @@ static BOOL nandInspectPermission(const u8 perm) {
   }
 }
 
-static inline BOOL nandIsValidPathChar(char c) {
+static inline BOOL nandIsValidPathChar(const char c) {
   char valid[66] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_./";
   u32 i;
 
@@ -501,8 +501,8 @@ BOOL nandCheckPathName(const char *path) {
   }
 
   if (nandIsRelativePath(path)) {
-    for (i = 0; i < len; i++, path++) {
-      if (!nandIsValidPathChar(*path)) {
+    for (i = 0; i < len; i++) {
+      if (!nandIsValidPathChar(path[i])) {
         return FALSE;
       }
     }

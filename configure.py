@@ -1564,7 +1564,7 @@ config.libs = [
     RVLLib(
         "nand",
         [
-            Object(NonMatching, "RVL_SDK/nand/nand.c"),
+            Object(Matching, "RVL_SDK/nand/nand.c"),
             Object(Matching, "RVL_SDK/nand/NANDOpenClose.c"),
             Object(Matching, "RVL_SDK/nand/NANDCore.c"),
             Object(Matching, "RVL_SDK/nand/NANDCheck.c"),
