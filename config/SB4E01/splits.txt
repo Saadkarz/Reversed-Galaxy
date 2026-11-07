@@ -4014,6 +4014,8 @@ Game/Ride/TubeSliderJumpStep.cpp:
 
 Game/Ride/TubeSliderObjCreator.cpp:
 	.text       start:0x80451040 end:0x80451340 align:16
+	.data       start:0x806EF870 end:0x806EF920
+	.sdata2     start:0x807E1218 end:0x807E1228
 
 Game/Scene/GameScene.cpp:
 	.text       start:0x80451390 end:0x80452A70
