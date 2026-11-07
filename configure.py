@@ -1260,6 +1260,7 @@ config.libs = [
     GameLib(
         "MapObj",
         [
+            Object(Matching, "Game/MapObj/PowerStarAppearPoint.cpp"),
             Object(Matching, "Game/MapObj/SpiderThreadWindCtrl.cpp"),
             Object(Matching, "Game/MapObj/SpiderThreadRadialLine.cpp"),
         ],
