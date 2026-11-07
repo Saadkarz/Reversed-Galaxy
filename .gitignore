@@ -45,3 +45,8 @@ compile_commands.json
 
 # Miscellaneous
 /*.txt
+
+# Galaxy2Coop PC port: build output, lifted code and imported game data are never committed
+pc_port/build/
+pc_port/game_data/
+**/recomp_funcs_*.cpp

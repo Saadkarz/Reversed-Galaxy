@@ -73,6 +73,10 @@ To solve the notoriously strict quirks of Metrowerks CodeWarrior (`mwcceppc`) an
 
 ---
 
+## 🖥️ Galaxy2Coop PC Port (Work in Progress)
+
+`pc_port/` holds an early native PC port built by static recompilation, separate from the matching decomp. `pc_port/tools/dol2cpp.py` lifts **your own** `main.dol` to C++ at build time, and that code runs against an emulated Wii MEM1/MEM2 arena. A first-boot launcher imports a Dolphin-extracted SB4E01 disc folder. Step 1 boots the runtime and runs lifted retail MSL code; the game is not playable yet. No game code or data is committed. See [`pc_port/README.md`](pc_port/README.md).
+
 ## 🛠️ How to Build Locally
 
 ### 1. Prerequisites
